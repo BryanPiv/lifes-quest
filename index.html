@@ -30,6 +30,19 @@
 .evos{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;padding:12px}.evo{background:#07233a;border:1px solid rgba(78,127,158,.28);border-radius:11px;padding:6px;text-align:center}.evo.on{border-color:var(--gold)}.evo .thumb{height:72px}.evo svg{width:100%;height:100%}.evo b{font-size:9px}.welcome{min-height:100vh;position:relative;display:flex;flex-direction:column;justify-content:flex-end;padding:28px 18px 42px;overflow:hidden;background:radial-gradient(circle at 50% 12%,rgba(255,205,100,.18),transparent 19%),linear-gradient(180deg,#1e547d 0%,#183f5f 38%,#0a2639 68%,#03111d 100%)}.welcome:before{content:"";position:absolute;inset:0;background:linear-gradient(145deg,transparent 0 28%,rgba(70,102,112,.7) 29% 45%,transparent 46%),linear-gradient(215deg,transparent 0 25%,rgba(48,82,93,.75) 26% 47%,transparent 48%);opacity:.9}.welcomeGlow{position:absolute;top:16%;left:50%;transform:translateX(-50%);width:210px;height:210px;border-radius:50%;background:radial-gradient(circle,rgba(255,219,126,.36),rgba(255,219,126,.08) 42%,transparent 70%);filter:blur(4px)}.welcomeMark{position:absolute;top:70px;left:18px;right:18px;text-align:center;z-index:2}.welcomeMark h1{margin:0;font:700 46px Georgia,serif;color:var(--gold);text-shadow:0 4px 18px #0009}.welcomeMark p{margin:9px 0 0;font-size:11px;letter-spacing:2px;color:#fff}.welcomePet{position:absolute;z-index:2;top:210px;left:50%;transform:translateX(-50%);width:245px;height:245px;animation:welcomeFloat 3.2s ease-in-out infinite;filter:drop-shadow(0 20px 22px #0008)}@keyframes welcomeFloat{50%{transform:translateX(-50%) translateY(-9px)}}.welcomeCopy{position:relative;z-index:3;text-align:center}.welcomeCopy h2{margin:0 0 8px;font:700 25px Georgia,serif;color:#fff}.welcomeCopy p{margin:0 auto 18px;max-width:330px;color:#b9cad7;font-size:13px;line-height:1.5}.welcomeBtn{font-size:16px;letter-spacing:.5px}.chooser{min-height:100vh;padding:22px 13px 35px;background:radial-gradient(circle at top,#174b74,#061a2c 43%,#03111d)}.choices{display:grid;grid-template-columns:1fr 1fr;gap:9px}.choice{border:2px solid rgba(73,123,155,.4);border-radius:16px;background:#08243a;padding:12px;color:white;text-align:center}.choice.sel{border-color:var(--gold);box-shadow:0 0 0 3px rgba(242,201,99,.1)}.choice .miniPet{height:132px}.choice svg{height:100%;width:100%}.choice:last-child{grid-column:1/-1}.choice b{display:block;margin-top:5px}.choice small{font-size:10px;color:var(--muted)}
 .nav{position:absolute;left:0;right:0;bottom:0;display:grid;grid-template-columns:repeat(5,1fr);background:rgba(3,17,29,.96);backdrop-filter:blur(14px);padding:7px 6px 9px;border-top:1px solid rgba(73,120,150,.28);z-index:30}.nav button{border:0;background:none;color:#91aabd;font-size:10px;padding:8px 2px;border-radius:10px}.nav button.on{color:var(--gold);background:#0a2b46}.settingsBtn{position:absolute;z-index:8;right:14px;top:17px;width:40px;height:40px;border-radius:50%;border:1px solid rgba(241,199,99,.5);background:rgba(4,23,38,.72);color:var(--gold);font-size:20px;display:grid;place-items:center;backdrop-filter:blur(8px)}.settingsPage{padding:16px 13px 105px}.settingsCard{padding:16px}.settingsCard h3{margin:0 0 6px}.settingsCard p{margin:0 0 14px;color:var(--muted);font-size:12px;line-height:1.45}.dangerNote{font-size:10px;color:#8ea8ba;margin-top:8px}.modal{display:none;position:fixed;inset:0;background:#000a;z-index:60;align-items:flex-end;justify-content:center}.modal.show{display:flex}.sheet{width:min(430px,100%);background:#071f34;border-radius:22px 22px 0 0;padding:17px;border:1px solid rgba(89,141,172,.4)}
 .quickMoneySheet{padding:18px}.quickMoneyHead{text-align:center;margin-bottom:14px}.quickMoneyIcon{font-size:34px}.quickMoneyTitle{font:700 22px Georgia,serif;color:var(--gold);margin-top:3px}.moneyInputWrap{display:flex;align-items:center;background:#eef4f8;border-radius:14px;padding:8px 12px;margin-bottom:10px}.moneyInputWrap span{font-size:28px;color:#243d53;font-weight:800}.moneyInputWrap input{border:0;background:transparent;font-size:34px;font-weight:850;color:#173149;width:100%;padding:8px;outline:none}.amountChips{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:10px 0 13px}.amountChip{border:1px solid #315d7a;background:#0a2d49;color:white;border-radius:11px;padding:10px 4px;font-weight:800}.quickNote{width:100%;border:1px solid #315d7a;background:#0a2d49;color:white;border-radius:11px;padding:11px;margin-bottom:11px}.quickNote::placeholder{color:#8fa9ba}
+.goalSetupSheet{padding:0 0 max(18px,env(safe-area-inset-bottom));overflow:hidden;border-radius:28px 28px 0 0;background:linear-gradient(180deg,#0b2942 0%,#071c2e 46%,#04131f 100%);border:1px solid rgba(241,199,99,.24);box-shadow:0 -24px 60px #0009}
+.goalSetupHero{position:relative;padding:24px 20px 18px;text-align:center;background:radial-gradient(circle at 50% 0%,rgba(241,199,99,.18),transparent 58%)}
+.goalSetupIcon{width:70px;height:70px;margin:0 auto 9px;border-radius:22px;display:grid;place-items:center;font-size:36px;background:linear-gradient(180deg,#153e5f,#0a2740);border:1px solid rgba(241,199,99,.42);box-shadow:0 14px 30px #0005,0 0 24px rgba(241,199,99,.12)}
+.goalSetupTitle{font:700 26px Georgia,serif;color:#f6cf72;margin:0}.goalSetupSub{font-size:11px;color:#a8bdcb;margin-top:5px}
+.goalSetupBody{padding:0 18px 18px}
+.goalLabel{display:block;font-size:10px;font-weight:900;letter-spacing:1.2px;color:#9fb5c5;margin:12px 4px 6px}
+.goalMoneyField{display:flex;align-items:center;gap:6px;border-radius:18px;background:rgba(238,244,248,.98);padding:6px 14px;border:1px solid rgba(255,255,255,.7);box-shadow:inset 0 1px 0 #fff}
+.goalMoneyField span{font-size:27px;font-weight:900;color:#1a3348}.goalMoneyField input{width:100%;border:0;outline:0;background:transparent;color:#173149;font-size:31px;font-weight:900;padding:10px 2px}
+.goalTargetChips{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:9px}.goalTargetChip{border:1px solid rgba(104,153,184,.42);background:linear-gradient(180deg,#0d3452,#09273e);color:#dce8ef;border-radius:999px;padding:9px 4px;font-size:11px;font-weight:900}.goalTargetChip:active,.goalTargetChip.selected{border-color:#f1c763;color:#f1c763;background:#17324a}
+.goalMiniCard{margin-top:14px;border-radius:18px;padding:14px;background:linear-gradient(180deg,rgba(15,49,76,.94),rgba(8,31,50,.94));border:1px solid rgba(92,143,174,.28)}
+.goalMiniRow{display:flex;justify-content:space-between;align-items:center;gap:12px}.goalMiniRow b{font-size:12px}.goalMiniRow span{color:#f1c763;font-weight:900}
+.goalSaveBtn{margin-top:16px;border-radius:18px;padding:15px;font-size:15px}.goalCancelBtn{margin-top:8px;border-radius:18px;padding:13px}
+.goalCardModern{margin:10px 13px;padding:15px;border-radius:22px;background:linear-gradient(180deg,rgba(15,52,82,.96),rgba(6,27,45,.96));border:1px solid rgba(94,145,177,.32);box-shadow:0 14px 30px #0004}.goalCardTop{display:flex;align-items:center;gap:12px}.goalCardIcon{width:54px;height:54px;border-radius:18px;display:grid;place-items:center;font-size:28px;background:#0a2740;border:1px solid rgba(241,199,99,.24)}.goalCardMain{flex:1}.goalCardMain b{font:700 15px Georgia,serif}.goalCardValue{font-size:12px;color:#f1c763;font-weight:900;margin:4px 0 8px}.goalCardActions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.goalCardActions .btn{border-radius:15px}
 html[data-lq-boot="welcome"] #app,html[data-lq-boot="welcome"] #chooser{display:none!important}html[data-lq-boot="welcome"] #welcome{display:flex!important}
 .premiumJourney{min-height:100vh;position:relative;overflow:hidden;background:
 radial-gradient(circle at 68% 12%,rgba(255,199,92,.34),transparent 16%),
@@ -163,15 +176,32 @@ body.journey-active .nav{background:rgba(2,14,23,.97)}
     <button id="saveBudgetBtn" class="btn goldbtn full">Save Weekly Budget</button>
     <button id="closeBudgetBtn" class="btn ghost full" style="margin-top:8px">Cancel</button>
   </div></div>
-  <div id="goalModal" class="modal"><div class="sheet">
-    <div class="brand" style="font-size:22px">Set Savings Goal</div>
-    <div id="goalModalName" class="muted" style="margin:4px 0 14px"></div>
-    <div class="field"><label>GOAL AMOUNT</label><input id="goalTargetInput" type="number" min="0" step="1" inputmode="decimal" placeholder="$ 0.00"></div>
-    <div class="field"><label>AMOUNT ALREADY SAVED</label><input id="goalSavedInput" type="number" min="0" step="1" inputmode="decimal" placeholder="$ 0.00"></div>
-    <button id="saveGoalBtn" class="btn goldbtn full">Save Goal</button>
-    <button id="closeGoalBtn" class="btn ghost full" style="margin-top:8px">Cancel</button>
-  </div></div>
-  <div id="billModal" class="modal"><div class="sheet"><div class="brand" style="font-size:22px">Add Recurring Bill</div><div class="field"><label>BILL NAME</label><input id="billName" placeholder="Rent"></div><div class="field"><label>AMOUNT</label><input id="billAmount" type="number" inputmode="decimal" placeholder="$ 0.00"></div><div class="field"><label>CATEGORY</label><select id="billCategory"><option>Housing</option><option>Auto</option><option>Insurance</option><option>Utilities</option><option>Debt</option><option>Subscription</option><option>Other</option></select></div><div class="field"><label>RECURRING</label><select id="billPattern" onchange="togglePattern()"><option value="date">Same date every month</option><option value="nthFriday">Nth Friday each month</option></select></div><div id="dateWrap" class="field"><label>DAY OF MONTH</label><input id="billDay" type="number" min="1" max="31" placeholder="Day"></div><div id="fridayWrap" class="field hidden"><label>WHICH FRIDAY?</label><select id="billNth"><option value="1">1st Friday</option><option value="2">2nd Friday</option><option value="3">3rd Friday</option><option value="4">4th Friday</option><option value="5">5th Friday</option></select></div><button class="btn goldbtn full" onclick="saveBill()">Save Bill</button><button class="btn ghost full" style="margin-top:8px" onclick="closeBill()">Cancel</button></div></div>
+  <div id="goalModal" class="modal"><div class="sheet goalSetupSheet">
+  <div class="goalSetupHero">
+    <div id="goalSetupIcon" class="goalSetupIcon">🎯</div>
+    <h3 id="goalSetupTitle" class="goalSetupTitle">Set Your Goal</h3>
+    <div id="goalModalName" class="goalSetupSub">Create a target worth working toward.</div>
+  </div>
+  <div class="goalSetupBody">
+    <label class="goalLabel">TARGET AMOUNT</label>
+    <div class="goalMoneyField"><span>$</span><input id="goalTargetInput" type="number" min="0" step="1" inputmode="decimal" placeholder="0"></div>
+    <div class="goalTargetChips">
+      <button class="goalTargetChip" data-goal-target="1000">$1K</button>
+      <button class="goalTargetChip" data-goal-target="2500">$2.5K</button>
+      <button class="goalTargetChip" data-goal-target="5000">$5K</button>
+      <button class="goalTargetChip" data-goal-target="10000">$10K</button>
+    </div>
+    <label class="goalLabel">ALREADY SAVED</label>
+    <div class="goalMoneyField"><span>$</span><input id="goalSavedInput" type="number" min="0" step="1" inputmode="decimal" placeholder="0"></div>
+    <div class="goalMiniCard">
+      <div class="goalMiniRow"><b>Starting progress</b><span id="goalSetupPreview">0%</span></div>
+      <div class="bar green" style="margin-top:9px"><i id="goalSetupPreviewBar" style="width:0%"></i></div>
+    </div>
+    <button id="saveGoalBtn" class="btn goldbtn full goalSaveBtn">Save Goal</button>
+    <button id="closeGoalBtn" class="btn ghost full goalCancelBtn">Cancel</button>
+  </div>
+</div></div>
+<div id="billModal" class="modal"><div class="sheet"><div class="brand" style="font-size:22px">Add Recurring Bill</div><div class="field"><label>BILL NAME</label><input id="billName" placeholder="Rent"></div><div class="field"><label>AMOUNT</label><input id="billAmount" type="number" inputmode="decimal" placeholder="$ 0.00"></div><div class="field"><label>CATEGORY</label><select id="billCategory"><option>Housing</option><option>Auto</option><option>Insurance</option><option>Utilities</option><option>Debt</option><option>Subscription</option><option>Other</option></select></div><div class="field"><label>RECURRING</label><select id="billPattern" onchange="togglePattern()"><option value="date">Same date every month</option><option value="nthFriday">Nth Friday each month</option></select></div><div id="dateWrap" class="field"><label>DAY OF MONTH</label><input id="billDay" type="number" min="1" max="31" placeholder="Day"></div><div id="fridayWrap" class="field hidden"><label>WHICH FRIDAY?</label><select id="billNth"><option value="1">1st Friday</option><option value="2">2nd Friday</option><option value="3">3rd Friday</option><option value="4">4th Friday</option><option value="5">5th Friday</option></select></div><button class="btn goldbtn full" onclick="saveBill()">Save Bill</button><button class="btn ghost full" style="margin-top:8px" onclick="closeBill()">Cancel</button></div></div>
 </div>
 <script>
 const PETS={
@@ -319,13 +349,25 @@ function saveBudget(){
   if(a<0||!Number.isFinite(a))return;
   d.allowance=a; save(); closeBudget(); render();
 }
+function updateGoalPreview(){
+ const target=+q("goalTargetInput").value||0;
+ const saved=+q("goalSavedInput").value||0;
+ const pc=target>0?Math.max(0,Math.min(100,(saved/target)*100)):0;
+ if(q("goalSetupPreview"))q("goalSetupPreview").textContent=Math.round(pc)+"%";
+ if(q("goalSetupPreviewBar"))q("goalSetupPreviewBar").style.width=pc+"%";
+}
 function openGoal(k){
-  editingGoal=k;
-  const g=d.goals[k];
-  q("goalModalName").textContent=k+" goal";
-  q("goalTargetInput").value=g.goal>0?g.goal:"";
-  q("goalSavedInput").value=g.saved>0?g.saved:"";
-  q("goalModal").classList.add("show");
+ editingGoal=k;
+ const g=d.goals[k];
+ const icons={Vacation:"🏝️",Emergency:"🛡️",Investing:"📈"};
+ q("goalSetupIcon").textContent=icons[k]||"🎯";
+ q("goalSetupTitle").textContent=g.goal>0?"Edit "+k:"Set "+k+" Goal";
+ q("goalModalName").textContent=g.goal>0?"Adjust your target or starting balance.":"Create a simple target and start building toward it.";
+ q("goalTargetInput").value=g.goal>0?g.goal:"";
+ q("goalSavedInput").value=g.saved>0?g.saved:"";
+ document.querySelectorAll(".goalTargetChip").forEach(x=>x.classList.remove("selected"));
+ updateGoalPreview();
+ q("goalModal").classList.add("show");
 }
 function closeGoal(){q("goalModal").classList.remove("show");editingGoal=null}
 function saveGoal(){
@@ -383,9 +425,9 @@ function renderGoals(){
  q("goalList").innerHTML=Object.entries(d.goals).map(([k,g])=>{
    const pc=g.goal>0?Math.min(100,g.saved/g.goal*100):0;
    const actions=g.goal>0
-     ? '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:11px"><button class="btn goldbtn goal-add" data-goal="'+k+'">Add Money</button><button class="btn ghost goal-edit" data-goal="'+k+'">Edit Goal</button></div>'
-     : '<button class="btn goldbtn full goal-edit" data-goal="'+k+'" style="margin-top:11px">Set Goal</button>';
-   return '<div class="card goal"><div class="goaltop"><div class="goalicon">'+g.icon+'</div><div style="flex:1"><b>'+k+'</b><div class="goalvalue">'+(g.goal>0?money(g.saved)+' / '+money(g.goal):'No goal set yet')+'</div><div class="bar green"><i style="width:'+pc+'%"></i></div></div></div>'+actions+'</div>';
+     ? '<div class="goalCardActions"><button class="btn goldbtn goal-add" data-goal="'+k+'">+ Add Money</button><button class="btn ghost goal-edit" data-goal="'+k+'">Edit</button></div>'
+     : '<button class="btn goldbtn full goal-edit" data-goal="'+k+'" style="margin-top:12px;border-radius:15px">Set Goal</button>';
+   return '<div class="goalCardModern"><div class="goalCardTop"><div class="goalCardIcon">'+g.icon+'</div><div class="goalCardMain"><b>'+k+'</b><div class="goalCardValue">'+(g.goal>0?money(g.saved)+' of '+money(g.goal):'No goal set yet')+'</div><div class="bar green"><i style="width:'+pc+'%"></i></div></div></div>'+actions+'</div>';
  }).join("");
  document.querySelectorAll(".goal-add").forEach(b=>b.addEventListener("click",()=>addGoal(b.dataset.goal)));
  document.querySelectorAll(".goal-edit").forEach(b=>b.addEventListener("click",()=>openGoal(b.dataset.goal)));
@@ -418,7 +460,7 @@ function renderJourney(p,st,lv){
  if(q("pjGoalsText"))q("pjGoalsText").textContent=activeGoals?activeGoals+" goal"+(activeGoals===1?"":"s")+" set":"No goals yet";
  if(q("pjExpensesText"))q("pjExpensesText").textContent=d.expenses.length?d.expenses.length+" expense"+(d.expenses.length===1?"":"s")+" tracked":"No expenses yet";
 }
-async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260910-12&refresh="+Date.now());}
+async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260910-13&refresh="+Date.now());}
 document.addEventListener("DOMContentLoaded",()=>{
  renderChoices();
  const settingsBtn=q("settingsBtn"); if(settingsBtn)settingsBtn.addEventListener("click",()=>go("settings")); const journeySettingsBtn=q("journeySettingsBtn"); if(journeySettingsBtn)journeySettingsBtn.addEventListener("click",()=>go("settings"));
@@ -430,6 +472,9 @@ document.addEventListener("DOMContentLoaded",()=>{
  q("closeBudgetBtn").addEventListener("click",closeBudget);
  q("saveGoalBtn").addEventListener("click",saveGoal);
  q("closeGoalBtn").addEventListener("click",closeGoal);
+ q("goalTargetInput").addEventListener("input",updateGoalPreview);
+ q("goalSavedInput").addEventListener("input",updateGoalPreview);
+ document.querySelectorAll(".goalTargetChip").forEach(b=>b.addEventListener("click",()=>{q("goalTargetInput").value=b.dataset.goalTarget;document.querySelectorAll(".goalTargetChip").forEach(x=>x.classList.remove("selected"));b.classList.add("selected");updateGoalPreview();}));
  q("saveQuickMoneyBtn").addEventListener("click",saveQuickMoney);
  q("closeQuickMoneyBtn").addEventListener("click",closeQuickMoney);
  q("saveGoalAddBtn").addEventListener("click",saveGoalAdd);
@@ -459,7 +504,7 @@ document.addEventListener("DOMContentLoaded",()=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const reg = await navigator.serviceWorker.register("./sw.js?v=20260910-12");
+      const reg = await navigator.serviceWorker.register("./sw.js?v=20260910-13");
       await reg.update();
     } catch (e) {}
   });
