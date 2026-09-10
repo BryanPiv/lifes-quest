@@ -198,7 +198,16 @@ body.journey-active .nav{background:rgba(2,14,23,.97)}
 <div class="expenseBuilder">
   <h3>Estimated monthly expenses</h3>
   <p>Add what you normally spend each month so Life's Quest can estimate a realistic weekly budget.</p>
-  <div class="expenseRows">
+  <div class="extraBillsBox">
+  <h3>Additional bills</h3>
+  <p>Add any extra monthly bills one by one that do not fit the categories above.</p>
+  <div class="extraBillForm">
+    <input id="extraBillName" placeholder="Bill name">
+    <input id="extraBillAmount" type="number" min="0" inputmode="decimal" placeholder="$">
+    <button id="addExtraBillBtn" class="extraBillAdd">Add</button>
+  </div>
+  <div id="extraBillList" class="extraBillList"></div>
+</div><div class="expenseRows">
     <div class="expenseRow"><div class="expenseRowIcon">🏠</div><div class="expenseRowMain"><b>Housing / Rent</b><small>Rent, mortgage, HOA</small></div><div class="expenseRowField"><span>$</span><input data-est-expense="housing" type="number" min="0" inputmode="decimal" placeholder="0"></div></div>
     <div class="expenseRow"><div class="expenseRowIcon">🚗</div><div class="expenseRowMain"><b>Car Payment</b><small>Loan or lease</small></div><div class="expenseRowField"><span>$</span><input data-est-expense="car" type="number" min="0" inputmode="decimal" placeholder="0"></div></div>
     <div class="expenseRow"><div class="expenseRowIcon">🛡️</div><div class="expenseRowMain"><b>Insurance</b><small>Auto, renters, other</small></div><div class="expenseRowField"><span>$</span><input data-est-expense="insurance" type="number" min="0" inputmode="decimal" placeholder="0"></div></div>
@@ -210,17 +219,7 @@ body.journey-active .nav{background:rgba(2,14,23,.97)}
     <div class="expenseRow"><div class="expenseRowIcon">🎮</div><div class="expenseRowMain"><b>Entertainment</b><small>Fun, hobbies, going out</small></div><div class="expenseRowField"><span>$</span><input data-est-expense="entertainment" type="number" min="0" inputmode="decimal" placeholder="0"></div></div>
     <div class="expenseRow"><div class="expenseRowIcon">•••</div><div class="expenseRowMain"><b>Other</b><small>Anything else you spend monthly</small></div><div class="expenseRowField"><span>$</span><input data-est-expense="other" type="number" min="0" inputmode="decimal" placeholder="0"></div></div>
   </div>
-  <div class="extraBillsBox">
-  <h3>Additional bills</h3>
-  <p>Add any extra monthly bills one by one that do not fit the categories above.</p>
-  <div class="extraBillForm">
-    <input id="extraBillName" placeholder="Bill name">
-    <input id="extraBillAmount" type="number" min="0" inputmode="decimal" placeholder="$">
-    <button id="addExtraBillBtn" class="extraBillAdd">Add</button>
-  </div>
-  <div id="extraBillList" class="extraBillList"></div>
-</div>
-<div class="expenseTotal"><span>Estimated monthly spending</span><b id="estimatedExpenseTotal">$0</b></div>
+  <div class="expenseTotal"><span>Estimated monthly spending</span><b id="estimatedExpenseTotal">$0</b></div>
 </div>
 <div class="budgetPreview">
     <div class="budgetPreviewRow"><span>Weekly income</span><strong id="previewWeeklyIncome">$0</strong></div>
@@ -777,7 +776,7 @@ function openPlannerGoal(k){
  go("goals");
  setTimeout(()=>openGoal(k),80);
 }
-async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260910-20&refresh="+Date.now());}
+async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260910-21&refresh="+Date.now());}
 document.addEventListener("DOMContentLoaded",()=>{
  renderChoices();
  const settingsBtn=q("settingsBtn"); if(settingsBtn)settingsBtn.addEventListener("click",()=>go("settings"));
@@ -831,7 +830,7 @@ document.addEventListener("DOMContentLoaded",()=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const reg = await navigator.serviceWorker.register("./sw.js?v=20260910-20");
+      const reg = await navigator.serviceWorker.register("./sw.js?v=20260910-21");
       await reg.update();
     } catch (e) {}
   });
