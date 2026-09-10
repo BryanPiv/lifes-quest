@@ -86,6 +86,12 @@ body.journey-active .nav{background:rgba(2,14,23,.97)}
 .tipCard{margin:18px 0 14px;padding:14px 15px;border-radius:20px;background:linear-gradient(180deg,rgba(17,53,81,.95),rgba(8,29,46,.95));border:1px solid rgba(241,199,99,.28);display:flex;gap:12px;align-items:flex-start}.tipIcon{font-size:26px}.tipCard b{font:700 13px Georgia,serif;color:#f1c763}.tipCard p{font-size:11px;color:#b3c5d1;margin:4px 0 0;line-height:1.45}
 .onboardGoals{display:grid;gap:10px}.onboardGoal{border-radius:20px;padding:14px;background:linear-gradient(180deg,#0c304d,#071f33);border:1px solid rgba(92,143,174,.35)}.onboardGoalTop{display:flex;align-items:center;gap:11px}.onboardGoalIcon{width:48px;height:48px;border-radius:16px;display:grid;place-items:center;font-size:25px;background:#082238;border:1px solid rgba(241,199,99,.22)}.onboardGoalMain{flex:1}.onboardGoalMain b{font:700 14px Georgia,serif}.onboardGoalMain small{display:block;color:#9fb5c5;font-size:9px;margin-top:3px}.onboardGoalField{display:flex;align-items:center;background:#edf4f8;border-radius:15px;padding:4px 12px;margin-top:10px}.onboardGoalField span{color:#183247;font-weight:900;font-size:22px}.onboardGoalField input{width:100%;border:0;outline:0;background:transparent;color:#173149;font-size:24px;font-weight:900;padding:9px 6px}
 .onboardActions{margin-top:auto;padding-top:16px}.skipBtn{border:0;background:transparent;color:#8fa8b9;width:100%;padding:12px;font-weight:800}
+
+.incomeOnboard{min-height:100vh;padding:22px 16px 34px;background:radial-gradient(circle at 50% 0%,rgba(241,199,99,.17),transparent 27%),linear-gradient(180deg,#0b2b45,#051724 55%,#03111d);display:flex;flex-direction:column}
+.payToggle{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0}.payOption{border-radius:16px;padding:13px 8px;background:#0a2942;border:1px solid rgba(98,151,184,.35);color:white;font-weight:900}.payOption.sel{border-color:#f1c763;color:#f1c763;background:#17324a;box-shadow:0 0 0 3px rgba(241,199,99,.08)}
+.incomeCard{border-radius:22px;padding:16px;background:linear-gradient(180deg,#0d3554,#071f33);border:1px solid rgba(93,146,178,.35);box-shadow:0 14px 30px #0004}.incomeCard h3{margin:0 0 5px;font:700 18px Georgia,serif}.incomeCard p{margin:0 0 13px;color:#9fb5c5;font-size:11px;line-height:1.45}
+.budgetPreview{margin-top:14px;border-radius:20px;padding:14px;background:linear-gradient(180deg,rgba(17,55,84,.96),rgba(7,29,47,.96));border:1px solid rgba(241,199,99,.26)}.budgetPreviewRow{display:flex;justify-content:space-between;gap:12px;padding:7px 0;font-size:12px}.budgetPreviewRow strong{color:#f1c763}.budgetPreviewTotal{margin-top:8px;padding-top:10px;border-top:1px solid rgba(110,154,181,.25);display:flex;justify-content:space-between;font:700 15px Georgia,serif}
+.savingsRate{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.savingsRate button{border-radius:999px;padding:9px 3px;background:#0a2942;border:1px solid rgba(98,151,184,.35);color:white;font-weight:900}.savingsRate button.sel{border-color:#f1c763;color:#f1c763}
 </style></head>
 <body><div class="phone"><script>document.documentElement.dataset.lqBoot="welcome";</script>
 <div id="welcome" class="welcome">
@@ -112,6 +118,37 @@ body.journey-active .nav{background:rgba(2,14,23,.97)}
     <div class="onboardGoal"><div class="onboardGoalTop"><div class="onboardGoalIcon">📈</div><div class="onboardGoalMain"><b>Investing Goal</b><small>Build toward your future</small></div></div><div class="onboardGoalField"><span>$</span><input id="onboardInvesting" type="number" min="0" inputmode="decimal" placeholder="Goal amount"></div></div>
   </div>
   <div class="onboardActions"><button id="saveOnboardGoalsBtn" class="btn goldbtn full" style="border-radius:18px;padding:15px;font-size:15px">Continue My Journey</button><button id="skipOnboardGoalsBtn" class="skipBtn">I'll set these later</button></div>
+</div>
+<div id="incomeOnboarding" class="incomeOnboard hidden">
+  <div class="goalOnboardHead">
+    <div class="brand">Build Your Budget</div>
+    <h2>How often do you get paid?</h2>
+    <p>Life's Quest will turn your take-home pay into a weekly spending target automatically.</p>
+  </div>
+  <div class="payToggle">
+    <button class="payOption sel" data-payfreq="weekly">Weekly</button>
+    <button class="payOption" data-payfreq="biweekly">Every 2 Weeks</button>
+  </div>
+  <div class="incomeCard">
+    <h3>Take-home paycheck</h3>
+    <p>Enter what actually lands in your bank account after taxes and deductions.</p>
+    <div class="goalMoneyField"><span>$</span><input id="incomeAmount" type="number" min="0" inputmode="decimal" placeholder="0"></div>
+  </div>
+  <div class="incomeCard" style="margin-top:10px">
+    <h3>How much would you like to save?</h3>
+    <p>We'll reserve this percentage first, then use the rest for bills and weekly spending.</p>
+    <div class="savingsRate">
+      <button data-rate="10">10%</button><button class="sel" data-rate="20">20%</button><button data-rate="25">25%</button><button data-rate="30">30%</button>
+    </div>
+  </div>
+  <div class="budgetPreview">
+    <div class="budgetPreviewRow"><span>Weekly income</span><strong id="previewWeeklyIncome">$0</strong></div>
+    <div class="budgetPreviewRow"><span>Weekly savings</span><strong id="previewWeeklySavings">$0</strong></div>
+    <div class="budgetPreviewRow"><span>Weekly share of bills</span><strong id="previewWeeklyBills">$0</strong></div>
+    <div class="budgetPreviewTotal"><span>Suggested weekly spending</span><span id="previewAllowance">$0</span></div>
+  </div>
+  <div class="tipCard"><div class="tipIcon">💡</div><div><b>Smart budget tip</b><p>Your weekly spending target will update automatically as you add recurring bills later.</p></div></div>
+  <div class="onboardActions"><button id="saveIncomeBtn" class="btn goldbtn full" style="border-radius:18px;padding:15px;font-size:15px">Create My Budget</button></div>
 </div>
 <main id="app" class="hidden">
 <section id="home" class="page on"><div class="hero"><div class="logo">Life's Quest<small>SAME DISCIPLINE. BRIGHTER TOMORROWS.</small></div><button id="settingsBtn" class="settingsBtn" aria-label="Settings">⚙️</button><div id="homePet" class="petwrap"></div><div class="heroBottom"><div class="quote">“Small steps today, big adventures tomorrow.”</div><div class="levelrow"><span class="pill">Level <span id="lvl">1</span> • <span id="petName">Ember</span></span><span id="xpTxt" class="tiny">0 / 100 XP</span></div><div class="bar" style="margin-top:8px"><i id="xpBar"></i></div></div></div><div class="quickgrid"><button class="quick" onclick="quickAdd('Food')"><div class="icon">🍴</div><b>Food</b><small>Tap to add</small></button><button class="quick" onclick="quickAdd('Gas')"><div class="icon">⛽</div><b>Gas</b><small>Tap to add</small></button><button class="quick" onclick="quickAdd('Entertainment')"><div class="icon">🎮</div><b>Entertainment</b><small>Tap to add</small></button><button class="quick" onclick="quickAdd('Misc')"><div class="icon">•••</div><b>Misc</b><small>Tap to add</small></button></div><div class="card week"><div><div class="tiny">THIS WEEK</div><div id="weekLeft" class="weekleft">Set weekly budget</div><div id="weekSpent" class="tiny">No weekly budget yet</div></div><div id="ring" class="ring">—</div></div><div class="sectionhead"><h3>Upcoming Bills</h3><button class="link" onclick="go('calendar')">Calendar</button></div><div id="upcoming" class="card"></div></section>
@@ -173,7 +210,7 @@ body.journey-active .nav{background:rgba(2,14,23,.97)}
   </div>
 </div>
 </section>
-<section id="settings" class="page"><div class="top"><div><div class="brand">Settings</div><div class="muted">Manage Life's Quest on this device.</div></div></div><div class="settingsPage"><div class="card settingsCard"><h3>Weekly Budget</h3><p>Set the amount you want available for food, gas, entertainment, and other weekly spending.</p><button id="settingsBudgetBtn" class="btn goldbtn full">Set Weekly Budget</button></div><div class="card settingsCard"><h3>Refresh App</h3><p>Force Life's Quest to download the newest version without deleting your bills, expenses, goals, XP, or other saved data.</p><button id="refreshAppBtn" class="btn goldbtn full">↻ Refresh to Latest Version</button><div class="dangerNote">Your personal data stays on this device.</div></div><button id="settingsBackBtn" class="btn ghost full" style="margin-top:10px">← Back to Home</button></div></section><nav class="nav"><button class="on" data-p="journey" onclick="go('journey')">⛰️<br>Home</button><button data-p="expenses" onclick="go('expenses')">🧾<br>Expenses</button><button data-p="goals" onclick="go('goals')">🎯<br>Goals</button><button data-p="calendar" onclick="go('calendar')">📅<br>Calendar</button><button data-p="settings" onclick="go('settings')">⚙️<br>Settings</button></nav></main>
+<section id="settings" class="page"><div class="top"><div><div class="brand">Settings</div><div class="muted">Manage Life's Quest on this device.</div></div></div><div class="settingsPage"><div class="card settingsCard"><h3>Income & Budget</h3><p>Your weekly spending target is calculated from take-home pay, savings rate, and recurring bills.</p><button id="settingsBudgetBtn" class="btn goldbtn full">Edit Income Plan</button></div><div class="card settingsCard"><h3>Refresh App</h3><p>Force Life's Quest to download the newest version without deleting your bills, expenses, goals, XP, or other saved data.</p><button id="refreshAppBtn" class="btn goldbtn full">↻ Refresh to Latest Version</button><div class="dangerNote">Your personal data stays on this device.</div></div><button id="settingsBackBtn" class="btn ghost full" style="margin-top:10px">← Back to Home</button></div></section><nav class="nav"><button class="on" data-p="journey" onclick="go('journey')">⛰️<br>Home</button><button data-p="expenses" onclick="go('expenses')">🧾<br>Expenses</button><button data-p="goals" onclick="go('goals')">🎯<br>Goals</button><button data-p="calendar" onclick="go('calendar')">📅<br>Calendar</button><button data-p="settings" onclick="go('settings')">⚙️<br>Settings</button></nav></main>
 <div id="quickMoneyModal" class="modal"><div class="sheet quickMoneySheet">
   <div class="quickMoneyHead"><div id="quickMoneyIcon" class="quickMoneyIcon">🍴</div><div id="quickMoneyTitle" class="quickMoneyTitle">Food</div><div class="muted">Add an expense</div></div>
   <div class="moneyInputWrap"><span>$</span><input id="quickMoneyAmount" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0"></div>
@@ -232,6 +269,7 @@ const PETS={
  cloud:{name:"Nimbus",stages:["Breeze","Drift","Skyborn","Nimbus"]}
 };
 const DEFAULTS={
+ income:{amount:0,frequency:"weekly",savingsRate:20},
  type:"fire",xp:0,allowance:0,expenses:[],
  goals:{Vacation:{saved:0,goal:0,icon:"🏝️"},Emergency:{saved:0,goal:0,icon:"🛡️"},Investing:{saved:0,goal:0,icon:"📈"}},
  bills:[]
@@ -337,9 +375,46 @@ function finishGoalOnboarding(saveGoals=true){
    save();
  }
  q("goalOnboarding").classList.add("hidden");
+ q("incomeOnboarding").classList.remove("hidden");
+ updateIncomePreview();
+}
+let payFrequency="weekly", savingsRate=20;
+function recurringMonthlyTotal(){return d.bills.reduce((sum,b)=>sum+(+b.amount||0),0)}
+function suggestedWeeklyBudget(){
+ const amount=+(d.income?.amount||0);
+ if(!amount)return 0;
+ const weeklyIncome=d.income.frequency==="biweekly"?amount/2:amount;
+ const savings=weeklyIncome*((d.income.savingsRate||0)/100);
+ const weeklyBills=recurringMonthlyTotal()*12/52;
+ return Math.max(0,weeklyIncome-savings-weeklyBills);
+}
+function updateIncomePreview(){
+ const amount=+q("incomeAmount").value||0;
+ const weekly=payFrequency==="biweekly"?amount/2:amount;
+ const saveAmt=weekly*(savingsRate/100);
+ const bills=recurringMonthlyTotal()*12/52;
+ const allowance=Math.max(0,weekly-saveAmt-bills);
+ q("previewWeeklyIncome").textContent=money(weekly);
+ q("previewWeeklySavings").textContent=money(saveAmt);
+ q("previewWeeklyBills").textContent=money(bills);
+ q("previewAllowance").textContent=money(allowance);
+}
+function saveIncomeSetup(){
+ const amount=+q("incomeAmount").value;
+ if(!(amount>0))return;
+ d.income={amount,frequency:payFrequency,savingsRate};
+ d.allowance=suggestedWeeklyBudget();
+ save();
+ q("incomeOnboarding").classList.add("hidden");
  q("app").classList.remove("hidden");
  render();
  go("journey");
+}
+function recalcBudget(){
+ if(d.income&&d.income.amount>0){
+   d.allowance=suggestedWeeklyBudget();
+   save();
+ }
 }
 function go(p){
  document.querySelectorAll(".page").forEach(x=>x.classList.remove("on"));
@@ -374,8 +449,14 @@ function saveExpense(){
 }
 let editingGoal=null;
 function openBudget(){
-  q("weeklyBudgetInput").value=d.allowance>0?d.allowance:"";
-  q("budgetModal").classList.add("show");
+ payFrequency=d.income?.frequency||"weekly";
+ savingsRate=d.income?.savingsRate||20;
+ q("incomeAmount").value=d.income?.amount||"";
+ document.querySelectorAll(".payOption").forEach(b=>b.classList.toggle("sel",b.dataset.payfreq===payFrequency));
+ document.querySelectorAll(".savingsRate button").forEach(b=>b.classList.toggle("sel",+b.dataset.rate===savingsRate));
+ q("app").classList.add("hidden");
+ q("incomeOnboarding").classList.remove("hidden");
+ updateIncomePreview();
 }
 function closeBudget(){q("budgetModal").classList.remove("show")}
 function saveBudget(){
@@ -444,13 +525,13 @@ function togglePattern(){const f=q("billPattern").value==="nthFriday";q("dateWra
 function saveBill(){
  if(!q("billName").value||!+q("billAmount").value)return;
  d.bills.push({id:Date.now(),name:q("billName").value,amount:+q("billAmount").value,category:q("billCategory").value,pattern:q("billPattern").value,day:q("billPattern").value==="date"?+q("billDay").value:null,nth:q("billPattern").value==="nthFriday"?+q("billNth").value:null});
- save();closeBill();q("billName").value="";q("billAmount").value="";render();
+ recalcBudget();closeBill();q("billName").value="";q("billAmount").value="";render();
 }
 function shiftMonth(n){calDate=new Date(calDate.getFullYear(),calDate.getMonth()+n,1);renderCalendar()}
 function render(){
- const p=PETS[d.type],st=stage(),lv=level(),w=weekly(),spent=w.reduce((a,x)=>a+x.amount,0),left=d.allowance-spent;
+ if(d.income&&d.income.amount>0)d.allowance=suggestedWeeklyBudget(); const p=PETS[d.type],st=stage(),lv=level(),w=weekly(),spent=w.reduce((a,x)=>a+x.amount,0),left=d.allowance-spent;
  q("homePet").innerHTML=petSVG(d.type,st);q("lvl").textContent=lv;q("petName").textContent=p.name;q("xpTxt").textContent=(d.xp%100)+" / 100 XP";q("xpBar").style.width=(d.xp%100)+"%";
- q("weekLeft").textContent=d.allowance>0?money(left)+" Left":"Set weekly budget";q("weekSpent").textContent=d.allowance>0?money(spent)+" spent of "+money(d.allowance):"No weekly budget yet";q("ring").textContent=d.allowance>0?Math.max(0,Math.round(left/d.allowance*100))+"%":"—"; if(q("journeyWeekLeft"))q("journeyWeekLeft").textContent=d.allowance>0?money(left)+" Left":"Set weekly budget"; if(q("journeyWeekSpent"))q("journeyWeekSpent").textContent=d.allowance>0?money(spent)+" spent of "+money(d.allowance):"No weekly budget yet"; if(q("journeyRing"))q("journeyRing").textContent=d.allowance>0?Math.max(0,Math.round(left/d.allowance*100))+"%":"—"; if(q("journeyBudgetBar"))q("journeyBudgetBar").style.width=d.allowance>0?Math.max(0,Math.min(100,(spent/d.allowance)*100))+"%":"0%"; if(q("editBudgetBtn"))q("editBudgetBtn").textContent=d.allowance>0?"Edit "+money(d.allowance):"Set Budget"; if(q("settingsBudgetBtn"))q("settingsBudgetBtn").textContent=d.allowance>0?"Edit Weekly Budget ("+money(d.allowance)+")":"Set Weekly Budget";
+ q("weekLeft").textContent=d.allowance>0?money(left)+" Left":"Set weekly budget";q("weekSpent").textContent=d.allowance>0?money(spent)+" spent of "+money(d.allowance):"No weekly budget yet";q("ring").textContent=d.allowance>0?Math.max(0,Math.round(left/d.allowance*100))+"%":"—"; if(q("journeyWeekLeft"))q("journeyWeekLeft").textContent=d.allowance>0?money(left)+" Left":"Set weekly budget"; if(q("journeyWeekSpent"))q("journeyWeekSpent").textContent=d.allowance>0?money(spent)+" spent of "+money(d.allowance):"No weekly budget yet"; if(q("journeyRing"))q("journeyRing").textContent=d.allowance>0?Math.max(0,Math.round(left/d.allowance*100))+"%":"—"; if(q("journeyBudgetBar"))q("journeyBudgetBar").style.width=d.allowance>0?Math.max(0,Math.min(100,(spent/d.allowance)*100))+"%":"0%"; if(q("editBudgetBtn"))q("editBudgetBtn").textContent=d.income?.amount>0?"Budget "+money(d.allowance):"Set Income"; if(q("settingsBudgetBtn"))q("settingsBudgetBtn").textContent=d.income?.amount>0?"Edit Income Plan":"Set Income Plan";
  if(!q("expenseDate").value)q("expenseDate").value=new Date().toISOString().slice(0,10);
  q("expenseList").innerHTML=d.expenses.length?d.expenses.map(x=>'<div class="row"><div><b>'+(x.note||x.cat)+'</b><div class="tiny">'+x.cat+' • '+x.date+'</div></div><div class="amt">-'+money(x.amount)+'</div></div>').join(""):'<div class="row"><div class="tiny">No expenses yet.</div></div>';
  renderGoals();renderCalendar();renderUpcoming();renderJourney(p,st,lv);
@@ -494,7 +575,7 @@ function renderJourney(p,st,lv){
  if(q("pjGoalsText"))q("pjGoalsText").textContent=activeGoals?activeGoals+" goal"+(activeGoals===1?"":"s")+" set":"No goals yet";
  if(q("pjExpensesText"))q("pjExpensesText").textContent=d.expenses.length?d.expenses.length+" expense"+(d.expenses.length===1?"":"s")+" tracked":"No expenses yet";
 }
-async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260910-14&refresh="+Date.now());}
+async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260910-15&refresh="+Date.now());}
 document.addEventListener("DOMContentLoaded",()=>{
  renderChoices();
  const settingsBtn=q("settingsBtn"); if(settingsBtn)settingsBtn.addEventListener("click",()=>go("settings")); const journeySettingsBtn=q("journeySettingsBtn"); if(journeySettingsBtn)journeySettingsBtn.addEventListener("click",()=>go("settings"));
@@ -517,6 +598,10 @@ document.addEventListener("DOMContentLoaded",()=>{
  document.querySelectorAll(".goal-chip").forEach(b=>b.addEventListener("click",()=>q("goalAddAmount").value=b.dataset.amount));
  const begin=q("beginBtn")||document.querySelector("#chooser .goldbtn"); if(begin)begin.addEventListener("click",startQuest);
  const saveOnboard=q("saveOnboardGoalsBtn"); if(saveOnboard)saveOnboard.addEventListener("click",()=>finishGoalOnboarding(true));
+ document.querySelectorAll(".payOption").forEach(b=>b.addEventListener("click",()=>{payFrequency=b.dataset.payfreq;document.querySelectorAll(".payOption").forEach(x=>x.classList.remove("sel"));b.classList.add("sel");updateIncomePreview();}));
+ document.querySelectorAll(".savingsRate button").forEach(b=>b.addEventListener("click",()=>{savingsRate=+b.dataset.rate;document.querySelectorAll(".savingsRate button").forEach(x=>x.classList.remove("sel"));b.classList.add("sel");updateIncomePreview();}));
+ q("incomeAmount").addEventListener("input",updateIncomePreview);
+ q("saveIncomeBtn").addEventListener("click",saveIncomeSetup);
  const skipOnboard=q("skipOnboardGoalsBtn"); if(skipOnboard)skipOnboard.addEventListener("click",()=>finishGoalOnboarding(false));
  document.querySelectorAll(".nav button").forEach(b=>b.addEventListener("click",()=>go(b.dataset.nav||b.dataset.p)));
  document.querySelectorAll("[data-quick]").forEach(b=>b.addEventListener("click",()=>quickAdd(b.dataset.quick))); document.querySelectorAll("[data-journey-quick]").forEach(b=>b.addEventListener("click",()=>quickAdd(b.dataset.journeyQuick))); document.querySelectorAll("[data-nav-direct]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.navDirect)));
@@ -540,7 +625,7 @@ document.addEventListener("DOMContentLoaded",()=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const reg = await navigator.serviceWorker.register("./sw.js?v=20260910-14");
+      const reg = await navigator.serviceWorker.register("./sw.js?v=20260910-15");
       await reg.update();
     } catch (e) {}
   });
