@@ -92,6 +92,8 @@ body.journey-active .nav{background:rgba(2,14,23,.97)}
 .incomeCard{border-radius:22px;padding:16px;background:linear-gradient(180deg,#0d3554,#071f33);border:1px solid rgba(93,146,178,.35);box-shadow:0 14px 30px #0004}.incomeCard h3{margin:0 0 5px;font:700 18px Georgia,serif}.incomeCard p{margin:0 0 13px;color:#9fb5c5;font-size:11px;line-height:1.45}
 .budgetPreview{margin-top:14px;border-radius:20px;padding:14px;background:linear-gradient(180deg,rgba(17,55,84,.96),rgba(7,29,47,.96));border:1px solid rgba(241,199,99,.26)}.budgetPreviewRow{display:flex;justify-content:space-between;gap:12px;padding:7px 0;font-size:12px}.budgetPreviewRow strong{color:#f1c763}.budgetPreviewTotal{margin-top:8px;padding-top:10px;border-top:1px solid rgba(110,154,181,.25);display:flex;justify-content:space-between;font:700 15px Georgia,serif}
 .savingsRate{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.savingsRate button{border-radius:999px;padding:9px 3px;background:#0a2942;border:1px solid rgba(98,151,184,.35);color:white;font-weight:900}.savingsRate button.sel{border-color:#f1c763;color:#f1c763}
+
+.savingsPlanner{padding:18px 14px 105px}.plannerHero{margin:0 0 12px;padding:18px;border-radius:24px;background:radial-gradient(circle at 20% 0%,rgba(241,199,99,.22),transparent 38%),linear-gradient(180deg,#103a5b,#08253d);border:1px solid rgba(241,199,99,.3);box-shadow:0 18px 36px #0004}.plannerHero h2{margin:0;font:700 26px Georgia,serif;color:#f5ce72}.plannerHero p{margin:6px 0 0;color:#a9becb;font-size:12px;line-height:1.5}.plannerInputCard{padding:16px;border-radius:22px;background:linear-gradient(180deg,#0d3554,#071f33);border:1px solid rgba(93,146,178,.35);box-shadow:0 14px 30px #0004}.plannerInputCard h3{margin:0 0 5px;font:700 17px Georgia,serif}.plannerInputCard p{margin:0 0 12px;color:#9fb5c5;font-size:11px}.plannerMoney{display:flex;align-items:center;background:#eef4f8;border-radius:18px;padding:7px 14px}.plannerMoney span{font-size:30px;font-weight:900;color:#1d374c}.plannerMoney input{width:100%;border:0;outline:0;background:transparent;font-size:34px;font-weight:900;color:#163149;padding:8px}.projectionGrid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}.projectionCard{padding:14px;border-radius:19px;background:linear-gradient(180deg,#0b2e49,#071f32);border:1px solid rgba(93,146,178,.3)}.projectionCard small{display:block;color:#9fb5c5;font-size:9px;letter-spacing:.8px}.projectionCard b{display:block;margin-top:5px;font:700 21px Georgia,serif;color:#f1c763}.projectionCard.full{grid-column:1/-1}.projectionBar{height:9px;margin-top:9px;background:#163b57;border-radius:999px;overflow:hidden}.projectionBar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#5fd68d,#f1c763);border-radius:999px}.goalIdeas{display:grid;gap:9px;margin-top:12px}.goalIdea{padding:14px;border-radius:20px;background:linear-gradient(180deg,#0d3554,#071f33);border:1px solid rgba(93,146,178,.32);display:flex;gap:12px;align-items:center}.goalIdeaIcon{width:46px;height:46px;border-radius:15px;display:grid;place-items:center;font-size:24px;background:#082238}.goalIdeaMain{flex:1}.goalIdeaMain b{font:700 13px Georgia,serif}.goalIdeaMain small{display:block;color:#9fb5c5;font-size:9px;margin-top:3px}.goalIdea button{border:0;border-radius:999px;background:#f1c763;color:#162a3b;font-weight:900;padding:9px 11px;font-size:10px}.plannerTip{margin-top:12px;padding:14px;border-radius:20px;background:linear-gradient(180deg,rgba(20,58,84,.95),rgba(8,29,47,.95));border:1px solid rgba(241,199,99,.26)}.plannerTip b{font:700 13px Georgia,serif;color:#f1c763}.plannerTip p{margin:5px 0 0;color:#b6c8d3;font-size:11px;line-height:1.45}
 </style></head>
 <body><div class="phone"><script>document.documentElement.dataset.lqBoot="welcome";</script>
 <div id="welcome" class="welcome">
@@ -218,11 +220,27 @@ body.journey-active .nav{background:rgba(2,14,23,.97)}
   <div class="pjTiles">
     <button class="pjTile" data-nav-direct="calendar"><div class="ti">📅</div><b>Recurring Bills</b><small id="pjBillsText">No bills added</small></button>
     <button class="pjTile" data-nav-direct="goals"><div class="ti">🎯</div><b>Savings Goals</b><small id="pjGoalsText">No goals yet</small></button>
-    <button class="pjTile" data-nav-direct="expenses"><div class="ti">📊</div><b>Expenses</b><small id="pjExpensesText">No expenses yet</small></button>
+    <button class="pjTile" data-nav-direct="savingsplanner"><div class="ti">💰</div><b>Savings Planner</b><small>See yearly potential</small></button>
   </div>
 </div>
 </section>
-<section id="settings" class="page"><div class="top"><div><div class="brand">Settings</div><div class="muted">Manage Life's Quest on this device.</div></div></div><div class="settingsPage"><div class="card settingsCard"><h3>Income & Budget</h3><p>Your weekly spending target is calculated from take-home pay, savings rate, and recurring bills.</p><button id="settingsBudgetBtn" class="btn goldbtn full">Edit Income Plan</button></div><div class="card settingsCard"><h3>Refresh App</h3><p>Force Life's Quest to download the newest version without deleting your bills, expenses, goals, XP, or other saved data.</p><button id="refreshAppBtn" class="btn goldbtn full">↻ Refresh to Latest Version</button><div class="dangerNote">Your personal data stays on this device.</div></div><button id="settingsBackBtn" class="btn ghost full" style="margin-top:10px">← Back to Home</button></div></section><nav class="nav"><button class="on" data-p="journey" onclick="go('journey')">⛰️<br>Home</button><button data-p="expenses" onclick="go('expenses')">🧾<br>Expenses</button><button data-p="goals" onclick="go('goals')">🎯<br>Goals</button><button data-p="calendar" onclick="go('calendar')">📅<br>Calendar</button><button data-p="settings" onclick="go('settings')">⚙️<br>Settings</button></nav></main>
+<section id="savingsplanner" class="page"><div class="top"><div><div class="brand">Savings Planner</div><div class="muted">See what one paycheck habit can become.</div></div></div><div class="savingsPlanner">
+  <div class="plannerHero"><h2>What if you saved every payday?</h2><p>Choose an amount per paycheck and Life's Quest will show your yearly progress automatically.</p></div>
+  <div class="plannerInputCard"><h3>Save per paycheck</h3><p>This is separate from your workplace retirement contribution.</p><div class="plannerMoney"><span>$</span><input id="plannerPerPay" type="number" min="0" step="1" inputmode="decimal" placeholder="0"></div></div>
+  <div class="projectionGrid">
+    <div class="projectionCard"><small>PER MONTH</small><b id="plannerMonthly">$0</b></div>
+    <div class="projectionCard"><small>PER YEAR</small><b id="plannerYearly">$0</b></div>
+    <div class="projectionCard full"><small>AFTER 5 YEARS</small><b id="plannerFiveYear">$0</b><div class="projectionBar"><i id="plannerBar"></i></div></div>
+  </div>
+  <div class="plannerTip"><b>💡 Goal-building tip</b><p>Give each dollar a purpose. Pick one short-term goal, one safety goal, and one long-term goal so saving feels rewarding instead of restrictive.</p></div>
+  <div class="sectionhead" style="padding:16px 0 2px"><h3>Turn savings into goals</h3></div>
+  <div class="goalIdeas">
+    <div class="goalIdea"><div class="goalIdeaIcon">🏝️</div><div class="goalIdeaMain"><b>Vacation</b><small>Fun milestone to stay motivated</small></div><button data-plan-goal="Vacation">Create</button></div>
+    <div class="goalIdea"><div class="goalIdeaIcon">🛡️</div><div class="goalIdeaMain"><b>Emergency Fund</b><small>Build breathing room for surprises</small></div><button data-plan-goal="Emergency">Create</button></div>
+    <div class="goalIdea"><div class="goalIdeaIcon">📈</div><div class="goalIdeaMain"><b>Investing</b><small>Build for your future</small></div><button data-plan-goal="Investing">Create</button></div>
+  </div>
+</div></section>
+<section id="settings" class="page"><div class="top"><div><div class="brand">Settings</div><div class="muted">Manage Life's Quest on this device.</div></div></div><div class="settingsPage"><div class="card settingsCard"><h3>Income & Budget</h3><p>Your weekly spending target is calculated from take-home pay, savings rate, and recurring bills.</p><button id="settingsBudgetBtn" class="btn goldbtn full">Edit Income Plan</button></div><div class="card settingsCard"><h3>Refresh App</h3><p>Force Life's Quest to download the newest version without deleting your bills, expenses, goals, XP, or other saved data.</p><button id="refreshAppBtn" class="btn goldbtn full">↻ Refresh to Latest Version</button><div class="dangerNote">Your personal data stays on this device.</div></div><button id="settingsBackBtn" class="btn ghost full" style="margin-top:10px">← Back to Home</button></div></section><nav class="nav"><button class="on" data-p="journey" onclick="go('journey')">⛰️<br>Home</button><button data-p="expenses" onclick="go('expenses')">🧾<br>Expenses</button><button data-p="goals" onclick="go('goals')">🎯<br>Goals</button><button data-p="calendar" onclick="go('calendar')">📅<br>Calendar</button><button data-p="savingsplanner" onclick="go('savingsplanner')">💰<br>Save</button></nav></main>
 <div id="quickMoneyModal" class="modal"><div class="sheet quickMoneySheet">
   <div class="quickMoneyHead"><div id="quickMoneyIcon" class="quickMoneyIcon">🍴</div><div id="quickMoneyTitle" class="quickMoneyTitle">Food</div><div class="muted">Add an expense</div></div>
   <div class="moneyInputWrap"><span>$</span><input id="quickMoneyAmount" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0"></div>
@@ -609,10 +627,31 @@ function renderJourney(p,st,lv){
  if(q("pjGoalsText"))q("pjGoalsText").textContent=activeGoals?activeGoals+" goal"+(activeGoals===1?"":"s")+" set":"No goals yet";
  if(q("pjExpensesText"))q("pjExpensesText").textContent=d.expenses.length?d.expenses.length+" expense"+(d.expenses.length===1?"":"s")+" tracked":"No expenses yet";
 }
-async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260910-16&refresh="+Date.now());}
+function paychecksPerYear(){
+ const f=d.income?.frequency||"weekly";
+ return f==="biweekly"?26:52;
+}
+function updateSavingsPlanner(){
+ const per=+q("plannerPerPay").value||0;
+ const checks=paychecksPerYear();
+ const yearly=per*checks;
+ const monthly=yearly/12;
+ const five=yearly*5;
+ q("plannerMonthly").textContent=money(monthly);
+ q("plannerYearly").textContent=money(yearly);
+ q("plannerFiveYear").textContent=money(five);
+ q("plannerBar").style.width=Math.min(100,yearly>0?75:0)+"%";
+}
+function openPlannerGoal(k){
+ go("goals");
+ setTimeout(()=>openGoal(k),80);
+}
+async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260910-17&refresh="+Date.now());}
 document.addEventListener("DOMContentLoaded",()=>{
  renderChoices();
- const settingsBtn=q("settingsBtn"); if(settingsBtn)settingsBtn.addEventListener("click",()=>go("settings")); const journeySettingsBtn=q("journeySettingsBtn"); if(journeySettingsBtn)journeySettingsBtn.addEventListener("click",()=>go("settings"));
+ const settingsBtn=q("settingsBtn"); if(settingsBtn)settingsBtn.addEventListener("click",()=>go("settings"));
+ if(q("plannerPerPay")){q("plannerPerPay").addEventListener("input",updateSavingsPlanner);updateSavingsPlanner();}
+ document.querySelectorAll("[data-plan-goal]").forEach(b=>b.addEventListener("click",()=>openPlannerGoal(b.dataset.planGoal))); const journeySettingsBtn=q("journeySettingsBtn"); if(journeySettingsBtn)journeySettingsBtn.addEventListener("click",()=>go("settings"));
  const settingsBackBtn=q("settingsBackBtn"); if(settingsBackBtn)settingsBackBtn.addEventListener("click",()=>go("journey"));
  const refreshAppBtn=q("refreshAppBtn"); if(refreshAppBtn)refreshAppBtn.addEventListener("click",refreshApp);
  const editBudgetBtn=q("editBudgetBtn"); if(editBudgetBtn)editBudgetBtn.addEventListener("click",openBudget);
@@ -659,7 +698,7 @@ document.addEventListener("DOMContentLoaded",()=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const reg = await navigator.serviceWorker.register("./sw.js?v=20260910-16");
+      const reg = await navigator.serviceWorker.register("./sw.js?v=20260910-17");
       await reg.update();
     } catch (e) {}
   });
