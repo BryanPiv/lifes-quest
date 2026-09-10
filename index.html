@@ -52,19 +52,16 @@ const PETS={
 const DEFAULTS={
  type:"fire",xp:420,allowance:495,expenses:[],
  goals:{Vacation:{saved:2350,goal:5000,icon:"🏝️"},Emergency:{saved:1200,goal:8000,icon:"🛡️"},Investing:{saved:1000,goal:10000,icon:"📈"}},
- bills:[
-  {id:1,name:"Rent",amount:700,category:"Housing",pattern:"nthFriday",nth:2},
-  {id:2,name:"Rent",amount:700,category:"Housing",pattern:"nthFriday",nth:4},
-  {id:3,name:"Car Payment",amount:350,category:"Auto",pattern:"date",day:13},
-  {id:4,name:"Car Insurance",amount:140,category:"Insurance",pattern:"date",day:19},
-  {id:5,name:"Phone",amount:70,category:"Utilities",pattern:"nthFriday",nth:3},
-  {id:6,name:"Credit Card",amount:530,category:"Debt",pattern:"nthFriday",nth:3},
-  {id:7,name:"Affirm (Bed)",amount:100,category:"Debt",pattern:"date",day:12},
-  {id:8,name:"iCloud",amount:10,category:"Subscription",pattern:"date",day:15},
-  {id:9,name:"DovlyAI",amount:20,category:"Subscription",pattern:"date",day:23}
- ]
+ bills:[]
 };
-let d=Object.assign(JSON.parse(JSON.stringify(DEFAULTS)),JSON.parse(localStorage.getItem("lifesQuestWeb")||"{}"));
+let savedData=JSON.parse(localStorage.getItem("lifesQuestWeb")||"{}");
+if(savedData.dataVersion!==2){
+  savedData.bills=[];
+  savedData.dataVersion=2;
+  localStorage.setItem("lifesQuestWeb",JSON.stringify(savedData));
+}
+let d=Object.assign(JSON.parse(JSON.stringify(DEFAULTS)),savedData);
+d.dataVersion=2;
 let choice=d.type||"fire",cat="Food",calDate=new Date();
 const q=id=>document.getElementById(id);
 function save(){localStorage.setItem("lifesQuestWeb",JSON.stringify(d))}
@@ -147,12 +144,12 @@ function renderCalendar(){
  for(let i=0;i<first;i++)parts.push("<div></div>");
  for(let day=1;day<=days;day++){const bs=d.bills.filter(b=>billDay(b,y,m)===day),t=new Date(),is=t.getFullYear()===y&&t.getMonth()===m&&t.getDate()===day;parts.push('<div class="day '+(is?'today':'')+'"><b>'+day+'</b><div class="dots">'+bs.map(b=>'<span class="dot '+b.category+'" title="'+b.name+'"></span>').join("")+'</div></div>')}
  q("calendarGrid").innerHTML=parts.join("");
- q("billList").innerHTML=d.bills.map(b=>'<div class="row"><div><b>'+b.name+'</b><div class="tiny">'+(b.pattern==="nthFriday"?["","1st","2nd","3rd","4th","5th"][b.nth]+" Friday":"Day "+b.day)+' • '+b.category+'</div></div><div class="amt">'+money(b.amount)+'</div></div>').join("");
+ q("billList").innerHTML=d.bills.length?d.bills.map(b=>'<div class="row"><div><b>'+b.name+'</b><div class="tiny">'+(b.pattern==="nthFriday"?["","1st","2nd","3rd","4th","5th"][b.nth]+" Friday":"Day "+b.day)+' • '+b.category+'</div></div><div class="amt">'+money(b.amount)+'</div></div>').join(""):'<div class="row"><div><b>No bills yet</b><div class="tiny">Tap + Bill to add your own recurring bills.</div></div></div>';
 }
 function renderUpcoming(){
  const now=new Date(),arr=[];
  for(let i=0;i<3;i++){const dt=new Date(now.getFullYear(),now.getMonth()+i,1),y=dt.getFullYear(),m=dt.getMonth();d.bills.forEach(b=>{const day=billDay(b,y,m),due=new Date(y,m,day);if(due>=new Date(now.getFullYear(),now.getMonth(),now.getDate()))arr.push({...b,due})})}
- arr.sort((a,b)=>a.due-b.due);q("upcoming").innerHTML=arr.slice(0,5).map(b=>'<div class="row"><div><b>'+b.name+'</b><div class="tiny">'+b.due.toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"})+'</div></div><div class="amt">'+money(b.amount)+'</div></div>').join("");
+ arr.sort((a,b)=>a.due-b.due);q("upcoming").innerHTML=arr.length?arr.slice(0,5).map(b=>'<div class="row"><div><b>'+b.name+'</b><div class="tiny">'+b.due.toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"})+'</div></div><div class="amt">'+money(b.amount)+'</div></div>').join(""):'<div class="row"><div><b>No upcoming bills</b><div class="tiny">Add your own bills in the Calendar tab.</div></div></div>';
 }
 function renderJourney(p,st,lv){
  q("journeyTitle").textContent=p.name+"'s Journey";q("journeyPet").innerHTML=petSVG(d.type,0);q("summitPet").innerHTML=petSVG(d.type,3);
@@ -180,7 +177,7 @@ document.addEventListener("DOMContentLoaded",()=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const reg = await navigator.serviceWorker.register("./sw.js?v=20260910-2");
+      const reg = await navigator.serviceWorker.register("./sw.js?v=20260910-3");
       await reg.update();
     } catch (e) {}
   });
