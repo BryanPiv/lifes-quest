@@ -1,0 +1,8 @@
+{
+  "name": "Life's Quest",
+  "short_name": "Life's Quest",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#03111d",
+  "theme_color": "#06192a"
+}
