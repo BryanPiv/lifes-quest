@@ -179,13 +179,6 @@ body.journey-active .nav{background:rgba(2,14,23,.97)}
     <div class="goalMoneyField"><span>$</span><input id="incomeAmount" type="number" min="0" inputmode="decimal" placeholder="0"></div>
   </div>
   <div class="incomeCard" style="margin-top:10px">
-    <h3>How much would you like to save?</h3>
-    <p>We'll reserve this percentage first, then use the rest for bills and weekly spending.</p>
-    <div class="savingsRate">
-      <button data-rate="10">10%</button><button class="sel" data-rate="20">20%</button><button data-rate="25">25%</button><button data-rate="30">30%</button>
-    </div>
-  </div>
-  <div class="incomeCard" style="margin-top:10px">
   <h3>Healthcare cost</h3>
   <p>Enter the amount taken from each paycheck for medical, dental, or vision coverage.</p>
   <div class="goalMoneyField"><span>$</span><input id="healthcareCost" type="number" min="0" inputmode="decimal" placeholder="0"></div>
@@ -225,9 +218,9 @@ body.journey-active .nav{background:rgba(2,14,23,.97)}
 </div>
 <div class="budgetPreview">
     <div class="budgetPreviewRow"><span>Weekly income</span><strong id="previewWeeklyIncome">$0</strong></div>
-    <div class="budgetPreviewRow"><span>Weekly savings</span><strong id="previewWeeklySavings">$0</strong></div><div class="budgetPreviewRow"><span>Healthcare</span><strong id="previewHealthcare">$0</strong></div><div class="budgetPreviewRow"><span>401(k) contribution</span><strong id="previewRetirement">$0</strong></div><div class="budgetPreviewRow"><span>Employer match</span><strong id="previewEmployerMatch">$0</strong></div>
+    <div class="budgetPreviewRow"><span>Recommended weekly savings</span><strong id="previewWeeklySavings">$0</strong></div><div class="budgetPreviewRow"><span>Healthcare</span><strong id="previewHealthcare">$0</strong></div><div class="budgetPreviewRow"><span>401(k) contribution</span><strong id="previewRetirement">$0</strong></div><div class="budgetPreviewRow"><span>Employer match</span><strong id="previewEmployerMatch">$0</strong></div>
     <div class="budgetPreviewRow"><span>Weekly share of monthly expenses</span><strong id="previewWeeklyBills">$0</strong></div>
-    <div class="budgetPreviewTotal"><span>Suggested weekly spending</span><span id="previewAllowance">$0</span></div>
+    <div class="plannerTip" style="margin:10px 0 0"><b>✨ Life’s Quest recommendation</b><p>Your savings target is generated from what remains after healthcare, retirement, and estimated monthly expenses. As your numbers change, the recommendation changes too.</p></div><div class="budgetPreviewTotal"><span>Suggested weekly spending</span><span id="previewAllowance">$0</span></div>
   </div>
   <div class="tipCard"><div class="tipIcon">💡</div><div><b>Smart budget tip</b><p>Your suggested weekly spending target updates as you adjust income, savings, healthcare, retirement, or monthly expenses.</p></div></div>
   <div class="onboardActions"><button id="saveIncomeBtn" class="btn goldbtn full" style="border-radius:18px;padding:15px;font-size:15px">Create My Budget</button></div>
@@ -370,7 +363,7 @@ const DEFAULTS={
  goalPrefs:{vacationTier:"bigtrip"},
  savingsPerPaycheck:0,
  estimatedExpenses:{housing:0,car:0,insurance:0,utilities:0,debt:0,subscriptions:0,food:0,gas:0,entertainment:0,other:0,additionalBills:[]},
- income:{amount:0,frequency:"weekly",savingsRate:20,healthcare:0,workRetirementPct:0,workRetirementMatchPct:0},
+ income:{amount:0,frequency:"weekly",recommendedSavingsRate:0,healthcare:0,workRetirementPct:0,workRetirementMatchPct:0},
  type:"fire",xp:0,allowance:0,expenses:[],
  goals:{Vacation:{saved:0,goal:0,icon:"🏝️"},Emergency:{saved:0,goal:0,icon:"🛡️"},Investing:{saved:0,goal:0,icon:"📈"}},
  bills:[]
@@ -502,7 +495,7 @@ function finishGoalOnboarding(saveGoals=true){
  renderExtraBills();
  updateIncomePreview();
 }
-let payFrequency="weekly", savingsRate=20;
+let payFrequency="weekly";
 function recurringMonthlyTotal(){return d.bills.reduce((sum,b)=>sum+(+b.amount||0),0)}
 function estimatedMonthlyTotal(){
  const e=d.estimatedExpenses||{};
@@ -528,35 +521,48 @@ function addExtraBill(){
  renderExtraBills();
  updateIncomePreview();
 }
+function generatedSavingsRate(weeklyIncome,weeklyHealthcare,retirement,weeklyExpenses){
+ if(!(weeklyIncome>0))return 0;
+ const free=weeklyIncome-weeklyHealthcare-retirement-weeklyExpenses;
+ const freeRate=free/weeklyIncome;
+ if(freeRate>=0.30)return 20;
+ if(freeRate>=0.20)return 15;
+ if(freeRate>=0.10)return 10;
+ if(freeRate>0)return 5;
+ return 0;
+}
 function suggestedWeeklyBudget(){
  const amount=+(d.income?.amount||0);
  if(!amount)return 0;
  const weeklyIncome=d.income.frequency==="biweekly"?amount/2:amount;
- const savings=weeklyIncome*((d.income.savingsRate||0)/100);
  const healthcarePerPay=+(d.income.healthcare||0);
  const weeklyHealthcare=d.income.frequency==="biweekly"?healthcarePerPay/2:healthcarePerPay;
  const retirement=weeklyIncome*((d.income.workRetirementPct||0)/100);
- const weeklyBills=estimatedMonthlyTotal()*12/52;
- return Math.max(0,weeklyIncome-savings-weeklyHealthcare-retirement-weeklyBills);
+ const weeklyExpenses=estimatedMonthlyTotal()*12/52;
+ const rate=generatedSavingsRate(weeklyIncome,weeklyHealthcare,retirement,weeklyExpenses);
+ d.income.recommendedSavingsRate=rate;
+ const savings=weeklyIncome*(rate/100);
+ return Math.max(0,weeklyIncome-savings-weeklyHealthcare-retirement-weeklyExpenses);
 }
 function updateIncomePreview(){
  const amount=+q("incomeAmount").value||0;
  const weekly=payFrequency==="biweekly"?amount/2:amount;
- const saveAmt=weekly*(savingsRate/100);
  const healthcarePay=+q("healthcareCost").value||0;
  const healthcareWeekly=payFrequency==="biweekly"?healthcarePay/2:healthcarePay;
  const retirementPct=+q("retirementPct").value||0;
  const retirement=weekly*(retirementPct/100);
  const matchPct=+q("retirementMatchPct").value||0;
  const employerMatch=retirement*(matchPct/100);
- const bills=estimatedMonthlyTotal()*12/52;
- const allowance=Math.max(0,weekly-saveAmt-healthcareWeekly-retirement-bills);
+ const expenses=estimatedMonthlyTotal()*12/52;
+ const generatedRate=generatedSavingsRate(weekly,healthcareWeekly,retirement,expenses);
+ const saveAmt=weekly*(generatedRate/100);
+ const allowance=Math.max(0,weekly-saveAmt-healthcareWeekly-retirement-expenses);
  q("previewWeeklyIncome").textContent=money(weekly);
- q("previewWeeklySavings").textContent=money(saveAmt);
+ q("previewWeeklySavings").textContent=money(saveAmt)+" ("+generatedRate+"%)";
  q("previewHealthcare").textContent=money(healthcareWeekly);
  q("previewRetirement").textContent=money(retirement);
  q("previewEmployerMatch").textContent="+"+money(employerMatch);
- q("previewWeeklyBills").textContent=money(bills);
+ q("previewWeeklyBills").textContent=money(expenses);
  if(q("estimatedExpenseTotal"))q("estimatedExpenseTotal").textContent=money(estimatedMonthlyTotal());
  q("previewAllowance").textContent=money(allowance);
 }
@@ -566,12 +572,17 @@ function saveIncomeSetup(){
  d.estimatedExpenses=d.estimatedExpenses||{};
  d.estimatedExpenses.additionalBills=d.estimatedExpenses.additionalBills||[];
  document.querySelectorAll("[data-est-expense]").forEach(inp=>{d.estimatedExpenses[inp.dataset.estExpense]=+inp.value||0;});
+ const weekly=payFrequency==="biweekly"?amount/2:amount;
+ const healthcarePay=+q("healthcareCost").value||0;
+ const healthcareWeekly=payFrequency==="biweekly"?healthcarePay/2:healthcarePay;
+ const retirementPct=+q("retirementPct").value||0;
+ const generatedRate=generatedSavingsRate(weekly,healthcareWeekly,weekly*(retirementPct/100),estimatedMonthlyTotal()*12/52);
  d.income={
    amount,
    frequency:payFrequency,
-   savingsRate,
+   recommendedSavingsRate:generatedRate,
    healthcare:+q("healthcareCost").value||0,
-   workRetirementPct:+q("retirementPct").value||0,
+   workRetirementPct:retirementPct,
    workRetirementMatchPct:+q("retirementMatchPct").value||0
  };
  d.allowance=suggestedWeeklyBudget();
@@ -621,14 +632,12 @@ function saveExpense(){
 let editingGoal=null;
 function openBudget(){
  payFrequency=d.income?.frequency||"weekly";
- savingsRate=d.income?.savingsRate||20;
  q("incomeAmount").value=d.income?.amount||"";
  q("healthcareCost").value=d.income?.healthcare||"";
  q("retirementPct").value=d.income?.workRetirementPct||"";
  q("retirementMatchPct").value=d.income?.workRetirementMatchPct||"";
  document.querySelectorAll("[data-est-expense]").forEach(inp=>{inp.value=(d.estimatedExpenses?.[inp.dataset.estExpense]||"");});
  document.querySelectorAll(".payOption").forEach(b=>b.classList.toggle("sel",b.dataset.payfreq===payFrequency));
- document.querySelectorAll(".savingsRate button").forEach(b=>b.classList.toggle("sel",+b.dataset.rate===savingsRate));
  q("app").classList.add("hidden");
  q("incomeOnboarding").classList.remove("hidden");
  updateIncomePreview();
@@ -782,7 +791,7 @@ function openPlannerGoal(k){
  go("goals");
  setTimeout(()=>openGoal(k),80);
 }
-async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260910-22&refresh="+Date.now());}
+async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260910-23&refresh="+Date.now());}
 document.addEventListener("DOMContentLoaded",()=>{
  renderChoices();
  const settingsBtn=q("settingsBtn"); if(settingsBtn)settingsBtn.addEventListener("click",()=>go("settings"));
@@ -809,7 +818,6 @@ document.addEventListener("DOMContentLoaded",()=>{
  const saveOnboard=q("saveOnboardGoalsBtn"); if(saveOnboard)saveOnboard.addEventListener("click",()=>finishGoalOnboarding(true));
  document.querySelectorAll("[data-vacation-tier]").forEach(b=>b.addEventListener("click",()=>{d.goalPrefs=d.goalPrefs||{};d.goalPrefs.vacationTier=b.dataset.vacationTier;updateGoalFinder();})); updateGoalFinder();
  document.querySelectorAll(".payOption").forEach(b=>b.addEventListener("click",()=>{payFrequency=b.dataset.payfreq;document.querySelectorAll(".payOption").forEach(x=>x.classList.remove("sel"));b.classList.add("sel");updateIncomePreview();}));
- document.querySelectorAll(".savingsRate button").forEach(b=>b.addEventListener("click",()=>{savingsRate=+b.dataset.rate;document.querySelectorAll(".savingsRate button").forEach(x=>x.classList.remove("sel"));b.classList.add("sel");updateIncomePreview();}));
  q("incomeAmount").addEventListener("input",updateIncomePreview); q("healthcareCost").addEventListener("input",updateIncomePreview); q("retirementPct").addEventListener("input",updateIncomePreview); q("retirementMatchPct").addEventListener("input",updateIncomePreview);
  document.querySelectorAll("[data-est-expense]").forEach(inp=>inp.addEventListener("input",()=>{d.estimatedExpenses=d.estimatedExpenses||{};d.estimatedExpenses[inp.dataset.estExpense]=+inp.value||0;updateIncomePreview();}));
  q("saveIncomeBtn").addEventListener("click",saveIncomeSetup); const addExtra=q("addExtraBillBtn"); if(addExtra)addExtra.addEventListener("click",addExtraBill); renderExtraBills();
@@ -836,7 +844,7 @@ document.addEventListener("DOMContentLoaded",()=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const reg = await navigator.serviceWorker.register("./sw.js?v=20260910-22");
+      const reg = await navigator.serviceWorker.register("./sw.js?v=20260910-23");
       await reg.update();
     } catch (e) {}
   });
