@@ -141,9 +141,21 @@ body.journey-active .nav{background:rgba(2,14,23,.97)}
       <button data-rate="10">10%</button><button class="sel" data-rate="20">20%</button><button data-rate="25">25%</button><button data-rate="30">30%</button>
     </div>
   </div>
-  <div class="budgetPreview">
+  <div class="incomeCard" style="margin-top:10px">
+  <h3>Healthcare cost</h3>
+  <p>Enter the amount taken from each paycheck for medical, dental, or vision coverage.</p>
+  <div class="goalMoneyField"><span>$</span><input id="healthcareCost" type="number" min="0" inputmode="decimal" placeholder="0"></div>
+</div>
+<div class="incomeCard" style="margin-top:10px">
+  <h3>401(k) / workplace retirement</h3>
+  <p>Enter the percentage of your gross paycheck that you contribute. Employer matching is tracked separately.</p>
+  <div class="goalMoneyField"><input id="retirementPct" type="number" min="0" max="100" step="0.5" inputmode="decimal" placeholder="0"><span>%</span></div>
+  <label class="goalLabel" style="margin-top:10px">EMPLOYER MATCH ON YOUR CONTRIBUTION</label>
+  <div class="goalMoneyField"><input id="retirementMatchPct" type="number" min="0" max="100" step="1" inputmode="decimal" placeholder="0"><span>%</span></div>
+</div>
+<div class="budgetPreview">
     <div class="budgetPreviewRow"><span>Weekly income</span><strong id="previewWeeklyIncome">$0</strong></div>
-    <div class="budgetPreviewRow"><span>Weekly savings</span><strong id="previewWeeklySavings">$0</strong></div>
+    <div class="budgetPreviewRow"><span>Weekly savings</span><strong id="previewWeeklySavings">$0</strong></div><div class="budgetPreviewRow"><span>Healthcare</span><strong id="previewHealthcare">$0</strong></div><div class="budgetPreviewRow"><span>401(k) contribution</span><strong id="previewRetirement">$0</strong></div><div class="budgetPreviewRow"><span>Employer match</span><strong id="previewEmployerMatch">$0</strong></div>
     <div class="budgetPreviewRow"><span>Weekly share of bills</span><strong id="previewWeeklyBills">$0</strong></div>
     <div class="budgetPreviewTotal"><span>Suggested weekly spending</span><span id="previewAllowance">$0</span></div>
   </div>
@@ -269,7 +281,7 @@ const PETS={
  cloud:{name:"Nimbus",stages:["Breeze","Drift","Skyborn","Nimbus"]}
 };
 const DEFAULTS={
- income:{amount:0,frequency:"weekly",savingsRate:20},
+ income:{amount:0,frequency:"weekly",savingsRate:20,healthcare:0,workRetirementPct:0,workRetirementMatchPct:0},
  type:"fire",xp:0,allowance:0,expenses:[],
  goals:{Vacation:{saved:0,goal:0,icon:"🏝️"},Emergency:{saved:0,goal:0,icon:"🛡️"},Investing:{saved:0,goal:0,icon:"📈"}},
  bills:[]
@@ -385,24 +397,43 @@ function suggestedWeeklyBudget(){
  if(!amount)return 0;
  const weeklyIncome=d.income.frequency==="biweekly"?amount/2:amount;
  const savings=weeklyIncome*((d.income.savingsRate||0)/100);
+ const healthcarePerPay=+(d.income.healthcare||0);
+ const weeklyHealthcare=d.income.frequency==="biweekly"?healthcarePerPay/2:healthcarePerPay;
+ const retirement=weeklyIncome*((d.income.workRetirementPct||0)/100);
  const weeklyBills=recurringMonthlyTotal()*12/52;
- return Math.max(0,weeklyIncome-savings-weeklyBills);
+ return Math.max(0,weeklyIncome-savings-weeklyHealthcare-retirement-weeklyBills);
 }
 function updateIncomePreview(){
  const amount=+q("incomeAmount").value||0;
  const weekly=payFrequency==="biweekly"?amount/2:amount;
  const saveAmt=weekly*(savingsRate/100);
+ const healthcarePay=+q("healthcareCost").value||0;
+ const healthcareWeekly=payFrequency==="biweekly"?healthcarePay/2:healthcarePay;
+ const retirementPct=+q("retirementPct").value||0;
+ const retirement=weekly*(retirementPct/100);
+ const matchPct=+q("retirementMatchPct").value||0;
+ const employerMatch=retirement*(matchPct/100);
  const bills=recurringMonthlyTotal()*12/52;
- const allowance=Math.max(0,weekly-saveAmt-bills);
+ const allowance=Math.max(0,weekly-saveAmt-healthcareWeekly-retirement-bills);
  q("previewWeeklyIncome").textContent=money(weekly);
  q("previewWeeklySavings").textContent=money(saveAmt);
+ q("previewHealthcare").textContent=money(healthcareWeekly);
+ q("previewRetirement").textContent=money(retirement);
+ q("previewEmployerMatch").textContent="+"+money(employerMatch);
  q("previewWeeklyBills").textContent=money(bills);
  q("previewAllowance").textContent=money(allowance);
 }
 function saveIncomeSetup(){
  const amount=+q("incomeAmount").value;
  if(!(amount>0))return;
- d.income={amount,frequency:payFrequency,savingsRate};
+ d.income={
+   amount,
+   frequency:payFrequency,
+   savingsRate,
+   healthcare:+q("healthcareCost").value||0,
+   workRetirementPct:+q("retirementPct").value||0,
+   workRetirementMatchPct:+q("retirementMatchPct").value||0
+ };
  d.allowance=suggestedWeeklyBudget();
  save();
  q("incomeOnboarding").classList.add("hidden");
@@ -452,6 +483,9 @@ function openBudget(){
  payFrequency=d.income?.frequency||"weekly";
  savingsRate=d.income?.savingsRate||20;
  q("incomeAmount").value=d.income?.amount||"";
+ q("healthcareCost").value=d.income?.healthcare||"";
+ q("retirementPct").value=d.income?.workRetirementPct||"";
+ q("retirementMatchPct").value=d.income?.workRetirementMatchPct||"";
  document.querySelectorAll(".payOption").forEach(b=>b.classList.toggle("sel",b.dataset.payfreq===payFrequency));
  document.querySelectorAll(".savingsRate button").forEach(b=>b.classList.toggle("sel",+b.dataset.rate===savingsRate));
  q("app").classList.add("hidden");
@@ -575,7 +609,7 @@ function renderJourney(p,st,lv){
  if(q("pjGoalsText"))q("pjGoalsText").textContent=activeGoals?activeGoals+" goal"+(activeGoals===1?"":"s")+" set":"No goals yet";
  if(q("pjExpensesText"))q("pjExpensesText").textContent=d.expenses.length?d.expenses.length+" expense"+(d.expenses.length===1?"":"s")+" tracked":"No expenses yet";
 }
-async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260910-15&refresh="+Date.now());}
+async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260910-16&refresh="+Date.now());}
 document.addEventListener("DOMContentLoaded",()=>{
  renderChoices();
  const settingsBtn=q("settingsBtn"); if(settingsBtn)settingsBtn.addEventListener("click",()=>go("settings")); const journeySettingsBtn=q("journeySettingsBtn"); if(journeySettingsBtn)journeySettingsBtn.addEventListener("click",()=>go("settings"));
@@ -600,7 +634,7 @@ document.addEventListener("DOMContentLoaded",()=>{
  const saveOnboard=q("saveOnboardGoalsBtn"); if(saveOnboard)saveOnboard.addEventListener("click",()=>finishGoalOnboarding(true));
  document.querySelectorAll(".payOption").forEach(b=>b.addEventListener("click",()=>{payFrequency=b.dataset.payfreq;document.querySelectorAll(".payOption").forEach(x=>x.classList.remove("sel"));b.classList.add("sel");updateIncomePreview();}));
  document.querySelectorAll(".savingsRate button").forEach(b=>b.addEventListener("click",()=>{savingsRate=+b.dataset.rate;document.querySelectorAll(".savingsRate button").forEach(x=>x.classList.remove("sel"));b.classList.add("sel");updateIncomePreview();}));
- q("incomeAmount").addEventListener("input",updateIncomePreview);
+ q("incomeAmount").addEventListener("input",updateIncomePreview); q("healthcareCost").addEventListener("input",updateIncomePreview); q("retirementPct").addEventListener("input",updateIncomePreview); q("retirementMatchPct").addEventListener("input",updateIncomePreview);
  q("saveIncomeBtn").addEventListener("click",saveIncomeSetup);
  const skipOnboard=q("skipOnboardGoalsBtn"); if(skipOnboard)skipOnboard.addEventListener("click",()=>finishGoalOnboarding(false));
  document.querySelectorAll(".nav button").forEach(b=>b.addEventListener("click",()=>go(b.dataset.nav||b.dataset.p)));
@@ -625,7 +659,7 @@ document.addEventListener("DOMContentLoaded",()=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const reg = await navigator.serviceWorker.register("./sw.js?v=20260910-15");
+      const reg = await navigator.serviceWorker.register("./sw.js?v=20260910-16");
       await reg.update();
     } catch (e) {}
   });
