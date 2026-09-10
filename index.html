@@ -94,6 +94,10 @@ body.journey-active .nav{background:rgba(2,14,23,.97)}
 .savingsRate{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.savingsRate button{border-radius:999px;padding:9px 3px;background:#0a2942;border:1px solid rgba(98,151,184,.35);color:white;font-weight:900}.savingsRate button.sel{border-color:#f1c763;color:#f1c763}
 
 .savingsPlanner{padding:18px 14px 105px}.plannerHero{margin:0 0 12px;padding:18px;border-radius:24px;background:radial-gradient(circle at 20% 0%,rgba(241,199,99,.22),transparent 38%),linear-gradient(180deg,#103a5b,#08253d);border:1px solid rgba(241,199,99,.3);box-shadow:0 18px 36px #0004}.plannerHero h2{margin:0;font:700 26px Georgia,serif;color:#f5ce72}.plannerHero p{margin:6px 0 0;color:#a9becb;font-size:12px;line-height:1.5}.plannerInputCard{padding:16px;border-radius:22px;background:linear-gradient(180deg,#0d3554,#071f33);border:1px solid rgba(93,146,178,.35);box-shadow:0 14px 30px #0004}.plannerInputCard h3{margin:0 0 5px;font:700 17px Georgia,serif}.plannerInputCard p{margin:0 0 12px;color:#9fb5c5;font-size:11px}.plannerMoney{display:flex;align-items:center;background:#eef4f8;border-radius:18px;padding:7px 14px}.plannerMoney span{font-size:30px;font-weight:900;color:#1d374c}.plannerMoney input{width:100%;border:0;outline:0;background:transparent;font-size:34px;font-weight:900;color:#163149;padding:8px}.projectionGrid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}.projectionCard{padding:14px;border-radius:19px;background:linear-gradient(180deg,#0b2e49,#071f32);border:1px solid rgba(93,146,178,.3)}.projectionCard small{display:block;color:#9fb5c5;font-size:9px;letter-spacing:.8px}.projectionCard b{display:block;margin-top:5px;font:700 21px Georgia,serif;color:#f1c763}.projectionCard.full{grid-column:1/-1}.projectionBar{height:9px;margin-top:9px;background:#163b57;border-radius:999px;overflow:hidden}.projectionBar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#5fd68d,#f1c763);border-radius:999px}.goalIdeas{display:grid;gap:9px;margin-top:12px}.goalIdea{padding:14px;border-radius:20px;background:linear-gradient(180deg,#0d3554,#071f33);border:1px solid rgba(93,146,178,.32);display:flex;gap:12px;align-items:center}.goalIdeaIcon{width:46px;height:46px;border-radius:15px;display:grid;place-items:center;font-size:24px;background:#082238}.goalIdeaMain{flex:1}.goalIdeaMain b{font:700 13px Georgia,serif}.goalIdeaMain small{display:block;color:#9fb5c5;font-size:9px;margin-top:3px}.goalIdea button{border:0;border-radius:999px;background:#f1c763;color:#162a3b;font-weight:900;padding:9px 11px;font-size:10px}.plannerTip{margin-top:12px;padding:14px;border-radius:20px;background:linear-gradient(180deg,rgba(20,58,84,.95),rgba(8,29,47,.95));border:1px solid rgba(241,199,99,.26)}.plannerTip b{font:700 13px Georgia,serif;color:#f1c763}.plannerTip p{margin:5px 0 0;color:#b6c8d3;font-size:11px;line-height:1.45}
+
+.goalFinderChoices{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:10px}.goalFinderChoice{border-radius:14px;padding:10px 5px;border:1px solid rgba(98,151,184,.35);background:#0a2942;color:#dce8ef;font-size:10px;font-weight:900}.goalFinderChoice.sel{border-color:#f1c763;color:#f1c763;background:#17324a;box-shadow:0 0 0 3px rgba(241,199,99,.08)}
+.recommendBadge{display:inline-flex;align-items:center;gap:6px;margin-top:8px;padding:7px 10px;border-radius:999px;background:rgba(241,199,99,.1);border:1px solid rgba(241,199,99,.28);color:#f1c763;font-size:10px;font-weight:900}
+.goalExplain{margin-top:9px;color:#9fb5c5;font-size:10px;line-height:1.45}
 </style></head>
 <body><div class="phone"><script>document.documentElement.dataset.lqBoot="welcome";</script>
 <div id="welcome" class="welcome">
@@ -110,16 +114,37 @@ body.journey-active .nav{background:rgba(2,14,23,.97)}
 <div id="goalOnboarding" class="goalOnboard hidden">
   <div class="goalOnboardHead">
     <div class="brand">Life's Quest</div>
-    <h2>Choose What You're Saving For</h2>
-    <p>Set a few goals now so your journey has something meaningful to build toward.</p>
+    <h2>Let's Find Your Goals</h2>
+    <p>You shouldn't have to guess a number. We'll help turn your life plans and bills into useful savings targets.</p>
   </div>
-  <div class="tipCard"><div class="tipIcon">💡</div><div><b>Money Tip</b><p>Start with one goal that excites you and one that protects you. A fun goal keeps motivation high while an emergency fund gives you breathing room.</p></div></div>
+
+  <div class="tipCard"><div class="tipIcon">🧭</div><div><b>Start with purpose</b><p>A good savings goal should answer one question: what do I want this money to do for me?</p></div></div>
+
   <div class="onboardGoals">
-    <div class="onboardGoal"><div class="onboardGoalTop"><div class="onboardGoalIcon">🏝️</div><div class="onboardGoalMain"><b>Vacation Fund</b><small>Trips, cruises, weekend getaways</small></div></div><div class="onboardGoalField"><span>$</span><input id="onboardVacation" type="number" min="0" inputmode="decimal" placeholder="Goal amount"></div></div>
-    <div class="onboardGoal"><div class="onboardGoalTop"><div class="onboardGoalIcon">🛡️</div><div class="onboardGoalMain"><b>Emergency Fund</b><small>Unexpected bills and peace of mind</small></div></div><div class="onboardGoalField"><span>$</span><input id="onboardEmergency" type="number" min="0" inputmode="decimal" placeholder="Goal amount"></div></div>
-    <div class="onboardGoal"><div class="onboardGoalTop"><div class="onboardGoalIcon">📈</div><div class="onboardGoalMain"><b>Investing Goal</b><small>Build toward your future</small></div></div><div class="onboardGoalField"><span>$</span><input id="onboardInvesting" type="number" min="0" inputmode="decimal" placeholder="Goal amount"></div></div>
+    <div class="onboardGoal">
+      <div class="onboardGoalTop"><div class="onboardGoalIcon">🏝️</div><div class="onboardGoalMain"><b>Vacation Fund</b><small>Choose the kind of trip you want and we'll suggest a starting target.</small></div></div>
+      <div class="goalFinderChoices">
+        <button class="goalFinderChoice" data-vacation-tier="weekend" data-target="1000">Weekend<br>$1K</button>
+        <button class="goalFinderChoice sel" data-vacation-tier="bigtrip" data-target="2500">Big Trip<br>$2.5K</button>
+        <button class="goalFinderChoice" data-vacation-tier="dream" data-target="5000">Dream Trip<br>$5K</button>
+      </div>
+      <div class="recommendBadge">✨ Suggested vacation goal: <span id="vacationRecommendation">$2,500</span></div>
+    </div>
+
+    <div class="onboardGoal">
+      <div class="onboardGoalTop"><div class="onboardGoalIcon">🛡️</div><div class="onboardGoalMain"><b>Emergency Fund</b><small>Life's Quest calculates this for you from your recurring bills.</small></div></div>
+      <div class="recommendBadge">🧮 Recommended: 3× your monthly bills</div>
+      <div id="emergencyRecommendation" class="goalExplain">Add your recurring bills and we'll automatically calculate your emergency-fund target.</div>
+    </div>
+
+    <div class="onboardGoal">
+      <div class="onboardGoalTop"><div class="onboardGoalIcon">📈</div><div class="onboardGoalMain"><b>Future / Investing Goal</b><small>We'll base this on the amount you decide to save from every paycheck.</small></div></div>
+      <div class="recommendBadge">🌱 Recommended: 1 year of planned paycheck savings</div>
+      <div id="investingRecommendation" class="goalExplain">Once you choose a savings amount per paycheck, we'll turn it into a yearly target.</div>
+    </div>
   </div>
-  <div class="onboardActions"><button id="saveOnboardGoalsBtn" class="btn goldbtn full" style="border-radius:18px;padding:15px;font-size:15px">Continue My Journey</button><button id="skipOnboardGoalsBtn" class="skipBtn">I'll set these later</button></div>
+
+  <div class="onboardActions"><button id="saveOnboardGoalsBtn" class="btn goldbtn full" style="border-radius:18px;padding:15px;font-size:15px">Use These Recommendations</button><button id="skipOnboardGoalsBtn" class="skipBtn">I'll decide later</button></div>
 </div>
 <div id="incomeOnboarding" class="incomeOnboard hidden">
   <div class="goalOnboardHead">
@@ -299,6 +324,8 @@ const PETS={
  cloud:{name:"Nimbus",stages:["Breeze","Drift","Skyborn","Nimbus"]}
 };
 const DEFAULTS={
+ goalPrefs:{vacationTier:"bigtrip"},
+ savingsPerPaycheck:0,
  income:{amount:0,frequency:"weekly",savingsRate:20,healthcare:0,workRetirementPct:0,workRetirementMatchPct:0},
  type:"fire",xp:0,allowance:0,expenses:[],
  goals:{Vacation:{saved:0,goal:0,icon:"🏝️"},Emergency:{saved:0,goal:0,icon:"🛡️"},Investing:{saved:0,goal:0,icon:"📈"}},
@@ -394,14 +421,35 @@ function startQuest(){
  q("goalOnboarding").classList.remove("hidden");
  q("app").classList.add("hidden");
 }
+function recommendedEmergencyGoal(){
+ return recurringMonthlyTotal()*3;
+}
+function recommendedInvestingGoal(){
+ const per=+(d.savingsPerPaycheck||0);
+ return per*paychecksPerYear();
+}
+function syncRecommendedGoals(){
+ const emergency=recommendedEmergencyGoal();
+ if(emergency>0)d.goals.Emergency.goal=emergency;
+ const investing=recommendedInvestingGoal();
+ if(investing>0)d.goals.Investing.goal=investing;
+}
+function updateGoalFinder(){
+ const vac=d.goalPrefs?.vacationTier||"bigtrip";
+ const targets={weekend:1000,bigtrip:2500,dream:5000};
+ document.querySelectorAll("[data-vacation-tier]").forEach(b=>b.classList.toggle("sel",b.dataset.vacationTier===vac));
+ if(q("vacationRecommendation"))q("vacationRecommendation").textContent=money(targets[vac]||2500);
+ const emergency=recommendedEmergencyGoal();
+ if(q("emergencyRecommendation"))q("emergencyRecommendation").textContent=emergency>0?"Based on your bills, your current target is "+money(emergency)+".":"Add your recurring bills and we'll automatically calculate your emergency-fund target.";
+ const investing=recommendedInvestingGoal();
+ if(q("investingRecommendation"))q("investingRecommendation").textContent=investing>0?"Based on your paycheck savings plan, your yearly target is "+money(investing)+".":"Once you choose a savings amount per paycheck, we'll turn it into a yearly target.";
+}
 function finishGoalOnboarding(saveGoals=true){
  if(saveGoals){
-   const v=+q("onboardVacation").value||0;
-   const e=+q("onboardEmergency").value||0;
-   const i=+q("onboardInvesting").value||0;
-   if(v>0)d.goals.Vacation.goal=v;
-   if(e>0)d.goals.Emergency.goal=e;
-   if(i>0)d.goals.Investing.goal=i;
+   const targets={weekend:1000,bigtrip:2500,dream:5000};
+   const vac=d.goalPrefs?.vacationTier||"bigtrip";
+   d.goals.Vacation.goal=targets[vac]||2500;
+   syncRecommendedGoals();
    save();
  }
  q("goalOnboarding").classList.add("hidden");
@@ -577,7 +625,7 @@ function togglePattern(){const f=q("billPattern").value==="nthFriday";q("dateWra
 function saveBill(){
  if(!q("billName").value||!+q("billAmount").value)return;
  d.bills.push({id:Date.now(),name:q("billName").value,amount:+q("billAmount").value,category:q("billCategory").value,pattern:q("billPattern").value,day:q("billPattern").value==="date"?+q("billDay").value:null,nth:q("billPattern").value==="nthFriday"?+q("billNth").value:null});
- recalcBudget();closeBill();q("billName").value="";q("billAmount").value="";render();
+ syncRecommendedGoals();recalcBudget();save();closeBill();q("billName").value="";q("billAmount").value="";render();
 }
 function shiftMonth(n){calDate=new Date(calDate.getFullYear(),calDate.getMonth()+n,1);renderCalendar()}
 function render(){
@@ -589,15 +637,21 @@ function render(){
  renderGoals();renderCalendar();renderUpcoming();renderJourney(p,st,lv);
 }
 function renderGoals(){
+ syncRecommendedGoals();
  q("goalList").innerHTML=Object.entries(d.goals).map(([k,g])=>{
    const pc=g.goal>0?Math.min(100,g.saved/g.goal*100):0;
-   const actions=g.goal>0
-     ? '<div class="goalCardActions"><button class="btn goldbtn goal-add" data-goal="'+k+'">+ Add Money</button><button class="btn ghost goal-edit" data-goal="'+k+'">Edit</button></div>'
-     : '<button class="btn goldbtn full goal-edit" data-goal="'+k+'" style="margin-top:12px;border-radius:15px">Set Goal</button>';
-   return '<div class="goalCardModern"><div class="goalCardTop"><div class="goalCardIcon">'+g.icon+'</div><div class="goalCardMain"><b>'+k+'</b><div class="goalCardValue">'+(g.goal>0?money(g.saved)+' of '+money(g.goal):'No goal set yet')+'</div><div class="bar green"><i style="width:'+pc+'%"></i></div></div></div>'+actions+'</div>';
+   let actions="";
+   if(k==="Emergency"){
+     actions=g.goal>0?'<div class="goalCardActions"><button class="btn goldbtn goal-add" data-goal="'+k+'">+ Add Money</button><button class="btn ghost" data-nav-bills="1">View Bills</button></div>':'<button class="btn goldbtn full" data-nav-bills="1" style="margin-top:12px;border-radius:15px">Add Bills to Calculate Goal</button>';
+   } else {
+     actions=g.goal>0?'<div class="goalCardActions"><button class="btn goldbtn goal-add" data-goal="'+k+'">+ Add Money</button><button class="btn ghost goal-edit" data-goal="'+k+'">Edit</button></div>':'<button class="btn goldbtn full goal-edit" data-goal="'+k+'" style="margin-top:12px;border-radius:15px">Find My Goal</button>';
+   }
+   const note=k==="Emergency"?'<div class="tiny" style="margin-top:7px">Recommended target: 3× your monthly recurring bills.</div>':"";
+   return '<div class="goalCardModern"><div class="goalCardTop"><div class="goalCardIcon">'+g.icon+'</div><div class="goalCardMain"><b>'+k+'</b><div class="goalCardValue">'+(g.goal>0?money(g.saved)+' of '+money(g.goal):'Goal not calculated yet')+'</div><div class="bar green"><i style="width:'+pc+'%"></i></div>'+note+'</div></div>'+actions+'</div>';
  }).join("");
  document.querySelectorAll(".goal-add").forEach(b=>b.addEventListener("click",()=>addGoal(b.dataset.goal)));
  document.querySelectorAll(".goal-edit").forEach(b=>b.addEventListener("click",()=>openGoal(b.dataset.goal)));
+ document.querySelectorAll("[data-nav-bills]").forEach(b=>b.addEventListener("click",()=>go("calendar")));
 }
 function renderCalendar(){
  const y=calDate.getFullYear(),m=calDate.getMonth();q("calTitle").textContent=calDate.toLocaleString("en-US",{month:"long",year:"numeric"});
@@ -633,6 +687,7 @@ function paychecksPerYear(){
 }
 function updateSavingsPlanner(){
  const per=+q("plannerPerPay").value||0;
+ d.savingsPerPaycheck=per;
  const checks=paychecksPerYear();
  const yearly=per*checks;
  const monthly=yearly/12;
@@ -641,12 +696,14 @@ function updateSavingsPlanner(){
  q("plannerYearly").textContent=money(yearly);
  q("plannerFiveYear").textContent=money(five);
  q("plannerBar").style.width=Math.min(100,yearly>0?75:0)+"%";
+ if(per>0){d.goals.Investing.goal=yearly;save();}
+ updateGoalFinder();
 }
 function openPlannerGoal(k){
  go("goals");
  setTimeout(()=>openGoal(k),80);
 }
-async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260910-17&refresh="+Date.now());}
+async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260910-18&refresh="+Date.now());}
 document.addEventListener("DOMContentLoaded",()=>{
  renderChoices();
  const settingsBtn=q("settingsBtn"); if(settingsBtn)settingsBtn.addEventListener("click",()=>go("settings"));
@@ -671,6 +728,7 @@ document.addEventListener("DOMContentLoaded",()=>{
  document.querySelectorAll(".goal-chip").forEach(b=>b.addEventListener("click",()=>q("goalAddAmount").value=b.dataset.amount));
  const begin=q("beginBtn")||document.querySelector("#chooser .goldbtn"); if(begin)begin.addEventListener("click",startQuest);
  const saveOnboard=q("saveOnboardGoalsBtn"); if(saveOnboard)saveOnboard.addEventListener("click",()=>finishGoalOnboarding(true));
+ document.querySelectorAll("[data-vacation-tier]").forEach(b=>b.addEventListener("click",()=>{d.goalPrefs=d.goalPrefs||{};d.goalPrefs.vacationTier=b.dataset.vacationTier;updateGoalFinder();})); updateGoalFinder();
  document.querySelectorAll(".payOption").forEach(b=>b.addEventListener("click",()=>{payFrequency=b.dataset.payfreq;document.querySelectorAll(".payOption").forEach(x=>x.classList.remove("sel"));b.classList.add("sel");updateIncomePreview();}));
  document.querySelectorAll(".savingsRate button").forEach(b=>b.addEventListener("click",()=>{savingsRate=+b.dataset.rate;document.querySelectorAll(".savingsRate button").forEach(x=>x.classList.remove("sel"));b.classList.add("sel");updateIncomePreview();}));
  q("incomeAmount").addEventListener("input",updateIncomePreview); q("healthcareCost").addEventListener("input",updateIncomePreview); q("retirementPct").addEventListener("input",updateIncomePreview); q("retirementMatchPct").addEventListener("input",updateIncomePreview);
@@ -698,7 +756,7 @@ document.addEventListener("DOMContentLoaded",()=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const reg = await navigator.serviceWorker.register("./sw.js?v=20260910-17");
+      const reg = await navigator.serviceWorker.register("./sw.js?v=20260910-18");
       await reg.update();
     } catch (e) {}
   });
