@@ -80,6 +80,12 @@ opacity:.88;pointer-events:none}
 .pjTile{border:1px solid rgba(84,136,170,.45);background:linear-gradient(180deg,#0b2b45,#061d2f);border-radius:14px;padding:12px 10px;color:white;text-align:left}.pjTile .ti{font-size:22px}.pjTile b{display:block;font:700 11px Georgia,serif;margin-top:6px}.pjTile small{display:block;color:#9db5c6;font-size:8px;margin-top:4px}
 #journey .evos,#journey>.card{display:none}
 body.journey-active .nav{background:rgba(2,14,23,.97)}
+
+.goalOnboard{min-height:100vh;padding:22px 16px 34px;background:radial-gradient(circle at 50% 0%,rgba(241,199,99,.17),transparent 27%),linear-gradient(180deg,#0b2b45,#051724 55%,#03111d);display:flex;flex-direction:column}
+.goalOnboardHead{text-align:center;margin-top:8px}.goalOnboardHead .brand{font-size:34px}.goalOnboardHead h2{font:700 24px Georgia,serif;margin:10px 0 6px}.goalOnboardHead p{color:#a8bdcb;font-size:12px;line-height:1.45;margin:0 auto;max-width:340px}
+.tipCard{margin:18px 0 14px;padding:14px 15px;border-radius:20px;background:linear-gradient(180deg,rgba(17,53,81,.95),rgba(8,29,46,.95));border:1px solid rgba(241,199,99,.28);display:flex;gap:12px;align-items:flex-start}.tipIcon{font-size:26px}.tipCard b{font:700 13px Georgia,serif;color:#f1c763}.tipCard p{font-size:11px;color:#b3c5d1;margin:4px 0 0;line-height:1.45}
+.onboardGoals{display:grid;gap:10px}.onboardGoal{border-radius:20px;padding:14px;background:linear-gradient(180deg,#0c304d,#071f33);border:1px solid rgba(92,143,174,.35)}.onboardGoalTop{display:flex;align-items:center;gap:11px}.onboardGoalIcon{width:48px;height:48px;border-radius:16px;display:grid;place-items:center;font-size:25px;background:#082238;border:1px solid rgba(241,199,99,.22)}.onboardGoalMain{flex:1}.onboardGoalMain b{font:700 14px Georgia,serif}.onboardGoalMain small{display:block;color:#9fb5c5;font-size:9px;margin-top:3px}.onboardGoalField{display:flex;align-items:center;background:#edf4f8;border-radius:15px;padding:4px 12px;margin-top:10px}.onboardGoalField span{color:#183247;font-weight:900;font-size:22px}.onboardGoalField input{width:100%;border:0;outline:0;background:transparent;color:#173149;font-size:24px;font-weight:900;padding:9px 6px}
+.onboardActions{margin-top:auto;padding-top:16px}.skipBtn{border:0;background:transparent;color:#8fa8b9;width:100%;padding:12px;font-weight:800}
 </style></head>
 <body><div class="phone"><script>document.documentElement.dataset.lqBoot="welcome";</script>
 <div id="welcome" class="welcome">
@@ -93,10 +99,24 @@ body.journey-active .nav{background:rgba(2,14,23,.97)}
   </div>
 </div>
 <div id="chooser" class="chooser hidden"><div class="top" style="padding-left:0;padding-right:0"><div><div class="brand">Life's Quest</div><div class="muted">Choose your elemental companion.</div></div></div><div id="choices" class="choices"></div><button class="btn goldbtn full" style="margin-top:14px" onclick="startQuest()">Begin Your Quest</button></div>
+<div id="goalOnboarding" class="goalOnboard hidden">
+  <div class="goalOnboardHead">
+    <div class="brand">Life's Quest</div>
+    <h2>Choose What You're Saving For</h2>
+    <p>Set a few goals now so your journey has something meaningful to build toward.</p>
+  </div>
+  <div class="tipCard"><div class="tipIcon">💡</div><div><b>Money Tip</b><p>Start with one goal that excites you and one that protects you. A fun goal keeps motivation high while an emergency fund gives you breathing room.</p></div></div>
+  <div class="onboardGoals">
+    <div class="onboardGoal"><div class="onboardGoalTop"><div class="onboardGoalIcon">🏝️</div><div class="onboardGoalMain"><b>Vacation Fund</b><small>Trips, cruises, weekend getaways</small></div></div><div class="onboardGoalField"><span>$</span><input id="onboardVacation" type="number" min="0" inputmode="decimal" placeholder="Goal amount"></div></div>
+    <div class="onboardGoal"><div class="onboardGoalTop"><div class="onboardGoalIcon">🛡️</div><div class="onboardGoalMain"><b>Emergency Fund</b><small>Unexpected bills and peace of mind</small></div></div><div class="onboardGoalField"><span>$</span><input id="onboardEmergency" type="number" min="0" inputmode="decimal" placeholder="Goal amount"></div></div>
+    <div class="onboardGoal"><div class="onboardGoalTop"><div class="onboardGoalIcon">📈</div><div class="onboardGoalMain"><b>Investing Goal</b><small>Build toward your future</small></div></div><div class="onboardGoalField"><span>$</span><input id="onboardInvesting" type="number" min="0" inputmode="decimal" placeholder="Goal amount"></div></div>
+  </div>
+  <div class="onboardActions"><button id="saveOnboardGoalsBtn" class="btn goldbtn full" style="border-radius:18px;padding:15px;font-size:15px">Continue My Journey</button><button id="skipOnboardGoalsBtn" class="skipBtn">I'll set these later</button></div>
+</div>
 <main id="app" class="hidden">
 <section id="home" class="page on"><div class="hero"><div class="logo">Life's Quest<small>SAME DISCIPLINE. BRIGHTER TOMORROWS.</small></div><button id="settingsBtn" class="settingsBtn" aria-label="Settings">⚙️</button><div id="homePet" class="petwrap"></div><div class="heroBottom"><div class="quote">“Small steps today, big adventures tomorrow.”</div><div class="levelrow"><span class="pill">Level <span id="lvl">1</span> • <span id="petName">Ember</span></span><span id="xpTxt" class="tiny">0 / 100 XP</span></div><div class="bar" style="margin-top:8px"><i id="xpBar"></i></div></div></div><div class="quickgrid"><button class="quick" onclick="quickAdd('Food')"><div class="icon">🍴</div><b>Food</b><small>Tap to add</small></button><button class="quick" onclick="quickAdd('Gas')"><div class="icon">⛽</div><b>Gas</b><small>Tap to add</small></button><button class="quick" onclick="quickAdd('Entertainment')"><div class="icon">🎮</div><b>Entertainment</b><small>Tap to add</small></button><button class="quick" onclick="quickAdd('Misc')"><div class="icon">•••</div><b>Misc</b><small>Tap to add</small></button></div><div class="card week"><div><div class="tiny">THIS WEEK</div><div id="weekLeft" class="weekleft">Set weekly budget</div><div id="weekSpent" class="tiny">No weekly budget yet</div></div><div id="ring" class="ring">—</div></div><div class="sectionhead"><h3>Upcoming Bills</h3><button class="link" onclick="go('calendar')">Calendar</button></div><div id="upcoming" class="card"></div></section>
 <section id="expenses" class="page"><div class="top"><div><div class="brand">Add Expense</div><div class="muted">Track it. Learn from it. Keep moving.</div></div></div><div class="card form"><div class="white"><div class="field"><label>AMOUNT</label><input id="expenseAmount" type="number" inputmode="decimal" placeholder="$ 0.00"></div><div class="catgrid"><button class="cat sel" data-cat="Food" onclick="pickCat(this)">🍴<br>Food</button><button class="cat" data-cat="Gas" onclick="pickCat(this)">⛽<br>Gas</button><button class="cat" data-cat="Entertainment" onclick="pickCat(this)">🎮<br>Fun</button><button class="cat" data-cat="Misc" onclick="pickCat(this)">•••<br>Misc</button></div><div class="field" style="margin-top:10px"><label>NOTE</label><input id="expenseNote" placeholder="Lunch, groceries, movie..."></div><div class="field"><label>DATE</label><input id="expenseDate" type="date"></div><button class="btn goldbtn full" onclick="saveExpense()">Save Expense</button></div></div><div class="sectionhead"><h3>Recent Expenses</h3></div><div id="expenseList" class="card"></div></section>
-<section id="goals" class="page"><div class="top"><div><div class="brand">Your Goals</div><div class="muted">Build the life you want.</div></div></div><div id="goalList"></div></section>
+<section id="goals" class="page"><div class="top"><div><div class="brand">Savings Goals</div><div class="muted">See your progress and keep moving.</div></div></div><div class="tipCard" style="margin:8px 13px 6px"><div class="tipIcon">✨</div><div><b>Keep it simple</b><p>Automatic small deposits beat occasional big ones. Even $25 at a time adds up.</p></div></div><div id="goalList"></div></section>
 <section id="calendar" class="page"><div class="top"><div><div class="brand">Bills Calendar</div><div class="muted">Recurring bills appear on their actual due dates.</div></div><button class="btn goldbtn" onclick="openBill()">＋ Bill</button></div><div class="card cal"><div class="caltop"><button onclick="shiftMonth(-1)">‹</button><b id="calTitle"></b><button onclick="shiftMonth(1)">›</button></div><div id="calendarGrid" class="calendar"></div></div><div class="sectionhead"><h3>Recurring Bills</h3></div><div id="billList" class="card"></div></section>
 <section id="journey" class="page">
 <div class="premiumJourney">
@@ -303,6 +323,20 @@ function renderChoices(){
 function startQuest(){
  d.type=choice; save();
  q("chooser").classList.add("hidden");
+ q("goalOnboarding").classList.remove("hidden");
+ q("app").classList.add("hidden");
+}
+function finishGoalOnboarding(saveGoals=true){
+ if(saveGoals){
+   const v=+q("onboardVacation").value||0;
+   const e=+q("onboardEmergency").value||0;
+   const i=+q("onboardInvesting").value||0;
+   if(v>0)d.goals.Vacation.goal=v;
+   if(e>0)d.goals.Emergency.goal=e;
+   if(i>0)d.goals.Investing.goal=i;
+   save();
+ }
+ q("goalOnboarding").classList.add("hidden");
  q("app").classList.remove("hidden");
  render();
  go("journey");
@@ -460,7 +494,7 @@ function renderJourney(p,st,lv){
  if(q("pjGoalsText"))q("pjGoalsText").textContent=activeGoals?activeGoals+" goal"+(activeGoals===1?"":"s")+" set":"No goals yet";
  if(q("pjExpensesText"))q("pjExpensesText").textContent=d.expenses.length?d.expenses.length+" expense"+(d.expenses.length===1?"":"s")+" tracked":"No expenses yet";
 }
-async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260910-13&refresh="+Date.now());}
+async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260910-14&refresh="+Date.now());}
 document.addEventListener("DOMContentLoaded",()=>{
  renderChoices();
  const settingsBtn=q("settingsBtn"); if(settingsBtn)settingsBtn.addEventListener("click",()=>go("settings")); const journeySettingsBtn=q("journeySettingsBtn"); if(journeySettingsBtn)journeySettingsBtn.addEventListener("click",()=>go("settings"));
@@ -482,6 +516,8 @@ document.addEventListener("DOMContentLoaded",()=>{
  document.querySelectorAll("#quickMoneyModal .amountChip").forEach(b=>b.addEventListener("click",()=>q("quickMoneyAmount").value=b.dataset.amount));
  document.querySelectorAll(".goal-chip").forEach(b=>b.addEventListener("click",()=>q("goalAddAmount").value=b.dataset.amount));
  const begin=q("beginBtn")||document.querySelector("#chooser .goldbtn"); if(begin)begin.addEventListener("click",startQuest);
+ const saveOnboard=q("saveOnboardGoalsBtn"); if(saveOnboard)saveOnboard.addEventListener("click",()=>finishGoalOnboarding(true));
+ const skipOnboard=q("skipOnboardGoalsBtn"); if(skipOnboard)skipOnboard.addEventListener("click",()=>finishGoalOnboarding(false));
  document.querySelectorAll(".nav button").forEach(b=>b.addEventListener("click",()=>go(b.dataset.nav||b.dataset.p)));
  document.querySelectorAll("[data-quick]").forEach(b=>b.addEventListener("click",()=>quickAdd(b.dataset.quick))); document.querySelectorAll("[data-journey-quick]").forEach(b=>b.addEventListener("click",()=>quickAdd(b.dataset.journeyQuick))); document.querySelectorAll("[data-nav-direct]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.navDirect)));
  document.querySelectorAll(".quick").forEach(b=>{if(!b.dataset.quick){const name=b.querySelector("b")?.textContent;if(["Food","Gas","Entertainment","Misc"].includes(name))b.addEventListener("click",()=>quickAdd(name))}});
@@ -504,7 +540,7 @@ document.addEventListener("DOMContentLoaded",()=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const reg = await navigator.serviceWorker.register("./sw.js?v=20260910-13");
+      const reg = await navigator.serviceWorker.register("./sw.js?v=20260910-14");
       await reg.update();
     } catch (e) {}
   });
