@@ -105,6 +105,14 @@ body.journey-active .nav{background:rgba(2,14,23,.97)}
 .expenseRowIcon{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;font-size:18px;background:#061d30}.expenseRowMain{flex:1}.expenseRowMain b{display:block;font-size:11px}.expenseRowMain small{display:block;color:#8fa8b8;font-size:8px;margin-top:2px}
 .expenseRowField{display:flex;align-items:center;width:112px;background:#edf4f8;border-radius:12px;padding:3px 8px}.expenseRowField span{color:#1d374c;font-weight:900}.expenseRowField input{width:100%;border:0;outline:0;background:transparent;color:#173149;font-weight:900;font-size:16px;padding:7px 3px;text-align:right}
 .expenseTotal{margin-top:11px;padding:12px 13px;border-radius:16px;background:rgba(241,199,99,.09);border:1px solid rgba(241,199,99,.25);display:flex;justify-content:space-between;align-items:center}.expenseTotal span{font-size:11px;color:#b6c8d3}.expenseTotal b{font:700 18px Georgia,serif;color:#f1c763}
+
+.extraBillsBox{margin-top:10px;border-radius:22px;padding:16px;background:linear-gradient(180deg,#0d3554,#071f33);border:1px solid rgba(93,146,178,.35);box-shadow:0 14px 30px #0004}
+.extraBillsBox h3{margin:0 0 4px;font:700 18px Georgia,serif}.extraBillsBox>p{margin:0 0 12px;color:#9fb5c5;font-size:11px;line-height:1.45}
+.extraBillForm{display:grid;grid-template-columns:1.4fr .8fr auto;gap:7px;align-items:center}
+.extraBillForm input{width:100%;border:0;outline:0;border-radius:14px;padding:11px 10px;background:#edf4f8;color:#173149;font-weight:800}
+.extraBillAdd{border:0;border-radius:14px;padding:11px 13px;background:linear-gradient(#f8dd91,#d9a643);color:#172536;font-weight:900}
+.extraBillList{display:grid;gap:7px;margin-top:10px}.extraBillItem{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 11px;border-radius:15px;background:#08253b;border:1px solid rgba(87,137,168,.24)}
+.extraBillItem b{font-size:11px}.extraBillItem span{color:#f1c763;font-weight:900;font-size:11px}.extraBillRemove{border:0;background:transparent;color:#9fb5c5;font-size:15px;padding:4px}
 </style></head>
 <body><div class="phone"><script>document.documentElement.dataset.lqBoot="welcome";</script>
 <div id="welcome" class="welcome">
@@ -202,7 +210,17 @@ body.journey-active .nav{background:rgba(2,14,23,.97)}
     <div class="expenseRow"><div class="expenseRowIcon">🎮</div><div class="expenseRowMain"><b>Entertainment</b><small>Fun, hobbies, going out</small></div><div class="expenseRowField"><span>$</span><input data-est-expense="entertainment" type="number" min="0" inputmode="decimal" placeholder="0"></div></div>
     <div class="expenseRow"><div class="expenseRowIcon">•••</div><div class="expenseRowMain"><b>Other</b><small>Anything else you spend monthly</small></div><div class="expenseRowField"><span>$</span><input data-est-expense="other" type="number" min="0" inputmode="decimal" placeholder="0"></div></div>
   </div>
-  <div class="expenseTotal"><span>Estimated monthly spending</span><b id="estimatedExpenseTotal">$0</b></div>
+  <div class="extraBillsBox">
+  <h3>Additional bills</h3>
+  <p>Add any extra monthly bills one by one that do not fit the categories above.</p>
+  <div class="extraBillForm">
+    <input id="extraBillName" placeholder="Bill name">
+    <input id="extraBillAmount" type="number" min="0" inputmode="decimal" placeholder="$">
+    <button id="addExtraBillBtn" class="extraBillAdd">Add</button>
+  </div>
+  <div id="extraBillList" class="extraBillList"></div>
+</div>
+<div class="expenseTotal"><span>Estimated monthly spending</span><b id="estimatedExpenseTotal">$0</b></div>
 </div>
 <div class="budgetPreview">
     <div class="budgetPreviewRow"><span>Weekly income</span><strong id="previewWeeklyIncome">$0</strong></div>
@@ -350,7 +368,7 @@ const PETS={
 const DEFAULTS={
  goalPrefs:{vacationTier:"bigtrip"},
  savingsPerPaycheck:0,
- estimatedExpenses:{housing:0,car:0,insurance:0,utilities:0,debt:0,subscriptions:0,food:0,gas:0,entertainment:0,other:0},
+ estimatedExpenses:{housing:0,car:0,insurance:0,utilities:0,debt:0,subscriptions:0,food:0,gas:0,entertainment:0,other:0,additionalBills:[]},
  income:{amount:0,frequency:"weekly",savingsRate:20,healthcare:0,workRetirementPct:0,workRetirementMatchPct:0},
  type:"fire",xp:0,allowance:0,expenses:[],
  goals:{Vacation:{saved:0,goal:0,icon:"🏝️"},Emergency:{saved:0,goal:0,icon:"🛡️"},Investing:{saved:0,goal:0,icon:"📈"}},
@@ -480,13 +498,34 @@ function finishGoalOnboarding(saveGoals=true){
  q("goalOnboarding").classList.add("hidden");
  q("incomeOnboarding").classList.remove("hidden");
  document.querySelectorAll("[data-est-expense]").forEach(inp=>{inp.value=(d.estimatedExpenses?.[inp.dataset.estExpense]||"");});
+ renderExtraBills();
  updateIncomePreview();
 }
 let payFrequency="weekly", savingsRate=20;
 function recurringMonthlyTotal(){return d.bills.reduce((sum,b)=>sum+(+b.amount||0),0)}
 function estimatedMonthlyTotal(){
  const e=d.estimatedExpenses||{};
- return Object.values(e).reduce((sum,v)=>sum+(+v||0),0);
+ const base=["housing","car","insurance","utilities","debt","subscriptions","food","gas","entertainment","other"].reduce((sum,k)=>sum+(+e[k]||0),0);
+ const extras=(e.additionalBills||[]).reduce((sum,b)=>sum+(+b.amount||0),0);
+ return base+extras;
+}
+function renderExtraBills(){
+ const root=q("extraBillList"); if(!root)return;
+ const bills=d.estimatedExpenses?.additionalBills||[];
+ root.innerHTML=bills.length?bills.map((b,i)=>'<div class="extraBillItem"><div><b>'+b.name+'</b></div><div style="display:flex;align-items:center;gap:6px"><span>'+money(b.amount)+'</span><button class="extraBillRemove" data-extra-index="'+i+'" aria-label="Remove">×</button></div></div>').join(""):'<div class="tiny">No additional bills added.</div>';
+ root.querySelectorAll("[data-extra-index]").forEach(btn=>btn.addEventListener("click",()=>{const i=+btn.dataset.extraIndex;d.estimatedExpenses.additionalBills.splice(i,1);renderExtraBills();updateIncomePreview();}));
+}
+function addExtraBill(){
+ const name=q("extraBillName").value.trim();
+ const amount=+q("extraBillAmount").value;
+ if(!name||!(amount>0))return;
+ d.estimatedExpenses=d.estimatedExpenses||{};
+ d.estimatedExpenses.additionalBills=d.estimatedExpenses.additionalBills||[];
+ d.estimatedExpenses.additionalBills.push({name,amount});
+ q("extraBillName").value="";
+ q("extraBillAmount").value="";
+ renderExtraBills();
+ updateIncomePreview();
 }
 function suggestedWeeklyBudget(){
  const amount=+(d.income?.amount||0);
@@ -524,6 +563,7 @@ function saveIncomeSetup(){
  const amount=+q("incomeAmount").value;
  if(!(amount>0))return;
  d.estimatedExpenses=d.estimatedExpenses||{};
+ d.estimatedExpenses.additionalBills=d.estimatedExpenses.additionalBills||[];
  document.querySelectorAll("[data-est-expense]").forEach(inp=>{d.estimatedExpenses[inp.dataset.estExpense]=+inp.value||0;});
  d.income={
    amount,
@@ -737,7 +777,7 @@ function openPlannerGoal(k){
  go("goals");
  setTimeout(()=>openGoal(k),80);
 }
-async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260910-19&refresh="+Date.now());}
+async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260910-20&refresh="+Date.now());}
 document.addEventListener("DOMContentLoaded",()=>{
  renderChoices();
  const settingsBtn=q("settingsBtn"); if(settingsBtn)settingsBtn.addEventListener("click",()=>go("settings"));
@@ -767,7 +807,7 @@ document.addEventListener("DOMContentLoaded",()=>{
  document.querySelectorAll(".savingsRate button").forEach(b=>b.addEventListener("click",()=>{savingsRate=+b.dataset.rate;document.querySelectorAll(".savingsRate button").forEach(x=>x.classList.remove("sel"));b.classList.add("sel");updateIncomePreview();}));
  q("incomeAmount").addEventListener("input",updateIncomePreview); q("healthcareCost").addEventListener("input",updateIncomePreview); q("retirementPct").addEventListener("input",updateIncomePreview); q("retirementMatchPct").addEventListener("input",updateIncomePreview);
  document.querySelectorAll("[data-est-expense]").forEach(inp=>inp.addEventListener("input",()=>{d.estimatedExpenses=d.estimatedExpenses||{};d.estimatedExpenses[inp.dataset.estExpense]=+inp.value||0;updateIncomePreview();}));
- q("saveIncomeBtn").addEventListener("click",saveIncomeSetup);
+ q("saveIncomeBtn").addEventListener("click",saveIncomeSetup); const addExtra=q("addExtraBillBtn"); if(addExtra)addExtra.addEventListener("click",addExtraBill); renderExtraBills();
  const skipOnboard=q("skipOnboardGoalsBtn"); if(skipOnboard)skipOnboard.addEventListener("click",()=>finishGoalOnboarding(false));
  document.querySelectorAll(".nav button").forEach(b=>b.addEventListener("click",()=>go(b.dataset.nav||b.dataset.p)));
  document.querySelectorAll("[data-quick]").forEach(b=>b.addEventListener("click",()=>quickAdd(b.dataset.quick))); document.querySelectorAll("[data-journey-quick]").forEach(b=>b.addEventListener("click",()=>quickAdd(b.dataset.journeyQuick))); document.querySelectorAll("[data-nav-direct]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.navDirect)));
@@ -791,7 +831,7 @@ document.addEventListener("DOMContentLoaded",()=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const reg = await navigator.serviceWorker.register("./sw.js?v=20260910-19");
+      const reg = await navigator.serviceWorker.register("./sw.js?v=20260910-20");
       await reg.update();
     } catch (e) {}
   });
