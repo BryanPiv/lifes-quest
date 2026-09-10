@@ -29,7 +29,44 @@
 .node{position:absolute;z-index:4;left:calc(50% - 18px);width:36px;height:36px;border-radius:50%;background:#061a2c;border:3px solid var(--gold);display:grid;place-items:center;font-size:10px;font-weight:900;box-shadow:0 0 0 5px rgba(242,201,99,.12)}.node.locked{border-color:#8298a8;color:#8298a8;box-shadow:none}.n1{bottom:95px}.n2{bottom:235px}.n3{bottom:390px}.n4{bottom:545px}.jpet{position:absolute;z-index:5;left:24px;bottom:35px;width:82px;height:82px}.summit{position:absolute;z-index:5;right:22px;top:56px;width:112px;height:112px}.jpet svg,.summit svg{width:100%;height:100%}.jmsg{position:absolute;z-index:5;right:17px;bottom:30px;width:160px;text-align:right;font:italic 14px Georgia,serif}
 .evos{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;padding:12px}.evo{background:#07233a;border:1px solid rgba(78,127,158,.28);border-radius:11px;padding:6px;text-align:center}.evo.on{border-color:var(--gold)}.evo .thumb{height:72px}.evo svg{width:100%;height:100%}.evo b{font-size:9px}.welcome{min-height:100vh;position:relative;display:flex;flex-direction:column;justify-content:flex-end;padding:28px 18px 42px;overflow:hidden;background:radial-gradient(circle at 50% 12%,rgba(255,205,100,.18),transparent 19%),linear-gradient(180deg,#1e547d 0%,#183f5f 38%,#0a2639 68%,#03111d 100%)}.welcome:before{content:"";position:absolute;inset:0;background:linear-gradient(145deg,transparent 0 28%,rgba(70,102,112,.7) 29% 45%,transparent 46%),linear-gradient(215deg,transparent 0 25%,rgba(48,82,93,.75) 26% 47%,transparent 48%);opacity:.9}.welcomeGlow{position:absolute;top:16%;left:50%;transform:translateX(-50%);width:210px;height:210px;border-radius:50%;background:radial-gradient(circle,rgba(255,219,126,.36),rgba(255,219,126,.08) 42%,transparent 70%);filter:blur(4px)}.welcomeMark{position:absolute;top:70px;left:18px;right:18px;text-align:center;z-index:2}.welcomeMark h1{margin:0;font:700 46px Georgia,serif;color:var(--gold);text-shadow:0 4px 18px #0009}.welcomeMark p{margin:9px 0 0;font-size:11px;letter-spacing:2px;color:#fff}.welcomePet{position:absolute;z-index:2;top:210px;left:50%;transform:translateX(-50%);width:245px;height:245px;animation:welcomeFloat 3.2s ease-in-out infinite;filter:drop-shadow(0 20px 22px #0008)}@keyframes welcomeFloat{50%{transform:translateX(-50%) translateY(-9px)}}.welcomeCopy{position:relative;z-index:3;text-align:center}.welcomeCopy h2{margin:0 0 8px;font:700 25px Georgia,serif;color:#fff}.welcomeCopy p{margin:0 auto 18px;max-width:330px;color:#b9cad7;font-size:13px;line-height:1.5}.welcomeBtn{font-size:16px;letter-spacing:.5px}.chooser{min-height:100vh;padding:22px 13px 35px;background:radial-gradient(circle at top,#174b74,#061a2c 43%,#03111d)}.choices{display:grid;grid-template-columns:1fr 1fr;gap:9px}.choice{border:2px solid rgba(73,123,155,.4);border-radius:16px;background:#08243a;padding:12px;color:white;text-align:center}.choice.sel{border-color:var(--gold);box-shadow:0 0 0 3px rgba(242,201,99,.1)}.choice .miniPet{height:132px}.choice svg{height:100%;width:100%}.choice:last-child{grid-column:1/-1}.choice b{display:block;margin-top:5px}.choice small{font-size:10px;color:var(--muted)}
 .nav{position:absolute;left:0;right:0;bottom:0;display:grid;grid-template-columns:repeat(5,1fr);background:rgba(3,17,29,.96);backdrop-filter:blur(14px);padding:7px 6px 9px;border-top:1px solid rgba(73,120,150,.28);z-index:30}.nav button{border:0;background:none;color:#91aabd;font-size:10px;padding:8px 2px;border-radius:10px}.nav button.on{color:var(--gold);background:#0a2b46}.settingsBtn{position:absolute;z-index:8;right:14px;top:17px;width:40px;height:40px;border-radius:50%;border:1px solid rgba(241,199,99,.5);background:rgba(4,23,38,.72);color:var(--gold);font-size:20px;display:grid;place-items:center;backdrop-filter:blur(8px)}.settingsPage{padding:16px 13px 105px}.settingsCard{padding:16px}.settingsCard h3{margin:0 0 6px}.settingsCard p{margin:0 0 14px;color:var(--muted);font-size:12px;line-height:1.45}.dangerNote{font-size:10px;color:#8ea8ba;margin-top:8px}.modal{display:none;position:fixed;inset:0;background:#000a;z-index:60;align-items:flex-end;justify-content:center}.modal.show{display:flex}.sheet{width:min(430px,100%);background:#071f34;border-radius:22px 22px 0 0;padding:17px;border:1px solid rgba(89,141,172,.4)}
-html[data-lq-boot="welcome"] #app,html[data-lq-boot="welcome"] #chooser{display:none!important}html[data-lq-boot="welcome"] #welcome{display:flex!important}</style></head>
+html[data-lq-boot="welcome"] #app,html[data-lq-boot="welcome"] #chooser{display:none!important}html[data-lq-boot="welcome"] #welcome{display:flex!important}
+.premiumJourney{min-height:100vh;position:relative;overflow:hidden;background:
+radial-gradient(circle at 68% 12%,rgba(255,199,92,.34),transparent 16%),
+linear-gradient(180deg,#173f68 0%,#214e70 20%,#183f52 44%,#0d2b37 69%,#061620 100%);padding-bottom:108px}
+.premiumJourney:before{content:"";position:absolute;inset:0;background:
+linear-gradient(160deg,transparent 0 26%,rgba(27,55,66,.9) 27% 47%,transparent 48%),
+linear-gradient(210deg,transparent 0 20%,rgba(48,78,82,.82) 21% 42%,transparent 43%),
+linear-gradient(150deg,transparent 0 50%,rgba(20,47,51,.9) 51% 68%,transparent 69%);
+opacity:.88;pointer-events:none}
+.premiumJourney:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 0 52%,rgba(2,12,18,.25) 70%,rgba(2,10,16,.88) 100%);pointer-events:none}
+.pjTop{position:relative;z-index:3;padding:20px 18px 0;display:flex;justify-content:space-between;align-items:flex-start}
+.pjLogo{font:700 35px Georgia,serif;color:#f5cb67;text-shadow:0 3px 18px #000b}.pjLogo small{display:block;color:#fff;font:700 7px Inter,sans-serif;letter-spacing:1.8px;margin-top:3px}
+.pjLevel{width:142px;background:rgba(4,20,31,.82);border:1px solid rgba(239,198,94,.48);border-radius:14px;padding:10px 12px;backdrop-filter:blur(9px)}
+.pjLevel b{font:700 16px Georgia,serif}.pjLevel .tiny{margin-top:2px}.pjLevel .bar{margin-top:6px}
+.pjGear{position:absolute;right:18px;top:82px;z-index:5}
+.pjScene{position:relative;z-index:2;height:530px;margin-top:4px}
+.pjMountains{position:absolute;inset:0}
+.pjMountains svg{width:100%;height:100%;display:block}
+.pjCompanionCard{position:absolute;left:18px;top:72px;z-index:4;width:168px;background:linear-gradient(180deg,rgba(3,16,25,.84),rgba(4,18,29,.64));border:1px solid rgba(241,199,99,.35);border-radius:14px;padding:13px;backdrop-filter:blur(7px)}
+.pjCompanionCard .eyebrow{font-size:9px;letter-spacing:1.5px;color:#fff}.pjCompanionName{font:700 28px Georgia,serif;color:#f6cc69;margin:2px 0}.pjType{font-weight:900;font-size:11px;color:#ffb34e;letter-spacing:1px}.pjQuote{font:italic 13px Georgia,serif;line-height:1.45;color:#e7edf2;margin-top:10px}
+.pjCharacter{position:absolute;left:2px;bottom:14px;z-index:4;width:215px;height:215px;filter:drop-shadow(0 18px 18px #0009);animation:idle 3.1s ease-in-out infinite}.pjCharacter svg{width:100%;height:100%}
+.pjTrail{position:absolute;right:15px;top:96px;width:225px;height:390px;z-index:4}
+.pjPath{position:absolute;left:110px;bottom:28px;width:6px;height:300px;background:linear-gradient(#ffe5a0,#f0b943,#fff1bd);border-radius:999px;box-shadow:0 0 11px rgba(255,200,78,.9);transform:rotate(10deg);transform-origin:bottom}
+.pjNode{position:absolute;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:#071724;border:2px solid #f3c75f;color:#f3c75f;box-shadow:0 0 0 4px rgba(244,196,81,.13),0 0 15px rgba(244,196,81,.38);font-size:13px}
+.pjNode.locked{border-color:#879aa8;color:#879aa8;box-shadow:none}.pjNode.n1{left:92px;bottom:22px}.pjNode.n2{left:117px;bottom:92px}.pjNode.n3{left:93px;bottom:160px}.pjNode.n4{left:125px;bottom:230px}.pjNode.n5{left:101px;bottom:300px}
+.pjMilestone{position:absolute;padding:6px 10px;border-radius:9px;background:rgba(7,22,33,.84);border:1px solid rgba(241,199,99,.55);font:700 8px Georgia,serif;letter-spacing:.5px;text-align:center}.m1{left:0;bottom:20px}.m2{left:10px;bottom:154px}.m3{left:18px;bottom:288px}.m4{right:0;bottom:218px}.m5{right:-2px;bottom:350px}
+.pjSummit{position:absolute;right:28px;top:28px;width:94px;height:94px;z-index:4;filter:drop-shadow(0 0 18px rgba(255,207,100,.75))}.pjSummit svg{width:100%;height:100%}
+.pjTagline{position:absolute;right:12px;bottom:14px;width:142px;text-align:right;font:italic 19px cursive;color:white;transform:rotate(-4deg);text-shadow:0 2px 8px #000}
+.pjPanel{position:relative;z-index:5;margin:-12px 16px 10px;background:linear-gradient(180deg,rgba(7,29,46,.96),rgba(3,20,32,.96));border:1px solid rgba(94,144,177,.38);border-radius:18px;box-shadow:0 16px 35px #0006}
+.pjBudget{padding:15px;display:flex;align-items:center;gap:12px}.pjBudgetIcon{font-size:30px}.pjBudgetMain{flex:1}.pjBudgetMain b{font:700 15px Georgia,serif;letter-spacing:.8px}.pjBudgetMain .bar{margin:7px 0 4px}
+.pjQuickTitle{position:relative;z-index:5;text-align:center;font:700 12px Georgia,serif;letter-spacing:1.5px;margin:14px 0 8px}
+.pjQuick{position:relative;z-index:5;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:0 16px}
+.pjQuick button{border-radius:14px;padding:12px 4px;background:linear-gradient(180deg,#0c2f4a,#071e30);border:1px solid rgba(81,132,167,.5);color:white}.pjQuick button:nth-child(1){border-color:#d9aa45}.pjQuick button:nth-child(3){border-color:#8f64ce}.pjQuick button:nth-child(4){border-color:#5ab466}.pjQuick .icon{font-size:25px}.pjQuick b{display:block;font-size:10px;margin-top:5px}
+.pjTiles{position:relative;z-index:5;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:11px 16px 0}
+.pjTile{border:1px solid rgba(84,136,170,.45);background:linear-gradient(180deg,#0b2b45,#061d2f);border-radius:14px;padding:12px 10px;color:white;text-align:left}.pjTile .ti{font-size:22px}.pjTile b{display:block;font:700 11px Georgia,serif;margin-top:6px}.pjTile small{display:block;color:#9db5c6;font-size:8px;margin-top:4px}
+#journey .evos,#journey>.card{display:none}
+body.journey-active .nav{background:rgba(2,14,23,.97)}
+</style></head>
 <body><div class="phone"><script>document.documentElement.dataset.lqBoot="welcome";</script>
 <div id="welcome" class="welcome">
   <div class="welcomeGlow"></div>
@@ -47,7 +84,61 @@ html[data-lq-boot="welcome"] #app,html[data-lq-boot="welcome"] #chooser{display:
 <section id="expenses" class="page"><div class="top"><div><div class="brand">Add Expense</div><div class="muted">Track it. Learn from it. Keep moving.</div></div></div><div class="card form"><div class="white"><div class="field"><label>AMOUNT</label><input id="expenseAmount" type="number" inputmode="decimal" placeholder="$ 0.00"></div><div class="catgrid"><button class="cat sel" data-cat="Food" onclick="pickCat(this)">🍴<br>Food</button><button class="cat" data-cat="Gas" onclick="pickCat(this)">⛽<br>Gas</button><button class="cat" data-cat="Entertainment" onclick="pickCat(this)">🎮<br>Fun</button><button class="cat" data-cat="Misc" onclick="pickCat(this)">•••<br>Misc</button></div><div class="field" style="margin-top:10px"><label>NOTE</label><input id="expenseNote" placeholder="Lunch, groceries, movie..."></div><div class="field"><label>DATE</label><input id="expenseDate" type="date"></div><button class="btn goldbtn full" onclick="saveExpense()">Save Expense</button></div></div><div class="sectionhead"><h3>Recent Expenses</h3></div><div id="expenseList" class="card"></div></section>
 <section id="goals" class="page"><div class="top"><div><div class="brand">Your Goals</div><div class="muted">Build the life you want.</div></div></div><div id="goalList"></div></section>
 <section id="calendar" class="page"><div class="top"><div><div class="brand">Bills Calendar</div><div class="muted">Recurring bills appear on their actual due dates.</div></div><button class="btn goldbtn" onclick="openBill()">＋ Bill</button></div><div class="card cal"><div class="caltop"><button onclick="shiftMonth(-1)">‹</button><b id="calTitle"></b><button onclick="shiftMonth(1)">›</button></div><div id="calendarGrid" class="calendar"></div></div><div class="sectionhead"><h3>Recurring Bills</h3></div><div id="billList" class="card"></div></section>
-<section id="journey" class="page"><div class="journey"><button id="journeySettingsBtn" class="journeySettings" aria-label="Settings">⚙️</button><div class="jtitle"><h2 id="journeyTitle">Ember's Journey</h2><div class="muted">Climb toward the summit as your habits improve.</div></div><div class="path"></div><div class="node n1">1</div><div class="node n2 locked">5</div><div class="node n3 locked">10</div><div class="node n4 locked">20</div><div id="journeyPet" class="jpet"></div><div id="summitPet" class="summit"></div><div class="jmsg">“Discipline today creates the freedom tomorrow.”</div></div><div class="card"><div id="evoGrid" class="evos"></div></div><div class="journeyHomeTools"><div class="quickgrid"><button class="quick" data-journey-quick="Food"><div class="icon">🍴</div><b>Food</b><small>Tap to add</small></button><button class="quick" data-journey-quick="Gas"><div class="icon">⛽</div><b>Gas</b><small>Tap to add</small></button><button class="quick" data-journey-quick="Entertainment"><div class="icon">🎮</div><b>Entertainment</b><small>Tap to add</small></button><button class="quick" data-journey-quick="Misc"><div class="icon">•••</div><b>Misc</b><small>Tap to add</small></button></div><div class="card week"><div><div class="tiny">THIS WEEK</div><div id="journeyWeekLeft" class="weekleft">Set weekly budget</div><div id="journeyWeekSpent" class="tiny">No weekly budget yet</div></div><div id="journeyRing" class="ring">—</div></div></div></section>
+<section id="journey" class="page">
+<div class="premiumJourney">
+  <div class="pjTop">
+    <div class="pjLogo">Life's Quest<small>SMALL STEPS. A BRIGHTER TOMORROW.</small></div>
+    <div class="pjLevel"><b>Level <span id="pjLevelNum">1</span></b><div class="bar"><i id="pjXpBar" style="width:0%"></i></div><div id="pjXpText" class="tiny">0 / 100 XP</div></div>
+  </div>
+  <button id="journeySettingsBtn" class="settingsBtn pjGear" aria-label="Settings">⚙️</button>
+  <div class="pjScene">
+    <div class="pjMountains">
+      <svg viewBox="0 0 430 530" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#335f85"/><stop offset="1" stop-color="#173a50"/></linearGradient>
+          <linearGradient id="rock1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#617477"/><stop offset=".55" stop-color="#2b4d55"/><stop offset="1" stop-color="#142f36"/></linearGradient>
+          <linearGradient id="rock2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7f8780"/><stop offset=".45" stop-color="#405b5d"/><stop offset="1" stop-color="#1b373b"/></linearGradient>
+          <filter id="softGlow"><feGaussianBlur stdDeviation="10"/></filter>
+        </defs>
+        <rect width="430" height="530" fill="url(#sky)"/>
+        <circle cx="322" cy="82" r="54" fill="#ffd577" opacity=".18" filter="url(#softGlow)"/>
+        <polygon points="0,300 80,178 145,300" fill="#354f59"/><polygon points="65,300 180,112 290,300" fill="url(#rock2)"/><polygon points="180,300 306,96 430,302" fill="url(#rock1)"/>
+        <polygon points="150,530 260,240 355,530" fill="#234044"/><polygon points="228,530 342,188 430,530" fill="#18343a"/>
+        <path d="M312 126 C302 178 286 208 293 248 C299 284 274 315 282 348 C289 377 268 415 252 456" fill="none" stroke="#a8dced" stroke-width="5" opacity=".75"/>
+        <path d="M315 126 C305 178 288 207 295 248" fill="none" stroke="#edfaff" stroke-width="2"/>
+        <g fill="#15352f" opacity=".94">
+          <path d="M34 386 l12-45 12 45h-8l11 35H31l11-35z"/><path d="M72 365 l13-50 13 50h-8l12 39H66l12-39z"/>
+          <path d="M125 400 l12-45 12 45h-8l11 35h-30l11-35z"/><path d="M351 374 l13-52 13 52h-8l12 41h-36l12-41z"/>
+          <path d="M387 395 l12-46 12 46h-8l11 37h-31l11-37z"/>
+        </g>
+        <path d="M305 467 C328 455 355 458 380 471 C354 482 327 483 305 467Z" fill="#265f75" opacity=".7"/>
+      </svg>
+    </div>
+    <div class="pjCompanionCard"><div class="eyebrow">YOUR COMPANION</div><div id="pjCompanionName" class="pjCompanionName">Ember</div><div id="pjCompanionType" class="pjType">🔥 FIRE</div><div class="pjQuote">“Discipline fuels greatness.”</div></div>
+    <div id="journeyPet" class="pjCharacter"></div>
+    <div class="pjTrail">
+      <div class="pjPath"></div>
+      <div class="pjMilestone m1">BUILD<br>HABITS</div><div class="pjMilestone m2">GAIN<br>CONTROL</div><div class="pjMilestone m3">ACHIEVE<br>GOALS</div><div class="pjMilestone m4">CREATE<br>FREEDOM</div><div class="pjMilestone m5">BRIGHTEST<br>SELF</div>
+      <div class="pjNode n1">1</div><div class="pjNode n2 locked">5</div><div class="pjNode n3 locked">10</div><div class="pjNode n4 locked">15</div><div class="pjNode n5 locked">20</div>
+    </div>
+    <div id="summitPet" class="pjSummit"></div>
+    <div class="pjTagline">A More Mindful<br>You Awaits</div>
+  </div>
+  <div class="pjPanel pjBudget"><div class="pjBudgetIcon">🪙</div><div class="pjBudgetMain"><b>WEEKLY BUDGET</b><div class="bar"><i id="journeyBudgetBar" style="width:0%"></i></div><div id="journeyWeekSpent" class="tiny">No weekly budget yet</div></div><div id="journeyWeekLeft" class="gold">Set budget</div></div>
+  <div class="pjQuickTitle">QUICK ADD EXPENSE</div>
+  <div class="pjQuick">
+    <button data-journey-quick="Food"><div class="icon">🍴</div><b>Food</b></button>
+    <button data-journey-quick="Gas"><div class="icon">⛽</div><b>Gas</b></button>
+    <button data-journey-quick="Entertainment"><div class="icon">🎮</div><b>Entertainment</b></button>
+    <button data-journey-quick="Misc"><div class="icon">🛒</div><b>Misc</b></button>
+  </div>
+  <div class="pjTiles">
+    <button class="pjTile" data-nav-direct="calendar"><div class="ti">📅</div><b>Recurring Bills</b><small id="pjBillsText">No bills added</small></button>
+    <button class="pjTile" data-nav-direct="goals"><div class="ti">🎯</div><b>Savings Goals</b><small id="pjGoalsText">No goals yet</small></button>
+    <button class="pjTile" data-nav-direct="expenses"><div class="ti">📊</div><b>Expenses</b><small id="pjExpensesText">No expenses yet</small></button>
+  </div>
+</div>
+</section>
 <section id="settings" class="page"><div class="top"><div><div class="brand">Settings</div><div class="muted">Manage Life's Quest on this device.</div></div></div><div class="settingsPage"><div class="card settingsCard"><h3>Refresh App</h3><p>Force Life's Quest to download the newest version without deleting your bills, expenses, goals, XP, or other saved data.</p><button id="refreshAppBtn" class="btn goldbtn full">↻ Refresh to Latest Version</button><div class="dangerNote">Your personal data stays on this device.</div></div><button id="settingsBackBtn" class="btn ghost full" style="margin-top:10px">← Back to Home</button></div></section><nav class="nav"><button class="on" data-p="journey" onclick="go('journey')">⛰️<br>Home</button><button data-p="expenses" onclick="go('expenses')">🧾<br>Expenses</button><button data-p="goals" onclick="go('goals')">🎯<br>Goals</button><button data-p="calendar" onclick="go('calendar')">📅<br>Calendar</button><button data-p="settings" onclick="go('settings')">⚙️<br>Settings</button></nav></main>
 <div id="billModal" class="modal"><div class="sheet"><div class="brand" style="font-size:22px">Add Recurring Bill</div><div class="field"><label>BILL NAME</label><input id="billName" placeholder="Rent"></div><div class="field"><label>AMOUNT</label><input id="billAmount" type="number" inputmode="decimal" placeholder="$ 0.00"></div><div class="field"><label>CATEGORY</label><select id="billCategory"><option>Housing</option><option>Auto</option><option>Insurance</option><option>Utilities</option><option>Debt</option><option>Subscription</option><option>Other</option></select></div><div class="field"><label>RECURRING</label><select id="billPattern" onchange="togglePattern()"><option value="date">Same date every month</option><option value="nthFriday">Nth Friday each month</option></select></div><div id="dateWrap" class="field"><label>DAY OF MONTH</label><input id="billDay" type="number" min="1" max="31" placeholder="Day"></div><div id="fridayWrap" class="field hidden"><label>WHICH FRIDAY?</label><select id="billNth"><option value="1">1st Friday</option><option value="2">2nd Friday</option><option value="3">3rd Friday</option><option value="4">4th Friday</option><option value="5">5th Friday</option></select></div><button class="btn goldbtn full" onclick="saveBill()">Save Bill</button><button class="btn ghost full" style="margin-top:8px" onclick="closeBill()">Cancel</button></div></div>
 </div>
@@ -159,7 +250,7 @@ function go(p){
  document.querySelectorAll(".page").forEach(x=>x.classList.remove("on"));
  const page=q(p); if(page)page.classList.add("on");
  document.querySelectorAll(".nav button").forEach(x=>x.classList.toggle("on",x.dataset.nav===p));
- const phone=document.querySelector(".phone"); if(phone)phone.scrollTop=0;
+ document.body.classList.toggle("journey-active",p==="journey"); const phone=document.querySelector(".phone"); if(phone)phone.scrollTop=0;
 }
 function quickAdd(c){
  cat=c;go("expenses");
@@ -192,7 +283,7 @@ function shiftMonth(n){calDate=new Date(calDate.getFullYear(),calDate.getMonth()
 function render(){
  const p=PETS[d.type],st=stage(),lv=level(),w=weekly(),spent=w.reduce((a,x)=>a+x.amount,0),left=d.allowance-spent;
  q("homePet").innerHTML=petSVG(d.type,st);q("lvl").textContent=lv;q("petName").textContent=p.name;q("xpTxt").textContent=(d.xp%100)+" / 100 XP";q("xpBar").style.width=(d.xp%100)+"%";
- q("weekLeft").textContent=d.allowance>0?money(left)+" Left":"Set weekly budget";q("weekSpent").textContent=d.allowance>0?money(spent)+" spent of "+money(d.allowance):"No weekly budget yet";q("ring").textContent=d.allowance>0?Math.max(0,Math.round(left/d.allowance*100))+"%":"—"; if(q("journeyWeekLeft"))q("journeyWeekLeft").textContent=d.allowance>0?money(left)+" Left":"Set weekly budget"; if(q("journeyWeekSpent"))q("journeyWeekSpent").textContent=d.allowance>0?money(spent)+" spent of "+money(d.allowance):"No weekly budget yet"; if(q("journeyRing"))q("journeyRing").textContent=d.allowance>0?Math.max(0,Math.round(left/d.allowance*100))+"%":"—";
+ q("weekLeft").textContent=d.allowance>0?money(left)+" Left":"Set weekly budget";q("weekSpent").textContent=d.allowance>0?money(spent)+" spent of "+money(d.allowance):"No weekly budget yet";q("ring").textContent=d.allowance>0?Math.max(0,Math.round(left/d.allowance*100))+"%":"—"; if(q("journeyWeekLeft"))q("journeyWeekLeft").textContent=d.allowance>0?money(left)+" Left":"Set weekly budget"; if(q("journeyWeekSpent"))q("journeyWeekSpent").textContent=d.allowance>0?money(spent)+" spent of "+money(d.allowance):"No weekly budget yet"; if(q("journeyRing"))q("journeyRing").textContent=d.allowance>0?Math.max(0,Math.round(left/d.allowance*100))+"%":"—"; if(q("journeyBudgetBar"))q("journeyBudgetBar").style.width=d.allowance>0?Math.max(0,Math.min(100,(spent/d.allowance)*100))+"%":"0%";
  if(!q("expenseDate").value)q("expenseDate").value=new Date().toISOString().slice(0,10);
  q("expenseList").innerHTML=d.expenses.length?d.expenses.map(x=>'<div class="row"><div><b>'+(x.note||x.cat)+'</b><div class="tiny">'+x.cat+' • '+x.date+'</div></div><div class="amt">-'+money(x.amount)+'</div></div>').join(""):'<div class="row"><div class="tiny">No expenses yet.</div></div>';
  renderGoals();renderCalendar();renderUpcoming();renderJourney(p,st,lv);
@@ -215,11 +306,21 @@ function renderUpcoming(){
  arr.sort((a,b)=>a.due-b.due);q("upcoming").innerHTML=arr.length?arr.slice(0,5).map(b=>'<div class="row"><div><b>'+b.name+'</b><div class="tiny">'+b.due.toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"})+'</div></div><div class="amt">'+money(b.amount)+'</div></div>').join(""):'<div class="row"><div><b>No upcoming bills</b><div class="tiny">Add your own bills in the Calendar tab.</div></div></div>';
 }
 function renderJourney(p,st,lv){
- q("journeyTitle").textContent=p.name+"'s Journey";q("journeyPet").innerHTML=petSVG(d.type,0);q("summitPet").innerHTML=petSVG(d.type,3);
- q("evoGrid").innerHTML=p.stages.map((s,i)=>'<div class="evo '+(i<=st?'on':'')+'"><div class="thumb">'+petSVG(d.type,i)+'</div><b>Lv '+[1,5,10,20][i]+'</b><div class="tiny">'+s+'</div></div>').join("");
- [1,5,10,20].forEach((req,i)=>document.querySelector(".n"+(i+1)).classList.toggle("locked",lv<req));
+ q("journeyPet").innerHTML=petSVG(d.type,st);
+ q("summitPet").innerHTML=petSVG(d.type,3);
+ if(q("pjCompanionName"))q("pjCompanionName").textContent=p.name;
+ if(q("pjCompanionType"))q("pjCompanionType").textContent=({fire:"🔥 FIRE",water:"💧 WATER",lightning:"⚡ LIGHTNING",shadow:"🌙 SHADOW",cloud:"☁️ CLOUD"}[d.type]||"COMPANION");
+ if(q("pjLevelNum"))q("pjLevelNum").textContent=lv;
+ if(q("pjXpText"))q("pjXpText").textContent=(d.xp%100)+" / 100 XP";
+ if(q("pjXpBar"))q("pjXpBar").style.width=(d.xp%100)+"%";
+ const req=[1,5,10,15,20];
+ req.forEach((r,i)=>{const n=document.querySelector(".pjNode.n"+(i+1));if(n)n.classList.toggle("locked",lv<r)});
+ if(q("pjBillsText"))q("pjBillsText").textContent=d.bills.length?d.bills.length+" bill"+(d.bills.length===1?"":"s")+" added":"No bills added";
+ const activeGoals=Object.values(d.goals).filter(g=>g.goal>0).length;
+ if(q("pjGoalsText"))q("pjGoalsText").textContent=activeGoals?activeGoals+" goal"+(activeGoals===1?"":"s")+" set":"No goals yet";
+ if(q("pjExpensesText"))q("pjExpensesText").textContent=d.expenses.length?d.expenses.length+" expense"+(d.expenses.length===1?"":"s")+" tracked":"No expenses yet";
 }
-async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260910-9&refresh="+Date.now());}
+async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260910-10&refresh="+Date.now());}
 document.addEventListener("DOMContentLoaded",()=>{
  renderChoices();
  const settingsBtn=q("settingsBtn"); if(settingsBtn)settingsBtn.addEventListener("click",()=>go("settings")); const journeySettingsBtn=q("journeySettingsBtn"); if(journeySettingsBtn)journeySettingsBtn.addEventListener("click",()=>go("settings"));
@@ -227,7 +328,7 @@ document.addEventListener("DOMContentLoaded",()=>{
  const refreshAppBtn=q("refreshAppBtn"); if(refreshAppBtn)refreshAppBtn.addEventListener("click",refreshApp);
  const begin=q("beginBtn")||document.querySelector("#chooser .goldbtn"); if(begin)begin.addEventListener("click",startQuest);
  document.querySelectorAll(".nav button").forEach(b=>b.addEventListener("click",()=>go(b.dataset.nav||b.dataset.p)));
- document.querySelectorAll("[data-quick]").forEach(b=>b.addEventListener("click",()=>quickAdd(b.dataset.quick))); document.querySelectorAll("[data-journey-quick]").forEach(b=>b.addEventListener("click",()=>quickAdd(b.dataset.journeyQuick)));
+ document.querySelectorAll("[data-quick]").forEach(b=>b.addEventListener("click",()=>quickAdd(b.dataset.quick))); document.querySelectorAll("[data-journey-quick]").forEach(b=>b.addEventListener("click",()=>quickAdd(b.dataset.journeyQuick))); document.querySelectorAll("[data-nav-direct]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.navDirect)));
  document.querySelectorAll(".quick").forEach(b=>{if(!b.dataset.quick){const name=b.querySelector("b")?.textContent;if(["Food","Gas","Entertainment","Misc"].includes(name))b.addEventListener("click",()=>quickAdd(name))}});
  document.querySelectorAll(".cat").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll(".cat").forEach(x=>x.classList.remove("sel"));b.classList.add("sel");cat=b.dataset.cat}));
  const saveEx=q("saveExpenseBtn")||document.querySelector("#expenses .goldbtn"); if(saveEx)saveEx.addEventListener("click",saveExpense);
@@ -248,7 +349,7 @@ document.addEventListener("DOMContentLoaded",()=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const reg = await navigator.serviceWorker.register("./sw.js?v=20260910-9");
+      const reg = await navigator.serviceWorker.register("./sw.js?v=20260910-10");
       await reg.update();
     } catch (e) {}
   });
