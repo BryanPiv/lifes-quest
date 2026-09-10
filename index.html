@@ -98,6 +98,13 @@ body.journey-active .nav{background:rgba(2,14,23,.97)}
 .goalFinderChoices{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:10px}.goalFinderChoice{border-radius:14px;padding:10px 5px;border:1px solid rgba(98,151,184,.35);background:#0a2942;color:#dce8ef;font-size:10px;font-weight:900}.goalFinderChoice.sel{border-color:#f1c763;color:#f1c763;background:#17324a;box-shadow:0 0 0 3px rgba(241,199,99,.08)}
 .recommendBadge{display:inline-flex;align-items:center;gap:6px;margin-top:8px;padding:7px 10px;border-radius:999px;background:rgba(241,199,99,.1);border:1px solid rgba(241,199,99,.28);color:#f1c763;font-size:10px;font-weight:900}
 .goalExplain{margin-top:9px;color:#9fb5c5;font-size:10px;line-height:1.45}
+
+.expenseBuilder{margin-top:10px;border-radius:22px;padding:16px;background:linear-gradient(180deg,#0d3554,#071f33);border:1px solid rgba(93,146,178,.35);box-shadow:0 14px 30px #0004}
+.expenseBuilder h3{margin:0 0 4px;font:700 18px Georgia,serif}.expenseBuilder>p{margin:0 0 12px;color:#9fb5c5;font-size:11px;line-height:1.45}
+.expenseRows{display:grid;gap:8px}.expenseRow{display:flex;align-items:center;gap:10px;padding:10px 11px;border-radius:16px;background:linear-gradient(180deg,#0b2f4a,#08253b);border:1px solid rgba(87,137,168,.24)}
+.expenseRowIcon{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;font-size:18px;background:#061d30}.expenseRowMain{flex:1}.expenseRowMain b{display:block;font-size:11px}.expenseRowMain small{display:block;color:#8fa8b8;font-size:8px;margin-top:2px}
+.expenseRowField{display:flex;align-items:center;width:112px;background:#edf4f8;border-radius:12px;padding:3px 8px}.expenseRowField span{color:#1d374c;font-weight:900}.expenseRowField input{width:100%;border:0;outline:0;background:transparent;color:#173149;font-weight:900;font-size:16px;padding:7px 3px;text-align:right}
+.expenseTotal{margin-top:11px;padding:12px 13px;border-radius:16px;background:rgba(241,199,99,.09);border:1px solid rgba(241,199,99,.25);display:flex;justify-content:space-between;align-items:center}.expenseTotal span{font-size:11px;color:#b6c8d3}.expenseTotal b{font:700 18px Georgia,serif;color:#f1c763}
 </style></head>
 <body><div class="phone"><script>document.documentElement.dataset.lqBoot="welcome";</script>
 <div id="welcome" class="welcome">
@@ -180,13 +187,30 @@ body.journey-active .nav{background:rgba(2,14,23,.97)}
   <label class="goalLabel" style="margin-top:10px">EMPLOYER MATCH ON YOUR CONTRIBUTION</label>
   <div class="goalMoneyField"><input id="retirementMatchPct" type="number" min="0" max="100" step="1" inputmode="decimal" placeholder="0"><span>%</span></div>
 </div>
+<div class="expenseBuilder">
+  <h3>Estimated monthly expenses</h3>
+  <p>Add what you normally spend each month so Life's Quest can estimate a realistic weekly budget.</p>
+  <div class="expenseRows">
+    <div class="expenseRow"><div class="expenseRowIcon">🏠</div><div class="expenseRowMain"><b>Housing / Rent</b><small>Rent, mortgage, HOA</small></div><div class="expenseRowField"><span>$</span><input data-est-expense="housing" type="number" min="0" inputmode="decimal" placeholder="0"></div></div>
+    <div class="expenseRow"><div class="expenseRowIcon">🚗</div><div class="expenseRowMain"><b>Car Payment</b><small>Loan or lease</small></div><div class="expenseRowField"><span>$</span><input data-est-expense="car" type="number" min="0" inputmode="decimal" placeholder="0"></div></div>
+    <div class="expenseRow"><div class="expenseRowIcon">🛡️</div><div class="expenseRowMain"><b>Insurance</b><small>Auto, renters, other</small></div><div class="expenseRowField"><span>$</span><input data-est-expense="insurance" type="number" min="0" inputmode="decimal" placeholder="0"></div></div>
+    <div class="expenseRow"><div class="expenseRowIcon">📱</div><div class="expenseRowMain"><b>Phone & Utilities</b><small>Phone, internet, electric, water</small></div><div class="expenseRowField"><span>$</span><input data-est-expense="utilities" type="number" min="0" inputmode="decimal" placeholder="0"></div></div>
+    <div class="expenseRow"><div class="expenseRowIcon">💳</div><div class="expenseRowMain"><b>Debt Payments</b><small>Credit cards, loans, financing</small></div><div class="expenseRowField"><span>$</span><input data-est-expense="debt" type="number" min="0" inputmode="decimal" placeholder="0"></div></div>
+    <div class="expenseRow"><div class="expenseRowIcon">🔁</div><div class="expenseRowMain"><b>Subscriptions</b><small>Streaming, apps, memberships</small></div><div class="expenseRowField"><span>$</span><input data-est-expense="subscriptions" type="number" min="0" inputmode="decimal" placeholder="0"></div></div>
+    <div class="expenseRow"><div class="expenseRowIcon">🍴</div><div class="expenseRowMain"><b>Food & Groceries</b><small>Groceries, restaurants, coffee</small></div><div class="expenseRowField"><span>$</span><input data-est-expense="food" type="number" min="0" inputmode="decimal" placeholder="0"></div></div>
+    <div class="expenseRow"><div class="expenseRowIcon">⛽</div><div class="expenseRowMain"><b>Gas / Transportation</b><small>Fuel, transit, parking</small></div><div class="expenseRowField"><span>$</span><input data-est-expense="gas" type="number" min="0" inputmode="decimal" placeholder="0"></div></div>
+    <div class="expenseRow"><div class="expenseRowIcon">🎮</div><div class="expenseRowMain"><b>Entertainment</b><small>Fun, hobbies, going out</small></div><div class="expenseRowField"><span>$</span><input data-est-expense="entertainment" type="number" min="0" inputmode="decimal" placeholder="0"></div></div>
+    <div class="expenseRow"><div class="expenseRowIcon">•••</div><div class="expenseRowMain"><b>Other</b><small>Anything else you spend monthly</small></div><div class="expenseRowField"><span>$</span><input data-est-expense="other" type="number" min="0" inputmode="decimal" placeholder="0"></div></div>
+  </div>
+  <div class="expenseTotal"><span>Estimated monthly spending</span><b id="estimatedExpenseTotal">$0</b></div>
+</div>
 <div class="budgetPreview">
     <div class="budgetPreviewRow"><span>Weekly income</span><strong id="previewWeeklyIncome">$0</strong></div>
     <div class="budgetPreviewRow"><span>Weekly savings</span><strong id="previewWeeklySavings">$0</strong></div><div class="budgetPreviewRow"><span>Healthcare</span><strong id="previewHealthcare">$0</strong></div><div class="budgetPreviewRow"><span>401(k) contribution</span><strong id="previewRetirement">$0</strong></div><div class="budgetPreviewRow"><span>Employer match</span><strong id="previewEmployerMatch">$0</strong></div>
-    <div class="budgetPreviewRow"><span>Weekly share of bills</span><strong id="previewWeeklyBills">$0</strong></div>
+    <div class="budgetPreviewRow"><span>Weekly share of monthly expenses</span><strong id="previewWeeklyBills">$0</strong></div>
     <div class="budgetPreviewTotal"><span>Suggested weekly spending</span><span id="previewAllowance">$0</span></div>
   </div>
-  <div class="tipCard"><div class="tipIcon">💡</div><div><b>Smart budget tip</b><p>Your weekly spending target will update automatically as you add recurring bills later.</p></div></div>
+  <div class="tipCard"><div class="tipIcon">💡</div><div><b>Smart budget tip</b><p>Your suggested weekly spending target updates as you adjust income, savings, healthcare, retirement, or monthly expenses.</p></div></div>
   <div class="onboardActions"><button id="saveIncomeBtn" class="btn goldbtn full" style="border-radius:18px;padding:15px;font-size:15px">Create My Budget</button></div>
 </div>
 <main id="app" class="hidden">
@@ -326,6 +350,7 @@ const PETS={
 const DEFAULTS={
  goalPrefs:{vacationTier:"bigtrip"},
  savingsPerPaycheck:0,
+ estimatedExpenses:{housing:0,car:0,insurance:0,utilities:0,debt:0,subscriptions:0,food:0,gas:0,entertainment:0,other:0},
  income:{amount:0,frequency:"weekly",savingsRate:20,healthcare:0,workRetirementPct:0,workRetirementMatchPct:0},
  type:"fire",xp:0,allowance:0,expenses:[],
  goals:{Vacation:{saved:0,goal:0,icon:"🏝️"},Emergency:{saved:0,goal:0,icon:"🛡️"},Investing:{saved:0,goal:0,icon:"📈"}},
@@ -454,10 +479,15 @@ function finishGoalOnboarding(saveGoals=true){
  }
  q("goalOnboarding").classList.add("hidden");
  q("incomeOnboarding").classList.remove("hidden");
+ document.querySelectorAll("[data-est-expense]").forEach(inp=>{inp.value=(d.estimatedExpenses?.[inp.dataset.estExpense]||"");});
  updateIncomePreview();
 }
 let payFrequency="weekly", savingsRate=20;
 function recurringMonthlyTotal(){return d.bills.reduce((sum,b)=>sum+(+b.amount||0),0)}
+function estimatedMonthlyTotal(){
+ const e=d.estimatedExpenses||{};
+ return Object.values(e).reduce((sum,v)=>sum+(+v||0),0);
+}
 function suggestedWeeklyBudget(){
  const amount=+(d.income?.amount||0);
  if(!amount)return 0;
@@ -466,7 +496,7 @@ function suggestedWeeklyBudget(){
  const healthcarePerPay=+(d.income.healthcare||0);
  const weeklyHealthcare=d.income.frequency==="biweekly"?healthcarePerPay/2:healthcarePerPay;
  const retirement=weeklyIncome*((d.income.workRetirementPct||0)/100);
- const weeklyBills=recurringMonthlyTotal()*12/52;
+ const weeklyBills=estimatedMonthlyTotal()*12/52;
  return Math.max(0,weeklyIncome-savings-weeklyHealthcare-retirement-weeklyBills);
 }
 function updateIncomePreview(){
@@ -479,7 +509,7 @@ function updateIncomePreview(){
  const retirement=weekly*(retirementPct/100);
  const matchPct=+q("retirementMatchPct").value||0;
  const employerMatch=retirement*(matchPct/100);
- const bills=recurringMonthlyTotal()*12/52;
+ const bills=estimatedMonthlyTotal()*12/52;
  const allowance=Math.max(0,weekly-saveAmt-healthcareWeekly-retirement-bills);
  q("previewWeeklyIncome").textContent=money(weekly);
  q("previewWeeklySavings").textContent=money(saveAmt);
@@ -487,11 +517,14 @@ function updateIncomePreview(){
  q("previewRetirement").textContent=money(retirement);
  q("previewEmployerMatch").textContent="+"+money(employerMatch);
  q("previewWeeklyBills").textContent=money(bills);
+ if(q("estimatedExpenseTotal"))q("estimatedExpenseTotal").textContent=money(estimatedMonthlyTotal());
  q("previewAllowance").textContent=money(allowance);
 }
 function saveIncomeSetup(){
  const amount=+q("incomeAmount").value;
  if(!(amount>0))return;
+ d.estimatedExpenses=d.estimatedExpenses||{};
+ document.querySelectorAll("[data-est-expense]").forEach(inp=>{d.estimatedExpenses[inp.dataset.estExpense]=+inp.value||0;});
  d.income={
    amount,
    frequency:payFrequency,
@@ -552,6 +585,7 @@ function openBudget(){
  q("healthcareCost").value=d.income?.healthcare||"";
  q("retirementPct").value=d.income?.workRetirementPct||"";
  q("retirementMatchPct").value=d.income?.workRetirementMatchPct||"";
+ document.querySelectorAll("[data-est-expense]").forEach(inp=>{inp.value=(d.estimatedExpenses?.[inp.dataset.estExpense]||"");});
  document.querySelectorAll(".payOption").forEach(b=>b.classList.toggle("sel",b.dataset.payfreq===payFrequency));
  document.querySelectorAll(".savingsRate button").forEach(b=>b.classList.toggle("sel",+b.dataset.rate===savingsRate));
  q("app").classList.add("hidden");
@@ -703,7 +737,7 @@ function openPlannerGoal(k){
  go("goals");
  setTimeout(()=>openGoal(k),80);
 }
-async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260910-18&refresh="+Date.now());}
+async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260910-19&refresh="+Date.now());}
 document.addEventListener("DOMContentLoaded",()=>{
  renderChoices();
  const settingsBtn=q("settingsBtn"); if(settingsBtn)settingsBtn.addEventListener("click",()=>go("settings"));
@@ -732,6 +766,7 @@ document.addEventListener("DOMContentLoaded",()=>{
  document.querySelectorAll(".payOption").forEach(b=>b.addEventListener("click",()=>{payFrequency=b.dataset.payfreq;document.querySelectorAll(".payOption").forEach(x=>x.classList.remove("sel"));b.classList.add("sel");updateIncomePreview();}));
  document.querySelectorAll(".savingsRate button").forEach(b=>b.addEventListener("click",()=>{savingsRate=+b.dataset.rate;document.querySelectorAll(".savingsRate button").forEach(x=>x.classList.remove("sel"));b.classList.add("sel");updateIncomePreview();}));
  q("incomeAmount").addEventListener("input",updateIncomePreview); q("healthcareCost").addEventListener("input",updateIncomePreview); q("retirementPct").addEventListener("input",updateIncomePreview); q("retirementMatchPct").addEventListener("input",updateIncomePreview);
+ document.querySelectorAll("[data-est-expense]").forEach(inp=>inp.addEventListener("input",()=>{d.estimatedExpenses=d.estimatedExpenses||{};d.estimatedExpenses[inp.dataset.estExpense]=+inp.value||0;updateIncomePreview();}));
  q("saveIncomeBtn").addEventListener("click",saveIncomeSetup);
  const skipOnboard=q("skipOnboardGoalsBtn"); if(skipOnboard)skipOnboard.addEventListener("click",()=>finishGoalOnboarding(false));
  document.querySelectorAll(".nav button").forEach(b=>b.addEventListener("click",()=>go(b.dataset.nav||b.dataset.p)));
@@ -756,7 +791,7 @@ document.addEventListener("DOMContentLoaded",()=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const reg = await navigator.serviceWorker.register("./sw.js?v=20260910-18");
+      const reg = await navigator.serviceWorker.register("./sw.js?v=20260910-19");
       await reg.update();
     } catch (e) {}
   });
