@@ -50,18 +50,25 @@ const PETS={
  cloud:{name:"Nimbus",stages:["Breeze","Drift","Skyborn","Nimbus"]}
 };
 const DEFAULTS={
- type:"fire",xp:420,allowance:495,expenses:[],
- goals:{Vacation:{saved:2350,goal:5000,icon:"🏝️"},Emergency:{saved:1200,goal:8000,icon:"🛡️"},Investing:{saved:1000,goal:10000,icon:"📈"}},
+ type:"fire",xp:0,allowance:0,expenses:[],
+ goals:{Vacation:{saved:0,goal:0,icon:"🏝️"},Emergency:{saved:0,goal:0,icon:"🛡️"},Investing:{saved:0,goal:0,icon:"📈"}},
  bills:[]
 };
 let savedData=JSON.parse(localStorage.getItem("lifesQuestWeb")||"{}");
-if(savedData.dataVersion!==2){
-  savedData.bills=[];
-  savedData.dataVersion=2;
+if(savedData.dataVersion!==3){
+  savedData={
+    type:savedData.type||"fire",
+    xp:0,
+    allowance:0,
+    expenses:[],
+    goals:{Vacation:{saved:0,goal:0,icon:"🏝️"},Emergency:{saved:0,goal:0,icon:"🛡️"},Investing:{saved:0,goal:0,icon:"📈"}},
+    bills:[],
+    dataVersion:3
+  };
   localStorage.setItem("lifesQuestWeb",JSON.stringify(savedData));
 }
 let d=Object.assign(JSON.parse(JSON.stringify(DEFAULTS)),savedData);
-d.dataVersion=2;
+d.dataVersion=3;
 let choice=d.type||"fire",cat="Food",calDate=new Date();
 const q=id=>document.getElementById(id);
 function save(){localStorage.setItem("lifesQuestWeb",JSON.stringify(d))}
@@ -129,13 +136,13 @@ function shiftMonth(n){calDate=new Date(calDate.getFullYear(),calDate.getMonth()
 function render(){
  const p=PETS[d.type],st=stage(),lv=level(),w=weekly(),spent=w.reduce((a,x)=>a+x.amount,0),left=d.allowance-spent;
  q("homePet").innerHTML=petSVG(d.type,st);q("lvl").textContent=lv;q("petName").textContent=p.name;q("xpTxt").textContent=(d.xp%100)+" / 100 XP";q("xpBar").style.width=(d.xp%100)+"%";
- q("weekLeft").textContent=money(left)+" Left";q("weekSpent").textContent=money(spent)+" spent of "+money(d.allowance);q("ring").textContent=Math.max(0,Math.round(left/d.allowance*100))+"%";
+ q("weekLeft").textContent=d.allowance>0?money(left)+" Left":"Set weekly budget";q("weekSpent").textContent=d.allowance>0?money(spent)+" spent of "+money(d.allowance):"No weekly budget yet";q("ring").textContent=d.allowance>0?Math.max(0,Math.round(left/d.allowance*100))+"%":"—";
  if(!q("expenseDate").value)q("expenseDate").value=new Date().toISOString().slice(0,10);
  q("expenseList").innerHTML=d.expenses.length?d.expenses.map(x=>'<div class="row"><div><b>'+(x.note||x.cat)+'</b><div class="tiny">'+x.cat+' • '+x.date+'</div></div><div class="amt">-'+money(x.amount)+'</div></div>').join(""):'<div class="row"><div class="tiny">No expenses yet.</div></div>';
  renderGoals();renderCalendar();renderUpcoming();renderJourney(p,st,lv);
 }
 function renderGoals(){
- q("goalList").innerHTML=Object.entries(d.goals).map(([k,g])=>{const pc=Math.min(100,g.saved/g.goal*100);return '<div class="card goal"><div class="goaltop"><div class="goalicon">'+g.icon+'</div><div style="flex:1"><b>'+k+'</b><div class="goalvalue">'+money(g.saved)+' / '+money(g.goal)+'</div><div class="bar green"><i style="width:'+pc+'%"></i></div></div></div><button class="btn goldbtn full goal-add" data-goal="'+k+'" style="margin-top:11px">Add Money</button></div>'}).join("");
+ q("goalList").innerHTML=Object.entries(d.goals).map(([k,g])=>{const pc=g.goal>0?Math.min(100,g.saved/g.goal*100):0;return '<div class="card goal"><div class="goaltop"><div class="goalicon">'+g.icon+'</div><div style="flex:1"><b>'+k+'</b><div class="goalvalue">'+(g.goal>0?money(g.saved)+' / '+money(g.goal):'No goal set yet')+'</div><div class="bar green"><i style="width:'+pc+'%"></i></div></div></div><button class="btn goldbtn full goal-add" data-goal="'+k+'" style="margin-top:11px">Add Money</button></div>'}).join("");
  document.querySelectorAll(".goal-add").forEach(b=>b.addEventListener("click",()=>addGoal(b.dataset.goal)));
 }
 function renderCalendar(){
@@ -177,7 +184,7 @@ document.addEventListener("DOMContentLoaded",()=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const reg = await navigator.serviceWorker.register("./sw.js?v=20260910-3");
+      const reg = await navigator.serviceWorker.register("./sw.js?v=20260910-4");
       await reg.update();
     } catch (e) {}
   });
