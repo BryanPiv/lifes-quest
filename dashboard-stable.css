@@ -1,0 +1,161 @@
+/* v87 — mobile stability pass; loaded last to neutralize legacy Journey locks */
+html,body{
+  min-height:100%!important;
+  height:auto!important;
+  overflow-x:hidden!important;
+  overflow-y:auto!important;
+  overscroll-behavior-y:auto!important;
+}
+body.journey-active{
+  overflow-x:hidden!important;
+  overflow-y:auto!important;
+  align-items:flex-start!important;
+}
+body.journey-active .phone,
+.phone.journey-lock{
+  height:auto!important;
+  min-height:100dvh!important;
+  max-height:none!important;
+  overflow-x:hidden!important;
+  overflow-y:visible!important;
+}
+#journey.page.on{
+  height:auto!important;
+  min-height:100dvh!important;
+  max-height:none!important;
+  overflow:visible!important;
+  padding-bottom:calc(94px + env(safe-area-inset-bottom))!important;
+}
+#journey .premiumJourney{
+  height:auto!important;
+  min-height:0!important;
+  overflow:visible!important;
+  padding-bottom:18px!important;
+}
+
+/* Keep the hero self-contained and prevent old absolute Journey rules from escaping it. */
+#journey .pjScene{
+  isolation:isolate!important;
+  overflow:hidden!important;
+  height:520px!important;
+  min-height:520px!important;
+  max-height:520px!important;
+}
+#journey .pjTop{position:relative!important;top:auto!important;left:auto!important;right:auto!important}
+#journey .pjBudget,
+#journey .pjQuickTitle,
+#journey .pjQuick,
+#journey .pjTiles{
+  position:relative!important;
+  inset:auto!important;
+  bottom:auto!important;
+  top:auto!important;
+  left:auto!important;
+  right:auto!important;
+  transform:none!important;
+}
+
+/* Remove legacy screenshot/invisible hit-area behavior. */
+#journey .premiumJourney::before{display:none!important}
+#lqHotspots{display:none!important;pointer-events:none!important}
+body.journey-active #journey .pjTop,
+body.journey-active #journey .pjScene,
+body.journey-active #journey .pjBudget,
+body.journey-active #journey .pjQuick,
+body.journey-active #journey .pjTiles,
+body.journey-active #journey .pjTop *,
+body.journey-active #journey .pjScene *,
+body.journey-active #journey .pjBudget *,
+body.journey-active #journey .pjQuick *,
+body.journey-active #journey .pjTiles *{
+  pointer-events:auto!important;
+}
+
+/* One reliable real bottom nav. */
+body.journey-active #app>.nav,
+#app>.nav{
+  display:grid!important;
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  position:fixed!important;
+  left:12px!important;
+  right:12px!important;
+  width:auto!important;
+  max-width:406px!important;
+  margin:0 auto!important;
+  transform:none!important;
+  bottom:calc(8px + env(safe-area-inset-bottom))!important;
+  min-height:68px!important;
+  height:68px!important;
+  padding:5px 6px!important;
+  opacity:1!important;
+  visibility:visible!important;
+  pointer-events:auto!important;
+  overflow:hidden!important;
+  z-index:1000!important;
+  border-radius:25px!important;
+  border:1px solid rgba(23,143,231,.72)!important;
+  background:linear-gradient(180deg,rgba(5,47,79,.985),rgba(3,24,43,.995))!important;
+  box-shadow:0 14px 34px rgba(0,0,0,.48)!important;
+  backdrop-filter:blur(18px)!important;
+}
+body.journey-active #app>.nav button,
+#app>.nav button{
+  display:block!important;
+  min-width:0!important;
+  min-height:56px!important;
+  height:56px!important;
+  padding:7px 2px!important;
+  margin:0!important;
+  pointer-events:auto!important;
+  touch-action:manipulation!important;
+  opacity:1!important;
+  color:#c4d6e3!important;
+  background:transparent!important;
+  border:0!important;
+  border-radius:17px!important;
+  font-size:9px!important;
+  line-height:1.45!important;
+}
+body.journey-active #app>.nav button.on,
+#app>.nav button.on{
+  color:#f7d473!important;
+  background:radial-gradient(circle at 50% 22%,rgba(247,210,105,.17),transparent 68%)!important;
+  box-shadow:inset 0 1px rgba(247,210,105,.22)!important;
+}
+
+/* Content spacing */
+#journey .pjBudget{margin:14px 14px 0!important}
+#journey .pjQuickTitle{margin:16px 16px 8px!important}
+#journey .pjQuick{margin:0 14px!important}
+#journey .pjTiles{margin:10px 14px 14px!important}
+
+/* Keep every card inside the viewport. */
+#journey .pjQuick,
+#journey .pjTiles{width:auto!important}
+#journey .pjQuick button,
+#journey .pjTile{min-width:0!important;max-width:100%!important}
+#journey .pjBudget{width:auto!important}
+#journey #editBudgetBtn{max-width:128px!important}
+
+/* iPhone narrow-width tuning */
+@media(max-width:390px){
+  #journey .pjScene{height:475px!important;min-height:475px!important;max-height:475px!important}
+  #journey .pjTop{height:82px!important;padding:16px 14px 9px!important}
+  #journey .pjLogo{font-size:28px!important}
+  #journey .pjLogo small{font-size:6.4px!important;letter-spacing:1.25px!important}
+  #journey .pjLevel{width:116px!important}
+  #journey .pjCompanionCard{left:12px!important;top:18px!important;width:145px!important}
+  #journey #lqCharacterHost{left:18%!important;top:76%!important;width:29%!important}
+  #journey .pjTrail{right:-18px!important;top:26px!important;transform:scale(.86)!important;transform-origin:top right!important}
+  #journey .pjQuick{gap:6px!important}
+  #journey .pjQuick button{min-height:70px!important;padding:7px 2px!important}
+  #journey .pjQuick b{font-size:8px!important}
+  #journey .pjTiles{gap:7px!important}
+  #journey .pjTile{min-height:62px!important}
+}
+@media(max-width:360px){
+  #journey .pjScene{height:445px!important;min-height:445px!important;max-height:445px!important}
+  #journey .pjLogo{font-size:26px!important}
+  #journey .pjLevel{width:108px!important}
+  #journey .pjTrail{right:-26px!important;transform:scale(.80)!important}
+}
