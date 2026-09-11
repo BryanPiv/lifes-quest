@@ -1280,6 +1280,27 @@ html,body{background:#020912!important}
 }
 </style>
 
+
+<style id="settings-v55-refresh-top">
+/* v55 — keep Refresh App reachable without scrolling */
+#settings .settingsPage{
+  display:flex!important;
+  flex-direction:column!important;
+}
+#settings .settingsPage .settingsCard:nth-of-type(2){
+  order:1!important;
+}
+#settings .settingsPage .settingsCard:nth-of-type(3){
+  order:-1!important;
+}
+#settings .settingsPage .companionSettingsCard{
+  order:0!important;
+}
+#settings #settingsBackBtn{
+  order:2!important;
+}
+</style>
+
 </head>
 <body><div class="phone"><script>document.documentElement.dataset.lqBoot="welcome";</script>
 <div id="welcome" class="welcome">
@@ -2240,7 +2261,7 @@ function openPlannerGoal(k){
  go("goals");
  setTimeout(()=>openGoal(k),80);
 }
-async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260911-54&refresh="+Date.now());}
+async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260911-55&refresh="+Date.now());}
 document.addEventListener("DOMContentLoaded",async()=>{
  try{if(navigator.storage&&navigator.storage.persist)await navigator.storage.persist();}catch(e){}
  renderChoices();
@@ -2313,7 +2334,7 @@ document.addEventListener("DOMContentLoaded",async()=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const reg = await navigator.serviceWorker.register("./sw.js?v=20260911-54");
+      const reg = await navigator.serviceWorker.register("./sw.js?v=20260911-55");
       await reg.update();
     } catch (e) {}
   });
