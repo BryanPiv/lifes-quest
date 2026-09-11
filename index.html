@@ -463,7 +463,7 @@ input,select,textarea{border-radius:14px}
 .pjQuick button:nth-child(3){box-shadow:inset 3px 0 0 #a855f7,0 12px 24px rgba(0,0,0,.28)!important}
 .pjQuick button:nth-child(4){box-shadow:inset 3px 0 0 #f5c451,0 12px 24px rgba(0,0,0,.28)!important}
 @media(max-width:390px){.pjScene{height:565px!important}.pjCompanionCard{width:168px!important}.pjTrail{transform:scale(.86);right:-10px!important}}
-</style>\n<style id="journey-v2-mobile-fix">
+</style><style id="journey-v2-mobile-fix">
 /* v43: fix mobile Journey sizing + restore companion renderer */
 #journey.page{padding-left:0!important;padding-right:0!important;overflow-x:hidden!important}
 .premiumJourney{width:100%!important;max-width:100%!important;margin:0!important;overflow:hidden!important}
@@ -491,7 +491,30 @@ input,select,textarea{border-radius:14px}
  .pjTrail{transform:scale(.72)!important;right:-6px!important}
  .pjCharacter{width:135px!important;height:165px!important}
 }
-</style>\n</head>
+</style><style id="journey-v44-polish">
+#journey .premiumJourney{background:linear-gradient(180deg,#071a31 0%,#03121f 100%)!important}
+#journey .pjScene{height:520px!important;background:none!important;position:relative!important;overflow:hidden!important}
+#journey .pjMountains{display:block!important;position:absolute!important;inset:0!important;z-index:1!important}
+#journey .pjMountains svg{width:100%!important;height:100%!important;display:block!important}
+#journey .pjScene:after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(180deg,rgba(2,13,26,0) 0%,rgba(2,13,26,.03) 58%,rgba(2,13,26,.58) 100%)}
+#journey .pjCompanionCard{z-index:24!important;top:18px!important;left:14px!important;width:168px!important}
+#journey .pjCharacter{display:block!important;z-index:20!important;left:18px!important;top:auto!important;bottom:28px!important;width:155px!important;height:185px!important;transform:none!important}
+#journey .pjCharacter svg{width:100%!important;height:100%!important}
+#journey .pjTrail{z-index:23!important;top:104px!important;right:5px!important;width:194px!important;height:390px!important;transform:scale(.79)!important;transform-origin:top right!important}
+#journey .pjSummitGlow{position:absolute;z-index:22;right:28px;top:38px;width:72px;height:72px;border-radius:50%;background:radial-gradient(circle,rgba(255,244,184,.78) 0%,rgba(245,196,81,.30) 35%,rgba(245,196,81,0) 75%);filter:blur(1px);pointer-events:none}
+#journey .pjTagline{z-index:24!important;right:12px!important;bottom:10px!important;font-size:18px!important}
+#journey .pjBudget{margin:10px 12px 0!important}
+#journey .pjQuick,#journey .pjTiles{margin-left:12px!important;margin-right:12px!important}
+#journey .pjTop{grid-template-columns:minmax(0,1fr) 136px!important}
+#journey .pjLogo{font-size:30px!important;line-height:.98!important}
+#journey .pjLevel{padding:9px 11px!important}
+@media(max-width:380px){
+ #journey .pjScene{height:500px!important}
+ #journey .pjCharacter{left:12px!important;width:142px!important;height:174px!important}
+ #journey .pjTrail{right:-2px!important;transform:scale(.74)!important}
+ #journey .pjCompanionCard{width:156px!important}
+}
+</style></head>
 <body><div class="phone"><script>document.documentElement.dataset.lqBoot="welcome";</script>
 <div id="welcome" class="welcome">
   <button id="frontSettingsBtn" type="button" aria-label="Open Settings" onclick="return openSettingsFromWelcome(event)" style="position:fixed!important;top:calc(env(safe-area-inset-top,0px) + 10px)!important;right:12px!important;left:auto!important;bottom:auto!important;z-index:2147483647!important;width:48px!important;height:48px!important;border-radius:50%!important;border:2px solid #ffe08a!important;background:linear-gradient(145deg,#0b5ba5,#06284d)!important;color:#ffe08a!important;font-size:23px!important;display:grid!important;place-items:center!important;padding:0!important;box-shadow:0 10px 28px rgba(0,0,0,.5),0 0 0 4px rgba(213,31,53,.18)!important;pointer-events:auto!important;-webkit-appearance:none!important;">⚙️</button>
@@ -644,27 +667,53 @@ input,select,textarea{border-radius:14px}
   <button id="journeySettingsBtn" class="settingsBtn pjGear" aria-label="Settings">⚙️</button>
   <div class="pjScene">
     <div class="pjMountains">
-      <svg viewBox="0 0 430 530" preserveAspectRatio="none">
-        <defs>
-          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#335f85"/><stop offset="1" stop-color="#173a50"/></linearGradient>
-          <linearGradient id="rock1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#617477"/><stop offset=".55" stop-color="#2b4d55"/><stop offset="1" stop-color="#142f36"/></linearGradient>
-          <linearGradient id="rock2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7f8780"/><stop offset=".45" stop-color="#405b5d"/><stop offset="1" stop-color="#1b373b"/></linearGradient>
-          <filter id="softGlow"><feGaussianBlur stdDeviation="10"/></filter>
-        </defs>
-        <rect width="430" height="530" fill="url(#sky)"/>
-        <circle cx="322" cy="82" r="54" fill="#ffd577" opacity=".18" filter="url(#softGlow)"/>
-        <polygon points="0,300 80,178 145,300" fill="#354f59"/><polygon points="65,300 180,112 290,300" fill="url(#rock2)"/><polygon points="180,300 306,96 430,302" fill="url(#rock1)"/>
-        <polygon points="150,530 260,240 355,530" fill="#234044"/><polygon points="228,530 342,188 430,530" fill="#18343a"/>
-        <path d="M312 126 C302 178 286 208 293 248 C299 284 274 315 282 348 C289 377 268 415 252 456" fill="none" stroke="#a8dced" stroke-width="5" opacity=".75"/>
-        <path d="M315 126 C305 178 288 207 295 248" fill="none" stroke="#edfaff" stroke-width="2"/>
-        <g fill="#15352f" opacity=".94">
-          <path d="M34 386 l12-45 12 45h-8l11 35H31l11-35z"/><path d="M72 365 l13-50 13 50h-8l12 39H66l12-39z"/>
-          <path d="M125 400 l12-45 12 45h-8l11 35h-30l11-35z"/><path d="M351 374 l13-52 13 52h-8l12 41h-36l12-41z"/>
-          <path d="M387 395 l12-46 12 46h-8l11 37h-31l11-37z"/>
-        </g>
-        <path d="M305 467 C328 455 355 458 380 471 C354 482 327 483 305 467Z" fill="#265f75" opacity=".7"/>
-      </svg>
-    </div>
+<svg viewBox="0 0 430 560" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+<defs>
+ <linearGradient id="skyV44" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0a4a86"/><stop offset=".38" stop-color="#3778a4"/><stop offset=".7" stop-color="#6d92a0"/><stop offset="1" stop-color="#152b3c"/></linearGradient>
+ <radialGradient id="sunV44"><stop offset="0" stop-color="#fff8c8"/><stop offset=".32" stop-color="#ffd878" stop-opacity=".95"/><stop offset="1" stop-color="#ffd878" stop-opacity="0"/></radialGradient>
+ <linearGradient id="farV44" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#7790a0"/><stop offset="1" stop-color="#385465"/></linearGradient>
+ <linearGradient id="midV44" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#53696f"/><stop offset=".55" stop-color="#27454f"/><stop offset="1" stop-color="#142f3a"/></linearGradient>
+ <linearGradient id="nearV44" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#354f49"/><stop offset=".55" stop-color="#183a35"/><stop offset="1" stop-color="#0b2527"/></linearGradient>
+ <linearGradient id="waterV44" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#dff9ff"/><stop offset=".45" stop-color="#8fd2e7"/><stop offset="1" stop-color="#3485ad"/></linearGradient>
+ <filter id="glowV44"><feGaussianBlur stdDeviation="10"/></filter>
+</defs>
+<rect width="430" height="560" fill="url(#skyV44)"/>
+<circle cx="348" cy="80" r="105" fill="url(#sunV44)" opacity=".95"/>
+<circle cx="348" cy="80" r="34" fill="#ffe89a" opacity=".22" filter="url(#glowV44)"/>
+<g opacity=".27" fill="#eaf7ff">
+ <ellipse cx="96" cy="110" rx="82" ry="19"/><ellipse cx="164" cy="128" rx="112" ry="21"/><ellipse cx="315" cy="145" rx="98" ry="17"/>
+</g>
+<!-- far snow range -->
+<path d="M0 245 L50 199 L83 220 L124 168 L163 216 L205 177 L241 216 L289 158 L329 210 L370 168 L430 231 L430 310 L0 310Z" fill="url(#farV44)" opacity=".86"/>
+<g fill="#d9eef3" opacity=".82">
+ <path d="M112 180 L124 168 L137 188 L124 183Z"/><path d="M278 176 L289 158 L301 181 L290 174Z"/><path d="M359 183 L370 168 L384 190 L370 181Z"/>
+</g>
+<!-- heroic summit right -->
+<path d="M205 560 L266 381 L292 319 L318 243 L344 139 L369 219 L395 313 L430 385 L430 560Z" fill="url(#midV44)"/>
+<path d="M322 233 L344 139 L360 225 L346 213Z" fill="#d5e7ea" opacity=".84"/>
+<path d="M329 219 L344 139 L351 212 L344 204Z" fill="#f5fbfd" opacity=".88"/>
+<path d="M238 560 L285 411 L315 336 L337 259 L344 139" fill="none" stroke="#111f28" stroke-width="13" opacity=".18"/>
+<!-- left valley ridge -->
+<path d="M0 560 L0 320 L62 279 L111 337 L162 278 L214 354 L249 421 L245 560Z" fill="url(#nearV44)"/>
+<path d="M0 411 C66 389 104 393 145 421 C180 444 219 449 265 421 C303 398 331 394 361 405" fill="none" stroke="#2f6c73" stroke-width="15" opacity=".55"/>
+<!-- river -->
+<path d="M235 560 C247 518 273 496 289 460 C305 425 296 395 319 365 C340 337 351 326 357 303" fill="none" stroke="#16333f" stroke-width="28" opacity=".75"/>
+<path d="M235 560 C247 518 273 496 289 460 C305 425 296 395 319 365 C340 337 351 326 357 303" fill="none" stroke="url(#waterV44)" stroke-width="11"/>
+<path d="M244 547 C255 515 278 493 293 459" fill="none" stroke="#effcff" stroke-width="2.5" opacity=".9"/>
+<!-- waterfall on summit -->
+<path d="M375 269 C370 307 367 329 359 353 C352 376 352 399 344 423" fill="none" stroke="url(#waterV44)" stroke-width="7" opacity=".9"/>
+<path d="M376 270 C372 310 369 329 362 351" fill="none" stroke="#f5fdff" stroke-width="2"/>
+<!-- forests -->
+<g fill="#0c3029" opacity=".96">
+ <path d="M22 410 l9 -42 l9 42 h-7 l10 30 h-22 l10 -30z"/><path d="M48 428 l11 -49 l11 49 h-7 l10 35 h-26 l10 -35z"/><path d="M79 446 l9 -56 l9 56 h-7 l10 40 h-22 l10 -40z"/><path d="M112 410 l11 -63 l11 63 h-7 l10 30 h-26 l10 -30z"/><path d="M145 428 l9 -42 l9 42 h-7 l10 35 h-22 l10 -35z"/><path d="M178 446 l11 -49 l11 49 h-7 l10 40 h-26 l10 -40z"/><path d="M211 410 l9 -56 l9 56 h-7 l10 30 h-22 l10 -30z"/><path d="M248 428 l11 -63 l11 63 h-7 l10 35 h-26 l10 -35z"/><path d="M276 446 l9 -42 l9 42 h-7 l10 40 h-22 l10 -40z"/><path d="M305 410 l11 -49 l11 49 h-7 l10 30 h-26 l10 -30z"/><path d="M334 428 l9 -56 l9 56 h-7 l10 35 h-22 l10 -35z"/><path d="M365 446 l11 -63 l11 63 h-7 l10 40 h-26 l10 -40z"/><path d="M398 410 l9 -42 l9 42 h-7 l10 30 h-22 l10 -30z"/>
+</g>
+<g fill="#16483e" opacity=".9">
+ <path d="M34 470 l8 -35 l8 35 h-6 l9 28 h-20 l9 -28z"/><path d="M66 492 l9 -40 l9 40 h-6 l9 28 h-22 l9 -28z"/><path d="M98 470 l10 -45 l10 45 h-6 l9 28 h-24 l9 -28z"/><path d="M132 492 l8 -50 l8 50 h-6 l9 28 h-20 l9 -28z"/><path d="M166 470 l9 -35 l9 35 h-6 l9 28 h-22 l9 -28z"/><path d="M196 492 l10 -40 l10 40 h-6 l9 28 h-24 l9 -28z"/><path d="M225 470 l8 -45 l8 45 h-6 l9 28 h-20 l9 -28z"/><path d="M257 492 l9 -50 l9 50 h-6 l9 28 h-22 l9 -28z"/><path d="M292 470 l10 -35 l10 35 h-6 l9 28 h-24 l9 -28z"/><path d="M322 492 l8 -40 l8 40 h-6 l9 28 h-20 l9 -28z"/><path d="M351 470 l9 -45 l9 45 h-6 l9 28 h-22 l9 -28z"/><path d="M383 492 l10 -50 l10 50 h-6 l9 28 h-24 l9 -28z"/><path d="M414 470 l8 -35 l8 35 h-6 l9 28 h-20 l9 -28z"/>
+</g>
+<!-- summit glow -->
+<circle cx="344" cy="150" r="42" fill="#ffd770" opacity=".16" filter="url(#glowV44)"/>
+</svg>
+</div>
     <div class="pjCompanionCard"><div class="eyebrow">YOUR COMPANION</div><div id="pjCompanionName" class="pjCompanionName">Ember</div><div id="pjCompanionType" class="pjType">🔥 FIRE</div><div class="pjQuote">“Discipline fuels greatness.”</div></div>
     <div id="journeyPet" class="pjCharacter"></div>
     <div class="pjTrail">
@@ -672,7 +721,7 @@ input,select,textarea{border-radius:14px}
       <div class="pjMilestone m1">BUILD<br>HABITS</div><div class="pjMilestone m2">GAIN<br>CONTROL</div><div class="pjMilestone m3">ACHIEVE<br>GOALS</div><div class="pjMilestone m4">CREATE<br>FREEDOM</div><div class="pjMilestone m5">BRIGHTEST<br>SELF</div>
       <div class="pjNode n1">1</div><div class="pjNode n2 locked">5</div><div class="pjNode n3 locked">10</div><div class="pjNode n4 locked">15</div><div class="pjNode n5 locked">20</div>
     </div>
-    <div id="summitPet" class="pjSummit"></div>
+    <div class="pjSummitGlow" aria-hidden="true"></div>
     <div class="pjTagline">A More Mindful<br>You Awaits</div>
   </div>
   <div class="pjPanel pjBudget"><div class="pjBudgetIcon">🪙</div><div class="pjBudgetMain"><b>WEEKLY BUDGET</b><div class="bar"><i id="journeyBudgetBar" style="width:0%"></i></div><div id="journeyWeekSpent" class="tiny">No weekly budget yet</div></div><button id="editBudgetBtn" class="btn ghost" style="padding:9px 11px;white-space:nowrap">Set Budget</button></div>
@@ -1263,7 +1312,6 @@ function premiumJourneyPetSVG(type,st=0){
 function renderJourney(p,st,lv){
  const journeyPetEl=q("journeyPet")||q("pjCharacter");
  if(journeyPetEl) journeyPetEl.innerHTML=premiumJourneyPetSVG(d.type||"fire",st);
- if(q("summitPet"))q("summitPet").innerHTML=petSVG(d.type,3);
  if(q("pjCompanionName"))q("pjCompanionName").textContent=p.name;
  if(q("pjCompanionType"))q("pjCompanionType").textContent=({fire:"🔥 FIRE",water:"💧 WATER",lightning:"⚡ LIGHTNING",shadow:"🌙 SHADOW",cloud:"☁️ CLOUD"}[d.type]||"COMPANION");
  if(q("pjLevelNum"))q("pjLevelNum").textContent=lv;
@@ -1409,7 +1457,7 @@ function openPlannerGoal(k){
  go("goals");
  setTimeout(()=>openGoal(k),80);
 }
-async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260910-41&refresh="+Date.now());}
+async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260910-44&refresh="+Date.now());}
 document.addEventListener("DOMContentLoaded",async()=>{
  try{if(navigator.storage&&navigator.storage.persist)await navigator.storage.persist();}catch(e){}
  renderChoices();
@@ -1482,7 +1530,7 @@ document.addEventListener("DOMContentLoaded",async()=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const reg = await navigator.serviceWorker.register("./sw.js?v=20260910-41");
+      const reg = await navigator.serviceWorker.register("./sw.js?v=20260910-44");
       await reg.update();
     } catch (e) {}
   });
