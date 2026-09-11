@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 430 520">
+<defs>
+ <linearGradient id="rock" x1=".1" y1="0" x2=".9" y2="1"><stop stop-color="#6b846f"/><stop offset=".25" stop-color="#3f674f"/><stop offset=".52" stop-color="#22503e"/><stop offset=".78" stop-color="#113a33"/><stop offset="1" stop-color="#08252a"/></linearGradient>
+ <linearGradient id="shadow" x1="0" x2="1"><stop stop-color="#26463f"/><stop offset="1" stop-color="#071a24"/></linearGradient>
+ <filter id="texture"><feTurbulence baseFrequency=".035" numOctaves="4" seed="12" type="fractalNoise" result="n"/><feColorMatrix in="n" type="saturate" values="0"/><feComponentTransfer><feFuncA type="table" tableValues="0 .18"/></feComponentTransfer><feBlend mode="overlay" in2="SourceGraphic"/></filter>
+ <linearGradient id="water" x2="0" y2="1"><stop stop-color="#e9ffff"/><stop offset=".3" stop-color="#89e9f4"/><stop offset=".75" stop-color="#2a9fc3"/><stop offset="1" stop-color="#086080"/></linearGradient>
+</defs>
+<path d="M218 520L245 455L269 391L291 330L311 271L328 210L345 116L362 175L378 236L397 304L430 378L430 520Z" fill="url(#rock)" filter="url(#texture)"/>
+<path d="M345 116L362 175L378 236L397 304L430 378L430 520H354l5-67 3-73-2-76-7-75z" fill="url(#shadow)" opacity=".88"/>
+<g fill="#f7fdff">
+ <path d="M327 213l18-97 20 93-14-19-7-34-8 34z"/><path d="M350 149l12 26 10 40-14-20z" opacity=".6"/>
+</g>
+<g stroke-linecap="round" opacity=".7">
+ <path d="M285 357l35-110" stroke="#73a65e" stroke-width="8"/><path d="M305 407l42-137" stroke="#4f8a52" stroke-width="10"/>
+ <path d="M333 455l42-129" stroke="#2e6845" stroke-width="12"/><path d="M361 506l41-110" stroke="#164a36" stroke-width="15"/>
+</g>
+<path d="M392 300c-2 36-5 63-11 83-5 18-8 34-8 49 0 18 6 35 14 52" fill="none" stroke="#efffff" stroke-width="12" opacity=".95"/>
+<path d="M392 300c-2 36-5 63-11 83-5 18-8 34-8 49 0 18 6 35 14 52" fill="none" stroke="url(#water)" stroke-width="6"/>
+<g fill="#163b30" opacity=".95"><path d="M300 444l13-52 13 52h-9l14 43h-36l14-43z"/><path d="M349 475l14-58 14 58h-9l14 44h-38l14-44z"/></g>
+</svg>
