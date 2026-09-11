@@ -339,6 +339,26 @@ input,select,textarea{border-radius:14px}
 
 .reportTabs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:8px 0 10px}.reportTab{border:1px solid rgba(56,143,213,.42);background:#062e53;color:#cfe0eb;border-radius:12px;padding:9px 3px;font-size:9px;font-weight:900}.reportTab.sel{background:linear-gradient(#d51f35,#a3162b);border-color:#ff8794;color:#fff}
 .reportTotal{display:flex;justify-content:space-between;align-items:center;padding:12px 13px;margin-bottom:9px;border-radius:16px;background:linear-gradient(155deg,#0a477f,#052545);border:1px solid rgba(245,196,81,.28)}.reportTotal span{font-size:10px;color:#a9c0d0}.reportTotal b{font:700 19px Georgia,serif;color:#ffe08a}
+
+/* Make the active companion clearly visible on the Journey dashboard */
+.pjCharacter{
+ position:absolute!important;
+ left:18px!important;
+ bottom:22px!important;
+ width:235px!important;
+ height:235px!important;
+ z-index:12!important;
+ opacity:1!important;
+ visibility:visible!important;
+ filter:drop-shadow(0 20px 24px rgba(0,0,0,.62)) drop-shadow(0 0 14px rgba(245,196,81,.18))!important;
+}
+.pjCharacter svg{width:100%!important;height:100%!important;display:block!important;overflow:visible!important}
+.pjCompanionCard{z-index:13!important}
+.pjTrail{z-index:8!important}
+.pjSummit{z-index:9!important}
+@media(max-width:390px){
+ .pjCharacter{width:205px!important;height:205px!important;left:8px!important;bottom:30px!important}
+}
 </style>
 </head>
 <body><div class="phone"><script>document.documentElement.dataset.lqBoot="welcome";</script>
@@ -1215,7 +1235,7 @@ function openPlannerGoal(k){
  go("goals");
  setTimeout(()=>openGoal(k),80);
 }
-async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260910-36&refresh="+Date.now());}
+async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260910-37&refresh="+Date.now());}
 document.addEventListener("DOMContentLoaded",async()=>{
  try{if(navigator.storage&&navigator.storage.persist)await navigator.storage.persist();}catch(e){}
  renderChoices();
@@ -1286,7 +1306,7 @@ document.addEventListener("DOMContentLoaded",async()=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const reg = await navigator.serviceWorker.register("./sw.js?v=20260910-36");
+      const reg = await navigator.serviceWorker.register("./sw.js?v=20260910-37");
       await reg.update();
     } catch (e) {}
   });
