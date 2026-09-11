@@ -1,0 +1,20 @@
+:root{--lq-theme-gold:#f2c85f;--lq-theme-navy:#06243d;--lq-theme-blue:#0c8ff0}
+#lqLiveCharacter.lq-anim-idle img{animation:lqIdle 3.2s ease-in-out infinite}
+#lqLiveCharacter.lq-anim-walk img{animation:lqWalk .48s ease-in-out infinite}
+#lqLiveCharacter.lq-anim-celebrate img{animation:lqCelebrate .8s ease-out 1}
+#lqLiveCharacter.lq-anim-evolve img{animation:lqEvolve 1.5s ease-in-out 1}
+@keyframes lqIdle{0%,100%{transform:translateY(0) rotate(-.5deg) scale(var(--form-scale,1))}50%{transform:translateY(-5px) rotate(.5deg) scale(var(--form-scale,1))}}
+@keyframes lqWalk{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-7px) rotate(1deg)}}
+@keyframes lqCelebrate{0%{transform:translateY(0) scale(1)}40%{transform:translateY(-18px) rotate(-4deg) scale(1.08)}70%{transform:translateY(-6px) rotate(3deg) scale(1.04)}100%{transform:translateY(0) scale(1)}}
+@keyframes lqEvolve{0%{filter:brightness(1) drop-shadow(0 0 0 transparent);transform:scale(1)}35%{filter:brightness(2.1) drop-shadow(0 0 24px #fff) drop-shadow(0 0 42px var(--lq-theme-gold));transform:scale(1.08)}65%{filter:brightness(2.8) drop-shadow(0 0 40px #fff) drop-shadow(0 0 70px var(--lq-theme-blue));transform:scale(.9) rotate(2deg)}100%{filter:brightness(1) drop-shadow(0 0 0 transparent);transform:scale(1)}}
+html[data-lq-particles="snow"] .lqAtmosphere:after,
+html[data-lq-particles="petals"] .lqAtmosphere:after,
+html[data-lq-particles="leaves"] .lqAtmosphere:after,
+html[data-lq-particles="embers"] .lqAtmosphere:after{
+ content:"";position:absolute;inset:-20%;pointer-events:none;opacity:.5;animation:lqParticles 12s linear infinite;
+ background-image:radial-gradient(circle,#fff 0 2px,transparent 2.5px),radial-gradient(circle,#fff 0 1.5px,transparent 2px);
+ background-size:58px 62px,83px 91px
+}
+html[data-lq-particles="leaves"] .lqAtmosphere:after{filter:sepia(1) saturate(4) hue-rotate(330deg)}
+html[data-lq-particles="embers"] .lqAtmosphere:after{filter:sepia(1) saturate(6);opacity:.35}
+@keyframes lqParticles{from{transform:translate3d(0,-8%,0)}to{transform:translate3d(-5%,18%,0)}}
