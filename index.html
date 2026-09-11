@@ -1789,6 +1789,50 @@ body.budget-editing #incomeOnboarding *{
 </style><style id="v73-restore-home-art">
 /* v73 — remove failed companion replacement artifacts and restore clean reference artwork */
 #lqCompanionMask,#lqAnimatedCompanion{display:none!important}
+</style><style id="v74-live-character-layer">
+/* v74 — one live, future-movable character layer */
+#lqLiveCharacter{
+  --char-x:0px;
+  --char-y:0px;
+  position:absolute;
+  left:5.2%;
+  top:42.8%;
+  width:30.5%;
+  z-index:46;
+  pointer-events:none;
+  transform:translate3d(var(--char-x),var(--char-y),0);
+  transition:left .8s ease,top .8s ease,transform .35s ease;
+}
+#lqLiveCharacter img{
+  display:block;
+  width:100%;
+  height:auto;
+  transform-origin:50% 88%;
+  animation:lqCharacterIdle 3.6s ease-in-out infinite;
+  filter:drop-shadow(0 15px 18px rgba(0,0,0,.42));
+}
+#lqLiveCharacter.celebrate img{animation:lqCharacterCelebrate .75s ease-out 1,lqCharacterIdle 3.6s ease-in-out .75s infinite}
+@keyframes lqCharacterIdle{
+  0%,100%{transform:translateY(0) rotate(-.4deg) scale(1.05)}
+  50%{transform:translateY(-4px) rotate(.5deg) scale(1.058)}
+}
+@keyframes lqCharacterCelebrate{
+  0%{transform:translateY(0) scale(1.05)}
+  40%{transform:translateY(-18px) rotate(-4deg) scale(1.08)}
+  70%{transform:translateY(-5px) rotate(3deg) scale(1.06)}
+  100%{transform:translateY(0) scale(1.05)}
+}
+/* cover the old baked mascot with the live sprite itself */
+#lqLiveCharacter::before{
+  content:"";
+  position:absolute;
+  inset:5% 6% 3%;
+  border-radius:46%;
+  background:radial-gradient(circle at 50% 45%,rgba(245,251,255,.98) 0 42%,rgba(220,238,247,.92) 58%,rgba(220,238,247,0) 76%);
+  filter:blur(5px);
+  z-index:-1;
+}
+@media(max-height:760px){#lqLiveCharacter{top:41.6%;width:29%}}
 </style></head>
 <body><div class="phone"><script>document.documentElement.dataset.lqBoot="welcome";</script>
 <div id="welcome" class="welcome">
@@ -2126,7 +2170,7 @@ const COMPANION_ASSETS={
  water:"assets/companions/aurora.svg",
  lightning:"assets/companions/volt.svg",
  shadow:"assets/companions/nightfall.svg",
- cloud:"assets/companions/nimbus.svg"
+ cloud:"assets/companions/nimbus-backpack.svg"
 };
 function companionAsset(type){return COMPANION_ASSETS[type]||COMPANION_ASSETS.fire}
 const PETS={
@@ -3093,5 +3137,76 @@ if ("serviceWorker" in navigator) {
   }
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",wire);else wire();
   window.addEventListener("pageshow",wire);
+})();
+</script><script id="v74-live-character-script">
+(function(){
+  function selectedType(){
+    try{return (JSON.parse(localStorage.getItem("lifesQuestWeb")||"{}").type)||"cloud";}catch(e){return "cloud";}
+  }
+  function sourceFor(type){
+    const m={
+      fire:"assets/companions/ember.svg",
+      water:"assets/companions/aurora.svg",
+      lightning:"assets/companions/volt.svg",
+      shadow:"assets/companions/nightfall.svg",
+      cloud:"assets/companions/nimbus-backpack.svg"
+    };
+    return m[type]||m.cloud;
+  }
+  function renderCharacter(){
+    const host=document.querySelector("#journey .premiumJourney");
+    if(!host)return;
+    let ch=document.getElementById("lqLiveCharacter");
+    if(!ch){
+      ch=document.createElement("div");
+      ch.id="lqLiveCharacter";
+      ch.innerHTML='<img alt="Life’s Quest companion">';
+      host.appendChild(ch);
+    }
+    const type=selectedType();
+    const img=ch.querySelector("img");
+    const src=sourceFor(type)+"?v=74";
+    if(img.getAttribute("src")!==src)img.setAttribute("src",src);
+  }
+  window.lifeQuestCharacter={
+    move:function(leftPct,topPct){
+      const ch=document.getElementById("lqLiveCharacter");
+      if(!ch)return;
+      ch.style.left=leftPct+"%";
+      ch.style.top=topPct+"%";
+    },
+    nudge:function(x,y){
+      const ch=document.getElementById("lqLiveCharacter");
+      if(!ch)return;
+      ch.style.setProperty("--char-x",x+"px");
+      ch.style.setProperty("--char-y",y+"px");
+    },
+    celebrate:function(){
+      const ch=document.getElementById("lqLiveCharacter");
+      if(!ch)return;
+      ch.classList.remove("celebrate");
+      void ch.offsetWidth;
+      ch.classList.add("celebrate");
+      setTimeout(()=>ch.classList.remove("celebrate"),900);
+    }
+  };
+  function patchSuccess(fnName){
+    const fn=window[fnName];
+    if(!fn||fn.__charPatched)return;
+    const wrapped=function(){
+      const out=fn.apply(this,arguments);
+      setTimeout(()=>window.lifeQuestCharacter?.celebrate(),80);
+      return out;
+    };
+    wrapped.__charPatched=true;
+    window[fnName]=wrapped;
+  }
+  function boot(){
+    renderCharacter();
+    ["saveQuickMoney","saveGoalAdd","saveGoal"].forEach(patchSuccess);
+  }
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
+  window.addEventListener("pageshow",boot);
+  setInterval(renderCharacter,1200);
 })();
 </script></body></html>
