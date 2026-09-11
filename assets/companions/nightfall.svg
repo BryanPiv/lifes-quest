@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 360"><defs>
+<radialGradient id="a"><stop stop-color="#c48cff" stop-opacity=".30"/><stop offset="1" stop-color="#4b1c78" stop-opacity="0"/></radialGradient>
+<linearGradient id="b" x1=".15" y1=".05" x2=".85" y2=".95"><stop stop-color="#604374"/><stop offset=".4" stop-color="#352341"/><stop offset="1" stop-color="#120d18"/></linearGradient>
+<linearGradient id="c"><stop stop-color="#e4d8f6"/><stop offset="1" stop-color="#8d6baa"/></linearGradient><filter id="s"><feDropShadow dx="0" dy="12" stdDeviation="10" flood-opacity=".55"/></filter></defs>
+<ellipse cx="160" cy="185" rx="128" ry="143" fill="url(#a)"/><g filter="url(#s)">
+<ellipse cx="160" cy="326" rx="84" ry="16" fill="#000" opacity=".34"/>
+<path d="M102 97 L80 48 L130 76Z" fill="#2e1b39"/><path d="M218 97 L240 48 L190 76Z" fill="#2e1b39"/>
+<ellipse cx="160" cy="139" rx="77" ry="70" fill="url(#b)"/><path d="M110 145 Q160 183 210 145 Q197 194 160 202 Q123 194 110 145Z" fill="#4f365c"/>
+<ellipse cx="130" cy="130" rx="12" ry="15" fill="#0d0812"/><ellipse cx="190" cy="130" rx="12" ry="15" fill="#0d0812"/><ellipse cx="130" cy="127" rx="5" ry="8" fill="#e080ff"/><ellipse cx="190" cy="127" rx="5" ry="8" fill="#e080ff"/><circle cx="133" cy="122" r="3" fill="#fff"/><circle cx="193" cy="122" r="3" fill="#fff"/>
+<path d="M151 158 Q160 165 169 158 Q160 176 151 158Z" fill="#130b17"/>
+<path d="M107 201 Q160 176 213 201 L204 292 Q160 324 116 292Z" fill="url(#b)"/><path d="M140 205 Q160 192 180 205 L177 274 Q160 291 143 274Z" fill="url(#c)" opacity=".68"/>
+<path d="M112 281 Q98 314 113 326 Q132 335 145 299Z" fill="#2c1b36"/><path d="M208 281 Q222 314 207 326 Q188 335 175 299Z" fill="#2c1b36"/>
+<path d="M114 314 Q131 327 148 316 L145 336 L114 336Z" fill="#130c19"/><path d="M172 316 Q189 327 206 314 L206 336 L175 336Z" fill="#130c19"/>
+<path d="M213 227 C256 227 269 257 248 281 C232 299 210 294 195 277 C220 287 237 273 232 254 C228 240 220 233 213 227Z" fill="#211229"/>
+<path d="M149 64 C152 38 164 24 177 15 C178 34 187 46 201 54 C182 51 164 54 149 64Z" fill="#7e4ca0" opacity=".85"/>
+</g><g fill="#d77cff" opacity=".8"><circle cx="76" cy="196" r="3"/><circle cx="244" cy="184" r="2.5"/><circle cx="235" cy="216" r="4"/></g></svg>
