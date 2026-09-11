@@ -1,0 +1,162 @@
+/* v89 — reference composition pass */
+#journey .premiumJourney{position:relative!important;background:#031522!important}
+#journey .pjTop{
+  position:absolute!important;
+  top:0!important;left:0!important;right:0!important;
+  height:94px!important;
+  z-index:90!important;
+  padding:22px 18px 8px!important;
+  background:linear-gradient(180deg,rgba(3,24,40,.48),rgba(3,24,40,0))!important;
+  border:0!important;
+  pointer-events:none!important;
+}
+#journey .pjLogo{
+  font:700 34px/1 Georgia,serif!important;
+  color:#fff8e7!important;
+  text-shadow:0 3px 16px rgba(0,0,0,.55)!important;
+}
+#journey .pjLogo small{
+  margin-top:7px!important;
+  font-size:6.8px!important;
+  letter-spacing:1.55px!important;
+  color:#f3f7f9!important;
+}
+#journey .pjScene{
+  margin:0!important;
+  height:610px!important;
+  min-height:610px!important;
+  max-height:610px!important;
+  border-bottom:1px solid rgba(244,207,112,.42)!important;
+  box-shadow:inset 0 -90px 110px rgba(2,12,20,.32)!important;
+}
+#journey .pjGear{
+  top:30px!important;
+  right:14px!important;
+  width:45px!important;height:45px!important;
+  z-index:120!important;
+  border-radius:50%!important;
+  background:linear-gradient(145deg,rgba(7,43,68,.96),rgba(3,24,40,.96))!important;
+  border:1px solid rgba(244,207,112,.72)!important;
+  box-shadow:0 10px 25px rgba(0,0,0,.36)!important;
+}
+#journey .pjCompanionCard{
+  left:16px!important;
+  top:126px!important;
+  width:176px!important;
+  padding:14px 15px!important;
+  border-radius:20px!important;
+  background:linear-gradient(150deg,rgba(4,31,51,.92),rgba(2,18,31,.87))!important;
+  border:1px solid rgba(244,207,112,.78)!important;
+  box-shadow:0 16px 36px rgba(0,0,0,.32),inset 0 1px rgba(255,255,255,.07)!important;
+  backdrop-filter:blur(14px) saturate(1.06)!important;
+}
+#journey .pjCompanionCard .eyebrow{font-size:8px!important;letter-spacing:1.55px!important}
+#journey .pjCompanionName{font-size:31px!important}
+#journey .pjType{font-size:9px!important}
+#journey .pjQuote{font-size:12px!important;line-height:1.42!important}
+#journey #lqCharacterHost{
+  left:18%!important;
+  top:72%!important;
+  width:35%!important;
+  max-width:215px!important;
+  z-index:33!important;
+}
+#journey .pjTrail{
+  top:146px!important;
+  right:-5px!important;
+  width:205px!important;
+  height:390px!important;
+  transform:scale(.96)!important;
+  transform-origin:top right!important;
+}
+#journey .pjMilestone{
+  padding:6px 9px!important;
+  font-size:7px!important;
+  line-height:1.06!important;
+  border-radius:9px!important;
+}
+#journey .pjNode{
+  width:37px!important;height:37px!important;
+  font-size:12px!important;
+}
+#journey .pjTagline{display:none!important}
+
+#journey .lqHeroMotto{
+  position:absolute;
+  right:22px;
+  top:108px;
+  z-index:24;
+  width:130px;
+  text-align:right;
+  color:#f6d36e;
+  font:italic 18px/1.05 "Snell Roundhand",cursive;
+  text-shadow:0 2px 8px rgba(0,0,0,.55);
+  transform:rotate(-4deg);
+  pointer-events:none;
+}
+#journey .pjProgressCard{
+  position:absolute!important;
+  left:14px!important;right:14px!important;
+  bottom:14px!important;
+  width:auto!important;
+  min-height:86px!important;
+  padding:12px 14px!important;
+  border-radius:20px!important;
+  background:linear-gradient(155deg,rgba(5,39,64,.95),rgba(3,23,39,.95))!important;
+  border:1px solid rgba(244,207,112,.78)!important;
+  box-shadow:0 16px 36px rgba(0,0,0,.34),inset 0 1px rgba(255,255,255,.06)!important;
+  backdrop-filter:blur(14px)!important;
+  z-index:38!important;
+}
+#journey .pjProgressCard b{font:700 16px Georgia,serif!important;color:#fff!important}
+#journey .pjProgressCard .bar{height:8px!important;margin-top:8px!important}
+#journey .pjProgressCard .tiny{font-size:9px!important}
+
+/* reference ordering: quick add, weekly budget, planner tiles */
+#journey .pjQuickTitle{
+  margin:15px 16px 7px!important;
+  color:#f4cf70!important;
+  font:700 11px Georgia,serif!important;
+  letter-spacing:1.4px!important;
+}
+#journey .pjQuick{
+  margin:0 14px!important;
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  gap:8px!important;
+}
+#journey .pjQuick button{
+  min-height:82px!important;
+  border-radius:18px!important;
+  background:linear-gradient(155deg,rgba(7,54,88,.98),rgba(3,25,43,.99))!important;
+}
+#journey .pjQuick .icon{font-size:24px!important}
+#journey .pjQuick b{font-size:9px!important}
+
+#journey .pjBudget{
+  margin:10px 14px 0!important;
+  min-height:82px!important;
+  border-radius:20px!important;
+}
+#journey .pjBudgetMain b{font-size:13px!important}
+#journey .pjBudgetMain .bar{height:8px!important}
+#journey .pjTiles{margin:10px 14px 18px!important}
+#journey .pjTile{min-height:68px!important;border-radius:18px!important}
+
+/* richer glass/nav */
+body.journey-active #app>.nav{
+  border-color:rgba(96,174,222,.52)!important;
+  background:linear-gradient(180deg,rgba(5,45,75,.985),rgba(2,20,36,.995))!important;
+  box-shadow:0 16px 38px rgba(0,0,0,.48),inset 0 1px rgba(255,255,255,.04)!important;
+}
+
+@media(max-width:390px){
+  #journey .pjScene{height:570px!important;min-height:570px!important;max-height:570px!important}
+  #journey .pjTop{height:88px!important;padding:18px 14px 8px!important}
+  #journey .pjLogo{font-size:30px!important}
+  #journey .pjCompanionCard{top:116px!important;left:12px!important;width:158px!important}
+  #journey .pjCompanionName{font-size:28px!important}
+  #journey #lqCharacterHost{left:18%!important;top:71%!important;width:33%!important}
+  #journey .pjTrail{top:136px!important;right:-18px!important;transform:scale(.88)!important}
+  #journey .lqHeroMotto{top:100px!important;right:15px!important;font-size:16px!important;width:112px!important}
+  #journey .pjProgressCard{left:12px!important;right:12px!important;bottom:12px!important;min-height:80px!important}
+}
