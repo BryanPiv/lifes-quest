@@ -570,6 +570,211 @@ input,select,textarea{border-radius:14px}
 .companionPickLevel{margin-top:7px;font-size:10px;font-weight:900}.companionMiniBar{height:5px;background:#06233e;border-radius:99px;overflow:hidden;margin-top:5px}.companionMiniBar i{display:block;height:100%;background:linear-gradient(90deg,#1479d4,#f5c451,#d51f35)}
 .companionPick small{display:block;color:#8faabd;font-size:8px;margin-top:4px}
 .companionPickBadge{position:absolute;right:8px;top:8px;padding:4px 6px;border-radius:99px;background:#d51f35;color:#fff;font-size:7px;font-weight:900}
+</style><style id="global-graphics-v47">
+/* v47 — global cinematic visual system */
+:root{
+ --lq-bg:#020b16;--lq-panel:#061b31;--lq-panel2:#0a3153;--lq-blue:#0d67b5;
+ --lq-blue2:#2d91d6;--lq-gold:#f5c451;--lq-gold2:#ffe6a1;--lq-red:#d51f35;
+ --lq-text:#f7fbff;--lq-muted:#9db5c8;--lq-line:rgba(70,146,201,.30);
+}
+html,body{background:#020912!important}
+.phone{background:
+ radial-gradient(circle at 88% -8%,rgba(43,132,202,.18),transparent 30%),
+ radial-gradient(circle at -8% 42%,rgba(213,31,53,.10),transparent 27%),
+ linear-gradient(180deg,#06192e 0%,#03111f 45%,#020a13 100%)!important;
+ color:var(--lq-text)!important;
+}
+.page{background:
+ radial-gradient(circle at 92% 0%,rgba(42,134,205,.12),transparent 28%),
+ linear-gradient(180deg,#06192e 0%,#03111f 52%,#020b16 100%)!important;
+}
+.page>.top{
+ position:relative!important;padding:17px 15px 13px!important;
+ background:
+ radial-gradient(circle at 95% 0%,rgba(245,196,81,.10),transparent 26%),
+ linear-gradient(180deg,rgba(8,42,73,.98),rgba(4,23,42,.94))!important;
+ border-bottom:1px solid rgba(245,196,81,.18)!important;
+ box-shadow:0 14px 28px rgba(0,0,0,.20)!important;
+}
+.page>.top:after{content:"";position:absolute;left:15px;bottom:-1px;width:58px;height:2px;border-radius:9px;background:linear-gradient(90deg,var(--lq-red),var(--lq-gold))}
+.brand{font:700 27px Georgia,serif!important;color:var(--lq-gold2)!important;letter-spacing:-.4px;text-shadow:0 3px 16px rgba(0,0,0,.36)}
+.muted{color:#9fb8ca!important}
+.sectionhead h3{font:700 15px Georgia,serif!important;color:#f8e4a8!important;letter-spacing:.3px}
+.card,.transactionCard,.settingsCard,.goalCreateCard,.autoGoalCard,.simpleGoalCard,.cal,#billList{
+ background:
+ linear-gradient(155deg,rgba(9,53,91,.92),rgba(3,24,44,.97))!important;
+ border:1px solid rgba(54,143,211,.32)!important;
+ box-shadow:0 14px 32px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.025)!important;
+ backdrop-filter:blur(10px)!important;
+}
+.btn,.goldbtn,.goalCreateBtn{
+ transition:transform .16s ease,filter .16s ease,box-shadow .16s ease!important;
+}
+.btn:active,.goldbtn:active,.goalCreateBtn:active,.nav button:active,.reportTab:active,.goalTypeBtn:active{transform:scale(.97)!important}
+.goldbtn,.goalCreateBtn{
+ background:linear-gradient(180deg,#ffe99c 0%,#f5c451 48%,#dca331 100%)!important;
+ border:1px solid #fff0b9!important;color:#10253a!important;
+ box-shadow:0 8px 20px rgba(245,196,81,.19),inset 0 1px 0 #fff7d6!important;
+}
+.ghost{background:linear-gradient(180deg,#0b477a,#062947)!important;border-color:rgba(61,151,219,.48)!important;color:#eff8ff!important}
+
+/* Spending / Reports */
+#expenses .expenseSummary{padding:12px 12px calc(82px + env(safe-area-inset-bottom))!important}
+.reportTabs{gap:7px!important;margin:4px 0 11px!important;padding:3px!important;border-radius:16px;background:#031425!important;border:1px solid rgba(50,130,188,.20)!important}
+.reportTab{
+ background:transparent!important;border:0!important;border-radius:12px!important;color:#8da9bc!important;
+ padding:10px 3px!important;box-shadow:none!important
+}
+.reportTab.sel{
+ color:#fff7d6!important;
+ background:linear-gradient(180deg,#0e5793,#08365f)!important;
+ box-shadow:inset 0 0 0 1px rgba(245,196,81,.34),0 6px 18px rgba(0,0,0,.25)!important;
+}
+.reportTotal{
+ padding:14px 15px!important;border-radius:20px!important;
+ background:
+ radial-gradient(circle at 90% 0%,rgba(245,196,81,.18),transparent 38%),
+ linear-gradient(145deg,#0b4d82,#052844)!important;
+ border:1px solid rgba(245,196,81,.30)!important;
+ box-shadow:0 15px 30px rgba(0,0,0,.30),inset 4px 0 0 rgba(213,31,53,.72)!important;
+}
+.reportTotal b{font-size:22px!important;color:#ffe697!important}
+.expenseSummaryGrid{gap:8px!important}
+.expenseSummaryCard{
+ position:relative;overflow:hidden;padding:13px 9px!important;border-radius:18px!important;
+ background:linear-gradient(150deg,#0a3f6c,#05243f)!important;
+ border:1px solid rgba(59,148,215,.36)!important;
+ box-shadow:0 10px 23px rgba(0,0,0,.23)!important;
+}
+.expenseSummaryCard:after{content:"";position:absolute;inset:auto -20px -35px auto;width:72px;height:72px;border-radius:50%;background:radial-gradient(circle,rgba(245,196,81,.10),transparent 70%)}
+.expenseSummaryIcon{font-size:24px!important;filter:drop-shadow(0 5px 10px rgba(0,0,0,.32))}
+.expenseSummaryCard small{color:#9eb7c8!important}.expenseSummaryCard b{color:#f7fbff!important;font-size:18px!important}
+.transactionCard{border-radius:20px!important;overflow:hidden!important}
+.transactionRow{padding:12px!important;border-color:rgba(112,157,188,.12)!important}
+.transactionIcon{
+ width:40px!important;height:40px!important;border-radius:13px!important;
+ background:linear-gradient(150deg,#0d5791,#073055)!important;
+ border:1px solid rgba(69,155,219,.34)!important;
+ box-shadow:0 6px 14px rgba(0,0,0,.22)!important
+}
+.transactionMain b{font-size:11px!important}.transactionMain small{color:#8fa9bb!important}.transactionAmt{color:#ffe099!important;font-weight:900!important}
+
+/* Goals */
+.simpleGoals{padding:12px 12px calc(86px + env(safe-area-inset-bottom))!important}
+.autoGoalCard{
+ background:
+ radial-gradient(circle at 94% 5%,rgba(245,196,81,.18),transparent 30%),
+ linear-gradient(150deg,#0a4779,#052640)!important;
+ border-color:rgba(245,196,81,.28)!important;
+ box-shadow:inset 4px 0 0 rgba(213,31,53,.75),0 14px 30px rgba(0,0,0,.28)!important;
+}
+.autoGoalCard b{color:#fff4ca!important;font-size:15px!important}.autoGoalValue{color:#ffe18c!important;font-size:18px!important}
+.goalCreateCard{padding:16px!important;border-radius:23px!important}
+.goalCreateCard h3{font-size:19px!important;text-shadow:0 4px 16px rgba(0,0,0,.30)}
+.goalTypeRow{gap:7px!important}
+.goalTypeBtn{
+ background:linear-gradient(150deg,#0a3f6c,#05243f)!important;
+ border:1px solid rgba(58,145,211,.36)!important;border-radius:14px!important;
+ min-height:54px!important;color:#dbeaf4!important
+}
+.goalTypeBtn.sel{
+ background:linear-gradient(180deg,#d82c42,#a9192c)!important;border-color:#ff8794!important;
+ box-shadow:0 8px 18px rgba(213,31,53,.22),inset 0 1px 0 rgba(255,255,255,.12)!important
+}
+.goalEntryGrid input,.field input,.field select,.planGoalFields input{
+ background:linear-gradient(180deg,#f9fbfd,#edf4f8)!important;
+ border:1px solid #cbdbe6!important;border-radius:14px!important;
+ box-shadow:inset 0 2px 5px rgba(17,50,76,.06)!important
+}
+.simpleGoalCard{border-radius:21px!important;padding:14px!important}
+.simpleGoalIcon{
+ background:radial-gradient(circle at 30% 25%,#1266aa,#052744 65%)!important;
+ border:1px solid rgba(66,158,225,.36)!important;
+ box-shadow:0 8px 18px rgba(0,0,0,.26)!important
+}
+.simpleGoalPay b{color:#ffe28e!important}
+.simpleGoalBar{height:8px!important;background:#03182b!important;box-shadow:inset 0 1px 4px rgba(0,0,0,.45)!important}
+.simpleGoalBar i{box-shadow:0 0 12px rgba(245,196,81,.26)!important}
+
+/* Calendar */
+#calendar{padding-bottom:calc(82px + env(safe-area-inset-bottom))!important}
+#calendar .cal{margin:12px!important;padding:13px!important;border-radius:22px!important}
+.caltop{background:#03192d!important;border-radius:15px!important;padding:7px 8px!important;margin-bottom:8px!important;border:1px solid rgba(58,141,202,.20)!important}
+.caltop b{font:700 15px Georgia,serif!important;color:#ffe5a0!important}
+.caltop button{
+ width:36px!important;height:34px!important;border-radius:11px!important;
+ background:linear-gradient(180deg,#0c4c80,#062b4b)!important;border:1px solid rgba(63,151,216,.34)!important;color:#fff!important
+}
+.calendar{gap:4px!important}
+.calendar>div{
+ min-height:48px!important;border-radius:11px!important;
+ background:linear-gradient(150deg,#082d4e,#041d34)!important;border:1px solid rgba(62,135,186,.17)!important;
+}
+.calendar>div.today{box-shadow:inset 0 0 0 1px #f5c451,0 0 14px rgba(245,196,81,.12)!important}
+#calendar .sectionhead{padding-left:13px!important;padding-right:13px!important}
+#billList{margin:0 12px!important;border-radius:20px!important;overflow:hidden!important}
+
+/* Settings */
+.settingsPage{padding:12px 12px calc(90px + env(safe-area-inset-bottom))!important}
+.settingsCard{position:relative;overflow:hidden;border-radius:22px!important;padding:15px!important}
+.settingsCard:before{content:"";position:absolute;right:-28px;top:-28px;width:90px;height:90px;border-radius:50%;background:radial-gradient(circle,rgba(245,196,81,.09),transparent 70%);pointer-events:none}
+.settingsCard h3{font:700 16px Georgia,serif!important;color:#ffe5a0!important}
+.settingsCompanionGrid{gap:9px!important}
+.companionPick{
+ border-radius:19px!important;
+ background:
+ radial-gradient(circle at 50% 12%,rgba(52,141,211,.12),transparent 43%),
+ linear-gradient(155deg,#093e69,#041f38)!important;
+ box-shadow:0 12px 24px rgba(0,0,0,.24)!important;
+}
+.companionPick.active{
+ background:
+ radial-gradient(circle at 50% 12%,rgba(245,196,81,.15),transparent 42%),
+ linear-gradient(155deg,#0b4b7c,#052641)!important;
+ box-shadow:inset 3px 0 0 #d51f35,0 0 0 2px rgba(245,196,81,.19),0 14px 27px rgba(0,0,0,.30)!important
+}
+.companionPickPet svg{filter:drop-shadow(0 10px 12px rgba(0,0,0,.38))}
+.companionMiniBar{height:6px!important}.companionPickBadge{box-shadow:0 5px 12px rgba(213,31,53,.28)!important}
+
+/* Modals */
+.modal{background:rgba(0,5,12,.77)!important;backdrop-filter:blur(5px)!important}
+.sheet{
+ background:
+ radial-gradient(circle at 85% 0%,rgba(42,134,205,.15),transparent 28%),
+ linear-gradient(180deg,#0a3558 0%,#061f37 45%,#031421 100%)!important;
+ border:1px solid rgba(245,196,81,.28)!important;
+ box-shadow:0 -22px 55px rgba(0,0,0,.52)!important
+}
+.quickMoneyIcon,.goalSetupIcon{filter:drop-shadow(0 8px 16px rgba(0,0,0,.28))}
+.amountChip,.goal-chip{
+ background:linear-gradient(180deg,#0d4b7c,#072a49)!important;border-color:rgba(67,155,220,.38)!important;
+ box-shadow:0 6px 14px rgba(0,0,0,.18)!important
+}
+
+/* Navigation */
+.nav{
+ left:8px!important;right:8px!important;bottom:max(7px,env(safe-area-inset-bottom))!important;
+ border:1px solid rgba(63,140,196,.24)!important;border-radius:21px!important;
+ background:linear-gradient(180deg,rgba(6,28,49,.96),rgba(2,14,26,.98))!important;
+ box-shadow:0 16px 38px rgba(0,0,0,.50),inset 0 1px 0 rgba(255,255,255,.025)!important;
+ overflow:hidden!important;padding:3px!important
+}
+.nav button{
+ min-height:53px!important;border-radius:16px!important;color:#90a9bc!important;
+ font-weight:800!important;line-height:1.45!important
+}
+.nav button.on{
+ color:#ffe69d!important;
+ background:
+ radial-gradient(circle at 50% 0%,rgba(245,196,81,.18),transparent 62%),
+ linear-gradient(180deg,rgba(16,81,133,.66),rgba(7,37,65,.78))!important;
+ box-shadow:inset 0 2px 0 rgba(245,196,81,.58),0 6px 15px rgba(0,0,0,.20)!important
+}
+
+/* Desktop/web phone frame */
+@media(min-width:600px){
+ .phone{box-shadow:0 30px 100px rgba(0,0,0,.55),0 0 0 1px rgba(81,149,198,.12)!important}
+}
 </style></head>
 <body><div class="phone"><script>document.documentElement.dataset.lqBoot="welcome";</script>
 <div id="welcome" class="welcome">
@@ -1569,7 +1774,7 @@ function openPlannerGoal(k){
  go("goals");
  setTimeout(()=>openGoal(k),80);
 }
-async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260911-46&refresh="+Date.now());}
+async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260911-47&refresh="+Date.now());}
 document.addEventListener("DOMContentLoaded",async()=>{
  try{if(navigator.storage&&navigator.storage.persist)await navigator.storage.persist();}catch(e){}
  renderChoices();
@@ -1642,7 +1847,7 @@ document.addEventListener("DOMContentLoaded",async()=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const reg = await navigator.serviceWorker.register("./sw.js?v=20260911-46");
+      const reg = await navigator.serviceWorker.register("./sw.js?v=20260911-47");
       await reg.update();
     } catch (e) {}
   });
