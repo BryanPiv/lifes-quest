@@ -514,6 +514,53 @@ input,select,textarea{border-radius:14px}
  #journey .pjTrail{right:-2px!important;transform:scale(.74)!important}
  #journey .pjCompanionCard{width:156px!important}
 }
+</style><style id="journey-v45-path-fix">
+/* v45: rebuild the mountain quest path as one aligned coordinate system */
+#journey .pjTrail{
+  position:absolute!important;
+  top:96px!important;
+  right:8px!important;
+  width:190px!important;
+  height:390px!important;
+  transform:none!important;
+  z-index:23!important;
+  overflow:visible!important;
+}
+#journey .pjPath{
+  position:absolute!important;
+  inset:0!important;
+  width:190px!important;
+  height:390px!important;
+  background:none!important;
+  box-shadow:none!important;
+  transform:none!important;
+  overflow:visible!important;
+}
+#journey .pjNode{
+  width:34px!important;height:34px!important;
+  margin:-17px 0 0 -17px!important;
+  z-index:4!important;
+}
+#journey .pjNode.n1{left:108px!important;top:365px!important;bottom:auto!important}
+#journey .pjNode.n2{left:119px!important;top:289px!important;bottom:auto!important}
+#journey .pjNode.n3{left:111px!important;top:220px!important;bottom:auto!important}
+#journey .pjNode.n4{left:132px!important;top:151px!important;bottom:auto!important}
+#journey .pjNode.n5{left:119px!important;top:86px!important;bottom:auto!important}
+#journey .pjMilestone{
+  z-index:5!important;
+  padding:6px 9px!important;
+  line-height:1.08!important;
+  white-space:nowrap!important;
+}
+#journey .pjMilestone.m1{left:4px!important;top:337px!important;bottom:auto!important;right:auto!important}
+#journey .pjMilestone.m2{left:0!important;top:194px!important;bottom:auto!important;right:auto!important}
+#journey .pjMilestone.m3{left:4px!important;top:59px!important;bottom:auto!important;right:auto!important}
+#journey .pjMilestone.m4{left:139px!important;top:124px!important;bottom:auto!important;right:auto!important}
+#journey .pjMilestone.m5{left:137px!important;top:0!important;bottom:auto!important;right:auto!important}
+@media(max-width:380px){
+ #journey .pjTrail{right:4px!important;width:180px!important;height:370px!important}
+ #journey .pjPath{width:180px!important;height:370px!important}
+}
 </style></head>
 <body><div class="phone"><script>document.documentElement.dataset.lqBoot="welcome";</script>
 <div id="welcome" class="welcome">
@@ -717,7 +764,24 @@ input,select,textarea{border-radius:14px}
     <div class="pjCompanionCard"><div class="eyebrow">YOUR COMPANION</div><div id="pjCompanionName" class="pjCompanionName">Ember</div><div id="pjCompanionType" class="pjType">🔥 FIRE</div><div class="pjQuote">“Discipline fuels greatness.”</div></div>
     <div id="journeyPet" class="pjCharacter"></div>
     <div class="pjTrail">
-      <div class="pjPath"></div>
+      <svg class="pjPath" viewBox="0 0 190 390" preserveAspectRatio="none" aria-hidden="true">
+  <defs>
+    <linearGradient id="questTrailV45" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#d51f35"/>
+      <stop offset=".30" stop-color="#ff7a3d"/>
+      <stop offset=".62" stop-color="#f5c451"/>
+      <stop offset="1" stop-color="#fff1b0"/>
+    </linearGradient>
+    <filter id="questTrailGlowV45" x="-100%" y="-20%" width="300%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <path d="M108 365 C132 330 133 300 114 270 C94 238 96 209 122 179 C143 154 142 124 121 96 C105 75 110 47 133 23"
+        fill="none" stroke="rgba(2,13,25,.46)" stroke-width="14" stroke-linecap="round"/>
+  <path d="M108 365 C132 330 133 300 114 270 C94 238 96 209 122 179 C143 154 142 124 121 96 C105 75 110 47 133 23"
+        fill="none" stroke="url(#questTrailV45)" stroke-width="6" stroke-linecap="round" filter="url(#questTrailGlowV45)"/>
+</svg>
       <div class="pjMilestone m1">BUILD<br>HABITS</div><div class="pjMilestone m2">GAIN<br>CONTROL</div><div class="pjMilestone m3">ACHIEVE<br>GOALS</div><div class="pjMilestone m4">CREATE<br>FREEDOM</div><div class="pjMilestone m5">BRIGHTEST<br>SELF</div>
       <div class="pjNode n1">1</div><div class="pjNode n2 locked">5</div><div class="pjNode n3 locked">10</div><div class="pjNode n4 locked">15</div><div class="pjNode n5 locked">20</div>
     </div>
@@ -1457,7 +1521,7 @@ function openPlannerGoal(k){
  go("goals");
  setTimeout(()=>openGoal(k),80);
 }
-async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260910-44&refresh="+Date.now());}
+async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260910-45&refresh="+Date.now());}
 document.addEventListener("DOMContentLoaded",async()=>{
  try{if(navigator.storage&&navigator.storage.persist)await navigator.storage.persist();}catch(e){}
  renderChoices();
@@ -1530,7 +1594,7 @@ document.addEventListener("DOMContentLoaded",async()=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const reg = await navigator.serviceWorker.register("./sw.js?v=20260910-44");
+      const reg = await navigator.serviceWorker.register("./sw.js?v=20260910-45");
       await reg.update();
     } catch (e) {}
   });
