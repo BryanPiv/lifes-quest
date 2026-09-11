@@ -1661,6 +1661,26 @@ body:not(.journey-active) #app>.nav{
 .modal.show .sheet{position:relative!important;padding-top:62px!important}
 .modal.show .quickMoneyHead{margin-top:-42px!important}
 body.lq-modal-open #app>.nav{pointer-events:none!important}
+</style><style id="v65-home-hitbox-fix">
+/* v65 — prevent duplicate hidden Journey controls from firing the wrong screen */
+body.journey-active #journey .pjTop,
+body.journey-active #journey .pjScene,
+body.journey-active #journey .pjBudget,
+body.journey-active #journey .pjQuick,
+body.journey-active #journey .pjTiles,
+body.journey-active #app>.nav{
+  pointer-events:none!important;
+}
+body.journey-active #journey .pjTop *,
+body.journey-active #journey .pjScene *,
+body.journey-active #journey .pjBudget *,
+body.journey-active #journey .pjQuick *,
+body.journey-active #journey .pjTiles *,
+body.journey-active #app>.nav *{
+  pointer-events:none!important;
+}
+#lqHotspots{z-index:300!important}
+body.lq-modal-open #lqHotspots{display:none!important}
 </style></head>
 <body><div class="phone"><script>document.documentElement.dataset.lqBoot="welcome";</script>
 <div id="welcome" class="welcome">
@@ -2753,4 +2773,42 @@ if ("serviceWorker" in navigator) {
 })();
 </script>
 
-</body></html>
+<script id="v65-home-hitbox-script">
+(function(){
+ function makeHotspots(){
+   const host=document.querySelector("#journey .premiumJourney");
+   if(!host)return;
+   let old=document.getElementById("lqHotspots");
+   if(old)old.remove();
+   const spots=document.createElement("div");
+   spots.id="lqHotspots";
+   spots.innerHTML=[
+     ["settings","Settings","settings"],
+     ["budget","Weekly budget","budget"],
+     ["food","Add Food","Food"],
+     ["gas","Add Gas","Gas"],
+     ["fun","Add Entertainment","Entertainment"],
+     ["misc","Add Misc","Misc"],
+     ["bills","Recurring Bills","calendar"],
+     ["goalsTile","Goal Planner","goals"],
+     ["home","Home","journey"],
+     ["expenses","Expenses","expenses"],
+     ["goals","Goals","goals"],
+     ["calendar","Calendar","calendar"]
+   ].map(x=>'<button type="button" class="'+x[0]+'" aria-label="'+x[1]+'" data-lq-action="'+x[2]+'"></button>').join("");
+   spots.addEventListener("click",function(e){
+     const b=e.target.closest("[data-lq-action]"); if(!b)return;
+     e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();
+     const a=b.dataset.lqAction;
+     if(a==="settings"){window.go&&window.go("settings");return;}
+     if(a==="budget"){window.openBudget&&window.openBudget();return;}
+     if(["Food","Gas","Entertainment","Misc"].includes(a)){window.quickAdd&&window.quickAdd(a);return;}
+     window.go&&window.go(a);
+   },true);
+   host.appendChild(spots);
+ }
+ function boot(){makeHotspots();}
+ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
+ window.addEventListener("pageshow",boot);
+})();
+</script></body></html>
