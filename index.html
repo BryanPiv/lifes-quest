@@ -1883,6 +1883,291 @@ body.budget-editing #incomeOnboarding *{
  #journey .premiumJourney::after{top:38.4%!important;height:29%!important}
  #lqLiveCharacter{left:4%!important;top:40.7%!important;width:32%!important}
 }
+</style><style id="v77-component-journey-rebuild">
+/* v77 — true layered Journey rebuild. No screenshot UI. Every visual is editable independently. */
+#journey.page.on{
+  height:100dvh!important;
+  min-height:100dvh!important;
+  overflow:hidden!important;
+}
+#journey .premiumJourney{
+  position:relative!important;
+  height:100dvh!important;
+  min-height:100dvh!important;
+  overflow:hidden!important;
+  padding:0 0 82px!important;
+  background:
+    radial-gradient(circle at 76% 7%,rgba(255,220,136,.20),transparent 18%),
+    linear-gradient(180deg,#07518d 0%,#147db3 19%,#6bb0c9 38%,#183c4d 63%,#061722 100%)!important;
+}
+/* permanently disable the old full-screen reference render */
+#journey .premiumJourney::before,
+#journey .premiumJourney::after{display:none!important}
+
+/* real editable environment layer */
+#journey .pjScene{
+  opacity:1!important;
+  visibility:visible!important;
+  pointer-events:auto!important;
+  position:absolute!important;
+  z-index:2!important;
+  top:74px!important;
+  left:0!important;right:0!important;
+  height:47.5vh!important;
+  margin:0!important;
+  overflow:hidden!important;
+}
+#journey .pjMountains{
+  display:block!important;
+  opacity:1!important;
+  visibility:visible!important;
+  position:absolute!important;
+  inset:0!important;
+  z-index:1!important;
+}
+#journey .pjMountains img.productionMountainEnvironment{
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+  object-fit:cover!important;
+  object-position:center 41%!important;
+  filter:saturate(1.09) contrast(1.04)!important;
+}
+/* subtle atmosphere as its own visual layer */
+#journey .pjScene:before{
+  content:"";
+  position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:
+    linear-gradient(180deg,rgba(5,41,74,.06),transparent 28%,transparent 70%,rgba(3,18,27,.50)),
+    radial-gradient(circle at 77% 12%,rgba(255,239,173,.25),transparent 17%);
+}
+#journey .pjScene:after{
+  content:"";
+  position:absolute;left:-8%;right:-8%;bottom:-9%;height:30%;z-index:2;pointer-events:none;
+  background:linear-gradient(180deg,transparent,rgba(4,23,30,.78));
+  filter:blur(2px);
+}
+
+/* top branding and XP are real DOM */
+#journey .pjTop{
+  opacity:1!important;
+  visibility:visible!important;
+  pointer-events:none!important;
+  position:absolute!important;
+  z-index:60!important;
+  top:0!important;left:0!important;right:0!important;
+  height:80px!important;
+  padding:15px 15px 0!important;
+  display:flex!important;
+  justify-content:space-between!important;
+  align-items:flex-start!important;
+}
+#journey .pjLogo{
+  font:700 28px Georgia,serif!important;
+  color:#f7cf72!important;
+  text-shadow:0 3px 12px rgba(0,0,0,.55)!important;
+}
+#journey .pjLogo small{font-size:6.5px!important;letter-spacing:1.45px!important;color:#fff!important}
+#journey .pjLevel{
+  width:128px!important;
+  padding:8px 10px!important;
+  border-radius:14px!important;
+  background:linear-gradient(180deg,rgba(5,29,45,.88),rgba(3,19,31,.84))!important;
+  border:1px solid rgba(246,205,106,.55)!important;
+  box-shadow:0 8px 20px rgba(0,0,0,.24)!important;
+  backdrop-filter:blur(8px)!important;
+}
+#journey .pjLevel b{font-size:14px!important}
+#journey .pjLevel .bar{height:6px!important}
+#journey .pjGear{
+  opacity:1!important;visibility:visible!important;
+  top:82px!important;right:12px!important;
+  z-index:80!important;
+  width:40px!important;height:40px!important;
+  pointer-events:auto!important;
+  background:rgba(4,28,45,.78)!important;
+  border:1px solid rgba(246,205,106,.58)!important;
+}
+
+/* companion info card — editable separately */
+#journey .pjCompanionCard{
+  opacity:1!important;visibility:visible!important;
+  position:absolute!important;
+  z-index:12!important;
+  left:14px!important;top:43px!important;
+  width:154px!important;
+  padding:11px 12px!important;
+  border-radius:15px!important;
+  background:linear-gradient(160deg,rgba(5,31,48,.84),rgba(2,17,29,.70))!important;
+  border:1px solid rgba(246,205,106,.44)!important;
+  box-shadow:0 12px 28px rgba(0,0,0,.27)!important;
+  backdrop-filter:blur(9px)!important;
+}
+#journey .pjCompanionCard .eyebrow{font-size:7.5px!important;letter-spacing:1.4px!important}
+#journey .pjCompanionName{font-size:24px!important;margin:1px 0!important}
+#journey .pjType{font-size:9px!important;color:#8cecff!important}
+#journey .pjQuote{font-size:10.5px!important;line-height:1.35!important;margin-top:6px!important}
+
+/* separate path/milestone layer */
+#journey .pjTrail{
+  opacity:1!important;visibility:visible!important;
+  position:absolute!important;
+  z-index:10!important;
+  right:4px!important;top:20px!important;
+  width:205px!important;height:350px!important;
+  transform:scale(.86)!important;
+  transform-origin:top right!important;
+  pointer-events:none!important;
+}
+#journey .pjTrail svg.pjPath{
+  display:block!important;
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;height:100%!important;
+  transform:none!important;
+  background:none!important;
+  box-shadow:none!important;
+}
+#journey .pjNode{
+  width:32px!important;height:32px!important;
+  border-width:2px!important;
+  background:linear-gradient(180deg,#0a263a,#041521)!important;
+  box-shadow:0 0 0 4px rgba(244,196,81,.14),0 0 16px rgba(255,205,88,.38)!important;
+}
+#journey .pjMilestone{
+  font-size:7px!important;
+  background:rgba(4,23,35,.82)!important;
+  backdrop-filter:blur(5px)!important;
+  border-color:rgba(246,205,106,.52)!important;
+}
+
+/* Nimbus sits on top of scenery and remains independently animated */
+#journey .pjCharacter,#journey .jpet,#journey .productionCompanionSprite{display:none!important}
+#lqLiveCharacter{
+  left:5%!important;
+  top:46%!important;
+  width:31%!important;
+  z-index:25!important;
+}
+#lqLiveCharacter::before{display:none!important}
+#lqLiveCharacter img{
+  filter:drop-shadow(0 14px 14px rgba(0,0,0,.50)) drop-shadow(0 0 8px rgba(93,226,255,.12))!important;
+}
+
+/* actual editable UI panels */
+#journey .pjBudget,
+#journey .pjQuickTitle,
+#journey .pjQuick,
+#journey .pjTiles{
+  opacity:1!important;
+  visibility:visible!important;
+  position:absolute!important;
+  z-index:50!important;
+  pointer-events:auto!important;
+}
+#journey .pjBudget{
+  left:12px!important;right:12px!important;
+  top:52.5vh!important;
+  bottom:auto!important;
+  height:68px!important;
+  margin:0!important;
+  padding:10px 12px!important;
+  display:flex!important;
+  gap:10px!important;
+  border-radius:17px!important;
+  background:linear-gradient(155deg,rgba(5,45,75,.96),rgba(3,25,43,.97))!important;
+  border:1px solid rgba(60,154,214,.54)!important;
+  box-shadow:0 14px 30px rgba(0,0,0,.32)!important;
+}
+#journey .pjBudgetIcon{font-size:24px!important}
+#journey .pjBudgetMain b{font-size:12px!important}
+#journey #editBudgetBtn{
+  position:static!important;
+  width:auto!important;height:auto!important;
+  opacity:1!important;
+  padding:8px 10px!important;
+  pointer-events:auto!important;
+  background:linear-gradient(180deg,#0b426c,#082f50)!important;
+  border:1px solid rgba(117,190,233,.45)!important;
+}
+#journey .pjQuickTitle{
+  display:block!important;
+  left:0!important;right:0!important;
+  top:calc(52.5vh + 76px)!important;
+  height:18px!important;
+  margin:0!important;
+  text-align:center!important;
+  font-size:9px!important;
+  color:#f6d273!important;
+  letter-spacing:1.6px!important;
+}
+#journey .pjQuick{
+  left:12px!important;right:12px!important;
+  top:calc(52.5vh + 98px)!important;
+  height:66px!important;
+  padding:0!important;
+  display:grid!important;
+  grid-template-columns:repeat(4,1fr)!important;
+  gap:7px!important;
+}
+#journey .pjQuick button{
+  height:66px!important;
+  padding:7px 3px!important;
+  border-radius:14px!important;
+  background:linear-gradient(155deg,rgba(8,59,98,.98),rgba(4,31,55,.98))!important;
+  border:1px solid rgba(45,146,211,.64)!important;
+  box-shadow:0 8px 18px rgba(0,0,0,.24)!important;
+  color:#fff!important;
+  pointer-events:auto!important;
+}
+#journey .pjQuick .icon{font-size:20px!important}
+#journey .pjQuick b{font-size:9px!important;margin-top:3px!important}
+#journey .pjTiles{
+  left:12px!important;right:12px!important;
+  top:calc(52.5vh + 172px)!important;
+  height:58px!important;
+  padding:0!important;
+  display:grid!important;
+  grid-template-columns:1fr 1fr!important;
+  gap:7px!important;
+}
+#journey .pjTile{
+  height:58px!important;
+  padding:7px 9px!important;
+  border-radius:14px!important;
+  background:linear-gradient(155deg,rgba(6,53,89,.98),rgba(3,29,51,.98))!important;
+  border:1px solid rgba(45,142,205,.58)!important;
+  box-shadow:0 8px 18px rgba(0,0,0,.22)!important;
+  pointer-events:auto!important;
+}
+#journey .pjTile .ti{font-size:16px!important;float:left;margin-right:7px!important}
+#journey .pjTile b{font-size:9px!important;margin-top:0!important}
+#journey .pjTile small{font-size:7px!important;margin-top:2px!important}
+
+/* normal functional bottom nav — no invisible screenshot hitboxes */
+body.journey-active #app>.nav{
+  opacity:1!important;
+  pointer-events:auto!important;
+  z-index:100!important;
+  background:linear-gradient(180deg,rgba(4,36,61,.98),rgba(2,20,36,.99))!important;
+  border-top:1px solid rgba(43,133,191,.48)!important;
+  border-radius:20px 20px 0 0!important;
+  box-shadow:0 -10px 24px rgba(0,0,0,.28)!important;
+}
+body.journey-active #app>.nav button{pointer-events:auto!important}
+
+/* old screenshot hitbox overlay must never intercept touches again */
+#lqHotspots{display:none!important;pointer-events:none!important}
+
+@media(max-height:760px){
+  #journey .pjScene{top:68px!important;height:45.5vh!important}
+  #journey .pjBudget{top:50.5vh!important}
+  #journey .pjQuickTitle{top:calc(50.5vh + 75px)!important}
+  #journey .pjQuick{top:calc(50.5vh + 96px)!important;height:62px!important}
+  #journey .pjQuick button{height:62px!important}
+  #journey .pjTiles{top:calc(50.5vh + 164px)!important}
+  #lqLiveCharacter{top:44.5%!important;width:29%!important}
+}
 </style></head>
 <body><div class="phone"><script>document.documentElement.dataset.lqBoot="welcome";</script>
 <div id="welcome" class="welcome">
@@ -3310,5 +3595,23 @@ if ("serviceWorker" in navigator) {
   window.addEventListener("pageshow",boot);
   window.addEventListener("storage",()=>place(true));
   setTimeout(()=>{boot();window.lifeQuestCharacter&&window.lifeQuestCharacter.lookAround&&window.lifeQuestCharacter.lookAround()},900);
+})();
+</script><script id="v77-component-journey-rebuild-script">
+(function(){
+  function cleanup(){
+    const hs=document.getElementById("lqHotspots"); if(hs)hs.remove();
+    const host=document.querySelector("#journey .premiumJourney");
+    if(host){
+      host.classList.remove("reference-ready");
+      host.style.removeProperty("--journey-reference-image");
+    }
+    const env=document.querySelector("#journey .productionMountainEnvironment");
+    if(env && !/v=77/.test(env.src)) env.src="assets/journey/mountain-environment.svg?v=77";
+    const img=document.querySelector("#lqLiveCharacter img");
+    if(img && /nimbus-backpack\.svg/.test(img.src)) img.src="assets/companions/nimbus-backpack.svg?v=77";
+  }
+  function boot(){cleanup();setTimeout(cleanup,250);setTimeout(cleanup,1200)}
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
+  window.addEventListener("pageshow",boot);
 })();
 </script></body></html>
