@@ -798,6 +798,84 @@ html,body{background:#020912!important}
 #journey .pjTrail{z-index:24!important}
 #journey .pjSummitGlow{z-index:23!important}
 #journey .pjTagline{z-index:25!important}
+</style><style id="companion-card-layout-v50">
+/* v50 - make companion details fully readable */
+.settingsCompanionGrid{
+ display:grid!important;
+ grid-template-columns:1fr 1fr!important;
+ gap:10px!important;
+ align-items:stretch!important;
+}
+.companionPick{
+ display:flex!important;
+ flex-direction:column!important;
+ min-height:260px!important;
+ padding:10px!important;
+ overflow:hidden!important;
+}
+.companionPickPet{
+ height:132px!important;
+ min-height:132px!important;
+ display:flex!important;
+ align-items:center!important;
+ justify-content:center!important;
+ margin-bottom:8px!important;
+}
+.companionPickPet img{
+ width:100%!important;
+ height:100%!important;
+ object-fit:contain!important;
+ object-position:center!important;
+}
+.companionPickName{
+ position:relative!important;
+ z-index:2!important;
+ font-size:16px!important;
+ line-height:1.1!important;
+ margin-top:0!important;
+ white-space:normal!important;
+ overflow:visible!important;
+ text-overflow:clip!important;
+}
+.companionPickType{
+ position:relative!important;
+ z-index:2!important;
+ margin-top:3px!important;
+ font-size:8px!important;
+ line-height:1.25!important;
+ letter-spacing:1.2px!important;
+ white-space:normal!important;
+}
+.companionPickLevel{
+ position:relative!important;
+ z-index:2!important;
+ margin-top:9px!important;
+ font-size:11px!important;
+ line-height:1.2!important;
+}
+.companionMiniBar{
+ position:relative!important;
+ z-index:2!important;
+ margin-top:7px!important;
+}
+.companionPick small{
+ position:relative!important;
+ z-index:2!important;
+ margin-top:5px!important;
+ font-size:8px!important;
+ line-height:1.25!important;
+}
+.companionPickBadge{
+ z-index:5!important;
+ top:8px!important;
+ right:8px!important;
+}
+@media(max-width:390px){
+ .settingsCompanionGrid{gap:8px!important}
+ .companionPick{min-height:244px!important;padding:9px!important}
+ .companionPickPet{height:118px!important;min-height:118px!important}
+ .companionPickName{font-size:15px!important}
+}
 </style></head>
 <body><div class="phone"><script>document.documentElement.dataset.lqBoot="welcome";</script>
 <div id="welcome" class="welcome">
@@ -1758,7 +1836,7 @@ function openPlannerGoal(k){
  go("goals");
  setTimeout(()=>openGoal(k),80);
 }
-async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260911-49&refresh="+Date.now());}
+async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260911-50&refresh="+Date.now());}
 document.addEventListener("DOMContentLoaded",async()=>{
  try{if(navigator.storage&&navigator.storage.persist)await navigator.storage.persist();}catch(e){}
  renderChoices();
@@ -1831,7 +1909,7 @@ document.addEventListener("DOMContentLoaded",async()=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const reg = await navigator.serviceWorker.register("./sw.js?v=20260911-49");
+      const reg = await navigator.serviceWorker.register("./sw.js?v=20260911-50");
       await reg.update();
     } catch (e) {}
   });
