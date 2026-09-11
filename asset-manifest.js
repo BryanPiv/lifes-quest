@@ -1,0 +1,29 @@
+window.LQAssetManifest={
+  version:1,
+  environment:{
+    baseScene:"premium-alpine",
+    required:[
+      {slot:"sky",kind:"opaque",path:"assets/art/environment/premium-alpine/sky.webp"},
+      {slot:"farMountains",kind:"transparent",path:"assets/art/environment/premium-alpine/far-mountains.webp"},
+      {slot:"midMountains",kind:"transparent",path:"assets/art/environment/premium-alpine/mid-mountains.webp"},
+      {slot:"valley",kind:"transparent",path:"assets/art/environment/premium-alpine/valley-water.webp"},
+      {slot:"heroMountain",kind:"transparent",path:"assets/art/environment/premium-alpine/hero-mountain.webp"},
+      {slot:"foreground",kind:"transparent",path:"assets/art/environment/premium-alpine/foreground.webp"},
+      {slot:"mist",kind:"transparent",path:"assets/art/environment/premium-alpine/mist.webp"},
+      {slot:"lighting",kind:"transparent",path:"assets/art/environment/premium-alpine/lighting.webp"}
+    ]
+  },
+  companions:{
+    cloud:{name:"Nimbus",folder:"nimbus"},
+    fire:{name:"Ember",folder:"ember"},
+    water:{name:"Aurora",folder:"aurora"},
+    lightning:{name:"Volt",folder:"volt"},
+    shadow:{name:"Nightfall",folder:"nightfall"}
+  },
+  characterFile(type,form,state="idle"){
+    const c=this.companions[type]||this.companions.cloud;
+    return "assets/art/companions/"+c.folder+"/form-"+form+"/"+state+".webp";
+  },
+  requiredStates:["idle","walk","run","look","wave","celebrate","surprised","sleep","evolve"],
+  requiredForms:[1,2,3,4]
+};
