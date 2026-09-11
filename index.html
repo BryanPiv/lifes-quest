@@ -1123,13 +1123,15 @@ function render(){
  document.querySelectorAll("[data-report-range]").forEach(b=>b.classList.toggle("sel",b.dataset.reportRange===(d.expenseReportRange||"month")));
  q("expenseList").innerHTML=reportExpenses.length?reportExpenses.map(x=>'<div class="transactionRow"><div class="transactionIcon">'+(catIcons[x.cat]||"🛒")+'</div><div class="transactionMain"><b>'+(x.note||catLabels[x.cat]||x.cat)+'</b><small>'+(catLabels[x.cat]||x.cat)+' • '+x.date+'</small></div><div class="transactionAmt">-'+money(x.amount)+'</div></div>').join(""):'<div class="transactionRow"><div class="transactionMain"><b>No transactions in this period</b><small>Your older expenses are still saved.</small></div></div>';
  renderGoals();renderCalendar();renderUpcoming();renderJourney(p,st,lv);
- const visibleCompanion=q("pjCharacter")||q("journeyPet");
+ const visibleCompanion=q("journeyPet")||q("pjCharacter");
  if(visibleCompanion&&!visibleCompanion.innerHTML.trim())visibleCompanion.innerHTML=premiumJourneyPetSVG(d.type||"fire",st);
  renderPaycheckPlan();renderSimpleGoals();
 }
 function renderGoals(){
  syncRecommendedGoals();
- q("goalList").innerHTML=Object.entries(d.goals).filter(([k])=>k!=="Investing").map(([k,g])=>{
+ const legacyGoalList=q("goalList");
+ if(!legacyGoalList)return;
+ legacyGoalList.innerHTML=Object.entries(d.goals).filter(([k])=>k!=="Investing").map(([k,g])=>{
    const pc=g.goal>0?Math.min(100,g.saved/g.goal*100):0;
    let actions="";
    if(k==="Emergency"){
@@ -1195,9 +1197,9 @@ function premiumJourneyPetSVG(type,st=0){
  '</svg>';
 }
 function renderJourney(p,st,lv){
- const journeyPetEl=q("pjCharacter")||q("journeyPet");
+ const journeyPetEl=q("journeyPet")||q("pjCharacter");
  if(journeyPetEl) journeyPetEl.innerHTML=premiumJourneyPetSVG(d.type||"fire",st);
- q("summitPet").innerHTML=petSVG(d.type,3);
+ if(q("summitPet"))q("summitPet").innerHTML=petSVG(d.type,3);
  if(q("pjCompanionName"))q("pjCompanionName").textContent=p.name;
  if(q("pjCompanionType"))q("pjCompanionType").textContent=({fire:"🔥 FIRE",water:"💧 WATER",lightning:"⚡ LIGHTNING",shadow:"🌙 SHADOW",cloud:"☁️ CLOUD"}[d.type]||"COMPANION");
  if(q("pjLevelNum"))q("pjLevelNum").textContent=lv;
@@ -1343,7 +1345,7 @@ function openPlannerGoal(k){
  go("goals");
  setTimeout(()=>openGoal(k),80);
 }
-async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260910-40&refresh="+Date.now());}
+async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260910-41&refresh="+Date.now());}
 document.addEventListener("DOMContentLoaded",async()=>{
  try{if(navigator.storage&&navigator.storage.persist)await navigator.storage.persist();}catch(e){}
  renderChoices();
@@ -1403,6 +1405,8 @@ document.addEventListener("DOMContentLoaded",async()=>{
    q("app").classList.remove("hidden");
    render();
    go("journey");
+   const jp=q("journeyPet");
+   if(jp)jp.innerHTML=premiumJourneyPetSVG(d.type||"fire",stage());
  }else{
    q("welcome").classList.remove("hidden");
    q("chooser").classList.add("hidden");
@@ -1414,7 +1418,7 @@ document.addEventListener("DOMContentLoaded",async()=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const reg = await navigator.serviceWorker.register("./sw.js?v=20260910-40");
+      const reg = await navigator.serviceWorker.register("./sw.js?v=20260910-41");
       await reg.update();
     } catch (e) {}
   });
