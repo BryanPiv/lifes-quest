@@ -1747,60 +1747,9 @@ body.journey-active .phone{
   min-height:100dvh!important;
   overflow:hidden!important;
 }
-</style><style id="v68-character-animation">
-/* v68 — subtle animated companion overlay on Journey */
-#lqAnimatedCompanion{
-  position:absolute;
-  left:7.5%;
-  top:42.5%;
-  width:31%;
-  height:auto;
-  z-index:42;
-  pointer-events:none;
-  transform-origin:50% 88%;
-  filter:drop-shadow(0 16px 18px rgba(0,0,0,.40)) drop-shadow(0 0 10px rgba(255,255,255,.16));
-  animation:lqCompanionBob 3.6s ease-in-out infinite;
-}
-#lqAnimatedCompanion img{
-  width:100%;
-  height:auto;
-  display:block;
-  animation:lqCompanionBreathe 2.8s ease-in-out infinite;
-  transform-origin:50% 82%;
-}
-#lqAnimatedCompanion::after{
-  content:"";
-  position:absolute;
-  left:22%;
-  right:22%;
-  bottom:2%;
-  height:10%;
-  border-radius:50%;
-  background:rgba(0,0,0,.22);
-  filter:blur(7px);
-  animation:lqCompanionShadow 3.6s ease-in-out infinite;
-  z-index:-1;
-}
-@keyframes lqCompanionBob{
-  0%,100%{transform:translateY(0) rotate(-.4deg)}
-  50%{transform:translateY(-7px) rotate(.6deg)}
-}
-@keyframes lqCompanionBreathe{
-  0%,100%{transform:scale(1)}
-  50%{transform:scale(1.018,1.01)}
-}
-@keyframes lqCompanionShadow{
-  0%,100%{transform:scaleX(1);opacity:.24}
-  50%{transform:scaleX(.88);opacity:.16}
-}
-@media(max-height:760px){
-  #lqAnimatedCompanion{top:41.5%;width:29%}
-}
-@media(prefers-reduced-motion:reduce){
-  #lqAnimatedCompanion,
-  #lqAnimatedCompanion img,
-  #lqAnimatedCompanion::after{animation:none!important}
-}
+</style><style id="v69-single-character-fix">
+/* v69 — remove duplicate live companion; keep the approved single character visible */
+#lqAnimatedCompanion{display:none!important}
 </style></head>
 <body><div class="phone"><script>document.documentElement.dataset.lqBoot="welcome";</script>
 <div id="welcome" class="welcome">
@@ -2993,43 +2942,5 @@ if ("serviceWorker" in navigator) {
  }
  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
  window.addEventListener("pageshow",boot);
-})();
-</script><script id="v68-character-animation-script">
-(function(){
-  function getType(){
-    try{
-      const saved=JSON.parse(localStorage.getItem("lifesQuestWeb")||"{}");
-      return saved.type||"cloud";
-    }catch(e){return "cloud";}
-  }
-  function asset(type){
-    const map={
-      fire:"assets/companions/ember.svg",
-      water:"assets/companions/aurora.svg",
-      lightning:"assets/companions/volt.svg",
-      shadow:"assets/companions/nightfall.svg",
-      cloud:"assets/companions/nimbus.svg"
-    };
-    return map[type]||map.cloud;
-  }
-  function render(){
-    const host=document.querySelector("#journey .premiumJourney");
-    if(!host)return;
-    let wrap=document.getElementById("lqAnimatedCompanion");
-    if(!wrap){
-      wrap=document.createElement("div");
-      wrap.id="lqAnimatedCompanion";
-      wrap.innerHTML='<img alt="Animated companion">';
-      host.appendChild(wrap);
-    }
-    const type=getType();
-    const img=wrap.querySelector("img");
-    const src=asset(type)+"?v=68";
-    if(img.getAttribute("src")!==src)img.setAttribute("src",src);
-  }
-  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",render);else render();
-  window.addEventListener("pageshow",render);
-  window.addEventListener("storage",render);
-  setInterval(render,1200);
 })();
 </script></body></html>
