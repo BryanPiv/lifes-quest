@@ -1,9 +1,9 @@
 {
   "name": "Life's Quest",
   "short_name": "Life's Quest",
-  "start_url": "./?app=20260911-46",
+  "start_url": "./?app=20260911-47",
   "scope": "./",
   "display": "standalone",
   "background_color": "#020b16",
-  "theme_color": "#06284d"
+  "theme_color": "#06192e"
 }
