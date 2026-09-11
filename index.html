@@ -1301,6 +1301,83 @@ html,body{background:#020912!important}
 }
 </style>
 
+
+<style id="journey-v56-hero-polish">
+/* v56 — match the polished reference: mountain hero + readable trail */
+#journey .pjScene{
+  background:linear-gradient(180deg,#0b5f9b 0%,#1f79ad 35%,#315e70 72%,#06263a 100%)!important;
+}
+#journey .pjMountains{
+  opacity:1!important;
+  transform:none!important;
+  filter:saturate(1.28) contrast(1.08) brightness(1.02)!important;
+}
+#journey .pjMountains img,
+#journey .pjMountains svg{
+  object-fit:cover!important;
+  object-position:52% 38%!important;
+  transform:scale(1.05)!important;
+  transform-origin:center center!important;
+}
+#journey .pjScene:after{
+  background:
+    radial-gradient(circle at 78% 18%,rgba(255,218,102,.34),transparent 18%),
+    linear-gradient(180deg,rgba(0,29,57,.02) 0%,rgba(0,25,47,.04) 52%,rgba(0,18,32,.18) 72%,rgba(0,12,23,.62) 100%)!important;
+}
+#journey .pjTrail{
+  top:128px!important;
+  right:-2px!important;
+  width:170px!important;
+  height:390px!important;
+  transform:scale(.92)!important;
+  transform-origin:top right!important;
+  z-index:34!important;
+}
+#journey .pjPath{
+  width:100%!important;
+  height:100%!important;
+  overflow:visible!important;
+  filter:drop-shadow(0 0 7px rgba(255,192,76,.5))!important;
+}
+#journey .pjMilestone{
+  transform:scale(.88)!important;
+  transform-origin:center!important;
+  box-shadow:0 5px 14px rgba(0,0,0,.45)!important;
+}
+#journey .pjNode{
+  box-shadow:0 0 0 3px rgba(6,25,43,.88),0 0 0 5px rgba(230,239,247,.52),0 5px 15px rgba(0,0,0,.5)!important;
+}
+#journey .pjNode.n1{
+  box-shadow:0 0 0 3px rgba(6,25,43,.9),0 0 0 5px #f8d46f,0 0 18px rgba(255,207,84,.6)!important;
+}
+#journey .pjCharacter{
+  top:205px!important;
+  left:10px!important;
+  width:165px!important;
+  height:180px!important;
+  z-index:35!important;
+}
+#journey .pjCompanionCard{
+  top:98px!important;
+  width:145px!important;
+  z-index:40!important;
+}
+#journey .pjTagline{
+  top:410px!important;
+  right:20px!important;
+  z-index:38!important;
+  text-shadow:0 3px 9px rgba(0,0,0,.9)!important;
+}
+#journey .pjBudget{
+  bottom:198px!important;
+}
+@media(max-height:760px){
+ #journey .pjTrail{top:112px!important;right:-8px!important;transform:scale(.82)!important}
+ #journey .pjCharacter{top:190px!important;width:150px!important;height:165px!important}
+ #journey .pjTagline{top:365px!important}
+}
+</style>
+
 </head>
 <body><div class="phone"><script>document.documentElement.dataset.lqBoot="welcome";</script>
 <div id="welcome" class="welcome">
@@ -2261,7 +2338,7 @@ function openPlannerGoal(k){
  go("goals");
  setTimeout(()=>openGoal(k),80);
 }
-async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260911-55&refresh="+Date.now());}
+async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260911-56&refresh="+Date.now());}
 document.addEventListener("DOMContentLoaded",async()=>{
  try{if(navigator.storage&&navigator.storage.persist)await navigator.storage.persist();}catch(e){}
  renderChoices();
@@ -2334,7 +2411,7 @@ document.addEventListener("DOMContentLoaded",async()=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const reg = await navigator.serviceWorker.register("./sw.js?v=20260911-55");
+      const reg = await navigator.serviceWorker.register("./sw.js?v=20260911-56");
       await reg.update();
     } catch (e) {}
   });
