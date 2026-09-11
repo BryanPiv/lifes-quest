@@ -2599,7 +2599,7 @@ function openPlannerGoal(k){
  go("goals");
  setTimeout(()=>openGoal(k),80);
 }
-async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260911-58&refresh="+Date.now());}
+async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260911-59&refresh="+Date.now());}
 document.addEventListener("DOMContentLoaded",async()=>{
  try{if(navigator.storage&&navigator.storage.persist)await navigator.storage.persist();}catch(e){}
  renderChoices();
@@ -2672,27 +2672,18 @@ document.addEventListener("DOMContentLoaded",async()=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const reg = await navigator.serviceWorker.register("./sw.js?v=20260911-58");
+      const reg = await navigator.serviceWorker.register("./sw.js?v=20260911-59");
       await reg.update();
     } catch (e) {}
   });
 }
 </script>
-<script id="journey-v58-reference-loader">
-(async function(){
+<script id="journey-v59-reference-loader">
+(function(){
   const el=document.querySelector("#journey .premiumJourney");
   if(!el)return;
-  try{
-    const res=await fetch("https://api.github.com/repos/BryanPiv/lifes-quest/git/blobs/f7eb539c984044596baa0664569b92d486578302",{cache:"force-cache"});
-    if(!res.ok)throw new Error("reference image fetch failed");
-    const data=await res.json();
-    const b64=(data.content||"").replace(/\\n/g,"");
-    if(!b64)throw new Error("reference image missing");
-    el.style.setProperty("--journey-reference-image",'url("data:image/jpeg;base64,'+b64+'")');
-    el.classList.add("reference-ready");
-  }catch(e){
-    /* Keep the app usable if GitHub's blob endpoint is temporarily unavailable. */
-  }
+  el.style.setProperty("--journey-reference-image",'url("assets/journey/journey-v58.jpg?v=59")');
+  el.classList.add("reference-ready");
 })();
 </script>
 
