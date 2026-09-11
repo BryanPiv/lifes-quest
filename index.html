@@ -524,7 +524,6 @@ input,select,textarea{border-radius:14px}
   </div>
   <div class="pjTiles">
     <button class="pjTile" data-nav-direct="calendar"><div class="ti">📅</div><b>Recurring Bills</b><small id="pjBillsText">No bills added</small></button>
-    <button class="pjTile" data-nav-direct="goals"><div class="ti">🎯</div><b>Savings Goals</b><small id="pjGoalsText">No goals yet</small></button>
     <button class="pjTile" data-nav-direct="goals"><div class="ti">💰</div><b>Goal Planner</b><small>See savings per paycheck</small></button>
   </div>
 </div>
@@ -1181,7 +1180,7 @@ function openPlannerGoal(k){
  go("goals");
  setTimeout(()=>openGoal(k),80);
 }
-async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260910-33&refresh="+Date.now());}
+async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260910-34&refresh="+Date.now());}
 document.addEventListener("DOMContentLoaded",()=>{
  renderChoices();
  const settingsBtn=q("settingsBtn"); if(settingsBtn)settingsBtn.addEventListener("click",()=>go("settings"));
@@ -1239,7 +1238,7 @@ document.addEventListener("DOMContentLoaded",()=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const reg = await navigator.serviceWorker.register("./sw.js?v=20260910-33");
+      const reg = await navigator.serviceWorker.register("./sw.js?v=20260910-34");
       await reg.update();
     } catch (e) {}
   });
