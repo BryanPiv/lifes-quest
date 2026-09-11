@@ -359,6 +359,29 @@ input,select,textarea{border-radius:14px}
 @media(max-width:390px){
  .pjCharacter{width:205px!important;height:205px!important;left:8px!important;bottom:30px!important}
 }
+
+/* Companion placement: visible beside the companion card on the mountain scene */
+.pjCharacter{
+ position:absolute!important;
+ left:38px!important;
+ top:245px!important;
+ bottom:auto!important;
+ width:225px!important;
+ height:225px!important;
+ z-index:30!important;
+ opacity:1!important;
+ visibility:visible!important;
+ pointer-events:none!important;
+ filter:drop-shadow(0 18px 22px rgba(0,0,0,.72)) drop-shadow(0 0 12px rgba(245,196,81,.24))!important;
+ animation:idle 3.1s ease-in-out infinite!important;
+}
+.pjCharacter svg{display:block!important;width:100%!important;height:100%!important;opacity:1!important;visibility:visible!important}
+.pjCompanionCard{z-index:31!important}
+.pjTrail{z-index:12!important}
+.pjSummit{z-index:13!important}
+@media(max-width:390px){
+ .pjCharacter{left:24px!important;top:250px!important;width:205px!important;height:205px!important}
+}
 </style>
 </head>
 <body><div class="phone"><script>document.documentElement.dataset.lqBoot="welcome";</script>
@@ -1235,7 +1258,7 @@ function openPlannerGoal(k){
  go("goals");
  setTimeout(()=>openGoal(k),80);
 }
-async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260910-37&refresh="+Date.now());}
+async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260910-38&refresh="+Date.now());}
 document.addEventListener("DOMContentLoaded",async()=>{
  try{if(navigator.storage&&navigator.storage.persist)await navigator.storage.persist();}catch(e){}
  renderChoices();
@@ -1306,7 +1329,7 @@ document.addEventListener("DOMContentLoaded",async()=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const reg = await navigator.serviceWorker.register("./sw.js?v=20260910-37");
+      const reg = await navigator.serviceWorker.register("./sw.js?v=20260910-38");
       await reg.update();
     } catch (e) {}
   });
