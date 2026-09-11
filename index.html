@@ -1700,6 +1700,53 @@ body.journey-active #app>.nav button{
 #lqHotspots .calendar{
   z-index:310!important;
 }
+</style><style id="v67-income-scroll-fix">
+/* v67 — allow Build Your Budget / onboarding screens to scroll on iPhone */
+html,body{
+  min-height:100%!important;
+  height:auto!important;
+  overflow-y:auto!important;
+  -webkit-overflow-scrolling:touch!important;
+}
+body{
+  align-items:flex-start!important;
+}
+.phone{
+  height:auto!important;
+  min-height:100dvh!important;
+  max-height:none!important;
+  overflow-x:hidden!important;
+  overflow-y:visible!important;
+  -webkit-overflow-scrolling:touch!important;
+}
+#incomeOnboarding,
+#goalOnboarding,
+#chooser,
+#welcome{
+  height:auto!important;
+  min-height:100dvh!important;
+  max-height:none!important;
+  overflow:visible!important;
+  -webkit-overflow-scrolling:touch!important;
+}
+#incomeOnboarding{
+  padding-bottom:calc(120px + env(safe-area-inset-bottom))!important;
+}
+#incomeOnboarding.hidden,
+#goalOnboarding.hidden,
+#chooser.hidden,
+#welcome.hidden{
+  display:none!important;
+}
+/* Journey is the one screen that should remain locked */
+body.journey-active{
+  overflow:hidden!important;
+}
+body.journey-active .phone{
+  height:100dvh!important;
+  min-height:100dvh!important;
+  overflow:hidden!important;
+}
 </style></head>
 <body><div class="phone"><script>document.documentElement.dataset.lqBoot="welcome";</script>
 <div id="welcome" class="welcome">
