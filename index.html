@@ -677,13 +677,18 @@ function recalcBudget(){
 }
 function openSettingsFromWelcome(){
  delete document.documentElement.dataset.lqBoot;
- q("welcome").classList.add("hidden");
- q("chooser").classList.add("hidden");
- q("goalOnboarding").classList.add("hidden");
- q("incomeOnboarding").classList.add("hidden");
- q("app").classList.remove("hidden");
- render();
- go("settings");
+ const welcome=q("welcome"),chooser=q("chooser"),goals=q("goalOnboarding"),income=q("incomeOnboarding"),app=q("app");
+ if(welcome)welcome.classList.add("hidden");
+ if(chooser)chooser.classList.add("hidden");
+ if(goals)goals.classList.add("hidden");
+ if(income)income.classList.add("hidden");
+ if(app)app.classList.remove("hidden");
+ document.querySelectorAll(".page").forEach(x=>x.classList.remove("on"));
+ const settings=q("settings");
+ if(settings)settings.classList.add("on");
+ document.querySelectorAll(".nav button").forEach(x=>x.classList.toggle("on",(x.dataset.nav||x.dataset.p)==="settings"));
+ document.body.classList.remove("journey-active");
+ const phone=document.querySelector(".phone"); if(phone)phone.scrollTop=0;
 }
 function go(p){
  document.querySelectorAll(".page").forEach(x=>x.classList.remove("on"));
@@ -878,14 +883,14 @@ function openPlannerGoal(k){
  go("goals");
  setTimeout(()=>openGoal(k),80);
 }
-async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260910-25&refresh="+Date.now());}
+async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260910-26&refresh="+Date.now());}
 document.addEventListener("DOMContentLoaded",()=>{
  renderChoices();
  const settingsBtn=q("settingsBtn"); if(settingsBtn)settingsBtn.addEventListener("click",()=>go("settings"));
  const frontSettingsBtn=q("frontSettingsBtn"); if(frontSettingsBtn)frontSettingsBtn.addEventListener("click",openSettingsFromWelcome);
  if(q("plannerPerPay")){q("plannerPerPay").addEventListener("input",updateSavingsPlanner);updateSavingsPlanner();}
  document.querySelectorAll("[data-plan-goal]").forEach(b=>b.addEventListener("click",()=>openPlannerGoal(b.dataset.planGoal))); const journeySettingsBtn=q("journeySettingsBtn"); if(journeySettingsBtn)journeySettingsBtn.addEventListener("click",()=>go("settings"));
- const settingsBackBtn=q("settingsBackBtn"); if(settingsBackBtn)settingsBackBtn.addEventListener("click",()=>go("journey"));
+ const settingsBackBtn=q("settingsBackBtn"); if(settingsBackBtn)settingsBackBtn.addEventListener("click",()=>{q("app").classList.add("hidden");q("welcome").classList.remove("hidden");document.documentElement.dataset.lqBoot="welcome";});
  const refreshAppBtn=q("refreshAppBtn"); if(refreshAppBtn)refreshAppBtn.addEventListener("click",refreshApp);
  const editBudgetBtn=q("editBudgetBtn"); if(editBudgetBtn)editBudgetBtn.addEventListener("click",openBudget);
  const settingsBudgetBtn=q("settingsBudgetBtn"); if(settingsBudgetBtn)settingsBudgetBtn.addEventListener("click",openBudget);
@@ -932,7 +937,7 @@ document.addEventListener("DOMContentLoaded",()=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const reg = await navigator.serviceWorker.register("./sw.js?v=20260910-25");
+      const reg = await navigator.serviceWorker.register("./sw.js?v=20260910-26");
       await reg.update();
     } catch (e) {}
   });
