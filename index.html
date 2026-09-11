@@ -876,6 +876,55 @@ html,body{background:#020912!important}
  .companionPickPet{height:118px!important;min-height:118px!important}
  .companionPickName{font-size:15px!important}
 }
+
+/* Life's Quest cinematic visual system v51 */
+:root{--lq-ink:#020b14;--lq-deep:#06192b;--lq-card:#08263d;--lq-blue:#39a9ff;--lq-gold:#f5c75d;--lq-green:#52e58a}
+.phone{background:
+ radial-gradient(circle at 78% 0%,rgba(255,195,75,.10),transparent 23%),
+ linear-gradient(180deg,#092945 0,#041725 42%,#020b14 100%)}
+.page:not(#journey){background:
+ radial-gradient(circle at 82% -4%,rgba(68,150,220,.17),transparent 25%),
+ linear-gradient(180deg,#08243a 0,#041725 38%,#020c16 100%);min-height:100vh}
+.card,.goalCardModern,.simpleGoalCard,.planTarget,.settingsCard{border-radius:22px!important;background:linear-gradient(155deg,rgba(12,48,76,.96),rgba(4,22,36,.97))!important;border:1px solid rgba(86,161,207,.28)!important;box-shadow:0 14px 34px rgba(0,0,0,.28),inset 0 1px rgba(255,255,255,.035)!important}
+.brand,.top h2,.sectionhead h3{font-family:Georgia,serif;color:var(--lq-gold);text-shadow:0 2px 12px rgba(0,0,0,.45)}
+.btn{border-radius:16px;transition:transform .12s ease,filter .12s ease}.btn:active{transform:scale(.975)}
+.goldbtn{background:linear-gradient(180deg,#ffe28b,#d9a33a);box-shadow:0 0 0 1px rgba(255,220,119,.45),0 8px 24px rgba(225,165,53,.24)}
+.ghost{background:linear-gradient(180deg,#0d3554,#08253d);border-color:rgba(91,169,218,.36)}
+.quick,.pjQuick{border-radius:18px!important;box-shadow:inset 0 1px rgba(255,255,255,.05),0 10px 24px rgba(0,0,0,.24)!important}
+.pjQuick:nth-child(1){border-color:#e7b84e!important;box-shadow:inset 0 0 22px rgba(235,174,51,.13)!important}
+.pjQuick:nth-child(2){border-color:#2aa9ff!important;box-shadow:inset 0 0 22px rgba(42,169,255,.12)!important}
+.pjQuick:nth-child(3){border-color:#a75cff!important;box-shadow:inset 0 0 22px rgba(167,92,255,.12)!important}
+.pjQuick:nth-child(4){border-color:#45dc83!important;box-shadow:inset 0 0 22px rgba(69,220,131,.12)!important}
+.nav{grid-template-columns:repeat(5,1fr)!important;border-radius:25px 25px 0 0;padding:9px 5px max(10px,env(safe-area-inset-bottom));box-shadow:0 -14px 35px rgba(0,0,0,.38);border-top-color:rgba(92,157,198,.25)}
+.nav button{border-radius:15px}.nav button.on{background:linear-gradient(180deg,rgba(241,199,99,.15),rgba(9,40,63,.85));box-shadow:inset 0 1px rgba(241,199,99,.3)}
+.sheet,.goalSetupSheet,.quickMoneySheet{border-radius:30px 30px 0 0!important;background:linear-gradient(180deg,#0b2d49,#061a2b 55%,#03111d)!important;border-color:rgba(241,199,99,.25)!important;box-shadow:0 -25px 70px rgba(0,0,0,.65)!important}
+.moneyInputWrap,.goalMoneyField,.onboardGoalField{border-radius:18px!important}
+.amountChip,.goalTargetChip{border-radius:999px!important}
+.goalCardIcon,.onboardGoalIcon,.planGoalIcon,.simpleGoalIcon{border-radius:18px!important;box-shadow:inset 0 1px rgba(255,255,255,.06)}
+.goalCardValue,.planTargetSave b,.simpleGoalPay b{color:var(--lq-gold)!important}
+.bar{height:9px;background:#102f49;box-shadow:inset 0 2px 4px rgba(0,0,0,.35)}.bar i{box-shadow:0 0 12px rgba(245,199,93,.35)}
+.goalOnboard,.incomeOnboard{background:
+ radial-gradient(circle at 72% 6%,rgba(255,195,80,.18),transparent 18%),
+ radial-gradient(circle at 18% 18%,rgba(54,138,204,.16),transparent 25%),
+ linear-gradient(180deg,#0b3150,#061b2d 46%,#020d17)!important}
+.onboardGoal{border-radius:22px!important;background:linear-gradient(155deg,#0e3a5b,#071f34)!important;box-shadow:0 12px 28px rgba(0,0,0,.25)}
+.tipCard{border-radius:22px!important;background:linear-gradient(155deg,rgba(17,57,88,.97),rgba(7,27,44,.97))!important}
+.premiumJourney{background:
+ radial-gradient(circle at 73% 9%,rgba(255,203,91,.42),transparent 15%),
+ linear-gradient(180deg,#225d8c 0,#285b72 25%,#163d4b 50%,#092631 73%,#03121c 100%)!important}
+.pjCompanionCard{border-radius:20px!important;background:linear-gradient(160deg,rgba(3,19,31,.92),rgba(5,28,44,.76))!important;box-shadow:0 18px 36px rgba(0,0,0,.32),inset 0 1px rgba(255,255,255,.04)}
+.pjCharacter{filter:drop-shadow(0 20px 18px rgba(0,0,0,.72)) drop-shadow(0 0 15px rgba(255,142,43,.16))!important}
+.pjPath{box-shadow:0 0 8px #fff2b0,0 0 20px rgba(255,191,54,.95),0 0 34px rgba(255,191,54,.4)!important}
+.pjNode{box-shadow:0 0 0 5px rgba(244,196,81,.12),0 0 20px rgba(244,196,81,.6)!important}
+.welcome{background:
+ radial-gradient(circle at 70% 18%,rgba(255,213,104,.31),transparent 17%),
+ linear-gradient(180deg,#245f8e,#1b4968 35%,#0b2b3c 66%,#03121e)!important}
+.welcomeMark h1{font-size:48px;letter-spacing:-1.5px}.welcomeBtn{border-radius:18px!important}
+.chooser{background:radial-gradient(circle at 75% 5%,rgba(255,199,82,.16),transparent 18%),linear-gradient(180deg,#0d3656,#061b2d 46%,#020d17)!important}
+.choice{border-radius:22px!important;background:linear-gradient(155deg,#0c3452,#061e32)!important;box-shadow:0 14px 30px rgba(0,0,0,.26)}.choice.sel{box-shadow:0 0 0 2px rgba(241,199,99,.2),0 0 28px rgba(241,199,99,.13)}
+.calendar .day{border-radius:12px!important;background:rgba(7,31,50,.55)}.calendar .day.today{outline-color:var(--lq-gold);box-shadow:0 0 15px rgba(241,199,99,.22)}
+.white{border-radius:20px!important}.field input,.field select{border-radius:14px!important}
+@media(max-width:430px){.premiumJourney{padding-bottom:112px}.pjScene{height:520px}.pjLogo{font-size:31px}.pjCompanionCard{width:158px}}
 </style></head>
 <body><div class="phone"><script>document.documentElement.dataset.lqBoot="welcome";</script>
 <div id="welcome" class="welcome">
@@ -1281,7 +1330,7 @@ function renderSettingsCompanions(){
    const xp=activeXP(type),lv=level(type),st=stage(type),pc=xp%100;
    return '<button type="button" class="companionPick '+(d.type===type?'active':'')+'" data-settings-companion="'+type+'">'+
      (d.type===type?'<span class="companionPickBadge">ACTIVE</span>':'')+
-     '<div class="companionPickPet"><img src="'+companionAsset(type)+'?v=48" alt="'+PETS[type].name+'"></div>'+
+     '<div class="companionPickPet"><img src="'+companionAsset(type)+'?v=51" alt="'+PETS[type].name+'"></div>'+
      '<div class="companionPickName">'+PETS[type].name+'</div>'+
      '<div class="companionPickType">'+typeLabels[type]+'</div>'+
      '<div class="companionPickLevel">Level '+lv+'</div>'+
@@ -1307,7 +1356,7 @@ function renderChoices(){
  Object.keys(PETS).forEach(k=>{
    const b=document.createElement("button");
    b.type="button"; b.className="choice "+(choice===k?"sel":"");
-   b.innerHTML='<div class="miniPet"><img src="'+companionAsset(k)+'?v=48" alt="'+PETS[k].name+'"></div><b class="gold">'+k.toUpperCase()+'</b><small>'+PETS[k].name+'</small>';
+   b.innerHTML='<div class="miniPet"><img src="'+companionAsset(k)+'?v=51" alt="'+PETS[k].name+'"></div><b class="gold">'+k.toUpperCase()+'</b><small>'+PETS[k].name+'</small>';
    b.addEventListener("click",()=>{choice=k;renderChoices()});
    root.appendChild(b);
  });
@@ -1690,7 +1739,7 @@ function premiumJourneyPetSVG(type,st=0){
 }
 function renderJourney(p,st,lv){
  const journeyPetEl=q("journeyPet")||q("pjCharacter");
- if(journeyPetEl) journeyPetEl.innerHTML='<img class="productionCompanionSprite" src="'+companionAsset(d.type)+'?v=48" alt="'+p.name+' companion">';
+ if(journeyPetEl) journeyPetEl.innerHTML='<img class="productionCompanionSprite" src="'+companionAsset(d.type)+'?v=51" alt="'+p.name+' companion">';
  if(q("pjCompanionName"))q("pjCompanionName").textContent=p.name;
  if(q("pjCompanionType"))q("pjCompanionType").textContent=({fire:"🔥 FIRE",water:"💧 WATER",lightning:"⚡ LIGHTNING",shadow:"🌙 SHADOW",cloud:"☁️ CLOUD"}[d.type]||"COMPANION");
  if(q("pjLevelNum"))q("pjLevelNum").textContent=lv;
@@ -1836,7 +1885,7 @@ function openPlannerGoal(k){
  go("goals");
  setTimeout(()=>openGoal(k),80);
 }
-async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260911-50&refresh="+Date.now());}
+async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260911-51&refresh="+Date.now());}
 document.addEventListener("DOMContentLoaded",async()=>{
  try{if(navigator.storage&&navigator.storage.persist)await navigator.storage.persist();}catch(e){}
  renderChoices();
@@ -1885,7 +1934,7 @@ document.addEventListener("DOMContentLoaded",async()=>{
  q("billPattern").addEventListener("change",togglePattern);
  const pbtn=q("prevMonthBtn")||document.querySelector(".caltop button:first-child"); if(pbtn)pbtn.addEventListener("click",()=>shiftMonth(-1));
  const nbtn=q("nextMonthBtn")||document.querySelector(".caltop button:last-child"); if(nbtn)nbtn.addEventListener("click",()=>shiftMonth(1));
- q("welcomePet").innerHTML='<img class="welcomeProductionPet" src="'+companionAsset(d.type||"fire")+'?v=48" alt="Companion">';
+ q("welcomePet").innerHTML='<img class="welcomeProductionPet" src="'+companionAsset(d.type||"fire")+'?v=51" alt="Companion">';
  const bj=q("beginJourneyBtn"); if(bj)bj.addEventListener("click",()=>{delete document.documentElement.dataset.lqBoot;q("welcome").classList.add("hidden");q("chooser").classList.remove("hidden");q("app").classList.add("hidden");renderChoices()});
  if(d.onboardingComplete){
    delete document.documentElement.dataset.lqBoot;
@@ -1897,7 +1946,7 @@ document.addEventListener("DOMContentLoaded",async()=>{
    render();
    go("journey");
    const jp=q("journeyPet");
-   if(jp)jp.innerHTML='<img class="productionCompanionSprite" src="'+companionAsset(d.type||"fire")+'?v=48" alt="Companion">';
+   if(jp)jp.innerHTML='<img class="productionCompanionSprite" src="'+companionAsset(d.type||"fire")+'?v=51" alt="Companion">';
  }else{
    q("welcome").classList.remove("hidden");
    q("chooser").classList.add("hidden");
@@ -1909,7 +1958,7 @@ document.addEventListener("DOMContentLoaded",async()=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const reg = await navigator.serviceWorker.register("./sw.js?v=20260911-50");
+      const reg = await navigator.serviceWorker.register("./sw.js?v=20260911-51");
       await reg.update();
     } catch (e) {}
   });
