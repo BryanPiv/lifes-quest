@@ -1,0 +1,33 @@
+/* v91 premium modular art pass — every visual remains an independent DOM layer */
+#journey .pjScene{background:linear-gradient(#167fbd 0%,#8ed8ed 42%,#184d54 77%,#071c27 100%)!important}
+#journey .lqEnvironment{display:block!important;opacity:1!important}
+#journey .lqSky{content:url("assets/journey/v79/sky.svg")!important;opacity:1!important;filter:saturate(1.15) brightness(1.06)!important}
+#journey .lqBackMountains{content:url("assets/journey/v79/mountains-back.svg")!important;opacity:1!important;filter:saturate(.95) contrast(1.08) drop-shadow(0 14px 18px rgba(0,35,50,.18))!important}
+#journey .lqValley{content:url("assets/journey/v79/valley.svg")!important;opacity:1!important;filter:saturate(1.18) contrast(1.05)!important}
+#journey .lqHeroMountain{content:url("assets/journey/v79/hero-mountain.svg")!important;opacity:1!important;filter:saturate(1.08) contrast(1.12) drop-shadow(-8px 10px 14px rgba(0,0,0,.25))!important}
+#journey .lqForeground{content:url("assets/journey/v79/foreground.svg")!important;opacity:1!important;filter:saturate(1.2) contrast(1.08)!important}
+#journey .lqCelestial{background:radial-gradient(circle at 82% 11%,#fffbd8 0 2%,rgba(255,235,139,.82) 3%,rgba(255,207,73,.30) 8%,transparent 19%)!important;opacity:1!important}
+#journey .lqMist{background:linear-gradient(180deg,transparent 36%,rgba(227,249,255,.16) 57%,rgba(213,244,250,.08) 70%,transparent 88%)!important;filter:blur(8px)!important;opacity:.85!important}
+#journey .lqLightingLayer{background:radial-gradient(circle at 82% 12%,rgba(255,227,129,.27),transparent 23%),linear-gradient(180deg,rgba(255,255,255,.03),transparent 45%,rgba(2,16,25,.28) 100%)!important;mix-blend-mode:screen!important;opacity:1!important}
+#journey .lqFlora{background:radial-gradient(circle at 5% 82%,rgba(250,94,214,.7) 0 3px,transparent 4px),radial-gradient(circle at 11% 88%,rgba(89,102,255,.8) 0 4px,transparent 5px),radial-gradient(circle at 17% 81%,rgba(255,207,70,.8) 0 3px,transparent 4px)!important;opacity:.75!important}
+#journey .lqParticlesLayer{background-image:radial-gradient(circle,rgba(255,226,133,.55) 0 1px,transparent 2px)!important;background-size:83px 91px!important;opacity:.24!important}
+
+/* Premium path is live HTML/SVG, never baked into environment. */
+#journey .pjTrail{z-index:27!important;filter:drop-shadow(0 0 7px rgba(255,189,43,.55)) drop-shadow(0 0 16px rgba(255,139,23,.22))!important}
+#journey .pjTrail svg path{stroke:#ffbd3c!important;stroke-width:5!important;filter:drop-shadow(0 0 5px #ff9f1a)!important}
+#journey .pjNode{background:radial-gradient(circle at 35% 28%,#173d59,#061521 72%)!important;border:2px solid #f4f9fb!important;box-shadow:0 5px 13px rgba(0,0,0,.38),0 0 11px rgba(255,190,56,.18)!important}
+#journey .pjNode.n1{border-color:#ffd267!important;box-shadow:0 0 0 5px rgba(255,198,63,.13),0 0 22px rgba(255,161,24,.78)!important}
+
+/* Character remains a separate universal rig. */
+#journey #lqCharacterHost{z-index:36!important;filter:drop-shadow(0 14px 14px rgba(0,0,0,.36))!important}
+#journey #lqCharacterHost .lqCharacterSprite{animation:lqPremiumIdle 3.2s ease-in-out infinite!important;transform-origin:50% 92%!important}
+@keyframes lqPremiumIdle{0%,100%{transform:translateY(0) rotate(-.35deg)}50%{transform:translateY(-5px) rotate(.35deg)}}
+
+/* richer UI materials */
+#journey .pjCompanionCard,#journey .pjProgressCard,#journey .pjBudget,#journey .pjTile,#journey .pjQuick button{
+ background:linear-gradient(145deg,rgba(7,53,84,.96),rgba(3,24,41,.985))!important;
+ box-shadow:0 12px 28px rgba(0,0,0,.30),inset 0 1px rgba(255,255,255,.065)!important;
+ backdrop-filter:blur(16px) saturate(1.12)!important
+}
+#journey .pjCompanionCard,#journey .pjProgressCard,#journey .pjBudget{border-color:rgba(244,207,112,.76)!important}
+#journey .pjQuick button,#journey .pjTile{border-color:rgba(46,149,215,.66)!important}
