@@ -367,12 +367,6 @@ input,select,textarea{border-radius:14px}
       <div class="recommendBadge">🧮 Recommended: 3× your monthly bills</div>
       <div id="emergencyRecommendation" class="goalExplain">Add your recurring bills and we'll automatically calculate your emergency-fund target.</div>
     </div>
-
-    <div class="onboardGoal">
-      <div class="onboardGoalTop"><div class="onboardGoalIcon">📈</div><div class="onboardGoalMain"><b>Future / Investing Goal</b><small>We'll base this on the amount you decide to save from every paycheck.</small></div></div>
-      <div class="recommendBadge">🌱 Recommended: 1 year of planned paycheck savings</div>
-      <div id="investingRecommendation" class="goalExplain">Once you choose a savings amount per paycheck, we'll turn it into a yearly target.</div>
-    </div>
   </div>
 
   <div class="onboardActions"><button id="saveOnboardGoalsBtn" class="btn goldbtn full" style="border-radius:18px;padding:15px;font-size:15px">Use These Recommendations</button><button id="skipOnboardGoalsBtn" class="skipBtn">I'll decide later</button></div>
@@ -975,7 +969,7 @@ function render(){
 }
 function renderGoals(){
  syncRecommendedGoals();
- q("goalList").innerHTML=Object.entries(d.goals).map(([k,g])=>{
+ q("goalList").innerHTML=Object.entries(d.goals).filter(([k])=>k!=="Investing").map(([k,g])=>{
    const pc=g.goal>0?Math.min(100,g.saved/g.goal*100):0;
    let actions="";
    if(k==="Emergency"){
@@ -1086,11 +1080,11 @@ function renderPaycheckPlan(){
    '<div class="planLine red"><span>'+billLabel+'</span><b>-'+money(bills)+'</b></div>'+
    '<div class="planLine"><span>Life\'s Quest savings recommendation ('+rate+'%)</span><b>-'+money(savings)+'</b></div>'+
    '<div class="planLine accent"><span>Available spending</span><b>'+money(spend)+'</b></div>';
- const emergency=d.goals?.Emergency||{saved:0,goal:0}, vacation=d.goals?.Vacation||{saved:0,goal:0}, investing=d.goals?.Investing||{saved:0,goal:0};
+ const emergency=d.goals?.Emergency||{saved:0,goal:0}, vacation=d.goals?.Vacation||{saved:0,goal:0};
  const emergencyOpen=emergency.goal>0 && emergency.saved<emergency.goal;
  const splits=emergencyOpen
-   ? [{k:"Emergency",icon:"🛡️",pct:.50,g:emergency},{k:"Vacation",icon:"🏝️",pct:.30,g:vacation},{k:"Investing",icon:"📈",pct:.20,g:investing}]
-   : [{k:"Vacation",icon:"🏝️",pct:.55,g:vacation},{k:"Investing",icon:"📈",pct:.45,g:investing}];
+   ? [{k:"Emergency",icon:"🛡️",pct:.60,g:emergency},{k:"Vacation",icon:"🏝️",pct:.40,g:vacation}]
+   : [{k:"Vacation",icon:"🏝️",pct:1,g:vacation}];
  q("planGoalSplit").innerHTML=splits.map(x=>{
    const amt=savings*x.pct;
    const remaining=Math.max(0,(x.g.goal||0)-(x.g.saved||0));
@@ -1126,7 +1120,7 @@ function openPlannerGoal(k){
  go("goals");
  setTimeout(()=>openGoal(k),80);
 }
-async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260910-31&refresh="+Date.now());}
+async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260910-32&refresh="+Date.now());}
 document.addEventListener("DOMContentLoaded",()=>{
  renderChoices();
  const settingsBtn=q("settingsBtn"); if(settingsBtn)settingsBtn.addEventListener("click",()=>go("settings"));
@@ -1182,7 +1176,7 @@ document.addEventListener("DOMContentLoaded",()=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const reg = await navigator.serviceWorker.register("./sw.js?v=20260910-31");
+      const reg = await navigator.serviceWorker.register("./sw.js?v=20260910-32");
       await reg.update();
     } catch (e) {}
   });
