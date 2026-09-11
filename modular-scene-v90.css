@@ -1,0 +1,124 @@
+/* v90 — return to true modular scene composition; no baked reference image */
+#journey .pjScene{
+  background:
+    radial-gradient(circle at 80% 12%,rgba(255,220,120,.18),transparent 19%),
+    linear-gradient(180deg,#0d6fa6 0%,#0c83bb 27%,#4ba3bd 52%,#173e4b 78%,#061a25 100%)!important;
+}
+/* Restore independent scene assets */
+#journey .lqEnvironment{
+  opacity:1!important;
+  mix-blend-mode:normal!important;
+  display:block!important;
+}
+#journey .lqEnvironment .lqSky,
+#journey .lqEnvironment .lqBackMountains,
+#journey .lqEnvironment .lqValley,
+#journey .lqEnvironment .lqHeroMountain,
+#journey .lqEnvironment .lqForeground{
+  opacity:1!important;
+  display:block!important;
+}
+#journey .lqSky{z-index:1!important}
+#journey .lqBackMountains{z-index:3!important}
+#journey .lqValley{z-index:5!important}
+#journey .lqHeroMountain{z-index:7!important}
+#journey .lqForeground{z-index:11!important}
+#journey .lqCelestial{z-index:2!important}
+#journey .lqMist{z-index:10!important}
+#journey .lqLightingLayer{z-index:15!important}
+
+/* Never render a baked reference plate in the live scene */
+#journey .pjScene,
+#journey .premiumJourney{
+  background-image:none!important;
+}
+#journey .premiumJourney::before,
+#journey .premiumJourney::after{
+  display:none!important;
+  background-image:none!important;
+}
+
+/* One companion only: the universal rig */
+#journey .pjCharacter,
+#journey .jpet,
+#journey .productionCompanionSprite,
+#journey #journeyPet,
+#journey #lqLiveCharacter,
+#journey #lqAnimatedCompanion{
+  display:none!important;
+}
+#journey #lqCharacterHost{
+  display:block!important;
+  left:19%!important;
+  top:73%!important;
+  width:28%!important;
+  max-width:180px!important;
+  z-index:35!important;
+}
+#journey #lqCharacterHost .lqCharacterSprite{
+  width:100%!important;
+  height:auto!important;
+  object-fit:contain!important;
+}
+
+/* Correct oversized header/card proportions from v89 */
+#journey .pjTop{
+  height:82px!important;
+  padding:16px 14px 7px!important;
+}
+#journey .pjLogo{
+  font-size:29px!important;
+  line-height:1!important;
+  max-width:none!important;
+}
+#journey .pjLogo small{
+  font-size:6.3px!important;
+  letter-spacing:1.3px!important;
+  white-space:nowrap!important;
+}
+#journey .pjCompanionCard{
+  top:100px!important;
+  left:13px!important;
+  width:150px!important;
+  padding:11px 12px!important;
+}
+#journey .pjCompanionName{font-size:26px!important}
+#journey .pjQuote{font-size:10.5px!important}
+#journey .pjTrail{
+  top:108px!important;
+  right:-11px!important;
+  width:190px!important;
+  height:360px!important;
+  transform:scale(.9)!important;
+}
+#journey .lqHeroMotto{
+  top:88px!important;
+  right:13px!important;
+  width:108px!important;
+  font-size:15px!important;
+  opacity:.9!important;
+}
+#journey .pjProgressCard{
+  left:12px!important;
+  right:12px!important;
+  bottom:12px!important;
+  min-height:76px!important;
+  padding:10px 12px!important;
+}
+#journey .pjProgressCard b{font-size:14px!important}
+
+/* Scene height tuned for mobile without cropping controls */
+#journey .pjScene{
+  height:520px!important;
+  min-height:520px!important;
+  max-height:520px!important;
+}
+@media(max-width:390px){
+  #journey .pjScene{height:490px!important;min-height:490px!important;max-height:490px!important}
+  #journey .pjTop{height:78px!important;padding:14px 12px 6px!important}
+  #journey .pjLogo{font-size:27px!important}
+  #journey .pjCompanionCard{top:94px!important;left:11px!important;width:142px!important}
+  #journey #lqCharacterHost{left:19%!important;top:74%!important;width:27%!important}
+  #journey .pjTrail{top:101px!important;right:-19px!important;transform:scale(.84)!important}
+  #journey .lqHeroMotto{top:83px!important;right:10px!important;font-size:14px!important;width:100px!important}
+}
