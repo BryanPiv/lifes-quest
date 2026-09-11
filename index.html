@@ -194,6 +194,7 @@ input,select,textarea{border-radius:14px}
 </head>
 <body><div class="phone"><script>document.documentElement.dataset.lqBoot="welcome";</script>
 <div id="welcome" class="welcome">
+  <button id="frontSettingsBtn" class="frontSettingsBtn" aria-label="Open Settings">⚙️</button>
   <div class="welcomeGlow"></div>
   <div class="welcomeMark"><h1>Life's Quest</h1><p>SMALL STEPS. A BRIGHTER TOMORROW.</p></div>
   <div id="welcomePet" class="welcomePet"></div>
@@ -674,6 +675,16 @@ function recalcBudget(){
    save();
  }
 }
+function openSettingsFromWelcome(){
+ delete document.documentElement.dataset.lqBoot;
+ q("welcome").classList.add("hidden");
+ q("chooser").classList.add("hidden");
+ q("goalOnboarding").classList.add("hidden");
+ q("incomeOnboarding").classList.add("hidden");
+ q("app").classList.remove("hidden");
+ render();
+ go("settings");
+}
 function go(p){
  document.querySelectorAll(".page").forEach(x=>x.classList.remove("on"));
  const page=q(p); if(page)page.classList.add("on");
@@ -867,10 +878,11 @@ function openPlannerGoal(k){
  go("goals");
  setTimeout(()=>openGoal(k),80);
 }
-async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260910-24&refresh="+Date.now());}
+async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260910-25&refresh="+Date.now());}
 document.addEventListener("DOMContentLoaded",()=>{
  renderChoices();
  const settingsBtn=q("settingsBtn"); if(settingsBtn)settingsBtn.addEventListener("click",()=>go("settings"));
+ const frontSettingsBtn=q("frontSettingsBtn"); if(frontSettingsBtn)frontSettingsBtn.addEventListener("click",openSettingsFromWelcome);
  if(q("plannerPerPay")){q("plannerPerPay").addEventListener("input",updateSavingsPlanner);updateSavingsPlanner();}
  document.querySelectorAll("[data-plan-goal]").forEach(b=>b.addEventListener("click",()=>openPlannerGoal(b.dataset.planGoal))); const journeySettingsBtn=q("journeySettingsBtn"); if(journeySettingsBtn)journeySettingsBtn.addEventListener("click",()=>go("settings"));
  const settingsBackBtn=q("settingsBackBtn"); if(settingsBackBtn)settingsBackBtn.addEventListener("click",()=>go("journey"));
@@ -920,7 +932,7 @@ document.addEventListener("DOMContentLoaded",()=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const reg = await navigator.serviceWorker.register("./sw.js?v=20260910-24");
+      const reg = await navigator.serviceWorker.register("./sw.js?v=20260910-25");
       await reg.update();
     } catch (e) {}
   });
