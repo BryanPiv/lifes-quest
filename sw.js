@@ -1,4 +1,4 @@
-const VERSION="lifes-quest-20260911-61";
+const VERSION="lifes-quest-v79";
 self.addEventListener("install",event=>{self.skipWaiting()});
 self.addEventListener("activate",event=>{
   event.waitUntil((async()=>{
@@ -8,28 +8,14 @@ self.addEventListener("activate",event=>{
   })());
 });
 self.addEventListener("fetch",event=>{
-  if(event.request.method!=="GET") return;
+  if(event.request.method!=="GET")return;
   event.respondWith((async()=>{
     try{
       const fresh=await fetch(event.request,{cache:"no-store"});
-      const type=fresh.headers.get("content-type")||"";
-      if((event.request.mode==="navigate"||event.request.destination==="document")&&type.includes("text/html")){
-        const html=await fresh.text();
-        const css='<link rel="stylesheet" href="./journey-runtime-v61.css?v=61">';
-        const js='<script src="./journey-runtime-v61.js?v=61"><\/script>';
-        const injected=html
-          .replace("</head>",css+"</head>")
-          .replace("</body>",js+"</body>");
-        const headers=new Headers(fresh.headers);
-        headers.delete("content-length");
-        headers.delete("content-encoding");
-        const response=new Response(injected,{status:fresh.status,statusText:fresh.statusText,headers});
+      if(fresh&&fresh.ok){
         const cache=await caches.open(VERSION);
-        cache.put(event.request,response.clone());
-        return response;
+        cache.put(event.request,fresh.clone());
       }
-      const cache=await caches.open(VERSION);
-      cache.put(event.request,fresh.clone());
       return fresh;
     }catch(e){
       const cached=await caches.match(event.request);
