@@ -625,6 +625,8 @@ const PETS={
  cloud:{name:"Nimbus",stages:["Breeze","Drift","Skyborn","Nimbus"]}
 };
 const DEFAULTS={
+ onboardingComplete:false,
+ profileVersion:1,
  goalPrefs:{vacationTier:"bigtrip"},
  savingsPerPaycheck:0,
  plan:{nextPayday:"",goals:[]},
@@ -634,21 +636,24 @@ const DEFAULTS={
  goals:{Vacation:{saved:0,goal:0,icon:"🏝️"},Emergency:{saved:0,goal:0,icon:"🛡️"},Investing:{saved:0,goal:0,icon:"📈"}},
  bills:[]
 };
-let savedData=JSON.parse(localStorage.getItem("lifesQuestWeb")||"{}");
-if(savedData.dataVersion!==4){
-  savedData={
-    type:savedData.type||"fire",
-    xp:0,
-    allowance:0,
-    expenses:[],
-    goals:{Vacation:{saved:0,goal:0,icon:"🏝️"},Emergency:{saved:0,goal:0,icon:"🛡️"},Investing:{saved:0,goal:0,icon:"📈"}},
-    bills:[],
-    dataVersion:4
-  };
-  localStorage.setItem("lifesQuestWeb",JSON.stringify(savedData));
+function deepMerge(base, saved){
+  if(Array.isArray(base)) return Array.isArray(saved)?saved:base;
+  if(base&&typeof base==="object"){
+    const out={...base};
+    if(saved&&typeof saved==="object"){
+      Object.keys(saved).forEach(k=>{
+        out[k]=(k in base)?deepMerge(base[k],saved[k]):saved[k];
+      });
+    }
+    return out;
+  }
+  return saved!==undefined?saved:base;
 }
-let d=Object.assign(JSON.parse(JSON.stringify(DEFAULTS)),savedData);
-d.dataVersion=4;
+let savedData={};
+try{savedData=JSON.parse(localStorage.getItem("lifesQuestWeb")||"{}")||{}}catch(e){savedData={}}
+let d=deepMerge(JSON.parse(JSON.stringify(DEFAULTS)),savedData);
+d.dataVersion=5;
+localStorage.setItem("lifesQuestWeb",JSON.stringify(d));
 let choice=d.type||"fire",cat="Food",calDate=new Date();
 const q=id=>document.getElementById(id);
 function save(){localStorage.setItem("lifesQuestWeb",JSON.stringify(d))}
@@ -852,6 +857,7 @@ function saveIncomeSetup(){
    workRetirementMatchPct:+q("retirementMatchPct").value||0
  };
  d.allowance=suggestedWeeklyBudget();
+ d.onboardingComplete=true;
  save();
  q("incomeOnboarding").classList.add("hidden");
  q("app").classList.remove("hidden");
@@ -1180,8 +1186,9 @@ function openPlannerGoal(k){
  go("goals");
  setTimeout(()=>openGoal(k),80);
 }
-async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260910-34&refresh="+Date.now());}
-document.addEventListener("DOMContentLoaded",()=>{
+async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260910-35&refresh="+Date.now());}
+document.addEventListener("DOMContentLoaded",async()=>{
+ try{if(navigator.storage&&navigator.storage.persist)await navigator.storage.persist();}catch(e){}
  renderChoices();
  const settingsBtn=q("settingsBtn"); if(settingsBtn)settingsBtn.addEventListener("click",()=>go("settings"));
  const frontSettingsBtn=q("frontSettingsBtn"); if(frontSettingsBtn)frontSettingsBtn.addEventListener("click",openSettingsFromWelcome);
@@ -1191,7 +1198,7 @@ document.addEventListener("DOMContentLoaded",()=>{
  document.querySelectorAll("[data-simple-type]").forEach(b=>b.addEventListener("click",()=>{simpleGoalType=b.dataset.simpleType;simpleGoalIcon=b.dataset.simpleIcon;document.querySelectorAll("[data-simple-type]").forEach(x=>x.classList.remove("sel"));b.classList.add("sel");}));
  if(q("simpleCreateGoalBtn"))q("simpleCreateGoalBtn").addEventListener("click",addSimpleGoal);
  document.querySelectorAll("[data-plan-goal]").forEach(b=>b.addEventListener("click",()=>openPlannerGoal(b.dataset.planGoal))); const journeySettingsBtn=q("journeySettingsBtn"); if(journeySettingsBtn)journeySettingsBtn.addEventListener("click",()=>go("settings"));
- const settingsBackBtn=q("settingsBackBtn"); if(settingsBackBtn)settingsBackBtn.addEventListener("click",()=>{q("app").classList.add("hidden");q("welcome").classList.remove("hidden");document.documentElement.dataset.lqBoot="welcome";});
+ const settingsBackBtn=q("settingsBackBtn"); if(settingsBackBtn)settingsBackBtn.addEventListener("click",()=>{if(d.onboardingComplete){q("app").classList.remove("hidden");go("journey");}else{q("app").classList.add("hidden");q("welcome").classList.remove("hidden");document.documentElement.dataset.lqBoot="welcome";}});
  const refreshAppBtn=q("refreshAppBtn"); if(refreshAppBtn)refreshAppBtn.addEventListener("click",refreshApp);
  const editBudgetBtn=q("editBudgetBtn"); if(editBudgetBtn)editBudgetBtn.addEventListener("click",openBudget);
  const settingsBudgetBtn=q("settingsBudgetBtn"); if(settingsBudgetBtn)settingsBudgetBtn.addEventListener("click",openBudget);
@@ -1228,17 +1235,28 @@ document.addEventListener("DOMContentLoaded",()=>{
  const pbtn=q("prevMonthBtn")||document.querySelector(".caltop button:first-child"); if(pbtn)pbtn.addEventListener("click",()=>shiftMonth(-1));
  const nbtn=q("nextMonthBtn")||document.querySelector(".caltop button:last-child"); if(nbtn)nbtn.addEventListener("click",()=>shiftMonth(1));
  q("welcomePet").innerHTML=petSVG(d.type||"fire",0);
- q("welcome").classList.remove("hidden");
- q("chooser").classList.add("hidden");
- q("app").classList.add("hidden");
  const bj=q("beginJourneyBtn"); if(bj)bj.addEventListener("click",()=>{delete document.documentElement.dataset.lqBoot;q("welcome").classList.add("hidden");q("chooser").classList.remove("hidden");q("app").classList.add("hidden");renderChoices()});
- render();
+ if(d.onboardingComplete){
+   delete document.documentElement.dataset.lqBoot;
+   q("welcome").classList.add("hidden");
+   q("chooser").classList.add("hidden");
+   q("goalOnboarding").classList.add("hidden");
+   q("incomeOnboarding").classList.add("hidden");
+   q("app").classList.remove("hidden");
+   render();
+   go("journey");
+ }else{
+   q("welcome").classList.remove("hidden");
+   q("chooser").classList.add("hidden");
+   q("app").classList.add("hidden");
+   render();
+ }
 });
 </script><script>
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const reg = await navigator.serviceWorker.register("./sw.js?v=20260910-34");
+      const reg = await navigator.serviceWorker.register("./sw.js?v=20260910-35");
       await reg.update();
     } catch (e) {}
   });
