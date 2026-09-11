@@ -561,6 +561,15 @@ input,select,textarea{border-radius:14px}
  #journey .pjTrail{right:4px!important;width:180px!important;height:370px!important}
  #journey .pjPath{width:180px!important;height:370px!important}
 }
+</style><style id="companion-settings-v46">
+.settingsCompanionGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+.companionPick{position:relative;border:1px solid rgba(56,143,213,.4);background:linear-gradient(155deg,#083c6b,#041f3a);border-radius:18px;padding:10px;color:#fff;text-align:left;overflow:hidden}
+.companionPick.active{border-color:#ffe08a;box-shadow:inset 3px 0 0 #d51f35,0 0 0 2px rgba(245,196,81,.12),0 12px 26px rgba(0,0,0,.32)}
+.companionPickPet{height:86px;display:grid;place-items:center}.companionPickPet svg{width:92px;height:92px}
+.companionPickName{font:700 14px Georgia,serif;color:#ffe08a}.companionPickType{font-size:8px;letter-spacing:1px;color:#a9c0d0;margin-top:1px}
+.companionPickLevel{margin-top:7px;font-size:10px;font-weight:900}.companionMiniBar{height:5px;background:#06233e;border-radius:99px;overflow:hidden;margin-top:5px}.companionMiniBar i{display:block;height:100%;background:linear-gradient(90deg,#1479d4,#f5c451,#d51f35)}
+.companionPick small{display:block;color:#8faabd;font-size:8px;margin-top:4px}
+.companionPickBadge{position:absolute;right:8px;top:8px;padding:4px 6px;border-radius:99px;background:#d51f35;color:#fff;font-size:7px;font-weight:900}
 </style></head>
 <body><div class="phone"><script>document.documentElement.dataset.lqBoot="welcome";</script>
 <div id="welcome" class="welcome">
@@ -840,7 +849,12 @@ input,select,textarea{border-radius:14px}
     <div id="planTip" class="planTip">Add your income and next payday to build your first paycheck plan.</div>
   </div>
 </section>
-<section id="settings" class="page"><div class="top"><div><div class="brand">Settings</div><div class="muted">Manage Life's Quest on this device.</div></div></div><div class="settingsPage"><div class="card settingsCard"><h3>Income & Budget</h3><p>Your weekly spending target is calculated from take-home pay, savings rate, and recurring bills.</p><button id="settingsBudgetBtn" class="btn goldbtn full">Edit Income Plan</button></div><div class="card settingsCard"><h3>Refresh App</h3><p>Force Life's Quest to download the newest version without deleting your bills, expenses, goals, XP, or other saved data.</p><button id="refreshAppBtn" class="btn goldbtn full">↻ Refresh to Latest Version</button><div class="dangerNote">Your personal data stays on this device.</div></div><button id="settingsBackBtn" class="btn ghost full" style="margin-top:10px">← Back to Home</button></div></section><nav class="nav"><button class="on" data-p="journey" onclick="go('journey')">⛰️<br>Home</button><button data-p="expenses" onclick="go('expenses')">🧾<br>Expenses</button><button data-p="goals" onclick="go('goals')">🎯<br>Goals</button><button data-p="calendar" onclick="go('calendar')">📅<br>Calendar</button></nav></main>
+<section id="settings" class="page"><div class="top"><div><div class="brand">Settings</div><div class="muted">Manage Life's Quest on this device.</div></div></div><div class="settingsPage"><div class="card settingsCard companionSettingsCard">
+  <h3>Choose Your Companion</h3>
+  <p>Each companion has its own level and XP. Switching characters keeps every companion's progress saved separately.</p>
+  <div id="settingsCompanionGrid" class="settingsCompanionGrid"></div>
+</div>
+<div class="card settingsCard"><h3>Income & Budget</h3><p>Your weekly spending target is calculated from take-home pay, savings rate, and recurring bills.</p><button id="settingsBudgetBtn" class="btn goldbtn full">Edit Income Plan</button></div><div class="card settingsCard"><h3>Refresh App</h3><p>Force Life's Quest to download the newest version without deleting your bills, expenses, goals, XP, or other saved data.</p><button id="refreshAppBtn" class="btn goldbtn full">↻ Refresh to Latest Version</button><div class="dangerNote">Your personal data stays on this device.</div></div><button id="settingsBackBtn" class="btn ghost full" style="margin-top:10px">← Back to Home</button></div></section><nav class="nav"><button class="on" data-p="journey" onclick="go('journey')">⛰️<br>Home</button><button data-p="expenses" onclick="go('expenses')">🧾<br>Expenses</button><button data-p="goals" onclick="go('goals')">🎯<br>Goals</button><button data-p="calendar" onclick="go('calendar')">📅<br>Calendar</button></nav></main>
 <div id="quickMoneyModal" class="modal"><div class="sheet quickMoneySheet">
   <div class="quickMoneyHead"><div id="quickMoneyIcon" class="quickMoneyIcon">🍴</div><div id="quickMoneyTitle" class="quickMoneyTitle">Food</div><div class="muted">Add an expense</div></div>
   <div class="moneyInputWrap"><span>$</span><input id="quickMoneyAmount" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0"></div>
@@ -907,7 +921,7 @@ const DEFAULTS={
  plan:{nextPayday:"",goals:[]},
  estimatedExpenses:{housing:0,car:0,insurance:0,utilities:0,debt:0,subscriptions:0,food:0,gas:0,entertainment:0,other:0,additionalBills:[]},
  income:{amount:0,frequency:"weekly",recommendedSavingsRate:0,healthcare:0,workRetirementPct:0,workRetirementMatchPct:0},
- type:"fire",xp:0,allowance:0,expenses:[],
+ type:"fire",xp:0,companionProgress:{fire:0,water:0,lightning:0,shadow:0,cloud:0},allowance:0,expenses:[],
  goals:{Vacation:{saved:0,goal:0,icon:"🏝️"},Emergency:{saved:0,goal:0,icon:"🛡️"},Investing:{saved:0,goal:0,icon:"📈"}},
  bills:[]
 };
@@ -927,14 +941,20 @@ function deepMerge(base, saved){
 let savedData={};
 try{savedData=JSON.parse(localStorage.getItem("lifesQuestWeb")||"{}")||{}}catch(e){savedData={}}
 let d=deepMerge(JSON.parse(JSON.stringify(DEFAULTS)),savedData);
-d.dataVersion=5;
+if(!savedData.companionProgress){
+  d.companionProgress={fire:0,water:0,lightning:0,shadow:0,cloud:0};
+  d.companionProgress[d.type||"fire"]=+savedData.xp||0;
+}
+d.dataVersion=6;
 localStorage.setItem("lifesQuestWeb",JSON.stringify(d));
 let choice=d.type||"fire",cat="Food",calDate=new Date();
 const q=id=>document.getElementById(id);
 function save(){localStorage.setItem("lifesQuestWeb",JSON.stringify(d))}
 function money(n){return new Intl.NumberFormat("en-US",{style:"currency",currency:"USD",maximumFractionDigits:0}).format(n||0)}
-function level(){return Math.floor(d.xp/100)+1}
-function stage(){const l=level();return l>=20?3:l>=10?2:l>=5?1:0}
+function activeXP(type=d.type){return +(d.companionProgress?.[type]||0)}
+function addCompanionXP(amount,type=d.type){d.companionProgress=d.companionProgress||{fire:0,water:0,lightning:0,shadow:0,cloud:0};d.companionProgress[type]=Math.max(0,activeXP(type)+amount);d.xp=activeXP(d.type);}
+function level(type=d.type){return Math.floor(activeXP(type)/100)+1}
+function stage(type=d.type){const l=level(type);return l>=20?3:l>=10?2:l>=5?1:0}
 function petSVG(type,st=0){
  const themes={
   fire:{a:"#ffefb0",b:"#ff9a3d",c:"#ff4b1f",d:"#7f1d12",eye:"#ffcf33",kind:"fox"},
@@ -987,6 +1007,33 @@ function petSVG(type,st=0){
  '<path d="M100 149 L106 159 L100 170 L94 159 Z" fill="'+t.eye+'"/>'+
  '</g></svg>';
 }
+function renderSettingsCompanions(){
+ const root=q("settingsCompanionGrid");if(!root)return;
+ const typeLabels={fire:"🔥 FIRE",water:"💧 WATER",lightning:"⚡ LIGHTNING",shadow:"🌙 SHADOW",cloud:"☁️ CLOUD"};
+ root.innerHTML=Object.keys(PETS).map(type=>{
+   const xp=activeXP(type),lv=level(type),st=stage(type),pc=xp%100;
+   return '<button type="button" class="companionPick '+(d.type===type?'active':'')+'" data-settings-companion="'+type+'">'+
+     (d.type===type?'<span class="companionPickBadge">ACTIVE</span>':'')+
+     '<div class="companionPickPet">'+petSVG(type,st)+'</div>'+
+     '<div class="companionPickName">'+PETS[type].name+'</div>'+
+     '<div class="companionPickType">'+typeLabels[type]+'</div>'+
+     '<div class="companionPickLevel">Level '+lv+'</div>'+
+     '<div class="companionMiniBar"><i style="width:'+pc+'%"></i></div>'+
+     '<small>'+pc+' / 100 XP</small></button>';
+ }).join("");
+ root.querySelectorAll("[data-settings-companion]").forEach(btn=>btn.addEventListener("click",()=>switchCompanion(btn.dataset.settingsCompanion)));
+}
+function switchCompanion(type){
+ if(!PETS[type])return;
+ d.companionProgress=d.companionProgress||{fire:0,water:0,lightning:0,shadow:0,cloud:0};
+ d.type=type;
+ d.xp=activeXP(type);
+ choice=type;
+ save();
+ render();
+ renderSettingsCompanions();
+ go("journey");
+}
 function renderChoices(){
  const root=q("choices"); if(!root)return;
  root.innerHTML="";
@@ -999,7 +1046,8 @@ function renderChoices(){
  });
 }
 function startQuest(){
- d.type=choice; save();
+ d.companionProgress=d.companionProgress||{fire:0,water:0,lightning:0,shadow:0,cloud:0};
+ d.type=choice; d.xp=activeXP(choice); save();
  q("chooser").classList.add("hidden");
  q("goalOnboarding").classList.remove("hidden");
  q("app").classList.add("hidden");
@@ -1179,14 +1227,14 @@ function saveQuickMoney(){
  const a=+q("quickMoneyAmount").value;
  if(!(a>0))return;
  d.expenses.unshift({id:Date.now(),amount:a,cat:quickCategory,note:q("quickMoneyNote").value,date:new Date().toISOString().slice(0,10)});
- d.xp+=5;save();closeQuickMoney();render();go("journey");
+ addCompanionXP(5);save();closeQuickMoney();render();go("journey");
 }
 function fridayStart(x=new Date()){let z=new Date(x);z.setHours(0,0,0,0);z.setDate(z.getDate()-((z.getDay()-5+7)%7));return z}
 function weekly(){let s=fridayStart(),e=new Date(s);e.setDate(e.getDate()+7);return d.expenses.filter(x=>{let dt=new Date(x.date+"T12:00");return dt>=s&&dt<e})}
 function saveExpense(){
  const a=+q("expenseAmount").value;if(!a)return;
  d.expenses.unshift({id:Date.now(),amount:a,cat,note:q("expenseNote").value,date:q("expenseDate").value||new Date().toISOString().slice(0,10)});
- d.xp+=5;save();q("expenseAmount").value="";q("expenseNote").value="";render();go("journey");
+ addCompanionXP(5);save();q("expenseAmount").value="";q("expenseNote").value="";render();go("journey");
 }
 let editingGoal=null;
 function openBudget(){
@@ -1252,7 +1300,7 @@ function saveGoalAdd(){
  if(!(a>0))return;
  const g=d.goals[addingGoal];
  g.saved=Math.min(g.goal,g.saved+a);
- d.xp+=Math.max(10,Math.min(50,Math.round(a/25)));
+ addCompanionXP(Math.max(10,Math.min(50,Math.round(a/25))));
  save();closeGoalAdd();render();
 }
 function addGoal(k){
@@ -1283,9 +1331,9 @@ function filteredExpenses(){
  const start=expenseRangeStart(d.expenseReportRange||"month");
  return d.expenses.filter(x=>{const dt=new Date((x.date||"")+"T12:00:00");return !isNaN(dt)&&dt>=start;});
 }
-function render(){
+function render(){d.xp=activeXP();
  if(d.income&&d.income.amount>0)d.allowance=suggestedWeeklyBudget(); const p=PETS[d.type],st=stage(),lv=level(),w=weekly(),spent=w.reduce((a,x)=>a+x.amount,0),left=d.allowance-spent;
- q("homePet").innerHTML=petSVG(d.type,st);q("lvl").textContent=lv;q("petName").textContent=p.name;q("xpTxt").textContent=(d.xp%100)+" / 100 XP";q("xpBar").style.width=(d.xp%100)+"%";
+ q("homePet").innerHTML=petSVG(d.type,st);q("lvl").textContent=lv;q("petName").textContent=p.name;q("xpTxt").textContent=(activeXP()%100)+" / 100 XP";q("xpBar").style.width=(activeXP()%100)+"%";
  q("weekLeft").textContent=d.allowance>0?money(left)+" Left":"Set weekly budget";q("weekSpent").textContent=d.allowance>0?money(spent)+" spent of "+money(d.allowance):"No weekly budget yet";q("ring").textContent=d.allowance>0?Math.max(0,Math.round(left/d.allowance*100))+"%":"—"; if(q("journeyWeekLeft"))q("journeyWeekLeft").textContent=d.allowance>0?money(left)+" Left":"Set weekly budget"; if(q("journeyWeekSpent"))q("journeyWeekSpent").textContent=d.allowance>0?money(spent)+" spent of "+money(d.allowance):"No weekly budget yet"; if(q("journeyRing"))q("journeyRing").textContent=d.allowance>0?Math.max(0,Math.round(left/d.allowance*100))+"%":"—"; if(q("journeyBudgetBar"))q("journeyBudgetBar").style.width=d.allowance>0?Math.max(0,Math.min(100,(spent/d.allowance)*100))+"%":"0%"; if(q("editBudgetBtn"))q("editBudgetBtn").textContent=d.income?.amount>0?"Budget "+money(d.allowance):"Set Income"; if(q("settingsBudgetBtn"))q("settingsBudgetBtn").textContent=d.income?.amount>0?"Edit Income Plan":"Set Income Plan";
  const catIcons={Food:"🍴",Gas:"⛽",Entertainment:"🎮",Misc:"🛒"};
  const catLabels={Food:"Food",Gas:"Gas",Entertainment:"Fun",Misc:"Misc"};
@@ -1299,7 +1347,7 @@ function render(){
  if(q("reportRangeTotal"))q("reportRangeTotal").textContent=money(reportTotal);
  document.querySelectorAll("[data-report-range]").forEach(b=>b.classList.toggle("sel",b.dataset.reportRange===(d.expenseReportRange||"month")));
  q("expenseList").innerHTML=reportExpenses.length?reportExpenses.map(x=>'<div class="transactionRow"><div class="transactionIcon">'+(catIcons[x.cat]||"🛒")+'</div><div class="transactionMain"><b>'+(x.note||catLabels[x.cat]||x.cat)+'</b><small>'+(catLabels[x.cat]||x.cat)+' • '+x.date+'</small></div><div class="transactionAmt">-'+money(x.amount)+'</div></div>').join(""):'<div class="transactionRow"><div class="transactionMain"><b>No transactions in this period</b><small>Your older expenses are still saved.</small></div></div>';
- renderGoals();renderCalendar();renderUpcoming();renderJourney(p,st,lv);
+ renderGoals();renderCalendar();renderUpcoming();renderJourney(p,st,lv);renderSettingsCompanions();
  const visibleCompanion=q("journeyPet")||q("pjCharacter");
  if(visibleCompanion&&!visibleCompanion.innerHTML.trim())visibleCompanion.innerHTML=premiumJourneyPetSVG(d.type||"fire",st);
  renderPaycheckPlan();renderSimpleGoals();
@@ -1379,8 +1427,8 @@ function renderJourney(p,st,lv){
  if(q("pjCompanionName"))q("pjCompanionName").textContent=p.name;
  if(q("pjCompanionType"))q("pjCompanionType").textContent=({fire:"🔥 FIRE",water:"💧 WATER",lightning:"⚡ LIGHTNING",shadow:"🌙 SHADOW",cloud:"☁️ CLOUD"}[d.type]||"COMPANION");
  if(q("pjLevelNum"))q("pjLevelNum").textContent=lv;
- if(q("pjXpText"))q("pjXpText").textContent=(d.xp%100)+" / 100 XP";
- if(q("pjXpBar"))q("pjXpBar").style.width=(d.xp%100)+"%";
+ if(q("pjXpText"))q("pjXpText").textContent=(activeXP()%100)+" / 100 XP";
+ if(q("pjXpBar"))q("pjXpBar").style.width=(activeXP()%100)+"%";
  const req=[1,5,10,15,20];
  req.forEach((r,i)=>{const n=document.querySelector(".pjNode.n"+(i+1));if(n)n.classList.toggle("locked",lv<r)});
  if(q("pjBillsText"))q("pjBillsText").textContent=d.bills.length?d.bills.length+" bill"+(d.bills.length===1?"":"s")+" added":"No bills added";
@@ -1521,7 +1569,7 @@ function openPlannerGoal(k){
  go("goals");
  setTimeout(()=>openGoal(k),80);
 }
-async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260910-45&refresh="+Date.now());}
+async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260911-46&refresh="+Date.now());}
 document.addEventListener("DOMContentLoaded",async()=>{
  try{if(navigator.storage&&navigator.storage.persist)await navigator.storage.persist();}catch(e){}
  renderChoices();
@@ -1594,7 +1642,7 @@ document.addEventListener("DOMContentLoaded",async()=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const reg = await navigator.serviceWorker.register("./sw.js?v=20260910-45");
+      const reg = await navigator.serviceWorker.register("./sw.js?v=20260911-46");
       await reg.update();
     } catch (e) {}
   });
