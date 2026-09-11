@@ -1681,6 +1681,25 @@ body.journey-active #app>.nav *{
 }
 #lqHotspots{z-index:300!important}
 body.lq-modal-open #lqHotspots{display:none!important}
+</style><style id="v66-nav-routing-fix">
+/* v66 — deterministic bottom navigation */
+#app>.nav{z-index:400!important}
+#app>.nav button{
+  pointer-events:auto!important;
+  touch-action:manipulation!important;
+}
+body.journey-active #app>.nav{
+  pointer-events:none!important;
+}
+body.journey-active #app>.nav button{
+  pointer-events:none!important;
+}
+#lqHotspots .home,
+#lqHotspots .expenses,
+#lqHotspots .goals,
+#lqHotspots .calendar{
+  z-index:310!important;
+}
 </style></head>
 <body><div class="phone"><script>document.documentElement.dataset.lqBoot="welcome";</script>
 <div id="welcome" class="welcome">
@@ -2808,6 +2827,69 @@ if ("serviceWorker" in navigator) {
    host.appendChild(spots);
  }
  function boot(){makeHotspots();}
+ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
+ window.addEventListener("pageshow",boot);
+})();
+</script><script id="v66-nav-routing-script">
+(function(){
+ const order=["journey","expenses","goals","calendar"];
+ function normalizeBottomNav(){
+   const nav=document.querySelector("#app>.nav");
+   if(!nav)return;
+   const labels=[
+     ["⛰️","Home","journey"],
+     ["🧾","Expenses","expenses"],
+     ["🎯","Goals","goals"],
+     ["📅","Calendar","calendar"]
+   ];
+   nav.innerHTML="";
+   labels.forEach(([icon,label,target],i)=>{
+     const b=document.createElement("button");
+     b.type="button";
+     b.dataset.lqNav=target;
+     b.innerHTML=icon+"<br>"+label;
+     b.addEventListener("click",function(e){
+       e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();
+       if(window.go)window.go(target);
+     },true);
+     nav.appendChild(b);
+   });
+ }
+ function syncActive(){
+   const current=document.querySelector(".page.on")?.id||"journey";
+   document.querySelectorAll("#app>.nav [data-lq-nav]").forEach(b=>b.classList.toggle("on",b.dataset.lqNav===current));
+ }
+ function fixHomeHotspots(){
+   const spots=document.getElementById("lqHotspots");
+   if(!spots)return;
+   [["home","journey"],["expenses","expenses"],["goals","goals"],["calendar","calendar"]].forEach(([cls,target])=>{
+     const b=spots.querySelector("."+cls);
+     if(!b)return;
+     const clean=b.cloneNode(true);
+     b.replaceWith(clean);
+     clean.dataset.lqAction=target;
+     clean.addEventListener("click",function(e){
+       e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();
+       if(window.go)window.go(target);
+     },true);
+   });
+ }
+ function wrapGo(){
+   if(!window.go||window.go.__v66)return;
+   const orig=window.go;
+   window.go=function(p){
+     const out=orig.apply(this,arguments);
+     requestAnimationFrame(syncActive);
+     return out;
+   };
+   window.go.__v66=true;
+ }
+ function boot(){
+   normalizeBottomNav();
+   wrapGo();
+   fixHomeHotspots();
+   syncActive();
+ }
  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
  window.addEventListener("pageshow",boot);
 })();
