@@ -775,6 +775,16 @@ html,body{background:#020912!important}
 @media(min-width:600px){
  .phone{box-shadow:0 30px 100px rgba(0,0,0,.55),0 0 0 1px rgba(81,149,198,.12)!important}
 }
+</style><style id="production-companions-v48">
+.productionCompanionSprite,.welcomeProductionPet,.companionPickPet img,.miniPet img{
+ display:block;width:100%;height:100%;object-fit:contain;object-position:center;
+}
+#journey .pjCharacter{overflow:visible!important;filter:drop-shadow(0 18px 22px rgba(0,0,0,.58)) drop-shadow(0 0 14px rgba(245,196,81,.12))!important}
+#journey .productionCompanionSprite{animation:productionPetIdle 3.4s ease-in-out infinite;transform-origin:50% 85%}
+@keyframes productionPetIdle{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-5px) scale(1.012)}}
+.companionPickPet{height:104px!important}.companionPickPet img{filter:drop-shadow(0 11px 13px rgba(0,0,0,.38))}
+.miniPet{height:100px!important}.miniPet img{filter:drop-shadow(0 10px 12px rgba(0,0,0,.32))}
+#welcomePet{overflow:visible!important}.welcomeProductionPet{filter:drop-shadow(0 18px 22px rgba(0,0,0,.42));animation:productionPetIdle 3.4s ease-in-out infinite}
 </style></head>
 <body><div class="phone"><script>document.documentElement.dataset.lqBoot="welcome";</script>
 <div id="welcome" class="welcome">
@@ -1110,6 +1120,14 @@ html,body{background:#020912!important}
 <div id="billModal" class="modal"><div class="sheet"><div class="brand" style="font-size:22px">Add Recurring Bill</div><div class="field"><label>BILL NAME</label><input id="billName" placeholder="Rent"></div><div class="field"><label>AMOUNT</label><input id="billAmount" type="number" inputmode="decimal" placeholder="$ 0.00"></div><div class="field"><label>CATEGORY</label><select id="billCategory"><option>Housing</option><option>Auto</option><option>Insurance</option><option>Utilities</option><option>Debt</option><option>Subscription</option><option>Other</option></select></div><div class="field"><label>RECURRING</label><select id="billPattern" onchange="togglePattern()"><option value="date">Same date every month</option><option value="nthFriday">Nth Friday each month</option></select></div><div id="dateWrap" class="field"><label>DAY OF MONTH</label><input id="billDay" type="number" min="1" max="31" placeholder="Day"></div><div id="fridayWrap" class="field hidden"><label>WHICH FRIDAY?</label><select id="billNth"><option value="1">1st Friday</option><option value="2">2nd Friday</option><option value="3">3rd Friday</option><option value="4">4th Friday</option><option value="5">5th Friday</option></select></div><button class="btn goldbtn full" onclick="saveBill()">Save Bill</button><button class="btn ghost full" style="margin-top:8px" onclick="closeBill()">Cancel</button></div></div>
 </div>
 <script>
+const COMPANION_ASSETS={
+ fire:"assets/companions/ember.svg",
+ water:"assets/companions/aurora.svg",
+ lightning:"assets/companions/volt.svg",
+ shadow:"assets/companions/nightfall.svg",
+ cloud:"assets/companions/nimbus.svg"
+};
+function companionAsset(type){return COMPANION_ASSETS[type]||COMPANION_ASSETS.fire}
 const PETS={
  fire:{name:"Ember",stages:["Spark","Flare","Inferno","Phoenix"]},
  water:{name:"Aurora",stages:["Ripple","Current","Tide","Leviathan"]},
@@ -1219,7 +1237,7 @@ function renderSettingsCompanions(){
    const xp=activeXP(type),lv=level(type),st=stage(type),pc=xp%100;
    return '<button type="button" class="companionPick '+(d.type===type?'active':'')+'" data-settings-companion="'+type+'">'+
      (d.type===type?'<span class="companionPickBadge">ACTIVE</span>':'')+
-     '<div class="companionPickPet">'+petSVG(type,st)+'</div>'+
+     '<div class="companionPickPet"><img src="'+companionAsset(type)+'?v=48" alt="'+PETS[type].name+'"></div>'+
      '<div class="companionPickName">'+PETS[type].name+'</div>'+
      '<div class="companionPickType">'+typeLabels[type]+'</div>'+
      '<div class="companionPickLevel">Level '+lv+'</div>'+
@@ -1245,7 +1263,7 @@ function renderChoices(){
  Object.keys(PETS).forEach(k=>{
    const b=document.createElement("button");
    b.type="button"; b.className="choice "+(choice===k?"sel":"");
-   b.innerHTML='<div class="miniPet">'+petSVG(k,0)+'</div><b class="gold">'+k.toUpperCase()+'</b><small>'+PETS[k].name+'</small>';
+   b.innerHTML='<div class="miniPet"><img src="'+companionAsset(k)+'?v=48" alt="'+PETS[k].name+'"></div><b class="gold">'+k.toUpperCase()+'</b><small>'+PETS[k].name+'</small>';
    b.addEventListener("click",()=>{choice=k;renderChoices()});
    root.appendChild(b);
  });
@@ -1628,7 +1646,7 @@ function premiumJourneyPetSVG(type,st=0){
 }
 function renderJourney(p,st,lv){
  const journeyPetEl=q("journeyPet")||q("pjCharacter");
- if(journeyPetEl) journeyPetEl.innerHTML=premiumJourneyPetSVG(d.type||"fire",st);
+ if(journeyPetEl) journeyPetEl.innerHTML='<img class="productionCompanionSprite" src="'+companionAsset(d.type)+'?v=48" alt="'+p.name+' companion">';
  if(q("pjCompanionName"))q("pjCompanionName").textContent=p.name;
  if(q("pjCompanionType"))q("pjCompanionType").textContent=({fire:"🔥 FIRE",water:"💧 WATER",lightning:"⚡ LIGHTNING",shadow:"🌙 SHADOW",cloud:"☁️ CLOUD"}[d.type]||"COMPANION");
  if(q("pjLevelNum"))q("pjLevelNum").textContent=lv;
@@ -1774,7 +1792,7 @@ function openPlannerGoal(k){
  go("goals");
  setTimeout(()=>openGoal(k),80);
 }
-async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260911-47&refresh="+Date.now());}
+async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260911-48&refresh="+Date.now());}
 document.addEventListener("DOMContentLoaded",async()=>{
  try{if(navigator.storage&&navigator.storage.persist)await navigator.storage.persist();}catch(e){}
  renderChoices();
@@ -1823,7 +1841,7 @@ document.addEventListener("DOMContentLoaded",async()=>{
  q("billPattern").addEventListener("change",togglePattern);
  const pbtn=q("prevMonthBtn")||document.querySelector(".caltop button:first-child"); if(pbtn)pbtn.addEventListener("click",()=>shiftMonth(-1));
  const nbtn=q("nextMonthBtn")||document.querySelector(".caltop button:last-child"); if(nbtn)nbtn.addEventListener("click",()=>shiftMonth(1));
- q("welcomePet").innerHTML=petSVG(d.type||"fire",0);
+ q("welcomePet").innerHTML='<img class="welcomeProductionPet" src="'+companionAsset(d.type||"fire")+'?v=48" alt="Companion">';
  const bj=q("beginJourneyBtn"); if(bj)bj.addEventListener("click",()=>{delete document.documentElement.dataset.lqBoot;q("welcome").classList.add("hidden");q("chooser").classList.remove("hidden");q("app").classList.add("hidden");renderChoices()});
  if(d.onboardingComplete){
    delete document.documentElement.dataset.lqBoot;
@@ -1835,7 +1853,7 @@ document.addEventListener("DOMContentLoaded",async()=>{
    render();
    go("journey");
    const jp=q("journeyPet");
-   if(jp)jp.innerHTML=premiumJourneyPetSVG(d.type||"fire",stage());
+   if(jp)jp.innerHTML='<img class="productionCompanionSprite" src="'+companionAsset(d.type||"fire")+'?v=48" alt="Companion">';
  }else{
    q("welcome").classList.remove("hidden");
    q("chooser").classList.add("hidden");
@@ -1847,7 +1865,7 @@ document.addEventListener("DOMContentLoaded",async()=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const reg = await navigator.serviceWorker.register("./sw.js?v=20260911-47");
+      const reg = await navigator.serviceWorker.register("./sw.js?v=20260911-48");
       await reg.update();
     } catch (e) {}
   });
