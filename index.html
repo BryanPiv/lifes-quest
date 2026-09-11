@@ -3182,4 +3182,46 @@ if ("serviceWorker" in navigator) {
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
   window.addEventListener("pageshow",boot);
 })();
+</script><script id="v72-create-budget-fix">
+(function(){
+  function wire(){
+    const btn=document.getElementById("saveIncomeBtn");
+    if(!btn)return;
+    const clone=btn.cloneNode(true);
+    btn.replaceWith(clone);
+    clone.addEventListener("click",function(e){
+      e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();
+      const amount=+document.getElementById("incomeAmount")?.value||0;
+      if(!(amount>0)){
+        const input=document.getElementById("incomeAmount");
+        if(input){input.focus();input.scrollIntoView({behavior:"smooth",block:"center"});}
+        return;
+      }
+      try{
+        if(typeof window.saveIncomeSetup==="function"){
+          window.saveIncomeSetup();
+        }else{
+          const data=JSON.parse(localStorage.getItem("lifesQuestWeb")||"{}");
+          const freq=document.querySelector(".payOption.sel")?.dataset.payfreq||"weekly";
+          data.income=data.income||{};
+          data.income.amount=amount;
+          data.income.frequency=freq;
+          data.income.healthcare=+document.getElementById("healthcareCost")?.value||0;
+          data.income.workRetirementPct=+document.getElementById("retirementPct")?.value||0;
+          data.income.workRetirementMatchPct=+document.getElementById("retirementMatchPct")?.value||0;
+          data.onboardingComplete=true;
+          localStorage.setItem("lifesQuestWeb",JSON.stringify(data));
+          document.getElementById("incomeOnboarding")?.classList.add("hidden");
+          document.getElementById("app")?.classList.remove("hidden");
+          document.body.classList.remove("budget-editing");
+          if(window.go)window.go("journey");
+        }
+      }catch(err){
+        console.error("Create budget failed",err);
+      }
+    },true);
+  }
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",wire);else wire();
+  window.addEventListener("pageshow",wire);
+})();
 </script></body></html>
