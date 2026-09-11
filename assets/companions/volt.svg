@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 360"><defs>
+<radialGradient id="a"><stop stop-color="#fff9a8" stop-opacity=".35"/><stop offset="1" stop-color="#ffe100" stop-opacity="0"/></radialGradient>
+<linearGradient id="b" x1=".15" y1=".05" x2=".85" y2=".95"><stop stop-color="#fff8bd"/><stop offset=".38" stop-color="#ffe052"/><stop offset=".72" stop-color="#e8ad16"/><stop offset="1" stop-color="#725006"/></linearGradient>
+<linearGradient id="c"><stop stop-color="#fffce0"/><stop offset="1" stop-color="#ffd84b"/></linearGradient><filter id="s"><feDropShadow dx="0" dy="12" stdDeviation="10" flood-opacity=".45"/></filter></defs>
+<ellipse cx="160" cy="185" rx="128" ry="143" fill="url(#a)"/><g filter="url(#s)">
+<ellipse cx="160" cy="326" rx="84" ry="16" fill="#000" opacity=".25"/>
+<path d="M106 94 L79 37 L130 72Z" fill="#d9a817"/><path d="M214 94 L241 37 L190 72Z" fill="#d9a817"/><path d="M79 37 L65 17 L88 30Z" fill="#fff163"/><path d="M241 37 L255 17 L232 30Z" fill="#fff163"/>
+<ellipse cx="160" cy="136" rx="76" ry="70" fill="url(#b)"/><path d="M110 143 Q160 181 210 143 Q197 194 160 202 Q123 194 110 143Z" fill="url(#c)" opacity=".82"/>
+<ellipse cx="130" cy="129" rx="11" ry="15" fill="#332700"/><ellipse cx="190" cy="129" rx="11" ry="15" fill="#332700"/><ellipse cx="130" cy="126" rx="5" ry="8" fill="#fff176"/><ellipse cx="190" cy="126" rx="5" ry="8" fill="#fff176"/><circle cx="133" cy="121" r="3" fill="#fff"/><circle cx="193" cy="121" r="3" fill="#fff"/>
+<path d="M151 157 Q160 164 169 157 Q160 175 151 157Z" fill="#4e3a00"/>
+<path d="M107 201 Q160 175 213 201 L204 292 Q160 324 116 292Z" fill="url(#b)"/><path d="M140 205 Q160 192 180 205 L177 274 Q160 291 143 274Z" fill="url(#c)"/>
+<path d="M111 280 Q99 314 114 326 Q133 334 145 298Z" fill="#b8840b"/><path d="M209 280 Q221 314 206 326 Q187 334 175 298Z" fill="#b8840b"/>
+<path d="M115 314 Q131 327 148 316 L145 336 L115 336Z" fill="#5e4305"/><path d="M172 316 Q189 327 205 314 L205 336 L175 336Z" fill="#5e4305"/>
+<path d="M89 205 L54 218 L75 227 L53 244 L95 231 L82 221Z" fill="#fff164"/><path d="M231 205 L266 218 L245 227 L267 244 L225 231 L238 221Z" fill="#fff164"/>
+<path d="M145 69 L160 36 L170 58 L187 33 L177 75Z" fill="#fff164"/>
+</g></svg>
