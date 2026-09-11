@@ -1,47 +1,58 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 360">
 <defs>
-<radialGradient id="a"><stop stop-color="#ecf8ff" stop-opacity=".42"/><stop offset="1" stop-color="#8eb9d4" stop-opacity="0"/></radialGradient>
-<linearGradient id="b" x1=".15" y1=".05" x2=".85" y2=".95"><stop stop-color="#fff"/><stop offset=".34" stop-color="#e3f0f8"/><stop offset=".72" stop-color="#9fbed0"/><stop offset="1" stop-color="#506b7e"/></linearGradient>
-<linearGradient id="c"><stop stop-color="#fff"/><stop offset="1" stop-color="#c7dce8"/></linearGradient>
-<linearGradient id="pack" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#24648a"/><stop offset=".6" stop-color="#15415f"/><stop offset="1" stop-color="#08273c"/></linearGradient>
-<linearGradient id="strap"><stop stop-color="#8b5a34"/><stop offset="1" stop-color="#4f2f1d"/></linearGradient>
-<radialGradient id="glow"><stop stop-color="#fff"/><stop offset=".22" stop-color="#7df7ff"/><stop offset=".55" stop-color="#15c9ff"/><stop offset="1" stop-color="#0b65ff"/></radialGradient>
-<filter id="s"><feDropShadow dx="0" dy="12" stdDeviation="10" flood-opacity=".45"/></filter>
-<filter id="g"><feGaussianBlur stdDeviation="7"/></filter>
-<style>
-@keyframes blink{0%,45%,49%,100%{transform:scaleY(1)}46%,48%{transform:scaleY(.08)}}
-@keyframes wave{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(10deg)}}
-@keyframes pulse{0%,100%{opacity:.45;transform:scale(.95)}50%{opacity:1;transform:scale(1.08)}}
-#eyes{transform-origin:160px 129px;animation:blink 6s ease-in-out infinite}
-#waveArm{transform-origin:100px 205px;animation:wave 2.8s ease-in-out infinite}
-#badgeGlow{transform-origin:160px 242px;animation:pulse 2.3s ease-in-out infinite}
-</style>
+ <linearGradient id="cloud" x1=".2" y1=".05" x2=".8" y2=".95"><stop stop-color="#fff"/><stop offset=".48" stop-color="#f1f8fc"/><stop offset=".82" stop-color="#c7dbe7"/><stop offset="1" stop-color="#93afc0"/></linearGradient>
+ <linearGradient id="body" x1=".2" y1="0" x2=".8" y2="1"><stop stop-color="#fff"/><stop offset=".55" stop-color="#e9f3f8"/><stop offset="1" stop-color="#a9c2d0"/></linearGradient>
+ <linearGradient id="pack" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#347da8"/><stop offset=".5" stop-color="#1b557b"/><stop offset="1" stop-color="#0a2e49"/></linearGradient>
+ <linearGradient id="strap" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#a96f42"/><stop offset="1" stop-color="#57341f"/></linearGradient>
+ <radialGradient id="eye"><stop stop-color="#fff"/><stop offset=".18" stop-color="#79f2ff"/><stop offset=".45" stop-color="#18bfe8"/><stop offset=".72" stop-color="#0872bd"/><stop offset="1" stop-color="#031927"/></radialGradient>
+ <radialGradient id="core"><stop stop-color="#fff"/><stop offset=".2" stop-color="#8ff8ff"/><stop offset=".55" stop-color="#17cce9"/><stop offset="1" stop-color="#0571bd"/></radialGradient>
+ <filter id="shadow"><feDropShadow dx="0" dy="11" stdDeviation="9" flood-opacity=".42"/></filter>
+ <filter id="glow"><feGaussianBlur stdDeviation="8"/></filter>
+ <style>
+ @keyframes blink{0%,44%,48%,100%{transform:scaleY(1)}46%{transform:scaleY(.08)}} #eyes{transform-origin:160px 132px;animation:blink 5.8s ease-in-out infinite}
+ @keyframes breathe{50%{transform:translateY(-2px) scale(1.012)}} #nimbus{transform-origin:160px 220px;animation:breathe 2.8s ease-in-out infinite}
+ @keyframes pulse{50%{opacity:.9;transform:scale(1.13)}} #coreGlow{transform-origin:160px 247px;animation:pulse 2s ease-in-out infinite}
+ </style>
 </defs>
-<ellipse cx="160" cy="185" rx="128" ry="143" fill="url(#a)"/>
-<g filter="url(#s)">
-<ellipse cx="160" cy="326" rx="84" ry="16" fill="#000" opacity=".22"/>
-<!-- backpack body behind Nimbus -->
-<path d="M86 191 Q66 204 66 250 L72 286 Q91 300 113 287 L119 220 Q112 195 86 191Z" fill="url(#pack)" stroke="#0a2437" stroke-width="5"/>
-<path d="M78 220 Q94 210 112 220" fill="none" stroke="#63a8cf" stroke-width="5" opacity=".65"/>
-<rect x="80" y="238" width="27" height="24" rx="7" fill="#0d3450" stroke="#75b9db" stroke-width="3"/>
-<path d="M103 91 L84 48 L133 74Z" fill="#9bb9ca"/><path d="M217 91 L236 48 L187 74Z" fill="#9bb9ca"/>
-<ellipse cx="160" cy="139" rx="78" ry="72" fill="url(#b)"/><path d="M109 143 Q160 183 211 143 Q198 195 160 203 Q122 195 109 143Z" fill="url(#c)" opacity=".88"/>
-<g id="eyes"><ellipse cx="130" cy="129" rx="12" ry="15" fill="#17364e"/><ellipse cx="190" cy="129" rx="12" ry="15" fill="#17364e"/><ellipse cx="130" cy="126" rx="5" ry="8" fill="#43d7ff"/><ellipse cx="190" cy="126" rx="5" ry="8" fill="#43d7ff"/><circle cx="133" cy="121" r="3" fill="#fff"/><circle cx="193" cy="121" r="3" fill="#fff"/></g>
-<path d="M151 158 Q160 165 169 158 Q160 176 151 158Z" fill="#395267"/>
-<path d="M107 201 Q160 176 213 201 L204 292 Q160 324 116 292Z" fill="url(#b)"/><path d="M140 205 Q160 192 180 205 L177 274 Q160 291 143 274Z" fill="url(#c)"/>
-<!-- backpack straps -->
-<path d="M116 194 Q126 219 132 259" fill="none" stroke="url(#strap)" stroke-width="11" stroke-linecap="round"/>
-<path d="M204 194 Q194 219 188 259" fill="none" stroke="url(#strap)" stroke-width="11" stroke-linecap="round"/>
-<rect x="120" y="216" width="16" height="13" rx="3" fill="#91a9b7" stroke="#2a3c49" stroke-width="3"/>
-<rect x="184" y="216" width="16" height="13" rx="3" fill="#91a9b7" stroke="#2a3c49" stroke-width="3"/>
-<!-- glowing quest badge -->
-<circle id="badgeGlow" cx="160" cy="242" r="31" fill="#19cfff" opacity=".35" filter="url(#g)"/>
-<circle cx="160" cy="242" r="24" fill="#052f49" stroke="#d8fbff" stroke-width="4"/>
-<circle cx="160" cy="242" r="16" fill="url(#glow)" stroke="#74f3ff" stroke-width="3"/>
-<circle cx="160" cy="242" r="7" fill="#fff"/>
-<path d="M112 281 Q98 314 113 326 Q132 335 145 299Z" fill="#7798ac"/><path d="M208 281 Q222 314 207 326 Q188 335 175 299Z" fill="#7798ac"/>
-<path d="M114 314 Q131 327 148 316 L145 336 L114 336Z" fill="#476477"/><path d="M172 316 Q189 327 206 314 L206 336 L175 336Z" fill="#476477"/>
-<g id="waveArm"><path d="M84 196 C58 182 53 158 71 147 C76 127 99 124 111 139 C124 135 137 145 137 160 C134 178 110 190 84 196Z" fill="#f5fbff" opacity=".92"/><circle cx="71" cy="151" r="7" fill="#d6edf7"/><circle cx="88" cy="143" r="6" fill="#d6edf7"/></g>
-<path d="M236 196 C262 182 267 158 249 147 C244 127 221 124 209 139 C196 135 183 145 183 160 C186 178 210 190 236 196Z" fill="#f5fbff" opacity=".8"/>
-</g><g fill="#fff" opacity=".75"><circle cx="79" cy="218" r="3"/><circle cx="238" cy="209" r="2.5"/></g>
+<ellipse cx="160" cy="334" rx="72" ry="13" fill="#000" opacity=".25"/>
+<g id="nimbus" filter="url(#shadow)">
+ <!-- compact blue backpack, visible at both sides -->
+ <path d="M92 190C70 194 60 215 62 257l7 39c13 9 30 10 44 1l8-79c-4-18-14-27-29-28Z" fill="url(#pack)" stroke="#08283d" stroke-width="5"/>
+ <path d="M228 190c22 4 32 25 30 67l-7 39c-13 9-30 10-44 1l-8-79c4-18 14-27 29-28Z" fill="url(#pack)" stroke="#08283d" stroke-width="5"/>
+ <path d="M72 231h34v34H72z" rx="8" fill="#164866" stroke="#68acd0" stroke-width="3"/>
+ <path d="M214 231h34v34h-34z" rx="8" fill="#164866" stroke="#68acd0" stroke-width="3"/>
+ <!-- cloud head silhouette matching the polished reference -->
+ <circle cx="160" cy="113" r="62" fill="url(#cloud)"/>
+ <circle cx="105" cy="127" r="42" fill="url(#cloud)"/>
+ <circle cx="215" cy="127" r="42" fill="url(#cloud)"/>
+ <circle cx="126" cy="83" r="39" fill="url(#cloud)"/>
+ <circle cx="194" cy="83" r="39" fill="url(#cloud)"/>
+ <ellipse cx="160" cy="132" rx="73" ry="60" fill="url(#cloud)"/>
+ <!-- soft cheek clouds -->
+ <circle cx="101" cy="154" r="25" fill="#f8fcff"/><circle cx="219" cy="154" r="25" fill="#f8fcff"/>
+ <!-- large expressive blue eyes -->
+ <g id="eyes">
+  <ellipse cx="132" cy="127" rx="16" ry="21" fill="#061b2a"/><ellipse cx="188" cy="127" rx="16" ry="21" fill="#061b2a"/>
+  <ellipse cx="132" cy="129" rx="10" ry="15" fill="url(#eye)"/><ellipse cx="188" cy="129" rx="10" ry="15" fill="url(#eye)"/>
+  <circle cx="137" cy="120" r="5" fill="#fff"/><circle cx="193" cy="120" r="5" fill="#fff"/>
+ </g>
+ <path d="M149 156q11 12 22 0c-2 16-20 16-22 0Z" fill="#28465a"/>
+ <ellipse cx="125" cy="151" rx="10" ry="5" fill="#f5b6c2" opacity=".28"/><ellipse cx="195" cy="151" rx="10" ry="5" fill="#f5b6c2" opacity=".28"/>
+ <!-- small rounded explorer body -->
+ <path d="M111 190q49-27 98 0l-8 96q-41 35-82 0Z" fill="url(#body)" stroke="#b7ceda" stroke-width="2"/>
+ <path d="M117 192q9 21 17 68M203 192q-9 21-17 68" fill="none" stroke="url(#strap)" stroke-width="12" stroke-linecap="round"/>
+ <rect x="126" y="215" width="16" height="13" rx="3" fill="#c4d2d9" stroke="#455d6b" stroke-width="2"/><rect x="178" y="215" width="16" height="13" rx="3" fill="#c4d2d9" stroke="#455d6b" stroke-width="2"/>
+ <!-- cloud hands -->
+ <path d="M113 205c-22-8-38 4-39 19-15 7-15 29 2 35 14 8 33 1 42-12Z" fill="url(#cloud)"/>
+ <path d="M207 205c22-8 38 4 39 19 15 7 15 29-2 35-14 8-33 1-42-12Z" fill="url(#cloud)"/>
+ <!-- luminous chest quest core -->
+ <circle id="coreGlow" cx="160" cy="247" r="31" fill="#22d9f3" opacity=".42" filter="url(#glow)"/>
+ <circle cx="160" cy="247" r="26" fill="#dffaff" stroke="#5f879b" stroke-width="4"/>
+ <circle cx="160" cy="247" r="18" fill="url(#core)" stroke="#18bfe8" stroke-width="3"/>
+ <circle cx="160" cy="247" r="7" fill="#fff"/>
+ <!-- short legs and boots -->
+ <path d="M125 277q-8 27 2 42h27l2-36Z" fill="url(#body)"/><path d="M195 277q8 27-2 42h-27l-2-36Z" fill="url(#body)"/>
+ <path d="M119 312q17 8 36 0l-3 19h-39q-3-12 6-19Z" fill="#8ca8b8" stroke="#597485" stroke-width="3"/>
+ <path d="M201 312q-17 8-36 0l3 19h39q3-12-6-19Z" fill="#8ca8b8" stroke="#597485" stroke-width="3"/>
+</g>
 </svg>
