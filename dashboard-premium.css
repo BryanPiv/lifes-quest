@@ -1,0 +1,254 @@
+/* Life's Quest v86 — clean premium dashboard presentation */
+:root{
+  --lq-bg:#04131f;
+  --lq-panel:rgba(5,35,57,.94);
+  --lq-panel2:rgba(3,23,39,.97);
+  --lq-gold:#f4cf70;
+  --lq-blue:#168ee8;
+  --lq-cyan:#38d8f5;
+  --lq-border:rgba(122,188,226,.34);
+}
+body{background:var(--lq-bg)!important}
+#journey.page.on{
+  display:block!important;
+  min-height:100dvh!important;
+  height:auto!important;
+  overflow-y:auto!important;
+  padding:0 0 92px!important;
+  background:
+    radial-gradient(circle at 50% 0,rgba(23,109,157,.22),transparent 34%),
+    linear-gradient(180deg,#073557 0,#041a2c 46%,#03121e 100%)!important;
+}
+#journey .premiumJourney{
+  display:block!important;
+  height:auto!important;
+  min-height:0!important;
+  padding:0 0 20px!important;
+  overflow:visible!important;
+  background:transparent!important;
+}
+
+/* header */
+#journey .pjTop{
+  position:relative!important;
+  height:88px!important;
+  display:flex!important;
+  align-items:flex-start!important;
+  justify-content:space-between!important;
+  padding:18px 18px 10px!important;
+  background:linear-gradient(180deg,rgba(5,33,55,.98),rgba(5,45,73,.88))!important;
+  border-bottom:1px solid rgba(244,207,112,.22)!important;
+  z-index:50!important;
+}
+#journey .pjLogo{
+  font:700 31px/1 Georgia,serif!important;
+  color:#fff7df!important;
+  letter-spacing:-.9px!important;
+  text-shadow:0 3px 16px rgba(0,0,0,.4)!important;
+}
+#journey .pjLogo small{
+  margin-top:9px!important;
+  font:800 7px/1.1 Inter,sans-serif!important;
+  letter-spacing:1.7px!important;
+  color:#dceaf1!important;
+}
+#journey .pjLevel{
+  width:132px!important;
+  min-height:59px!important;
+  border:1px solid rgba(244,207,112,.8)!important;
+  border-radius:18px!important;
+  background:linear-gradient(160deg,rgba(6,43,68,.98),rgba(3,25,43,.98))!important;
+  box-shadow:0 10px 24px rgba(0,0,0,.28),inset 0 1px rgba(255,255,255,.08)!important;
+}
+#journey .pjLevel .bar{background:#072b49!important}
+#journey .pjLevel .bar i{background:linear-gradient(90deg,#29d4f3,#38bfe9,#f2cb67)!important}
+#journey .pjGear{
+  top:99px!important;right:14px!important;
+  width:43px!important;height:43px!important;
+  border-radius:50%!important;
+  border:1px solid rgba(244,207,112,.65)!important;
+  background:rgba(4,29,47,.92)!important;
+  z-index:100!important;
+}
+
+/* cinematic hero scene */
+#journey .pjScene{
+  position:relative!important;
+  height:min(58vh,560px)!important;
+  min-height:410px!important;
+  margin:0!important;
+  overflow:hidden!important;
+  background:#0b6b9e!important;
+  border-bottom:1px solid rgba(244,207,112,.32)!important;
+  box-shadow:inset 0 -48px 70px rgba(2,12,20,.38)!important;
+}
+#journey .lqEnvironment{filter:saturate(1.18) contrast(1.06)!important}
+#journey .lqSky{filter:saturate(1.14) brightness(1.04)!important}
+#journey .lqBackMountains{filter:saturate(.92) contrast(1.04)!important}
+#journey .lqValley{filter:saturate(1.16) contrast(1.07)!important}
+#journey .lqHeroMountain{filter:saturate(1.08) contrast(1.08)!important}
+#journey .lqForeground{filter:saturate(1.18) contrast(1.08)!important}
+#journey .lqLightingLayer{
+  background:
+    radial-gradient(circle at 80% 12%,rgba(255,237,170,.32),transparent 16%),
+    linear-gradient(180deg,transparent 48%,rgba(2,16,24,.14) 73%,rgba(2,13,21,.5) 100%)!important;
+}
+#journey .lqMist{opacity:.45!important}
+#journey .pjCompanionCard{
+  left:16px!important;top:22px!important;width:160px!important;
+  padding:12px 13px!important;
+  border-radius:18px!important;
+  background:linear-gradient(160deg,rgba(5,36,58,.88),rgba(3,22,37,.84))!important;
+  border:1px solid rgba(244,207,112,.78)!important;
+  backdrop-filter:blur(12px)!important;
+  box-shadow:0 12px 28px rgba(0,0,0,.28)!important;
+}
+#journey .pjCompanionName{font-size:27px!important;color:#f5d06f!important}
+#journey .pjQuote{font-size:11px!important;line-height:1.4!important}
+#journey #lqCharacterHost{
+  left:17%!important;
+  top:75%!important;
+  width:30%!important;
+  max-width:190px!important;
+  z-index:32!important;
+}
+#journey .pjTrail{
+  right:-2px!important;
+  top:18px!important;
+  width:198px!important;height:365px!important;
+  transform:scale(.96)!important;
+  z-index:20!important;
+}
+#journey .pjMilestone{
+  font-size:7px!important;
+  padding:5px 8px!important;
+  border-radius:8px!important;
+  background:linear-gradient(160deg,rgba(6,37,58,.96),rgba(2,18,30,.96))!important;
+  border:1px solid rgba(244,207,112,.78)!important;
+  box-shadow:0 6px 14px rgba(0,0,0,.35)!important;
+}
+#journey .pjNode{
+  width:35px!important;height:35px!important;
+  border:2px solid #eef7fb!important;
+  background:radial-gradient(circle at 35% 25%,#173d5b,#071520 72%)!important;
+  box-shadow:0 4px 12px rgba(0,0,0,.38)!important;
+}
+#journey .pjNode.n1{border-color:#f6d270!important;box-shadow:0 0 0 4px rgba(245,198,75,.15),0 0 24px rgba(255,174,22,.82)!important}
+#journey .pjTagline{right:12px!important;bottom:12px!important;font-size:17px!important;color:#fff!important}
+
+/* dashboard controls */
+#journey .pjBudget,
+#journey .pjQuickTitle,
+#journey .pjQuick,
+#journey .pjTiles{
+  position:relative!important;
+  left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;
+  opacity:1!important;visibility:visible!important;
+}
+#journey .pjBudget{
+  margin:14px 14px 0!important;
+  min-height:78px!important;
+  height:auto!important;
+  padding:12px!important;
+  border-radius:20px!important;
+  background:linear-gradient(160deg,var(--lq-panel),var(--lq-panel2))!important;
+  border:1px solid rgba(244,207,112,.78)!important;
+  box-shadow:0 12px 30px rgba(0,0,0,.28)!important;
+}
+#journey .pjBudgetIcon{
+  width:48px!important;height:48px!important;
+  display:grid!important;place-items:center!important;
+  border-radius:15px!important;
+  background:radial-gradient(circle at 35% 25%,rgba(34,127,180,.65),rgba(5,40,67,.98))!important;
+  border:1px solid rgba(62,171,229,.62)!important;
+}
+#journey .pjBudgetMain b{font:700 13px Georgia,serif!important;letter-spacing:.9px!important}
+#journey #editBudgetBtn{
+  border-radius:13px!important;
+  padding:10px 12px!important;
+  background:linear-gradient(180deg,#0c62af,#08467e)!important;
+  border:1px solid #1d8ff0!important;
+}
+#journey .pjQuickTitle{
+  display:block!important;
+  margin:15px 18px 8px!important;
+  padding:0!important;height:auto!important;
+  text-align:left!important;
+  color:#f4cf70!important;
+  font:700 11px Georgia,serif!important;
+  letter-spacing:1.5px!important;
+}
+#journey .pjQuick{
+  margin:0 14px!important;
+  padding:0!important;
+  display:grid!important;
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  gap:8px!important;
+  height:auto!important;
+}
+#journey .pjQuick button{
+  min-height:78px!important;height:auto!important;
+  border-radius:17px!important;
+  padding:9px 4px!important;
+  background:linear-gradient(160deg,rgba(7,61,100,.98),rgba(4,31,54,.98))!important;
+  border:1px solid rgba(26,143,226,.78)!important;
+  box-shadow:0 8px 18px rgba(0,0,0,.24)!important;
+}
+#journey .pjQuick .icon{font-size:23px!important}
+#journey .pjQuick b{font-size:9px!important}
+#journey .pjTiles{
+  margin:10px 14px 18px!important;
+  padding:0!important;
+  display:grid!important;
+  grid-template-columns:1fr 1fr!important;
+  gap:8px!important;
+  height:auto!important;
+}
+#journey .pjTile{
+  min-height:66px!important;height:auto!important;
+  border-radius:17px!important;
+  padding:10px!important;
+  background:linear-gradient(160deg,rgba(7,59,96,.98),rgba(4,30,51,.98))!important;
+  border:1px solid rgba(26,143,226,.7)!important;
+  box-shadow:0 8px 18px rgba(0,0,0,.22)!important;
+}
+#journey .pjTile b{font-size:10px!important}
+#journey .pjTile small{font-size:8px!important;color:#bfd0dc!important}
+
+/* bottom nav */
+body.journey-active #app>.nav{
+  position:fixed!important;
+  left:12px!important;right:12px!important;bottom:calc(8px + env(safe-area-inset-bottom))!important;
+  width:auto!important;height:72px!important;
+  display:grid!important;grid-template-columns:repeat(4,1fr)!important;
+  padding:6px!important;
+  border-radius:27px!important;
+  border:1px solid rgba(22,142,232,.84)!important;
+  background:linear-gradient(180deg,rgba(5,45,76,.98),rgba(3,24,43,.99))!important;
+  box-shadow:0 14px 34px rgba(0,0,0,.42)!important;
+  backdrop-filter:blur(16px)!important;
+  z-index:500!important;
+}
+body.journey-active #app>.nav button{
+  border-radius:19px!important;
+  color:#c7d8e5!important;
+  font-size:9px!important;
+}
+body.journey-active #app>.nav button.on{
+  color:#f7d571!important;
+  background:radial-gradient(circle at 50% 25%,rgba(246,210,104,.15),transparent 70%)!important;
+  text-shadow:0 0 10px rgba(246,210,104,.28)!important;
+}
+
+#lqHotspots{display:none!important}
+
+/* remove legacy duplicated live character presentation */
+#lqLiveCharacter{display:none!important}
+
+@media(max-width:390px){
+  #journey .pjLogo{font-size:27px!important}
+  #journey .pjLevel{width:118px!important}
+  #journey .pjScene{min-height:385px!important;height:54vh!important}
+  #journey .pjCompanionCard{width:146px!important}
+  #journey #lqCharacterHost{width:29%!important}
+}
