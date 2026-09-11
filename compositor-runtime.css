@@ -1,0 +1,8 @@
+#journey .lqEnvironment{position:absolute;inset:0;overflow:hidden;isolation:isolate}
+#journey .lqLayer,#journey .lqEffectLayer{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+#journey .lqLayer{object-fit:cover;object-position:center center;transform-origin:center center;will-change:transform,opacity,filter}
+#journey .lqEffectLayer{will-change:transform,opacity,filter}
+#journey .lqCelestial{background:radial-gradient(circle at 79% 10%,rgba(255,247,190,.34),transparent 13%)}
+#journey .lqMist{background:linear-gradient(180deg,transparent 40%,rgba(230,248,255,.10) 70%,transparent 95%);filter:blur(7px)}
+#journey .lqLightingLayer{background:radial-gradient(circle at 78% 10%,rgba(255,219,118,.16),transparent 26%),linear-gradient(180deg,transparent 55%,rgba(4,18,25,.10));mix-blend-mode:screen}
+#journey .lqParticlesLayer,#journey .lqWeatherLayer,#journey .lqStructures,#journey .lqFlora{background:transparent}
