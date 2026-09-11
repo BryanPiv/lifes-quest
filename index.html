@@ -1849,6 +1849,42 @@ body.journey-active .phone{
 @media(prefers-reduced-motion:reduce){
   #lqAnimatedCompanion,#lqAnimatedCompanion img,#lqAnimatedCompanion::after,#lqAnimatedCompanion .lqBlink{animation:none!important}
 }
+</style><style id="v71-budget-functionality-fix">
+/* v71 — keep Build Your Budget interactive and scrollable */
+body:not(.journey-active),
+body.budget-editing{
+  overflow-y:auto!important;
+}
+body.budget-editing .phone{
+  height:auto!important;
+  min-height:100dvh!important;
+  overflow:visible!important;
+}
+body.budget-editing #incomeOnboarding{
+  display:block!important;
+  position:relative!important;
+  z-index:600!important;
+  pointer-events:auto!important;
+  overflow:visible!important;
+  height:auto!important;
+  min-height:100dvh!important;
+  padding-bottom:calc(140px + env(safe-area-inset-bottom))!important;
+}
+body.budget-editing #incomeOnboarding *{
+  pointer-events:auto!important;
+}
+#budgetSetupBackBtn{
+  position:fixed!important;
+  left:14px!important;
+  top:max(12px,env(safe-area-inset-top))!important;
+  z-index:1200!important;
+  width:42px!important;height:42px!important;border-radius:50%!important;
+  border:1px solid rgba(241,199,99,.72)!important;
+  background:linear-gradient(145deg,#0d3b63,#061f38)!important;
+  color:#ffe08a!important;font-size:29px!important;
+  display:grid!important;place-items:center!important;padding:0 0 3px!important;
+  box-shadow:0 8px 22px rgba(0,0,0,.35)!important;
+}
 </style></head>
 <body><div class="phone"><script>document.documentElement.dataset.lqBoot="welcome";</script>
 <div id="welcome" class="welcome">
@@ -3075,5 +3111,75 @@ if ("serviceWorker" in navigator) {
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",render);else render();
   window.addEventListener("pageshow",render);
   setInterval(render,1200);
+})();
+</script><script id="v71-budget-functionality-script">
+(function(){
+  function enterBudgetMode(){
+    document.body.classList.remove("journey-active");
+    document.body.classList.add("budget-editing");
+    const phone=document.querySelector(".phone");
+    if(phone){phone.classList.remove("journey-lock");phone.scrollTop=0;}
+    const panel=document.getElementById("incomeOnboarding");
+    if(panel){
+      panel.classList.remove("hidden");
+      panel.style.display="block";
+      if(!document.getElementById("budgetSetupBackBtn")){
+        const b=document.createElement("button");
+        b.id="budgetSetupBackBtn";
+        b.type="button";
+        b.setAttribute("aria-label","Back to Home");
+        b.textContent="‹";
+        b.addEventListener("click",function(e){
+          e.preventDefault();e.stopPropagation();
+          document.body.classList.remove("budget-editing");
+          panel.classList.add("hidden");
+          panel.style.removeProperty("display");
+          const app=document.getElementById("app");
+          if(app)app.classList.remove("hidden");
+          if(window.go)window.go("journey");
+        });
+        panel.appendChild(b);
+      }
+    }
+  }
+
+  function patchOpenBudget(){
+    if(!window.openBudget||window.openBudget.__v71)return;
+    const original=window.openBudget;
+    window.openBudget=function(){
+      const out=original.apply(this,arguments);
+      enterBudgetMode();
+      return out;
+    };
+    window.openBudget.__v71=true;
+  }
+
+  function ensureInputs(){
+    ["incomeAmount","healthcareCost","retirementPct","retirementMatchPct"].forEach(id=>{
+      const el=document.getElementById(id);
+      if(el){
+        el.disabled=false;
+        el.readOnly=false;
+        el.style.pointerEvents="auto";
+        el.style.touchAction="manipulation";
+      }
+    });
+    document.querySelectorAll("#incomeOnboarding input,#incomeOnboarding button,#incomeOnboarding select").forEach(el=>{
+      el.disabled=false;
+      el.style.pointerEvents="auto";
+      el.style.touchAction="manipulation";
+    });
+  }
+
+  function boot(){
+    patchOpenBudget();
+    ensureInputs();
+    const panel=document.getElementById("incomeOnboarding");
+    if(panel&&!panel.classList.contains("hidden")&&document.getElementById("app")?.classList.contains("hidden")){
+      enterBudgetMode();
+    }
+  }
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
+  window.addEventListener("pageshow",boot);
 })();
 </script></body></html>
