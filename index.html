@@ -2245,6 +2245,374 @@ body.journey-active #app>.nav{
  box-shadow:0 12px 28px rgba(0,0,0,.4)!important;
 }
 body.journey-active #app>.nav button.on{color:#ffdb68!important;text-shadow:0 0 12px rgba(255,205,69,.38)!important}
+</style><style id="v79-full-dashboard-rebuild">
+/* v79 — full dashboard rebuild from independent premium layers */
+#journey.page.on{
+  display:block!important;
+  height:100dvh!important;
+  min-height:100dvh!important;
+  overflow:hidden!important;
+  padding:0!important;
+}
+#journey .premiumJourney{
+  position:relative!important;
+  display:flex!important;
+  flex-direction:column!important;
+  width:100%!important;
+  height:100dvh!important;
+  min-height:0!important;
+  padding:0 0 78px!important;
+  overflow:hidden!important;
+  isolation:isolate!important;
+  background:#041523!important;
+}
+#journey .premiumJourney::before,#journey .premiumJourney::after{display:none!important}
+
+/* real layered art environment */
+#journey .pjScene{
+  position:relative!important;
+  flex:1 1 auto!important;
+  min-height:325px!important;
+  height:auto!important;
+  top:auto!important;left:auto!important;right:auto!important;
+  margin:0!important;
+  opacity:1!important;visibility:visible!important;
+  overflow:hidden!important;
+  z-index:2!important;
+  pointer-events:auto!important;
+  background:#0c6ca5!important;
+}
+#journey .pjMountains.lqEnvironment{
+  display:block!important;
+  position:absolute!important;
+  inset:0!important;
+  opacity:1!important;visibility:visible!important;
+  overflow:hidden!important;
+  z-index:1!important;
+}
+#journey .lqLayer{
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;
+  height:100%!important;
+  object-fit:cover!important;
+  object-position:center center!important;
+  display:block!important;
+  pointer-events:none!important;
+}
+#journey .lqSky{z-index:1!important}
+#journey .lqBackMountains{z-index:2!important}
+#journey .lqValley{z-index:3!important}
+#journey .lqHeroMountain{z-index:4!important}
+#journey .lqForeground{z-index:7!important}
+#journey .lqAtmosphere{
+  position:absolute!important;inset:0!important;z-index:6!important;pointer-events:none!important;
+  background:
+    radial-gradient(circle at 79% 10%,rgba(255,245,187,.30),transparent 14%),
+    linear-gradient(180deg,rgba(0,58,112,.04),transparent 55%,rgba(2,16,23,.26) 82%,rgba(2,12,19,.48))!important;
+  mix-blend-mode:screen;
+}
+#journey .pjScene:before{
+  content:""!important;position:absolute!important;inset:0!important;z-index:5!important;pointer-events:none!important;
+  background:
+    linear-gradient(110deg,transparent 58%,rgba(255,223,130,.10) 72%,transparent 82%),
+    radial-gradient(ellipse at 45% 70%,rgba(220,248,255,.10),transparent 28%)!important;
+}
+#journey .pjScene:after{display:none!important}
+
+/* brand / level */
+#journey .pjTop{
+  position:relative!important;
+  flex:0 0 76px!important;
+  height:76px!important;
+  top:auto!important;left:auto!important;right:auto!important;
+  z-index:50!important;
+  display:flex!important;
+  justify-content:space-between!important;
+  align-items:flex-start!important;
+  padding:13px 14px 7px!important;
+  opacity:1!important;visibility:visible!important;
+  pointer-events:none!important;
+  background:
+    radial-gradient(circle at 74% 0,rgba(255,214,96,.12),transparent 34%),
+    linear-gradient(180deg,#062b4b 0%,#084d7c 100%)!important;
+  border-bottom:1px solid rgba(255,205,82,.22)!important;
+}
+#journey .pjLogo{
+  font:700 30px/1 Georgia,serif!important;
+  color:#fff7db!important;
+  letter-spacing:-1.1px!important;
+  text-shadow:0 3px 16px rgba(0,0,0,.55),0 0 12px rgba(255,204,75,.16)!important;
+}
+#journey .pjLogo small{
+  display:block!important;
+  margin-top:8px!important;
+  color:#fff!important;
+  font:800 6.6px/1 Inter,sans-serif!important;
+  letter-spacing:1.55px!important;
+}
+#journey .pjLevel{
+  width:132px!important;
+  min-height:58px!important;
+  padding:8px 10px!important;
+  background:linear-gradient(145deg,rgba(5,32,51,.98),rgba(3,21,35,.96))!important;
+  border:1.2px solid #e8c257!important;
+  border-radius:16px!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.12),0 9px 18px rgba(0,0,0,.28)!important;
+}
+#journey .pjLevel b{font:700 14px Georgia,serif!important;color:#fff!important}
+#journey .pjLevel .bar{height:6px!important;margin-top:6px!important;background:#07385e!important}
+#journey .pjLevel .bar i{background:linear-gradient(90deg,#06c8f4,#34e2f1,#ffd24d,#ff3d4d)!important}
+#journey .pjLevel .tiny{font-size:8px!important;color:#dce9ef!important;margin-top:3px!important}
+#journey .pjGear{
+  position:absolute!important;
+  right:11px!important;top:82px!important;
+  width:42px!important;height:42px!important;
+  z-index:80!important;
+  display:grid!important;place-items:center!important;
+  opacity:1!important;visibility:visible!important;
+  pointer-events:auto!important;
+  border:1px solid rgba(255,209,92,.72)!important;
+  background:linear-gradient(145deg,rgba(8,50,77,.96),rgba(3,25,42,.96))!important;
+  box-shadow:0 8px 20px rgba(0,0,0,.34)!important;
+}
+
+/* companion card */
+#journey .pjCompanionCard{
+  position:absolute!important;
+  left:14px!important;top:18px!important;
+  width:157px!important;
+  z-index:15!important;
+  padding:11px 12px 12px!important;
+  opacity:1!important;visibility:visible!important;
+  background:linear-gradient(145deg,rgba(4,33,53,.92),rgba(2,19,32,.88))!important;
+  border:1.2px solid rgba(246,205,96,.82)!important;
+  border-radius:17px!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.11),0 12px 28px rgba(0,0,0,.32)!important;
+  backdrop-filter:blur(8px)!important;
+}
+#journey .pjCompanionCard .eyebrow{font-size:7.5px!important;letter-spacing:1.4px!important;color:#fff!important}
+#journey .pjCompanionName{font:700 25px Georgia,serif!important;color:#ffd56d!important;margin:2px 0 1px!important}
+#journey .pjType{font-size:9px!important;color:#f2d36d!important;letter-spacing:1px!important}
+#journey .pjQuote{font:italic 10.5px/1.35 Georgia,serif!important;color:#f4f7f8!important;margin-top:7px!important}
+
+/* Nimbus is a separate editable character layer */
+#journey .pjCharacter,#journey .jpet,#journey .productionCompanionSprite{display:none!important}
+#journey #lqLiveCharacter{
+  position:absolute!important;
+  left:4.5%!important;
+  bottom:1.5%!important;
+  top:auto!important;
+  width:31.5%!important;
+  z-index:14!important;
+  pointer-events:none!important;
+  transform:none!important;
+}
+#journey #lqLiveCharacter::before{display:none!important}
+#journey #lqLiveCharacter img{
+  display:block!important;width:100%!important;height:auto!important;
+  filter:drop-shadow(0 13px 13px rgba(0,0,0,.46)) drop-shadow(0 0 7px rgba(86,221,255,.13))!important;
+}
+
+/* premium glowing quest trail */
+#journey .pjTrail{
+  position:absolute!important;
+  z-index:12!important;
+  right:-8px!important;
+  top:12px!important;
+  width:205px!important;height:348px!important;
+  transform:scale(.92)!important;
+  transform-origin:top right!important;
+  opacity:1!important;visibility:visible!important;
+  pointer-events:none!important;
+}
+#journey .pjTrail svg.pjPath{
+  display:block!important;
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;height:100%!important;
+  transform:none!important;
+  background:none!important;
+  box-shadow:none!important;
+}
+#journey .pjPath path:first-of-type{stroke:rgba(8,17,24,.45)!important;stroke-width:16!important}
+#journey .pjPath path:last-of-type{
+  stroke:#ffb729!important;stroke-width:6!important;
+  filter:drop-shadow(0 0 4px #ffc13f) drop-shadow(0 0 8px #ff9e1f)!important;
+}
+#journey .pjNode{
+  width:34px!important;height:34px!important;
+  display:grid!important;place-items:center!important;
+  background:radial-gradient(circle at 35% 25%,#1b3b56,#071622 72%)!important;
+  border:2px solid #f1f5f8!important;
+  color:#fff!important;font-size:12px!important;
+  box-shadow:0 3px 9px rgba(0,0,0,.48)!important;
+}
+#journey .pjNode.n1{
+  border-color:#ffd45c!important;color:#ffe381!important;
+  box-shadow:0 0 0 4px rgba(255,193,44,.17),0 0 20px rgba(255,169,22,.85)!important;
+}
+#journey .pjMilestone{
+  padding:5px 9px!important;
+  border-radius:8px!important;
+  background:linear-gradient(150deg,rgba(5,34,53,.95),rgba(2,18,30,.95))!important;
+  border:1px solid rgba(248,211,103,.82)!important;
+  color:#fff!important;
+  font:700 7px/1.05 Georgia,serif!important;
+  letter-spacing:.5px!important;
+  box-shadow:0 5px 12px rgba(0,0,0,.34)!important;
+}
+#journey .pjMilestone.m3{display:none!important}
+#journey .pjTagline{
+  position:absolute!important;right:8px!important;bottom:11px!important;z-index:13!important;
+  width:145px!important;
+  color:#fff!important;
+  font:italic 16px/1.08 "Snell Roundhand",cursive!important;
+  text-shadow:0 3px 8px rgba(0,0,0,.8)!important;
+  transform:rotate(-3deg)!important;
+}
+
+/* budget + controls are real interface, not baked art */
+#journey .pjBudget{
+  position:relative!important;
+  flex:0 0 68px!important;
+  height:68px!important;
+  left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;
+  margin:0 12px!important;
+  padding:9px 11px!important;
+  z-index:40!important;
+  display:flex!important;align-items:center!important;gap:10px!important;
+  opacity:1!important;visibility:visible!important;
+  pointer-events:auto!important;
+  border-radius:18px!important;
+  background:linear-gradient(145deg,#073d68,#04233d)!important;
+  border:1.2px solid rgba(247,204,81,.84)!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.10),0 10px 24px rgba(0,0,0,.32)!important;
+}
+#journey .pjBudgetIcon{font-size:25px!important}
+#journey .pjBudgetMain{min-width:0!important}
+#journey .pjBudgetMain b{font:700 12px Georgia,serif!important;letter-spacing:.8px!important;color:#fff!important}
+#journey .pjBudgetMain .bar{height:7px!important;margin:5px 0 3px!important;background:#07385f!important}
+#journey .pjBudgetMain .bar i{background:linear-gradient(90deg,#02c9f3,#36e4f0,#ffd24d,#ff4350)!important}
+#journey #editBudgetBtn{
+  position:static!important;
+  flex:0 0 auto!important;
+  width:auto!important;height:auto!important;
+  opacity:1!important;
+  padding:8px 10px!important;
+  pointer-events:auto!important;
+  background:linear-gradient(180deg,#0759a5,#063765)!important;
+  border:1px solid #168dff!important;
+  color:#fff!important;
+  border-radius:11px!important;
+}
+#journey .pjQuickTitle{
+  position:relative!important;
+  flex:0 0 20px!important;
+  left:auto!important;right:auto!important;top:auto!important;
+  display:flex!important;align-items:flex-end!important;
+  height:20px!important;
+  margin:0!important;padding:0 15px 3px!important;
+  opacity:1!important;visibility:visible!important;
+  color:#ffd568!important;
+  font:700 10px Georgia,serif!important;
+  letter-spacing:1.5px!important;text-align:left!important;
+}
+#journey .pjQuick{
+  position:relative!important;
+  flex:0 0 62px!important;
+  left:auto!important;right:auto!important;top:auto!important;
+  height:62px!important;
+  padding:0 12px!important;
+  margin:0!important;
+  display:grid!important;grid-template-columns:repeat(4,1fr)!important;gap:7px!important;
+  opacity:1!important;visibility:visible!important;
+  z-index:40!important;pointer-events:auto!important;
+}
+#journey .pjQuick button{
+  height:62px!important;min-width:0!important;
+  padding:6px 2px!important;
+  border-radius:15px!important;
+  color:#fff!important;
+  background:linear-gradient(145deg,#074274,#052b50)!important;
+  border:1.2px solid #0c8ff0!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.10),0 7px 16px rgba(0,0,0,.25)!important;
+  pointer-events:auto!important;
+}
+#journey .pjQuick button:nth-child(1){border-left:6px solid #22e7e4!important}
+#journey .pjQuick button:nth-child(2){border-left:6px solid #ff3346!important}
+#journey .pjQuick button:nth-child(3){border-left:6px solid #b94cff!important}
+#journey .pjQuick button:nth-child(4){border-left:6px solid #ffd64f!important}
+#journey .pjQuick .icon{font-size:19px!important}
+#journey .pjQuick b{font-size:8.5px!important;margin-top:3px!important;white-space:nowrap!important}
+#journey .pjTiles{
+  position:relative!important;
+  flex:0 0 54px!important;
+  left:auto!important;right:auto!important;top:auto!important;
+  height:54px!important;
+  margin:7px 12px 0!important;padding:0!important;
+  display:grid!important;grid-template-columns:1fr 1fr!important;gap:7px!important;
+  opacity:1!important;visibility:visible!important;
+  z-index:40!important;pointer-events:auto!important;
+}
+#journey .pjTile{
+  height:54px!important;
+  padding:6px 8px!important;
+  border-radius:14px!important;
+  color:#fff!important;
+  background:linear-gradient(145deg,#073c69,#052745)!important;
+  border:1.2px solid #0c8ff0!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.08),0 7px 16px rgba(0,0,0,.24)!important;
+  pointer-events:auto!important;
+}
+#journey .pjTile:first-child{border-left:6px solid #ff3447!important}
+#journey .pjTile .ti{float:left!important;font-size:17px!important;margin-right:7px!important}
+#journey .pjTile b{font:700 9px Georgia,serif!important;margin:0!important}
+#journey .pjTile small{font-size:7px!important;margin-top:2px!important;color:#c7d8e2!important}
+
+/* eliminate the old screenshot interaction layer */
+#lqHotspots{display:none!important;pointer-events:none!important}
+
+/* functional floating bottom navigation */
+body.journey-active #app>.nav{
+  position:absolute!important;
+  left:12px!important;right:12px!important;bottom:6px!important;
+  width:auto!important;height:68px!important;
+  z-index:200!important;
+  display:grid!important;grid-template-columns:repeat(4,1fr)!important;
+  padding:5px 6px!important;
+  opacity:1!important;pointer-events:auto!important;
+  background:linear-gradient(180deg,rgba(5,48,82,.99),rgba(3,27,48,.99))!important;
+  border:1.2px solid #0a8ef4!important;
+  border-radius:27px!important;
+  box-shadow:0 10px 28px rgba(0,0,0,.42)!important;
+}
+body.journey-active #app>.nav button{
+  pointer-events:auto!important;
+  color:#c6d9e6!important;
+  background:transparent!important;
+  font-size:9px!important;
+  border-radius:18px!important;
+}
+body.journey-active #app>.nav button.on{
+  color:#ffdc69!important;
+  background:radial-gradient(circle at 50% 25%,rgba(255,209,76,.14),transparent 67%)!important;
+  text-shadow:0 0 10px rgba(255,207,71,.30)!important;
+}
+
+@media(max-height:760px){
+  #journey .premiumJourney{padding-bottom:70px!important}
+  #journey .pjTop{flex-basis:68px!important;height:68px!important;padding-top:10px!important}
+  #journey .pjLogo{font-size:26px!important}
+  #journey .pjScene{min-height:285px!important}
+  #journey .pjBudget{flex-basis:62px!important;height:62px!important}
+  #journey .pjQuick{flex-basis:56px!important;height:56px!important}
+  #journey .pjQuick button{height:56px!important}
+  #journey .pjTiles{flex-basis:48px!important;height:48px!important}
+  #journey .pjTile{height:48px!important}
+  #journey #lqLiveCharacter{width:28.5%!important}
+  body.journey-active #app>.nav{height:62px!important}
+}
 </style></head>
 <body><div class="phone"><script>document.documentElement.dataset.lqBoot="welcome";</script>
 <div id="welcome" class="welcome">
@@ -2397,7 +2765,14 @@ body.journey-active #app>.nav button.on{color:#ffdb68!important;text-shadow:0 0 
   </div>
   <button id="journeySettingsBtn" class="settingsBtn pjGear" aria-label="Settings">⚙️</button>
   <div class="pjScene">
-    <div class="pjMountains"><img class="productionMountainEnvironment" src="assets/journey/mountain-environment.svg?v=49" alt="" aria-hidden="true"></div>
+    <div class="pjMountains lqEnvironment" aria-hidden="true">
+    <img class="lqLayer lqSky" src="assets/journey/v79/sky.svg?v=79" alt="">
+    <img class="lqLayer lqBackMountains" src="assets/journey/v79/mountains-back.svg?v=79" alt="">
+    <img class="lqLayer lqValley" src="assets/journey/v79/valley.svg?v=79" alt="">
+    <img class="lqLayer lqHeroMountain" src="assets/journey/v79/hero-mountain.svg?v=79" alt="">
+    <img class="lqLayer lqForeground" src="assets/journey/v79/foreground.svg?v=79" alt="">
+    <div class="lqAtmosphere"></div>
+  </div>
     <div class="pjCompanionCard"><div class="eyebrow">YOUR COMPANION</div><div id="pjCompanionName" class="pjCompanionName">Ember</div><div id="pjCompanionType" class="pjType">🔥 FIRE</div><div class="pjQuote">“Discipline fuels greatness.”</div></div>
     <div id="journeyPet" class="pjCharacter"></div>
     <div class="pjTrail">
@@ -2419,7 +2794,7 @@ body.journey-active #app>.nav button.on{color:#ffdb68!important;text-shadow:0 0 
   <path d="M108 365 C132 330 133 300 114 270 C94 238 96 209 122 179 C143 154 142 124 121 96 C105 75 110 47 133 23"
         fill="none" stroke="url(#questTrailV45)" stroke-width="6" stroke-linecap="round" filter="url(#questTrailGlowV45)"/>
 </svg>
-      <div class="pjMilestone m1">BUILD<br>HABITS</div><div class="pjMilestone m2">GAIN<br>CONTROL</div><div class="pjMilestone m3">ACHIEVE<br>GOALS</div><div class="pjMilestone m4">CREATE<br>FREEDOM</div><div class="pjMilestone m5">BRIGHTEST<br>SELF</div>
+      <div class="pjMilestone m1">BUILD<br>HABITS</div><div class="pjMilestone m2">GAIN<br>CONTROL</div><div class="pjMilestone m3" aria-hidden="true"></div><div class="pjMilestone m4">CREATE<br>FREEDOM</div><div class="pjMilestone m5">BRIGHTER<br>SELF</div>
       <div class="pjNode n1">1</div><div class="pjNode n2 locked">5</div><div class="pjNode n3 locked">10</div><div class="pjNode n4 locked">15</div><div class="pjNode n5 locked">20</div>
     </div>
     <div class="pjSummitGlow" aria-hidden="true"></div>
@@ -3690,5 +4065,22 @@ if ("serviceWorker" in navigator) {
   function boot(){cleanup();setTimeout(cleanup,250);setTimeout(cleanup,1200)}
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
   window.addEventListener("pageshow",boot);
+})();
+</script><script id="v79-full-dashboard-rebuild-script">
+(function(){
+  function boot(){
+    const hs=document.getElementById("lqHotspots"); if(hs)hs.remove();
+    const host=document.querySelector("#journey .premiumJourney");
+    if(host){host.classList.remove("reference-ready");host.style.removeProperty("--journey-reference-image");}
+    const scene=document.querySelector("#journey .pjScene");
+    const ch=document.getElementById("lqLiveCharacter");
+    if(scene&&ch&&ch.parentNode!==scene)scene.appendChild(ch);
+    const img=ch&&ch.querySelector("img");
+    if(img&&/nimbus-backpack\.svg/.test(img.src))img.src="assets/companions/nimbus-backpack.svg?v=79";
+    document.body.classList.toggle("journey-active",document.querySelector("#journey.page.on")!==null);
+  }
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
+  window.addEventListener("pageshow",boot);
+  setTimeout(boot,250);setTimeout(boot,1000);
 })();
 </script></body></html>
