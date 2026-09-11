@@ -1,0 +1,20 @@
+window.LQAssetContract={
+  version:1,
+  environment:{
+    formatPreference:["webp","png"],
+    transparentSlots:["farMountains","midMountains","valley","heroMountain","foreground"],
+    opaqueSlots:["sky"],
+    targetWidth:1290,targetHeight:1560,
+    safeArea:{top:.04,right:.04,bottom:.04,left:.04},
+    rules:{noEmbeddedUI:true,noEmbeddedCharacter:true,noEmbeddedTrail:true,consistentCamera:true,sharedLightingDirection:true,transparentPadding:true}
+  },
+  character:{
+    formatPreference:["webp","png"],
+    targetWidth:1080,targetHeight:1200,
+    transparentBackground:true,
+    anchor:{x:.5,y:.94},
+    pose:"neutral-front-three-quarter",
+    keepFeetVisible:true,keepAccessoriesSeparate:true,keepEvolutionFormsSeparate:true,
+    rules:{consistentCamera:true,consistentBaseScale:true,centeredAnchor:true,noSceneBackground:true,noBakedShadow:true}
+  }
+};
