@@ -1247,6 +1247,39 @@ html,body{background:#020912!important}
 }
 </style>
 
+
+<style id="scroll-v54-fix">
+/* v54 — restore independent page scrolling while keeping Journey locked to one screen */
+.phone{
+  height:100dvh!important;
+  min-height:100dvh!important;
+  overflow-x:hidden!important;
+  overflow-y:auto!important;
+  -webkit-overflow-scrolling:touch!important;
+  overscroll-behavior-y:contain;
+}
+.phone.journey-lock{
+  overflow-y:hidden!important;
+}
+.phone:not(.journey-lock) .page.on{
+  min-height:100%!important;
+  height:auto!important;
+  overflow:visible!important;
+}
+#settings.page.on,
+#expenses.page.on,
+#goals.page.on,
+#calendar.page.on,
+#plan.page.on{
+  overflow:visible!important;
+  height:auto!important;
+  min-height:100%!important;
+}
+@media(min-width:700px){
+  .phone{height:min(900px,calc(100dvh - 44px))!important;min-height:0!important}
+}
+</style>
+
 </head>
 <body><div class="phone"><script>document.documentElement.dataset.lqBoot="welcome";</script>
 <div id="welcome" class="welcome">
@@ -1840,14 +1873,14 @@ function openSettingsFromWelcome(evt){
   const settings=q("settings"); if(settings)settings.classList.add("on");
   document.querySelectorAll(".nav button").forEach(x=>x.classList.toggle("on",(x.dataset.nav||x.dataset.p)==="settings"));
   document.body.classList.remove("journey-active");
-  const phone=document.querySelector(".phone"); if(phone)phone.scrollTop=0;
+  const phone=document.querySelector(".phone"); if(phone){phone.classList.remove("journey-lock");phone.scrollTop=0;}
   return false;
 }
 function go(p){
  document.querySelectorAll(".page").forEach(x=>x.classList.remove("on"));
  const page=q(p); if(page)page.classList.add("on");
  document.querySelectorAll(".nav button").forEach(x=>x.classList.toggle("on",x.dataset.nav===p));
- document.body.classList.toggle("journey-active",p==="journey"); const phone=document.querySelector(".phone"); if(phone)phone.scrollTop=0;
+ document.body.classList.toggle("journey-active",p==="journey"); const phone=document.querySelector(".phone"); if(phone){phone.classList.toggle("journey-lock",p==="journey");phone.scrollTop=0;}
 }
 let quickCategory="Food";
 function quickAdd(c){
@@ -2207,7 +2240,7 @@ function openPlannerGoal(k){
  go("goals");
  setTimeout(()=>openGoal(k),80);
 }
-async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260911-53&refresh="+Date.now());}
+async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260911-54&refresh="+Date.now());}
 document.addEventListener("DOMContentLoaded",async()=>{
  try{if(navigator.storage&&navigator.storage.persist)await navigator.storage.persist();}catch(e){}
  renderChoices();
@@ -2280,7 +2313,7 @@ document.addEventListener("DOMContentLoaded",async()=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const reg = await navigator.serviceWorker.register("./sw.js?v=20260911-53");
+      const reg = await navigator.serviceWorker.register("./sw.js?v=20260911-54");
       await reg.update();
     } catch (e) {}
   });
