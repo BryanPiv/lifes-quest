@@ -319,6 +319,14 @@ input,select,textarea{border-radius:14px}
 .planSection{margin-top:11px;padding:14px;border-radius:20px;background:linear-gradient(160deg,#083865,#041d38);border:1px solid rgba(45,132,204,.34)}.planSection h3{margin:0 0 9px;font:700 15px Georgia,serif;color:#fff}.planLine{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid rgba(137,173,198,.13);font-size:11px}.planLine:last-child{border:0}.planLine span{color:#acc2d1}.planLine b{color:#f7fbff}.planLine.accent b{color:#ffe08a}.planLine.red b{color:#ff8794}
 .planGoalRow{display:grid;grid-template-columns:36px 1fr auto;gap:9px;align-items:center;padding:9px 0;border-bottom:1px solid rgba(137,173,198,.13)}.planGoalRow:last-child{border:0}.planGoalIcon{width:36px;height:36px;border-radius:12px;display:grid;place-items:center;background:#0b4f91}.planGoalRow b{font-size:11px}.planGoalRow small{display:block;color:#91aabd;font-size:8px;margin-top:2px}.planGoalAmt{color:#ffe08a;font-weight:900;font-size:11px}
 .planTip{margin-top:10px;padding:12px 13px;border-radius:18px;background:linear-gradient(160deg,rgba(213,31,53,.18),rgba(6,40,77,.92));border:1px solid rgba(255,83,101,.32);font-size:10px;line-height:1.45;color:#c8d7e2}
+
+.planGoalBuilder{margin-top:11px;padding:14px;border-radius:20px;background:linear-gradient(160deg,#083865,#041d38);border:1px solid rgba(245,196,81,.30)}
+.planGoalBuilder h3{margin:0 0 4px;font:700 16px Georgia,serif}.planGoalBuilder>p{margin:0 0 10px;color:#9fb7c8;font-size:10px;line-height:1.4}
+.planGoalTypes{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:9px}.planGoalType{border:1px solid rgba(47,133,204,.42);background:#072c50;color:#dbe9f3;border-radius:13px;padding:8px 3px;font-size:9px;font-weight:900}.planGoalType.sel{background:linear-gradient(#d51f35,#a3162b);border-color:#ff8794;color:#fff}
+.planGoalFields{display:grid;grid-template-columns:1fr 1fr;gap:7px}.planGoalFields input{width:100%;border:1px solid #cad9e5;background:#f5f8fb;color:#173149;border-radius:13px;padding:10px;font-weight:800;font-size:12px}.planGoalFields .wide{grid-column:1/-1}
+.planGoalCreate{width:100%;margin-top:8px;border:1px solid #ffe7a3;border-radius:14px;padding:11px;background:linear-gradient(#ffe08a,#e1aa36);color:#14283d;font-weight:900}
+.planTargetList{display:grid;gap:8px;margin-top:10px}.planTarget{padding:12px;border-radius:18px;background:linear-gradient(155deg,#0a477f,#052545);border:1px solid rgba(50,139,212,.42);box-shadow:inset 3px 0 0 rgba(213,31,53,.65)}
+.planTargetTop{display:flex;align-items:center;gap:9px}.planTargetIcon{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:#061d36;font-size:20px}.planTargetMain{flex:1}.planTargetMain b{font-size:12px}.planTargetMain small{display:block;color:#a3bac9;font-size:8px;margin-top:2px}.planTargetSave{text-align:right}.planTargetSave b{display:block;color:#ffe08a;font-size:13px}.planTargetSave small{color:#a3bac9;font-size:7px}.planTargetBar{height:6px;background:#05203a;border-radius:99px;overflow:hidden;margin-top:9px}.planTargetBar i{display:block;height:100%;background:linear-gradient(90deg,#1479d4,#f5c451,#d51f35)}.planTargetActions{display:flex;gap:6px;margin-top:8px}.planTargetActions button{flex:1;border-radius:11px;padding:8px;border:1px solid rgba(245,196,81,.28);background:#062b4e;color:#dce9f2;font-size:9px;font-weight:900}
 </style>
 </head>
 <body><div class="phone"><script>document.documentElement.dataset.lqBoot="welcome";</script>
@@ -507,7 +515,25 @@ input,select,textarea{border-radius:14px}
       <div class="planStat full"><small>WEEKLY ALLOWANCE</small><b id="planWeekly">$0</b></div>
     </div>
     <div class="planSection"><h3>Paycheck Breakdown</h3><div id="planBreakdown"></div></div>
-    <div class="planSection"><h3>Put Your Savings to Work</h3><div id="planGoalSplit"></div></div>
+    <div class="planGoalBuilder">
+  <h3>Plan a Future Goal</h3>
+  <p>Pick what you're saving for, how much you'll need, and when you want it. Life's Quest calculates the amount needed from every paycheck.</p>
+  <div class="planGoalTypes">
+    <button class="planGoalType sel" data-plan-type="Vacation" data-plan-icon="🏝️">🏝️<br>Vacation</button>
+    <button class="planGoalType" data-plan-type="Car" data-plan-icon="🚗">🚗<br>Car</button>
+    <button class="planGoalType" data-plan-type="House" data-plan-icon="🏠">🏠<br>House</button>
+    <button class="planGoalType" data-plan-type="Other" data-plan-icon="⭐">⭐<br>Other</button>
+  </div>
+  <div class="planGoalFields">
+    <input id="planGoalName" class="wide" placeholder="Goal name (e.g. Italy 2027)">
+    <input id="planGoalAmount" type="number" min="0" inputmode="decimal" placeholder="Goal amount $">
+    <input id="planGoalSaved" type="number" min="0" inputmode="decimal" placeholder="Already saved $">
+    <input id="planGoalDate" class="wide" type="date">
+  </div>
+  <button id="createPlanGoalBtn" class="planGoalCreate">Calculate My Plan</button>
+  <div id="planTargetList" class="planTargetList"></div>
+</div>
+<div class="planSection"><h3>Suggested Savings Split</h3><div id="planGoalSplit"></div></div>
     <div id="planTip" class="planTip">Add your income and next payday to build your first paycheck plan.</div>
   </div>
 </section>
@@ -572,7 +598,7 @@ const PETS={
 const DEFAULTS={
  goalPrefs:{vacationTier:"bigtrip"},
  savingsPerPaycheck:0,
- plan:{nextPayday:""},
+ plan:{nextPayday:"",goals:[]},
  estimatedExpenses:{housing:0,car:0,insurance:0,utilities:0,debt:0,subscriptions:0,food:0,gas:0,entertainment:0,other:0,additionalBills:[]},
  income:{amount:0,frequency:"weekly",recommendedSavingsRate:0,healthcare:0,workRetirementPct:0,workRetirementMatchPct:0},
  type:"fire",xp:0,allowance:0,expenses:[],
@@ -1012,6 +1038,34 @@ function nextPaycheckBillsTotal(){
  }
  return total;
 }
+let selectedPlanGoalType="Vacation",selectedPlanGoalIcon="🏝️";
+function planGoalPaychecksLeft(dateStr){
+ if(!dateStr)return 0;
+ const end=new Date(dateStr+"T12:00:00"),now=new Date();
+ if(isNaN(end)||end<=now)return 0;
+ const days=Math.max(1,(end-now)/86400000);
+ return Math.max(1,Math.ceil(days/(d.income?.frequency==="biweekly"?14:7)));
+}
+function addPlannedGoal(){
+ const amount=+q("planGoalAmount").value||0,saved=+q("planGoalSaved").value||0,date=q("planGoalDate").value;
+ const name=q("planGoalName").value.trim()||selectedPlanGoalType;
+ if(!(amount>0)||!date)return;
+ d.plan=d.plan||{};d.plan.goals=d.plan.goals||[];
+ d.plan.goals.push({name,type:selectedPlanGoalType,icon:selectedPlanGoalIcon,amount,saved,date});
+ q("planGoalName").value="";q("planGoalAmount").value="";q("planGoalSaved").value="";q("planGoalDate").value="";
+ save();renderPaycheckPlan();
+}
+function renderPlannedGoals(){
+ const root=q("planTargetList");if(!root)return;
+ const goals=d.plan?.goals||[];
+ root.innerHTML=goals.length?goals.map((g,i)=>{
+   const left=Math.max(0,(+g.amount||0)-(+g.saved||0)),checks=planGoalPaychecksLeft(g.date),per=checks?left/checks:left,pc=g.amount?Math.min(100,(+g.saved||0)/g.amount*100):0;
+   const date=new Date(g.date+"T12:00:00").toLocaleDateString(undefined,{month:"short",day:"numeric",year:"numeric"});
+   return '<div class="planTarget"><div class="planTargetTop"><div class="planTargetIcon">'+g.icon+'</div><div class="planTargetMain"><b>'+g.name+'</b><small>'+money(g.saved||0)+' of '+money(g.amount)+' • '+date+' • '+checks+' paychecks left</small></div><div class="planTargetSave"><b>'+money(per)+'</b><small>PER PAYCHECK</small></div></div><div class="planTargetBar"><i style="width:'+pc+'%"></i></div><div class="planTargetActions"><button data-plan-add="'+i+'">+ Add Savings</button><button data-plan-remove="'+i+'">Remove</button></div></div>';
+ }).join(""):'<div class="tiny">No future goals planned yet.</div>';
+ root.querySelectorAll("[data-plan-add]").forEach(b=>b.addEventListener("click",()=>{const i=+b.dataset.planAdd,g=d.plan.goals[i],checks=planGoalPaychecksLeft(g.date),per=checks?Math.max(0,(g.amount-g.saved)/checks):0;const val=prompt("Add savings to "+g.name,Math.ceil(per));if(val!==null&&+val>0){g.saved=Math.min(g.amount,(+g.saved||0)+(+val));save();renderPaycheckPlan();}}));
+ root.querySelectorAll("[data-plan-remove]").forEach(b=>b.addEventListener("click",()=>{d.plan.goals.splice(+b.dataset.planRemove,1);save();renderPaycheckPlan();}));
+}
 function renderPaycheckPlan(){
  if(!q("planPaycheck"))return;
  const paycheck=+(d.income?.amount||0);
@@ -1043,6 +1097,7 @@ function renderPaycheckPlan(){
    const detail=x.g.goal>0?money(remaining)+" left to goal":"Goal not set yet";
    return '<div class="planGoalRow"><div class="planGoalIcon">'+x.icon+'</div><div><b>'+x.k+'</b><small>'+detail+'</small></div><div class="planGoalAmt">'+money(amt)+'</div></div>';
  }).join("");
+ renderPlannedGoals();
  let tip="Add your income in Settings to build a personalized paycheck plan.";
  if(paycheck>0&&!d.plan?.nextPayday)tip="Set your next payday above so Life’s Quest can identify which bills are due before your following paycheck.";
  else if(paycheck>0&&d.plan?.nextPayday&&!d.bills.length)tip="Your paycheck plan is active. Add recurring bills in Calendar for a more precise pay-period breakdown.";
@@ -1071,12 +1126,14 @@ function openPlannerGoal(k){
  go("goals");
  setTimeout(()=>openGoal(k),80);
 }
-async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260910-30&refresh="+Date.now());}
+async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260910-31&refresh="+Date.now());}
 document.addEventListener("DOMContentLoaded",()=>{
  renderChoices();
  const settingsBtn=q("settingsBtn"); if(settingsBtn)settingsBtn.addEventListener("click",()=>go("settings"));
  const frontSettingsBtn=q("frontSettingsBtn"); if(frontSettingsBtn)frontSettingsBtn.addEventListener("click",openSettingsFromWelcome);
  if(q("planNextPayday"))q("planNextPayday").addEventListener("change",()=>{d.plan=d.plan||{};d.plan.nextPayday=q("planNextPayday").value;save();renderPaycheckPlan();});
+ document.querySelectorAll("[data-plan-type]").forEach(b=>b.addEventListener("click",()=>{selectedPlanGoalType=b.dataset.planType;selectedPlanGoalIcon=b.dataset.planIcon;document.querySelectorAll("[data-plan-type]").forEach(x=>x.classList.remove("sel"));b.classList.add("sel");}));
+ if(q("createPlanGoalBtn"))q("createPlanGoalBtn").addEventListener("click",addPlannedGoal);
  document.querySelectorAll("[data-plan-goal]").forEach(b=>b.addEventListener("click",()=>openPlannerGoal(b.dataset.planGoal))); const journeySettingsBtn=q("journeySettingsBtn"); if(journeySettingsBtn)journeySettingsBtn.addEventListener("click",()=>go("settings"));
  const settingsBackBtn=q("settingsBackBtn"); if(settingsBackBtn)settingsBackBtn.addEventListener("click",()=>{q("app").classList.add("hidden");q("welcome").classList.remove("hidden");document.documentElement.dataset.lqBoot="welcome";});
  const refreshAppBtn=q("refreshAppBtn"); if(refreshAppBtn)refreshAppBtn.addEventListener("click",refreshApp);
@@ -1125,7 +1182,7 @@ document.addEventListener("DOMContentLoaded",()=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const reg = await navigator.serviceWorker.register("./sw.js?v=20260910-30");
+      const reg = await navigator.serviceWorker.register("./sw.js?v=20260910-31");
       await reg.update();
     } catch (e) {}
   });
