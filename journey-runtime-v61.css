@@ -55,3 +55,23 @@ body:has(.modal.show) #lqHotspots button{pointer-events:none!important}
 #lqHotspots .goals{left:50.5%;bottom:1.3%;width:22%;height:7.6%}
 #lqHotspots .calendar{left:73.2%;bottom:1.3%;width:23%;height:7.6%}
 @media (prefers-reduced-motion:reduce){body.journey-active #journey .premiumJourney::before,body.journey-active #journey .premiumJourney::after,#lqJourneyMotion *{animation:none!important}}
+
+
+/* v63 — universal page back button + modal-safe layering */
+.lqBackBtn{
+  position:fixed!important;
+  left:max(12px,env(safe-area-inset-left))!important;
+  top:max(12px,env(safe-area-inset-top))!important;
+  z-index:500!important;
+  width:42px!important;height:42px!important;border-radius:50%!important;
+  border:1px solid rgba(241,199,99,.72)!important;
+  background:linear-gradient(145deg,#0d3b63,#061f38)!important;
+  color:#ffe08a!important;
+  font-size:34px!important;line-height:34px!important;font-weight:400!important;
+  display:grid!important;place-items:center!important;
+  box-shadow:0 8px 22px rgba(0,0,0,.35)!important;
+  padding:0 0 4px 0!important;
+}
+.modal.show{z-index:1000!important;pointer-events:auto!important}
+.modal.show .sheet{position:relative!important;z-index:1001!important;pointer-events:auto!important}
+body.lq-modal-open #lqHotspots{display:none!important;pointer-events:none!important}
