@@ -246,6 +246,69 @@ input,select,textarea{border-radius:14px}
 .nav button.on{color:#ffe08a!important;background:linear-gradient(180deg,rgba(213,31,53,.24),rgba(11,79,145,.32))!important;box-shadow:inset 0 2px 0 rgba(245,196,81,.55)!important}
 .frontSettingsBtn{position:fixed!important;top:calc(env(safe-area-inset-top,0px) + 10px)!important;right:12px!important;left:auto!important;z-index:2147483647!important}
 
+
+/* Compact mobile sizing for screens that should feel like one page */
+.welcome{min-height:100svh;height:100svh;padding-bottom:max(24px,env(safe-area-inset-bottom));}
+#expenses,#goals,#settings{min-height:100svh;}
+#expenses .expenseSummary,#goals,#settings .settingsPage{padding-bottom:calc(78px + env(safe-area-inset-bottom));}
+#chooser{min-height:100svh;}
+
+@media (max-height:900px) and (max-width:500px){
+  .welcomeMark{top:50px!important}
+  .welcomeMark h1{font-size:40px!important}
+  .welcomeMark p{font-size:9px!important;margin-top:6px!important}
+  .welcomePet{top:175px!important;width:205px!important;height:205px!important}
+  .welcomeCopy{padding-bottom:4px}
+  .welcomeCopy h2{font-size:22px!important;margin-bottom:6px!important}
+  .welcomeCopy p{font-size:12px!important;line-height:1.35!important;margin-bottom:13px!important}
+  .welcomeBtn{padding:12px 14px!important;font-size:14px!important}
+
+  #chooser{padding:14px 11px 18px!important}
+  #chooser .top{padding-top:8px!important;padding-bottom:6px!important}
+  #chooser .brand{font-size:23px!important}
+  #chooser .choices{gap:7px!important}
+  #chooser .choice{padding:8px!important;border-radius:14px!important}
+  #chooser .choice .miniPet{height:100px!important}
+  #chooser .choice b{font-size:11px!important;margin-top:2px!important}
+  #chooser .choice small{font-size:9px!important}
+  #chooser > .goldbtn{margin-top:9px!important;padding:11px 13px!important}
+
+  #expenses .top,#goals .top,#settings .top{padding:12px 13px 7px!important}
+  #expenses .brand,#goals .brand,#settings .brand{font-size:24px!important}
+  #expenses .expenseSummary{padding:0 11px calc(72px + env(safe-area-inset-bottom))!important}
+  #expenses .expenseSummaryGrid{gap:7px!important;margin:5px 0 10px!important}
+  #expenses .expenseSummaryCard{padding:10px!important;border-radius:16px!important}
+  #expenses .expenseSummaryIcon{font-size:20px!important}
+  #expenses .expenseSummaryCard b{font-size:17px!important}
+  #expenses .transactionRow{padding:10px 11px!important}
+  #expenses .transactionIcon{width:34px!important;height:34px!important}
+
+  #goals .tipCard{margin:5px 11px!important;padding:10px 11px!important;border-radius:16px!important}
+  #goals .tipIcon{font-size:22px!important}
+  #goals .tipCard p{font-size:10px!important}
+  #goals .goalCardModern{margin:7px 11px!important;padding:11px!important;border-radius:18px!important}
+  #goals .goalCardIcon{width:46px!important;height:46px!important;font-size:24px!important}
+  #goals .goalCardValue{margin:3px 0 6px!important}
+  #goals .goalCardActions{margin-top:8px!important}
+  #goals .goalCardActions .btn{padding:10px 9px!important}
+
+  #settings .settingsPage{padding:8px 11px calc(72px + env(safe-area-inset-bottom))!important}
+  #settings .settingsCard{padding:12px!important;margin:7px 0!important;border-radius:17px!important}
+  #settings .settingsCard p{font-size:10px!important;margin-bottom:10px!important}
+  #settings .settingsCard .btn{padding:11px!important}
+}
+
+@media (max-height:760px) and (max-width:500px){
+  .welcomeMark{top:38px!important}
+  .welcomePet{top:145px!important;width:178px!important;height:178px!important}
+  .welcomeCopy h2{font-size:20px!important}
+  .welcomeCopy p{font-size:11px!important;max-width:310px!important}
+  #chooser .choice .miniPet{height:84px!important}
+  #chooser .choices{gap:5px!important}
+  #goals .tipCard{display:none!important}
+  #settings .settingsCard p{display:none!important}
+}
+
 </style>
 </head>
 <body><div class="phone"><script>document.documentElement.dataset.lqBoot="welcome";</script>
@@ -936,7 +999,7 @@ function openPlannerGoal(k){
  go("goals");
  setTimeout(()=>openGoal(k),80);
 }
-async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260910-28&refresh="+Date.now());}
+async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260910-29&refresh="+Date.now());}
 document.addEventListener("DOMContentLoaded",()=>{
  renderChoices();
  const settingsBtn=q("settingsBtn"); if(settingsBtn)settingsBtn.addEventListener("click",()=>go("settings"));
@@ -990,7 +1053,7 @@ document.addEventListener("DOMContentLoaded",()=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const reg = await navigator.serviceWorker.register("./sw.js?v=20260910-28");
+      const reg = await navigator.serviceWorker.register("./sw.js?v=20260910-29");
       await reg.update();
     } catch (e) {}
   });
