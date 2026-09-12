@@ -1,0 +1,33 @@
+/* v92 — premium live dashboard integration. All art stays modular. */
+#journey .pjScene{height:535px!important;min-height:535px!important;max-height:535px!important;overflow:hidden!important}
+#journey .pjTop{height:82px!important;background:linear-gradient(180deg,rgba(2,22,38,.82),rgba(2,22,38,.12),transparent)!important}
+#journey .pjLogo{font-size:30px!important;color:#fff9e8!important}
+#journey .pjCompanionCard{top:96px!important;width:152px!important}
+#journey #lqCharacterHost{left:16%!important;top:67%!important;width:31%!important;max-width:170px!important}
+#journey #lqCharacterHost img{width:100%!important;height:auto!important;display:block!important}
+#journey .pjTrail{top:98px!important;right:-12px!important;transform:scale(.88)!important}
+#journey .pjProgressCard{bottom:12px!important;min-height:78px!important}
+
+/* Premium layered environment treatment */
+#journey .lqSky{filter:saturate(1.18) brightness(1.07) contrast(1.03)!important}
+#journey .lqBackMountains{filter:saturate(.92) contrast(1.12) brightness(1.02) drop-shadow(0 12px 20px rgba(0,24,43,.20))!important}
+#journey .lqValley{filter:saturate(1.25) contrast(1.09) brightness(1.01)!important}
+#journey .lqHeroMountain{filter:saturate(1.12) contrast(1.14) drop-shadow(-9px 10px 17px rgba(0,0,0,.28))!important}
+#journey .lqForeground{filter:saturate(1.28) contrast(1.12) brightness(.96)!important}
+#journey .lqCelestial{opacity:1!important}
+#journey .lqMist{opacity:.72!important}
+#journey .lqLightingLayer{opacity:.9!important}
+#journey .lqFlora{opacity:.9!important}
+
+/* Premium reference-inspired functional controls */
+#journey .pjQuickTitle{font-size:12px!important;margin-top:16px!important}
+#journey .pjQuick button{min-height:80px!important;border-radius:18px!important}
+#journey .pjBudget{min-height:80px!important;border-radius:20px!important}
+#journey .pjTile{min-height:67px!important}
+body.journey-active #app>.nav{height:70px!important;min-height:70px!important;border-radius:28px!important}
+
+@media(max-width:390px){
+ #journey .pjScene{height:505px!important;min-height:505px!important;max-height:505px!important}
+ #journey #lqCharacterHost{left:16%!important;top:68%!important;width:30%!important}
+ #journey .pjTrail{right:-22px!important;transform:scale(.82)!important}
+}
