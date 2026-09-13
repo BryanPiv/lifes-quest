@@ -4,7 +4,7 @@
  * Percentages position responsive elements; trail coordinates use its 190x410 canvas.
  */
 window.LQJourneyConfig={
-  version:95,
+  version:96,
   assets:{
     environment:{premiumAlpine:"assets/journey/premium-alpine-v94.webp?v=95"},
     companions:{
@@ -15,10 +15,10 @@ window.LQJourneyConfig={
     }
   },
   layout:{
-    sceneHeight:"clamp(470px,64svh,520px)",
-    companion:{left:"20%",top:"74%",width:"38%",maxWidth:"195px"},
-    card:{left:"13px",top:"82px",width:"152px"},
-    trail:{right:"4px",top:"38px",width:"190px",height:"410px",scale:".92"},
+    sceneHeight:"clamp(330px,53svh,375px)",
+    companion:{left:"21%",top:"73%",width:"42%",maxWidth:"185px"},
+    card:{left:"12px",top:"38px",width:"145px"},
+    trail:{right:"3px",top:"7px",width:"190px",height:"410px",scale:".78"},
     nodes:{
       1:{x:"108px",y:"365px"},
       5:{x:"119px",y:"289px"},
@@ -29,8 +29,8 @@ window.LQJourneyConfig={
     labels:{
       habits:{x:"4px",y:"337px"},
       control:{x:"0px",y:"194px"},
-      freedom:{x:"105px",y:"124px"},
-      self:{x:"105px",y:"0px"}
+      freedom:{x:"96px",y:"124px"},
+      self:{x:"96px",y:"2px"}
     },
     path:"M108 365 C132 330 133 300 114 270 C94 238 96 209 122 179 C143 154 142 124 121 96 C105 75 110 47 133 23"
   }
