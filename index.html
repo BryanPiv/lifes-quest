@@ -2157,7 +2157,7 @@ body.journey-active #app>.nav button.on{
   #journey #lqLiveCharacter{width:28.5%!important}
   body.journey-active #app>.nav{height:62px!important}
 }
-</style><link rel="stylesheet" href="./world-runtime.css?v=83"><link rel="stylesheet" href="./compositor-runtime.css?v=84"><link rel="stylesheet" href="./lab-ui.css?v=85"><link rel="stylesheet" href="./dashboard-premium.css?v=86"><link rel="stylesheet" href="./dashboard-stable.css?v=87"><link rel="stylesheet" href="./premium-reference-v89.css?v=89"><link rel="stylesheet" href="./modular-scene-v90.css?v=90"><link rel="stylesheet" href="./premium-modular-v91.css?v=91"><link rel="stylesheet" href="./premium-live-v92.css?v=92"></head>
+</style><link rel="stylesheet" href="./world-runtime.css?v=93"><link rel="stylesheet" href="./compositor-runtime.css?v=93"><link rel="stylesheet" href="./lab-ui.css?v=85"><link rel="stylesheet" href="./dashboard-premium.css?v=86"><link rel="stylesheet" href="./dashboard-stable.css?v=87"><link rel="stylesheet" href="./journey-live-v93.css?v=93"></head>
 <body><div class="phone"><script>document.documentElement.dataset.lqBoot="welcome";</script>
 <div id="welcome" class="welcome">
   <button id="frontSettingsBtn" type="button" aria-label="Open Settings" onclick="return openSettingsFromWelcome(event)" style="position:fixed!important;top:calc(env(safe-area-inset-top,0px) + 10px)!important;right:12px!important;left:auto!important;bottom:auto!important;z-index:2147483647!important;width:48px!important;height:48px!important;border-radius:50%!important;border:2px solid #ffe08a!important;background:linear-gradient(145deg,#0b5ba5,#06284d)!important;color:#ffe08a!important;font-size:23px!important;display:grid!important;place-items:center!important;padding:0!important;box-shadow:0 10px 28px rgba(0,0,0,.5),0 0 0 4px rgba(213,31,53,.18)!important;pointer-events:auto!important;-webkit-appearance:none!important;">⚙️</button>
@@ -2318,7 +2318,6 @@ body.journey-active #app>.nav button.on{
     <div class="lqAtmosphere"></div>
   </div>
     <div class="pjCompanionCard"><div class="eyebrow">YOUR COMPANION</div><div id="pjCompanionName" class="pjCompanionName">Ember</div><div id="pjCompanionType" class="pjType">🔥 FIRE</div><div class="pjQuote">“Discipline fuels greatness.”</div></div>
-    <div id="journeyPet" class="pjCharacter"></div>
     <div class="pjTrail">
       <svg class="pjPath" viewBox="0 0 190 390" preserveAspectRatio="none" aria-hidden="true">
   <defs>
@@ -2629,6 +2628,7 @@ function switchCompanion(type){
  d.xp=activeXP(type);
  choice=type;
  save();
+ window.LQWorld?.setCompanion(type);
  render();
  renderSettingsCompanions();
  go("journey");
@@ -2947,8 +2947,6 @@ function render(){d.xp=activeXP();
  document.querySelectorAll("[data-report-range]").forEach(b=>b.classList.toggle("sel",b.dataset.reportRange===(d.expenseReportRange||"month")));
  q("expenseList").innerHTML=reportExpenses.length?reportExpenses.map(x=>'<div class="transactionRow"><div class="transactionIcon">'+(catIcons[x.cat]||"🛒")+'</div><div class="transactionMain"><b>'+(x.note||catLabels[x.cat]||x.cat)+'</b><small>'+(catLabels[x.cat]||x.cat)+' • '+x.date+'</small></div><div class="transactionAmt">-'+money(x.amount)+'</div></div>').join(""):'<div class="transactionRow"><div class="transactionMain"><b>No transactions in this period</b><small>Your older expenses are still saved.</small></div></div>';
  renderGoals();renderCalendar();renderUpcoming();renderJourney(p,st,lv);renderSettingsCompanions();
- const visibleCompanion=q("journeyPet")||q("pjCharacter");
- if(visibleCompanion&&!visibleCompanion.innerHTML.trim())visibleCompanion.innerHTML=premiumJourneyPetSVG(d.type||"fire",st);
  renderPaycheckPlan();renderSimpleGoals();
 }
 function renderGoals(){
@@ -2983,46 +2981,7 @@ function renderUpcoming(){
  for(let i=0;i<3;i++){const dt=new Date(now.getFullYear(),now.getMonth()+i,1),y=dt.getFullYear(),m=dt.getMonth();d.bills.forEach(b=>{const day=billDay(b,y,m),due=new Date(y,m,day);if(due>=new Date(now.getFullYear(),now.getMonth(),now.getDate()))arr.push({...b,due})})}
  arr.sort((a,b)=>a.due-b.due);q("upcoming").innerHTML=arr.length?arr.slice(0,5).map(b=>'<div class="row"><div><b>'+b.name+'</b><div class="tiny">'+b.due.toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"})+'</div></div><div class="amt">'+money(b.amount)+'</div></div>').join(""):'<div class="row"><div><b>No upcoming bills</b><div class="tiny">Add your own bills in the Calendar tab.</div></div></div>';
 }
-function premiumJourneyPetSVG(type,st=0){
- if(type!=="fire") return petSVG(type,st);
- const lvl=Math.max(0,Math.min(3,st));
- const glow=lvl>=1?'<ellipse cx="122" cy="135" rx="92" ry="84" fill="url(#aura)" opacity=".28"/>':'';
- const crown=lvl>=3?'<path d="M91 61 L103 34 L122 55 L141 32 L155 62 L145 72 L101 72 Z" fill="url(#gold)"/><circle cx="123" cy="47" r="4" fill="#fff7c7"/>':'';
- const armor=lvl>=2?'<path d="M78 125 Q122 101 166 125 L155 157 Q122 169 89 157 Z" fill="#8e1f18" opacity=".88"/><path d="M93 128 Q122 114 151 128" fill="none" stroke="#ffd56a" stroke-width="4"/>':'';
- return '<svg viewBox="0 0 250 250" aria-label="Ember fire companion">'+
- '<defs>'+
- '<radialGradient id="aura"><stop offset="0" stop-color="#ffd76d"/><stop offset=".45" stop-color="#ff7b32" stop-opacity=".7"/><stop offset="1" stop-color="#d51f35" stop-opacity="0"/></radialGradient>'+
- '<linearGradient id="fur" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffcf6a"/><stop offset=".42" stop-color="#f06b2f"/><stop offset="1" stop-color="#9b261e"/></linearGradient>'+
- '<linearGradient id="chest" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff0b3"/><stop offset="1" stop-color="#ffc45f"/></linearGradient>'+
- '<linearGradient id="tail" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff3a8"/><stop offset=".35" stop-color="#ffb234"/><stop offset=".72" stop-color="#f05a2a"/><stop offset="1" stop-color="#b91f2d"/></linearGradient>'+
- '<linearGradient id="gold"><stop stop-color="#fff1a4"/><stop offset=".55" stop-color="#f5c451"/><stop offset="1" stop-color="#c98b22"/></linearGradient>'+
- '<filter id="soft"><feGaussianBlur stdDeviation="4"/></filter></defs>'+
- glow+
- '<ellipse cx="122" cy="215" rx="73" ry="13" fill="#000" opacity=".28" filter="url(#soft)"/>'+
- '<path d="M171 157 C216 139 230 170 205 193 C191 206 174 203 165 192 C188 193 196 179 187 168 C181 161 177 159 171 157 Z" fill="url(#tail)"/>'+
- '<path d="M180 154 C215 135 231 157 215 177 C207 187 196 190 185 187 C199 177 199 164 188 159 Z" fill="#ffcf4a" opacity=".65"/>'+
- '<path d="M73 87 L48 44 L88 69 Z" fill="#c94327"/><path d="M177 87 L202 44 L162 69 Z" fill="#c94327"/>'+
- '<path d="M62 78 L50 51 L79 69 Z" fill="#ff9a45" opacity=".9"/><path d="M188 78 L200 51 L171 69 Z" fill="#ff9a45" opacity=".9"/>'+
- '<ellipse cx="125" cy="105" rx="60" ry="53" fill="url(#fur)"/>'+
- '<path d="M85 103 Q125 143 165 103 Q157 149 125 157 Q93 149 85 103 Z" fill="url(#chest)" opacity=".92"/>'+
- '<ellipse cx="101" cy="103" rx="9" ry="12" fill="#24130f"/><ellipse cx="149" cy="103" rx="9" ry="12" fill="#24130f"/>'+
- '<ellipse cx="101" cy="100" rx="4" ry="6" fill="#ffd85d"/><ellipse cx="149" cy="100" rx="4" ry="6" fill="#ffd85d"/>'+
- '<circle cx="104" cy="96" r="2" fill="#fff"/><circle cx="152" cy="96" r="2" fill="#fff"/>'+
- '<path d="M118 122 Q125 128 132 122 Q125 138 118 122 Z" fill="#3a1b18"/>'+
- '<path d="M123 132 Q125 136 127 132" fill="none" stroke="#5a241d" stroke-width="2"/>'+
- '<path d="M78 151 Q125 127 172 151 L166 199 Q125 221 84 199 Z" fill="url(#fur)"/>'+
- '<path d="M106 154 Q125 143 144 154 L142 191 Q125 204 108 191 Z" fill="url(#chest)"/>'+
- armor+
- '<path d="M90 190 Q78 214 88 220 Q100 224 108 202 Z" fill="#b73c26"/><path d="M160 190 Q172 214 162 220 Q150 224 142 202 Z" fill="#b73c26"/>'+
- '<path d="M82 211 Q94 219 108 211 L106 225 L84 225 Z" fill="#7b231c"/><path d="M142 211 Q156 219 168 211 L166 225 L144 225 Z" fill="#7b231c"/>'+
- crown+
- '<path d="M74 151 C54 157 48 177 61 188 C70 196 81 191 88 182 C72 184 69 171 80 165 Z" fill="#e7592d"/>'+
- '<g fill="#ffd45f"><circle cx="58" cy="126" r="3"/><circle cx="196" cy="118" r="2.5"/><circle cx="204" cy="148" r="3"/><circle cx="49" cy="158" r="2"/></g>'+
- '</svg>';
-}
 function renderJourney(p,st,lv){
- const journeyPetEl=q("journeyPet")||q("pjCharacter");
- if(journeyPetEl) journeyPetEl.innerHTML='<img class="productionCompanionSprite" src="'+companionAsset(d.type)+'?v=52" alt="'+p.name+' companion">';
  if(q("pjCompanionName"))q("pjCompanionName").textContent=p.name;
  if(q("pjCompanionType"))q("pjCompanionType").textContent=({fire:"🔥 FIRE",water:"💧 WATER",lightning:"⚡ LIGHTNING",shadow:"🌙 SHADOW",cloud:"☁️ CLOUD"}[d.type]||"COMPANION");
  if(q("pjLevelNum"))q("pjLevelNum").textContent=lv;
@@ -3228,8 +3187,6 @@ document.addEventListener("DOMContentLoaded",async()=>{
    q("app").classList.remove("hidden");
    render();
    go("journey");
-   const jp=q("journeyPet");
-   if(jp)jp.innerHTML='<img class="productionCompanionSprite" src="'+companionAsset(d.type||"fire")+'?v=52" alt="Companion">';
  }else{
    q("welcome").classList.remove("hidden");
    q("chooser").classList.add("hidden");
@@ -3241,7 +3198,7 @@ document.addEventListener("DOMContentLoaded",async()=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const reg = await navigator.serviceWorker.register("./sw.js?v=79");
+      const reg = await navigator.serviceWorker.register("./sw.js?v=93");
       await reg.update();
     } catch (e) {}
   });
@@ -3486,4 +3443,4 @@ if ("serviceWorker" in navigator) {
   window.addEventListener("pageshow",boot);
   setTimeout(boot,250);setTimeout(boot,1000);
 })();
-</script><script src="./character-bases.js?v=83"></script><script src="./environment-bases.js?v=83"></script><script src="./world-runtime.js?v=83"></script><script src="./asset-contract.js?v=83"></script><script src="./asset-manifest.js?v=83"></script><script src="./studio-runtime.js?v=83"></script><script src="./preview-lab.js?v=83"></script><script src="./asset-loader.js?v=84"></script><script src="./compositor-runtime.js?v=84"></script><script src="./asset-qa.js?v=85"></script><script src="./lab-ui.js?v=85"></script><script src="./premium-layout-v89.js?v=89"></script><script src="./premium-modular-v91.js?v=91"></script><script src="./premium-live-v92.js?v=92"></script></body></html>
+</script><script src="./character-bases.js?v=93"></script><script src="./environment-bases.js?v=93"></script><script src="./asset-contract.js?v=83"></script><script src="./asset-manifest.js?v=83"></script><script src="./asset-loader.js?v=93"></script><script src="./compositor-runtime.js?v=93"></script><script src="./world-runtime.js?v=93"></script><script src="./studio-runtime.js?v=83"></script><script src="./preview-lab.js?v=83"></script><script src="./asset-qa.js?v=85"></script><script src="./lab-ui.js?v=85"></script><script src="./premium-layout-v89.js?v=93"></script></body></html>

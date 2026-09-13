@@ -75,7 +75,7 @@
     el.style.zIndex=String(z);return true;
   }
   function slotElement(slot){return env()?.querySelector('[data-scene-slot="'+slot+'"]')||null}
-  function boot(){normalizeExisting();hydratePremium()}
+  function boot(){normalizeExisting()}
   window.LQCompositor={boot,hydratePremium,setSlotVisibility,setSlotDepth,slotElement,slots:()=>[...(env()?.querySelectorAll("[data-scene-slot]")||[])].map(el=>el.dataset.sceneSlot)};
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
   window.addEventListener("pageshow",boot);

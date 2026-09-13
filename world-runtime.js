@@ -5,7 +5,10 @@
   const read=()=>{try{return JSON.parse(localStorage.getItem("lifesQuestWeb")||"{}")}catch(e){return {}}};
   const write=d=>localStorage.setItem("lifesQuestWeb",JSON.stringify(d));
 
-  function level(){return Math.max(1,+read().level||1)}
+  function level(){
+    const d=read(),id=d.type||"cloud",xp=+(d.companionProgress?.[id]||0);
+    return Math.max(1,Math.floor(xp/100)+1,+d.level||1);
+  }
   function type(){return read().type||"cloud"}
   function characterDef(id=type()){
     return window.LQCharacterBases?.companions?.[id]||window.LQCharacterBases?.companions?.cloud;
@@ -57,8 +60,16 @@
   function place(x,y,{instant=false}={}){
     const h=host(),b=bounds();if(!h)return;
     const nx=clamp(+x,b.left,b.right),ny=clamp(+y,b.top,b.bottom);
-    if(instant){const prev=h.style.transition;h.style.transition="none";h.style.left=nx+"%";h.style.top=ny+"%";requestAnimationFrame(()=>h.style.transition=prev)}
-    else {h.style.left=nx+"%";h.style.top=ny+"%"}
+    if(instant){
+      const prev=h.style.transition;
+      h.style.transition="none";
+      h.style.setProperty("left",nx+"%","important");
+      h.style.setProperty("top",ny+"%","important");
+      requestAnimationFrame(()=>h.style.transition=prev);
+    } else {
+      h.style.setProperty("left",nx+"%","important");
+      h.style.setProperty("top",ny+"%","important");
+    }
   }
 
   function moveTo(x,y,opts={}){
@@ -69,7 +80,8 @@
     const duration=opts.duration||(opts.run?window.LQCharacterBases.rig.motion.runMs:window.LQCharacterBases.rig.motion.walkMs);
     h.style.setProperty("--move-duration",duration+"ms");
     setState(opts.run?"run":"walk");
-    h.style.left=tx+"%";h.style.top=ty+"%";
+    h.style.setProperty("left",tx+"%","important");
+    h.style.setProperty("top",ty+"%","important");
     return new Promise(res=>setTimeout(()=>{setState("idle");res(true)},duration));
   }
 
@@ -106,19 +118,19 @@
 
   function sceneLayerMap(){
     return {
-      sky:".lqSky",
-      farMountains:".lqBackMountains",
-      midMountains:".lqValley",
-      valley:".lqValley",
-      heroMountain:".lqHeroMountain",
-      foreground:".lqForeground"
+      sky:"sky",
+      farMountains:"farMountains",
+      midMountains:"midMountains",
+      valley:"valley",
+      heroMountain:"heroMountain",
+      foreground:"foreground"
     };
   }
 
   function applySceneLayers(scene){
     const map=sceneLayerMap();
-    Object.entries(map).forEach(([slot,sel])=>{
-      const el=q(sel),src=scene?.layers?.[slot];
+    Object.entries(map).forEach(([slot,domSlot])=>{
+      const el=q('#journey .lqEnvironment [data-scene-slot="'+domSlot+'"]'),src=scene?.layers?.[slot];
       if(el&&src)el.setAttribute("src",src);
     });
     document.documentElement.dataset.lqParticles=scene?.effects?.particles||"none";

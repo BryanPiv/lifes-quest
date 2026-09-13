@@ -9,7 +9,6 @@ window.LQEnvironmentBases={
     {id:"water",z:6,parallax:.18},
     {id:"heroMountain",z:7,parallax:.22},
     {id:"structures",z:8,parallax:.24},
-    {id:"trail",z:9,parallax:.25},
     {id:"mist",z:10,parallax:.28},
     {id:"foreground",z:11,parallax:.34},
     {id:"flora",z:12,parallax:.38},
