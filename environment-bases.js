@@ -22,11 +22,14 @@ window.LQEnvironmentBases={
       id:"premium-alpine",
       label:"Premium Alpine",
       layers:{
-        sky:"assets/journey/premium-alpine-v94.webp?v=94"
+        sky:window.LQJourneyConfig?.assets?.environment?.premiumAlpine||"assets/journey/premium-alpine-v94.webp?v=95"
       },
       effects:{particles:"none",weather:"clear",lighting:"golden",mist:true},
       characterAnchors:{
-        home:{x:14,y:70},
+        home:{
+          x:parseFloat(window.LQJourneyConfig?.layout?.companion?.left)||20,
+          y:parseFloat(window.LQJourneyConfig?.layout?.companion?.top)||74
+        },
         trailStart:{x:39,y:64},
         trailMid:{x:57,y:47},
         summit:{x:76,y:24}
