@@ -35,6 +35,10 @@
 #journey .lqEnvironment{display:block!important;opacity:1!important;mix-blend-mode:normal!important}
 #journey .lqLayer{display:block!important;opacity:1!important}
 #journey .lqEnvironment[data-scene="premium-alpine"] .lqSky{object-fit:cover!important;object-position:center 49%!important;filter:saturate(1.04) contrast(1.03)!important}
+#journey .lqEnvironment[data-scene="premium-alpine"] .lqSky{
+  animation:lqEnvironmentBreathe var(--camera-duration,14s) ease-in-out infinite alternate;
+  will-change:transform
+}
 #journey .lqEnvironment[data-scene="premium-alpine"] .lqBackMountains,
 #journey .lqEnvironment[data-scene="premium-alpine"] .lqMidMountains,
 #journey .lqEnvironment[data-scene="premium-alpine"] .lqValley,
@@ -50,6 +54,9 @@
 #journey .lqLightingLayer{background:radial-gradient(circle at 82% 12%,rgba(255,227,129,.27),transparent 23%),linear-gradient(180deg,rgba(255,255,255,.03),transparent 45%,rgba(2,16,25,.28) 100%)!important;mix-blend-mode:screen!important;opacity:.9!important}
 #journey .lqFlora{background:radial-gradient(circle at 5% 82%,rgba(250,94,214,.7) 0 3px,transparent 4px),radial-gradient(circle at 11% 88%,rgba(89,102,255,.8) 0 4px,transparent 5px),radial-gradient(circle at 17% 81%,rgba(255,207,70,.8) 0 3px,transparent 4px)!important;opacity:.9!important}
 #journey .lqParticlesLayer{background-image:radial-gradient(circle,rgba(255,226,133,.55) 0 1px,transparent 2px)!important;background-size:83px 91px!important;opacity:.24!important}
+#journey .lqMist{animation:lqMistDrift var(--mist-duration,11s) ease-in-out infinite alternate;will-change:transform,opacity}
+#journey .lqLightingLayer{animation:lqSunBreathe var(--lighting-duration,7.5s) ease-in-out infinite alternate;will-change:opacity,filter}
+#journey .lqParticlesLayer{animation:lqParticleDrift var(--particles-duration,13s) linear infinite;will-change:transform,background-position}
 
 /* The universal rig is the only Journey companion renderer. */
 #journey .pjCharacter,#journey .jpet,#journey .productionCompanionSprite,
@@ -141,6 +148,10 @@
 }
 @keyframes lqTreeSway{from{transform:rotate(calc(var(--tree-angle,.22deg) * -1)) translateX(-.25px)}to{transform:rotate(var(--tree-angle,.22deg)) translateX(.25px)}}
 @keyframes lqWaterFlow{0%{background-position:0 -90%;opacity:.52}50%{opacity:.78}100%{background-position:0 110%;opacity:.56}}
+@keyframes lqEnvironmentBreathe{from{transform:scale(1) translate3d(0,0,0)}to{transform:scale(var(--camera-scale,1.012)) translate3d(0,var(--camera-distance,3px),0)}}
+@keyframes lqMistDrift{from{transform:translate3d(calc(var(--mist-distance,5%) * -1),0,0);opacity:.5}to{transform:translate3d(var(--mist-distance,5%),-2px,0);opacity:.78}}
+@keyframes lqSunBreathe{from{opacity:var(--lighting-minimum,.72);filter:saturate(.96)}to{opacity:var(--lighting-maximum,1);filter:saturate(1.08)}}
+@keyframes lqParticleDrift{from{transform:translate3d(0,12px,0);background-position:0 0}to{transform:translate3d(0,var(--particles-distance,-18px),0);background-position:17px -28px}}
 
 #journey .pjCompanionCard,#journey .pjProgressCard,#journey .pjBudget,#journey .pjTile,#journey .pjQuick button{
   background:linear-gradient(145deg,rgba(7,53,84,.96),rgba(3,24,41,.985))!important;
@@ -201,5 +212,6 @@ body.journey-active #app>.nav{height:70px!important;min-height:70px!important;bo
 @media(prefers-reduced-motion:reduce){
   #journey #lqCharacterHost .lqCharacterSprite{animation:none!important}
   #journey .pjScene{transition:none!important}
-  #journey .lqTreeMotion,#journey .lqWaterfallMotion{animation:none!important}
+  #journey .lqSky,#journey .lqMist,#journey .lqLightingLayer,#journey .lqParticlesLayer,
+  #journey .lqTreeMotion,#journey .lqWaterfallMotion{animation:none!important;transform:none!important}
 }

@@ -4,13 +4,34 @@
  * Percentages position responsive elements; trail coordinates use its 190x410 canvas.
  */
 window.LQJourneyConfig={
-  version:97,
+  version:98,
   assets:{
-    environment:{premiumAlpine:"assets/journey/premium-alpine-v94.webp?v=95"},
+    environment:{
+      premiumAlpine:{
+        source:"assets/journey/premium-alpine-source-v98.png",
+        runtime:"assets/journey/premium-alpine-v94.webp?v=98"
+      }
+    },
     companions:{
       cloud:{
         source:"assets/characters/nimbus/nimbus-idle-premium-v94.png",
         runtime:"assets/characters/nimbus/nimbus-idle-premium-v95.webp?v=95"
+      },
+      fire:{
+        source:"assets/characters/ember/ember-idle-premium-v98.png",
+        runtime:"assets/characters/ember/ember-idle-premium-v98.webp?v=98"
+      },
+      water:{
+        source:"assets/characters/aurora/aurora-idle-premium-v98.png",
+        runtime:"assets/characters/aurora/aurora-idle-premium-v98.webp?v=98"
+      },
+      lightning:{
+        source:"assets/characters/volt/volt-idle-premium-v98.png",
+        runtime:"assets/characters/volt/volt-idle-premium-v98.webp?v=98"
+      },
+      shadow:{
+        source:"assets/characters/nightfall/nightfall-idle-premium-v98.png",
+        runtime:"assets/characters/nightfall/nightfall-idle-premium-v98.webp?v=98"
       }
     }
   },
@@ -36,7 +57,11 @@ window.LQJourneyConfig={
   },
   motion:{
     enabled:true,
+    camera:{duration:"14s",distance:"3px",scale:"1.012"},
     trees:{duration:"6.5s",angle:".22deg"},
+    mist:{duration:"11s",distance:"5%"},
+    lighting:{duration:"7.5s",minimum:".72",maximum:"1"},
+    particles:{duration:"13s",distance:"-18px"},
     waterfalls:[
       {className:"lqWaterfallCenter",left:"61%",top:"71%",width:"7%",height:"23%"},
       {className:"lqWaterfallRight",left:"94%",top:"46%",width:"5%",height:"24%"}
@@ -71,10 +96,20 @@ window.LQJourneyConfig={
 
     const environment=root.querySelector(".lqEnvironment"),motion=window.LQJourneyConfig?.motion;
     if(environment&&motion?.enabled){
-      const image=window.LQJourneyConfig.assets.environment.premiumAlpine;
+      const image=window.LQJourneyConfig.assets.environment.premiumAlpine.runtime;
       root.style.setProperty("--environment-image",'url("'+image+'")');
       root.style.setProperty("--tree-duration",motion.trees.duration);
       root.style.setProperty("--tree-angle",motion.trees.angle);
+      root.style.setProperty("--camera-duration",motion.camera.duration);
+      root.style.setProperty("--camera-distance",motion.camera.distance);
+      root.style.setProperty("--camera-scale",motion.camera.scale);
+      root.style.setProperty("--mist-duration",motion.mist.duration);
+      root.style.setProperty("--mist-distance",motion.mist.distance);
+      root.style.setProperty("--lighting-duration",motion.lighting.duration);
+      root.style.setProperty("--lighting-minimum",motion.lighting.minimum);
+      root.style.setProperty("--lighting-maximum",motion.lighting.maximum);
+      root.style.setProperty("--particles-duration",motion.particles.duration);
+      root.style.setProperty("--particles-distance",motion.particles.distance);
       ["left","right"].forEach(side=>{
         if(!environment.querySelector(".lqTreeMotion."+side)){
           const tree=document.createElement("div");tree.className="lqTreeMotion "+side;tree.setAttribute("aria-hidden","true");environment.appendChild(tree);

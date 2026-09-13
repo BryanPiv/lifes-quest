@@ -42,37 +42,37 @@ window.LQCharacterBases={
     fire:{
       id:"fire",name:"Ember",element:"Fire",accent:"#ff8a45",
       forms:[
-        {id:"fire-1",name:"Ember",minLevel:1,art:"assets/companions/ember.svg?v=82",scale:1},
-        {id:"fire-2",name:"Ember II",minLevel:5,art:"assets/companions/ember.svg?v=82",scale:1.08},
-        {id:"fire-3",name:"Ember III",minLevel:10,art:"assets/companions/ember.svg?v=82",scale:1.15},
-        {id:"fire-4",name:"Ember IV",minLevel:20,art:"assets/companions/ember.svg?v=82",scale:1.22}
+        {id:"fire-1",name:"Ember",minLevel:1,art:window.LQJourneyConfig?.assets?.companions?.fire?.runtime||"assets/characters/ember/ember-idle-premium-v98.webp?v=98",scale:1},
+        {id:"fire-2",name:"Ember II",minLevel:5,art:window.LQJourneyConfig?.assets?.companions?.fire?.runtime||"assets/characters/ember/ember-idle-premium-v98.webp?v=98",scale:1.08},
+        {id:"fire-3",name:"Ember III",minLevel:10,art:window.LQJourneyConfig?.assets?.companions?.fire?.runtime||"assets/characters/ember/ember-idle-premium-v98.webp?v=98",scale:1.15},
+        {id:"fire-4",name:"Ember IV",minLevel:20,art:window.LQJourneyConfig?.assets?.companions?.fire?.runtime||"assets/characters/ember/ember-idle-premium-v98.webp?v=98",scale:1.22}
       ]
     },
     water:{
       id:"water",name:"Aurora",element:"Water",accent:"#4fd4ff",
       forms:[
-        {id:"water-1",name:"Aurora",minLevel:1,art:"assets/companions/aurora.svg?v=82",scale:1},
-        {id:"water-2",name:"Aurora II",minLevel:5,art:"assets/companions/aurora.svg?v=82",scale:1.08},
-        {id:"water-3",name:"Aurora III",minLevel:10,art:"assets/companions/aurora.svg?v=82",scale:1.15},
-        {id:"water-4",name:"Aurora IV",minLevel:20,art:"assets/companions/aurora.svg?v=82",scale:1.22}
+        {id:"water-1",name:"Aurora",minLevel:1,art:window.LQJourneyConfig?.assets?.companions?.water?.runtime||"assets/characters/aurora/aurora-idle-premium-v98.webp?v=98",scale:1},
+        {id:"water-2",name:"Aurora II",minLevel:5,art:window.LQJourneyConfig?.assets?.companions?.water?.runtime||"assets/characters/aurora/aurora-idle-premium-v98.webp?v=98",scale:1.08},
+        {id:"water-3",name:"Aurora III",minLevel:10,art:window.LQJourneyConfig?.assets?.companions?.water?.runtime||"assets/characters/aurora/aurora-idle-premium-v98.webp?v=98",scale:1.15},
+        {id:"water-4",name:"Aurora IV",minLevel:20,art:window.LQJourneyConfig?.assets?.companions?.water?.runtime||"assets/characters/aurora/aurora-idle-premium-v98.webp?v=98",scale:1.22}
       ]
     },
     lightning:{
       id:"lightning",name:"Volt",element:"Lightning",accent:"#ffe15c",
       forms:[
-        {id:"lightning-1",name:"Volt",minLevel:1,art:"assets/companions/volt.svg?v=82",scale:1},
-        {id:"lightning-2",name:"Volt II",minLevel:5,art:"assets/companions/volt.svg?v=82",scale:1.08},
-        {id:"lightning-3",name:"Volt III",minLevel:10,art:"assets/companions/volt.svg?v=82",scale:1.15},
-        {id:"lightning-4",name:"Volt IV",minLevel:20,art:"assets/companions/volt.svg?v=82",scale:1.22}
+        {id:"lightning-1",name:"Volt",minLevel:1,art:window.LQJourneyConfig?.assets?.companions?.lightning?.runtime||"assets/characters/volt/volt-idle-premium-v98.webp?v=98",scale:1},
+        {id:"lightning-2",name:"Volt II",minLevel:5,art:window.LQJourneyConfig?.assets?.companions?.lightning?.runtime||"assets/characters/volt/volt-idle-premium-v98.webp?v=98",scale:1.08},
+        {id:"lightning-3",name:"Volt III",minLevel:10,art:window.LQJourneyConfig?.assets?.companions?.lightning?.runtime||"assets/characters/volt/volt-idle-premium-v98.webp?v=98",scale:1.15},
+        {id:"lightning-4",name:"Volt IV",minLevel:20,art:window.LQJourneyConfig?.assets?.companions?.lightning?.runtime||"assets/characters/volt/volt-idle-premium-v98.webp?v=98",scale:1.22}
       ]
     },
     shadow:{
       id:"shadow",name:"Nightfall",element:"Shadow",accent:"#b67cff",
       forms:[
-        {id:"shadow-1",name:"Nightfall",minLevel:1,art:"assets/companions/nightfall.svg?v=82",scale:1},
-        {id:"shadow-2",name:"Nightfall II",minLevel:5,art:"assets/companions/nightfall.svg?v=82",scale:1.08},
-        {id:"shadow-3",name:"Nightfall III",minLevel:10,art:"assets/companions/nightfall.svg?v=82",scale:1.15},
-        {id:"shadow-4",name:"Nightfall IV",minLevel:20,art:"assets/companions/nightfall.svg?v=82",scale:1.22}
+        {id:"shadow-1",name:"Nightfall",minLevel:1,art:window.LQJourneyConfig?.assets?.companions?.shadow?.runtime||"assets/characters/nightfall/nightfall-idle-premium-v98.webp?v=98",scale:1},
+        {id:"shadow-2",name:"Nightfall II",minLevel:5,art:window.LQJourneyConfig?.assets?.companions?.shadow?.runtime||"assets/characters/nightfall/nightfall-idle-premium-v98.webp?v=98",scale:1.08},
+        {id:"shadow-3",name:"Nightfall III",minLevel:10,art:window.LQJourneyConfig?.assets?.companions?.shadow?.runtime||"assets/characters/nightfall/nightfall-idle-premium-v98.webp?v=98",scale:1.15},
+        {id:"shadow-4",name:"Nightfall IV",minLevel:20,art:window.LQJourneyConfig?.assets?.companions?.shadow?.runtime||"assets/characters/nightfall/nightfall-idle-premium-v98.webp?v=98",scale:1.22}
       ]
     }
   }

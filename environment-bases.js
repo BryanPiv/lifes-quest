@@ -22,7 +22,7 @@ window.LQEnvironmentBases={
       id:"premium-alpine",
       label:"Premium Alpine",
       layers:{
-        sky:window.LQJourneyConfig?.assets?.environment?.premiumAlpine||"assets/journey/premium-alpine-v94.webp?v=95"
+        sky:window.LQJourneyConfig?.assets?.environment?.premiumAlpine?.runtime||"assets/journey/premium-alpine-v94.webp?v=98"
       },
       effects:{particles:"none",weather:"clear",lighting:"golden",mist:true},
       characterAnchors:{
