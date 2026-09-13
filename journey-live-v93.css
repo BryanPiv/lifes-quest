@@ -92,7 +92,9 @@
 #journey .pjCompanionName{font-size:26px!important}
 #journey .pjQuote{font-size:10.5px!important}
 #journey .pjTrail{top:var(--trail-top,38px)!important;right:var(--trail-right,4px)!important;width:var(--trail-width,190px)!important;height:var(--trail-height,410px)!important;transform:scale(var(--trail-scale,.92))!important;transform-origin:top right!important;z-index:27!important;filter:drop-shadow(0 0 7px rgba(255,189,43,.55)) drop-shadow(0 0 16px rgba(255,139,23,.22))!important}
-#journey .pjTrail svg path{stroke:#ffbd3c!important;stroke-width:5!important;filter:drop-shadow(0 0 5px #ff9f1a)!important}
+#journey .pjTrail svg path{fill:none!important;stroke-linecap:round!important;stroke-linejoin:round!important;vector-effect:non-scaling-stroke}
+#journey .pjTrail svg path:first-of-type{stroke:rgba(3,18,29,.62)!important;stroke-width:11!important;filter:drop-shadow(0 3px 4px rgba(0,0,0,.38))!important}
+#journey .pjTrail svg path:last-of-type{stroke:url(#questTrailV45)!important;stroke-width:5.5!important;filter:drop-shadow(0 0 3px rgba(255,239,166,.95)) drop-shadow(0 0 7px rgba(255,151,29,.72))!important}
 #journey .pjNode{background:radial-gradient(circle at 35% 28%,#173d59,#061521 72%)!important;border:2px solid #f4f9fb!important;box-shadow:0 5px 13px rgba(0,0,0,.38),0 0 11px rgba(255,190,56,.18)!important}
 #journey .pjNode.n1{border-color:#ffd267!important;box-shadow:0 0 0 5px rgba(255,198,63,.13),0 0 22px rgba(255,161,24,.78)!important}
 #journey .pjNode.n1{left:var(--node-1-x,108px)!important;top:var(--node-1-y,365px)!important;bottom:auto!important}
@@ -105,7 +107,40 @@
 #journey .pjMilestone.m3{display:none!important}
 #journey .pjMilestone.m4{left:var(--label-freedom-x,105px)!important;top:var(--label-freedom-y,124px)!important;right:auto!important;bottom:auto!important}
 #journey .pjMilestone.m5{left:var(--label-self-x,105px)!important;top:var(--label-self-y,0px)!important;right:auto!important;bottom:auto!important}
+#journey .pjMilestone{
+  width:58px!important;
+  min-height:24px!important;
+  display:grid!important;
+  place-items:center!important;
+  padding:4px 5px!important;
+  line-height:1.02!important;
+  white-space:normal!important;
+}
+#journey .pjMilestone.m3{display:none!important}
+#journey .pjMilestone.m1::after,#journey .pjMilestone.m2::after,
+#journey .pjMilestone.m4::before,#journey .pjMilestone.m5::before{
+  content:"";position:absolute;top:50%;height:1px;background:linear-gradient(90deg,rgba(244,207,112,.32),#f4cf70);box-shadow:0 0 5px rgba(244,207,112,.55)
+}
+#journey .pjMilestone.m1::after,#journey .pjMilestone.m2::after{left:100%;width:20px}
+#journey .pjMilestone.m4::before,#journey .pjMilestone.m5::before{right:100%;width:12px;background:linear-gradient(90deg,#f4cf70,rgba(244,207,112,.32))}
 #journey .lqHeroMotto{top:88px!important;right:13px!important;width:108px!important;font-size:15px!important;opacity:.9!important}
+
+/* Independent motion overlays reuse the environment plate, leaving the source art untouched. */
+#journey .lqTreeMotion{
+  position:absolute;inset:0;z-index:11;pointer-events:none;
+  background-image:var(--environment-image);background-size:cover;background-position:center 49%;
+  transform-origin:50% 100%;will-change:transform;animation:lqTreeSway var(--tree-duration,6.5s) ease-in-out infinite alternate
+}
+#journey .lqTreeMotion.left{clip-path:polygon(0 38%,28% 45%,45% 100%,0 100%)}
+#journey .lqTreeMotion.right{clip-path:polygon(72% 48%,100% 34%,100% 100%,61% 100%);animation-delay:-3.1s}
+#journey .lqWaterfallMotion{
+  position:absolute;z-index:12;pointer-events:none;border-radius:50% 50% 36% 36%;
+  background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(224,249,255,.88) 22%,rgba(91,211,255,.72) 58%,rgba(255,255,255,.12));
+  background-size:100% 210%;mix-blend-mode:screen;filter:blur(.55px) drop-shadow(0 0 4px rgba(197,241,255,.7));
+  clip-path:polygon(31% 0,68% 0,82% 100%,12% 100%);opacity:.68;animation:lqWaterFlow 1.65s linear infinite
+}
+@keyframes lqTreeSway{from{transform:rotate(calc(var(--tree-angle,.22deg) * -1)) translateX(-.25px)}to{transform:rotate(var(--tree-angle,.22deg)) translateX(.25px)}}
+@keyframes lqWaterFlow{0%{background-position:0 -90%;opacity:.52}50%{opacity:.78}100%{background-position:0 110%;opacity:.56}}
 
 #journey .pjCompanionCard,#journey .pjProgressCard,#journey .pjBudget,#journey .pjTile,#journey .pjQuick button{
   background:linear-gradient(145deg,rgba(7,53,84,.96),rgba(3,24,41,.985))!important;
@@ -166,4 +201,5 @@ body.journey-active #app>.nav{height:70px!important;min-height:70px!important;bo
 @media(prefers-reduced-motion:reduce){
   #journey #lqCharacterHost .lqCharacterSprite{animation:none!important}
   #journey .pjScene{transition:none!important}
+  #journey .lqTreeMotion,#journey .lqWaterfallMotion{animation:none!important}
 }

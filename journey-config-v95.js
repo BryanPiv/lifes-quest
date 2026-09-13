@@ -4,7 +4,7 @@
  * Percentages position responsive elements; trail coordinates use its 190x410 canvas.
  */
 window.LQJourneyConfig={
-  version:96,
+  version:97,
   assets:{
     environment:{premiumAlpine:"assets/journey/premium-alpine-v94.webp?v=95"},
     companions:{
@@ -18,7 +18,7 @@ window.LQJourneyConfig={
     sceneHeight:"clamp(330px,53svh,375px)",
     companion:{left:"21%",top:"73%",width:"42%",maxWidth:"185px"},
     card:{left:"12px",top:"38px",width:"145px"},
-    trail:{right:"3px",top:"7px",width:"190px",height:"410px",scale:".78"},
+    trail:{right:"14px",top:"7px",width:"190px",height:"410px",scale:".78"},
     nodes:{
       1:{x:"108px",y:"365px"},
       5:{x:"119px",y:"289px"},
@@ -27,12 +27,20 @@ window.LQJourneyConfig={
       20:{x:"119px",y:"86px"}
     },
     labels:{
-      habits:{x:"4px",y:"337px"},
-      control:{x:"0px",y:"194px"},
-      freedom:{x:"96px",y:"124px"},
-      self:{x:"96px",y:"2px"}
+      habits:{x:"15px",y:"353px"},
+      control:{x:"15px",y:"208px"},
+      freedom:{x:"143px",y:"139px"},
+      self:{x:"143px",y:"74px"}
     },
-    path:"M108 365 C132 330 133 300 114 270 C94 238 96 209 122 179 C143 154 142 124 121 96 C105 75 110 47 133 23"
+    path:"M108 365 C117 341 122 315 119 289 C115 262 107 241 111 220 C116 190 136 174 132 151 C128 124 117 105 119 86 C121 61 128 40 133 23"
+  },
+  motion:{
+    enabled:true,
+    trees:{duration:"6.5s",angle:".22deg"},
+    waterfalls:[
+      {className:"lqWaterfallCenter",left:"61%",top:"71%",width:"7%",height:"23%"},
+      {className:"lqWaterfallRight",left:"94%",top:"46%",width:"5%",height:"24%"}
+    ]
   }
 };
 
@@ -60,6 +68,24 @@ window.LQJourneyConfig={
     const path=document.querySelector("#journey .pjTrail .pjPath path:last-of-type");
     const underlay=document.querySelector("#journey .pjTrail .pjPath path:first-of-type");
     if(path)path.setAttribute("d",cfg.path);if(underlay)underlay.setAttribute("d",cfg.path);
+
+    const environment=root.querySelector(".lqEnvironment"),motion=window.LQJourneyConfig?.motion;
+    if(environment&&motion?.enabled){
+      const image=window.LQJourneyConfig.assets.environment.premiumAlpine;
+      root.style.setProperty("--environment-image",'url("'+image+'")');
+      root.style.setProperty("--tree-duration",motion.trees.duration);
+      root.style.setProperty("--tree-angle",motion.trees.angle);
+      ["left","right"].forEach(side=>{
+        if(!environment.querySelector(".lqTreeMotion."+side)){
+          const tree=document.createElement("div");tree.className="lqTreeMotion "+side;tree.setAttribute("aria-hidden","true");environment.appendChild(tree);
+        }
+      });
+      motion.waterfalls.forEach(item=>{
+        let water=environment.querySelector("."+item.className);
+        if(!water){water=document.createElement("div");water.className="lqWaterfallMotion "+item.className;water.setAttribute("aria-hidden","true");environment.appendChild(water)}
+        Object.assign(water.style,{left:item.left,top:item.top,width:item.width,height:item.height});
+      });
+    }
   }
   window.LQApplyJourneyConfig=apply;
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",apply);else apply();
