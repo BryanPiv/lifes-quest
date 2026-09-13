@@ -4,12 +4,6 @@
     const scene=document.querySelector("#journey .pjScene");
     if(!journey||!scene)return;
 
-    const level=document.querySelector("#journey .pjLevel");
-    if(level && level.parentNode!==scene){
-      scene.appendChild(level);
-      level.classList.add("pjProgressCard");
-    }
-
     if(!scene.querySelector(".lqHeroMotto")){
       const m=document.createElement("div");
       m.className="lqHeroMotto";

@@ -33,10 +33,10 @@ window.LQCharacterBases={
     cloud:{
       id:"cloud",name:"Nimbus",element:"Cloud",accent:"#64e7ff",
       forms:[
-        {id:"cloud-1",name:"Nimbus",minLevel:1,art:"assets/characters/nimbus/nimbus-idle-premium.png?v=93",scale:1},
-        {id:"cloud-2",name:"Nimbus Ascended",minLevel:5,art:"assets/characters/nimbus/nimbus-idle-premium.png?v=93",scale:1.08},
-        {id:"cloud-3",name:"Nimbus Radiant",minLevel:10,art:"assets/characters/nimbus/nimbus-idle-premium.png?v=93",scale:1.15},
-        {id:"cloud-4",name:"Nimbus Celestial",minLevel:20,art:"assets/characters/nimbus/nimbus-idle-premium.png?v=93",scale:1.22}
+        {id:"cloud-1",name:"Nimbus",minLevel:1,art:"assets/characters/nimbus/nimbus-idle-premium-v94.png?v=94",scale:1},
+        {id:"cloud-2",name:"Nimbus Ascended",minLevel:5,art:"assets/characters/nimbus/nimbus-idle-premium-v94.png?v=94",scale:1.08},
+        {id:"cloud-3",name:"Nimbus Radiant",minLevel:10,art:"assets/characters/nimbus/nimbus-idle-premium-v94.png?v=94",scale:1.15},
+        {id:"cloud-4",name:"Nimbus Celestial",minLevel:20,art:"assets/characters/nimbus/nimbus-idle-premium-v94.png?v=94",scale:1.22}
       ]
     },
     fire:{

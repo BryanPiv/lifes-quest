@@ -128,6 +128,8 @@
   }
 
   function applySceneLayers(scene){
+    const environment=q("#journey .lqEnvironment");
+    if(environment)environment.dataset.scene=scene?.id||"";
     const map=sceneLayerMap();
     Object.entries(map).forEach(([slot,domSlot])=>{
       const el=q('#journey .lqEnvironment [data-scene-slot="'+domSlot+'"]'),src=scene?.layers?.[slot];
