@@ -1,5 +1,5 @@
 window.LQCharacterBases={
-  version:5,
+  version:6,
   rig:{
     canvas:{width:360,height:400},
     anchor:{x:.5,y:.94},
@@ -33,7 +33,7 @@ window.LQCharacterBases={
     cloud:{
       id:"cloud",name:"Nimbus",element:"Cloud",accent:"#64e7ff",
       forms:[
-        {id:"cloud-1",name:"Nimbus",minLevel:1,art:"assets/characters/evolution-atlas-v105.png?v=105",scale:1,tier:1,atlas:{row:0,col:0}},
+        {id:"cloud-1",name:"Nimbus",minLevel:1,art:"assets/characters/nimbus/nimbus-idle-premium-v95.webp?v=114",scale:1,tier:1,atlas:null},
         {id:"cloud-2",name:"Nimbus Ascended",minLevel:5,art:"assets/characters/evolution-atlas-v105.png?v=105",scale:1.07,tier:2,atlas:{row:0,col:1}},
         {id:"cloud-3",name:"Nimbus Radiant",minLevel:10,art:"assets/characters/evolution-atlas-v105.png?v=105",scale:1.14,tier:3,atlas:{row:0,col:2}},
         {id:"cloud-4",name:"Nimbus Celestial",minLevel:20,art:"assets/characters/evolution-atlas-v105.png?v=105",scale:1.21,tier:4,atlas:{row:0,col:3}},
@@ -43,7 +43,7 @@ window.LQCharacterBases={
     fire:{
       id:"fire",name:"Ember",element:"Fire",accent:"#ff8a45",
       forms:[
-        {id:"fire-1",name:"Ember",minLevel:1,art:"assets/characters/evolution-atlas-v105.png?v=105",scale:1,tier:1,atlas:{row:1,col:0}},
+        {id:"fire-1",name:"Ember",minLevel:1,art:"assets/characters/ember/ember-idle-premium-v98.webp?v=114",scale:1,tier:1,atlas:null},
         {id:"fire-2",name:"Ember Kindled",minLevel:5,art:"assets/characters/evolution-atlas-v105.png?v=105",scale:1.07,tier:2,atlas:{row:1,col:1}},
         {id:"fire-3",name:"Ember Blazing",minLevel:10,art:"assets/characters/evolution-atlas-v105.png?v=105",scale:1.14,tier:3,atlas:{row:1,col:2}},
         {id:"fire-4",name:"Ember Inferno",minLevel:20,art:"assets/characters/evolution-atlas-v105.png?v=105",scale:1.21,tier:4,atlas:{row:1,col:3}},
@@ -53,7 +53,7 @@ window.LQCharacterBases={
     water:{
       id:"water",name:"Aurora",element:"Water",accent:"#4fd4ff",
       forms:[
-        {id:"water-1",name:"Aurora",minLevel:1,art:"assets/characters/evolution-atlas-v105.png?v=105",scale:1,tier:1,atlas:{row:2,col:0}},
+        {id:"water-1",name:"Aurora",minLevel:1,art:"assets/characters/aurora/aurora-idle-premium-v98.webp?v=114",scale:1,tier:1,atlas:null},
         {id:"water-2",name:"Aurora Flowing",minLevel:5,art:"assets/characters/evolution-atlas-v105.png?v=105",scale:1.07,tier:2,atlas:{row:2,col:1}},
         {id:"water-3",name:"Aurora Tidal",minLevel:10,art:"assets/characters/evolution-atlas-v105.png?v=105",scale:1.14,tier:3,atlas:{row:2,col:2}},
         {id:"water-4",name:"Aurora Tempest",minLevel:20,art:"assets/characters/evolution-atlas-v105.png?v=105",scale:1.21,tier:4,atlas:{row:2,col:3}},
@@ -63,7 +63,7 @@ window.LQCharacterBases={
     lightning:{
       id:"lightning",name:"Volt",element:"Lightning",accent:"#ffe15c",
       forms:[
-        {id:"lightning-1",name:"Volt",minLevel:1,art:"assets/characters/evolution-atlas-v105.png?v=105",scale:1,tier:1,atlas:{row:3,col:0}},
+        {id:"lightning-1",name:"Volt",minLevel:1,art:"assets/characters/volt/volt-idle-premium-v98.webp?v=114",scale:1,tier:1,atlas:null},
         {id:"lightning-2",name:"Volt Charged",minLevel:5,art:"assets/characters/evolution-atlas-v105.png?v=105",scale:1.07,tier:2,atlas:{row:3,col:1}},
         {id:"lightning-3",name:"Volt Thunderborn",minLevel:10,art:"assets/characters/evolution-atlas-v105.png?v=105",scale:1.14,tier:3,atlas:{row:3,col:2}},
         {id:"lightning-4",name:"Volt Stormlord",minLevel:20,art:"assets/characters/evolution-atlas-v105.png?v=105",scale:1.21,tier:4,atlas:{row:3,col:3}},
@@ -73,7 +73,7 @@ window.LQCharacterBases={
     shadow:{
       id:"shadow",name:"Nightfall",element:"Shadow",accent:"#b67cff",
       forms:[
-        {id:"shadow-1",name:"Nightfall",minLevel:1,art:"assets/characters/evolution-atlas-v105.png?v=105",scale:1,tier:1,atlas:{row:4,col:0}},
+        {id:"shadow-1",name:"Nightfall",minLevel:1,art:"assets/characters/nightfall/nightfall-idle-premium-v98.webp?v=114",scale:1,tier:1,atlas:null},
         {id:"shadow-2",name:"Nightfall Veiled",minLevel:5,art:"assets/characters/evolution-atlas-v105.png?v=105",scale:1.07,tier:2,atlas:{row:4,col:1}},
         {id:"shadow-3",name:"Nightfall Eclipse",minLevel:10,art:"assets/characters/evolution-atlas-v105.png?v=105",scale:1.14,tier:3,atlas:{row:4,col:2}},
         {id:"shadow-4",name:"Nightfall Sovereign",minLevel:20,art:"assets/characters/evolution-atlas-v105.png?v=105",scale:1.21,tier:4,atlas:{row:4,col:3}},
