@@ -20,11 +20,18 @@
 
   function host(){
     let h=q("#lqCharacterHost");
+    if(!document.getElementById("lqAtlasCharacterStyles")){
+      const s=document.createElement("style");s.id="lqAtlasCharacterStyles";
+      s.textContent="#lqCharacterHost .lqCharacterViewport{position:absolute;inset:0;overflow:hidden;pointer-events:none}#lqCharacterHost .lqCharacterViewport .lqCharacterSprite{position:absolute!important;width:500%!important;height:500%!important;max-width:none!important;left:calc(var(--sprite-col,0)*-100%)!important;top:calc(var(--sprite-row,0)*-100%)!important;object-fit:fill!important;animation:none!important;transform:none!important}";
+      document.head.appendChild(s);
+    }
     if(!h){
       h=document.createElement("div");
       h.id="lqCharacterHost";
-      h.innerHTML='<div class="lqCharacterShadow"></div><img class="lqCharacterSprite" alt="Companion"><div class="lqCharacterAura"></div><div class="lqCharacterAccessory"></div>';
+      h.innerHTML='<div class="lqCharacterShadow"></div><div class="lqCharacterViewport"><img class="lqCharacterSprite" alt="Companion"></div><div class="lqCharacterAura"></div><div class="lqCharacterAccessory"></div>';
       (q("#journey .pjScene")||q("#journey .premiumJourney"))?.appendChild(h);
+    }else if(!h.querySelector(".lqCharacterViewport")){
+      const img=h.querySelector(".lqCharacterSprite"),v=document.createElement("div");v.className="lqCharacterViewport";if(img){img.replaceWith(v);v.appendChild(img)}
     }
     return h;
   }
@@ -38,6 +45,8 @@
     h.dataset.type=d.id;h.dataset.form=f.id;h.dataset.state=state.mode;h.dataset.direction=state.direction;
     h.style.setProperty("--character-accent",d.accent||"#7de8ff");
     h.style.setProperty("--character-scale",f.scale||1);
+    h.style.setProperty("--sprite-row",f.atlas?.row||0);
+    h.style.setProperty("--sprite-col",f.atlas?.col||0);
     const img=h.querySelector(".lqCharacterSprite");
     if(img&&img.getAttribute("src")!==f.art)img.setAttribute("src",f.art);
     h.setAttribute("aria-label",f.name||d.name);
