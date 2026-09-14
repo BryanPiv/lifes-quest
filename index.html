@@ -30,6 +30,7 @@
 .evos{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;padding:12px}.evo{background:#07233a;border:1px solid rgba(78,127,158,.28);border-radius:11px;padding:6px;text-align:center}.evo.on{border-color:var(--gold)}.evo .thumb{height:72px}.evo svg{width:100%;height:100%}.evo b{font-size:9px}.welcome{min-height:100vh;position:relative;display:flex;flex-direction:column;justify-content:flex-end;padding:28px 18px 42px;overflow:hidden;background:radial-gradient(circle at 50% 12%,rgba(255,205,100,.18),transparent 19%),linear-gradient(180deg,#1e547d 0%,#183f5f 38%,#0a2639 68%,#03111d 100%)}.welcome:before{content:"";pointer-events:none;position:absolute;inset:0;background:linear-gradient(145deg,transparent 0 28%,rgba(70,102,112,.7) 29% 45%,transparent 46%),linear-gradient(215deg,transparent 0 25%,rgba(48,82,93,.75) 26% 47%,transparent 48%);opacity:.9}.welcomeGlow{pointer-events:none;position:absolute;top:16%;left:50%;transform:translateX(-50%);width:210px;height:210px;border-radius:50%;background:radial-gradient(circle,rgba(255,219,126,.36),rgba(255,219,126,.08) 42%,transparent 70%);filter:blur(4px)}.welcomeMark{pointer-events:none;position:absolute;top:70px;left:18px;right:18px;text-align:center;z-index:2}.welcomeMark h1{margin:0;font:700 46px Georgia,serif;color:var(--gold);text-shadow:0 4px 18px #0009}.welcomeMark p{margin:9px 0 0;font-size:11px;letter-spacing:2px;color:#fff}.welcomePet{pointer-events:none;position:absolute;z-index:2;top:210px;left:50%;transform:translateX(-50%);width:245px;height:245px;animation:welcomeFloat 3.2s ease-in-out infinite;filter:drop-shadow(0 20px 22px #0008)}@keyframes welcomeFloat{50%{transform:translateX(-50%) translateY(-9px)}}.welcomeCopy{position:relative;z-index:3;text-align:center}.welcomeCopy h2{margin:0 0 8px;font:700 25px Georgia,serif;color:#fff}.welcomeCopy p{margin:0 auto 18px;max-width:330px;color:#b9cad7;font-size:13px;line-height:1.5}.welcomeBtn{font-size:16px;letter-spacing:.5px}.chooser{min-height:100vh;padding:22px 13px 35px;background:radial-gradient(circle at top,#174b74,#061a2c 43%,#03111d)}.choices{display:grid;grid-template-columns:1fr 1fr;gap:9px}.choice{border:2px solid rgba(73,123,155,.4);border-radius:16px;background:#08243a;padding:12px;color:white;text-align:center}.choice.sel{border-color:var(--gold);box-shadow:0 0 0 3px rgba(242,201,99,.1)}.choice .miniPet{height:132px}.choice svg{height:100%;width:100%}.choice:last-child{grid-column:1/-1}.choice b{display:block;margin-top:5px}.choice small{font-size:10px;color:var(--muted)}
 .nav{position:absolute;left:0;right:0;bottom:0;display:grid;grid-template-columns:repeat(4,1fr);background:rgba(3,17,29,.96);backdrop-filter:blur(14px);padding:7px 6px 9px;border-top:1px solid rgba(73,120,150,.28);z-index:30}.nav button{border:0;background:none;color:#91aabd;font-size:10px;padding:8px 2px;border-radius:10px}.nav button.on{color:var(--gold);background:#0a2b46}.settingsBtn{position:absolute;z-index:8;right:14px;top:17px;width:40px;height:40px;border-radius:50%;border:1px solid rgba(241,199,99,.5);background:rgba(4,23,38,.72);color:var(--gold);font-size:20px;display:grid;place-items:center;backdrop-filter:blur(8px)}.settingsPage{padding:16px 13px 105px}.settingsCard{padding:16px}.settingsCard h3{margin:0 0 6px}.settingsCard p{margin:0 0 14px;color:var(--muted);font-size:12px;line-height:1.45}.dangerNote{font-size:10px;color:#8ea8ba;margin-top:8px}.modal{display:none;position:fixed;inset:0;background:#000a;z-index:60;align-items:flex-end;justify-content:center}.modal.show{display:flex}.sheet{width:min(430px,100%);background:#071f34;border-radius:22px 22px 0 0;padding:17px;border:1px solid rgba(89,141,172,.4)}
 .quickMoneySheet{padding:18px}.quickMoneyHead{text-align:center;margin-bottom:14px}.quickMoneyIcon{font-size:34px}.quickMoneyTitle{font:700 22px Georgia,serif;color:var(--gold);margin-top:3px}.moneyInputWrap{display:flex;align-items:center;background:#eef4f8;border-radius:14px;padding:8px 12px;margin-bottom:10px}.moneyInputWrap span{font-size:28px;color:#243d53;font-weight:800}.moneyInputWrap input{border:0;background:transparent;font-size:34px;font-weight:850;color:#173149;width:100%;padding:8px;outline:none}.amountChips{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:10px 0 13px}.amountChip{border:1px solid #315d7a;background:#0a2d49;color:white;border-radius:11px;padding:10px 4px;font-weight:800}.quickNote{width:100%;border:1px solid #315d7a;background:#0a2d49;color:white;border-radius:11px;padding:11px;margin-bottom:11px}.quickNote::placeholder{color:#8fa9ba}
+.goalAddRecommendation{margin:0 0 11px;padding:12px;border-radius:15px;background:linear-gradient(145deg,rgba(241,199,99,.15),rgba(47,108,139,.14));border:1px solid rgba(241,199,99,.38)}.goalAddRecommendation b{display:block;color:#f4d477;font:700 13px Georgia,serif}.goalAddRecommendation p{margin:5px 0 9px;color:#bdd0dc;font-size:10px;line-height:1.45}.goalAddRecommendation button{width:100%;border:1px solid rgba(241,199,99,.56);border-radius:11px;padding:9px;background:#423718;color:#f6d77f;font-size:9px;font-weight:900}.goalAddImpact{min-height:29px;margin:-2px 0 10px;padding:8px 10px;border-radius:11px;background:#061827;color:#a9c2d1;font-size:9px;line-height:1.4}.goalAddImpact strong{color:#72e3a2}
 .goalSetupSheet{padding:0 0 max(18px,env(safe-area-inset-bottom));overflow:hidden;border-radius:28px 28px 0 0;background:linear-gradient(180deg,#0b2942 0%,#071c2e 46%,#04131f 100%);border:1px solid rgba(241,199,99,.24);box-shadow:0 -24px 60px #0009}
 .goalSetupHero{position:relative;padding:24px 20px 18px;text-align:center;background:radial-gradient(circle at 50% 0%,rgba(241,199,99,.18),transparent 58%)}
 .goalSetupIcon{width:70px;height:70px;margin:0 auto 9px;border-radius:22px;display:grid;place-items:center;font-size:36px;background:linear-gradient(180deg,#153e5f,#0a2740);border:1px solid rgba(241,199,99,.42);box-shadow:0 14px 30px #0005,0 0 24px rgba(241,199,99,.12)}
@@ -2414,10 +2415,12 @@ body.journey-active #app>.nav button.on{
   <button id="closeQuickMoneyBtn" class="btn ghost full" style="margin-top:8px">Cancel</button>
 </div></div>
 <div id="goalAddModal" class="modal"><div class="sheet quickMoneySheet">
-  <div class="quickMoneyHead"><div class="quickMoneyIcon">💰</div><div id="goalAddTitle" class="quickMoneyTitle">Add Money</div><div class="muted">Move closer to your goal</div></div>
+  <div class="quickMoneyHead"><div class="quickMoneyIcon">💰</div><div id="goalAddTitle" class="quickMoneyTitle">Choose Your Savings Step</div><div class="muted">You decide what works for your life</div></div>
+  <div id="goalAddRecommendation" class="goalAddRecommendation"><b>✨ Life’s Quest recommendation</b><p id="goalAddRecommendationText">Based on your current plan. This is only a suggestion—you choose any amount.</p><button id="useGoalRecommendationBtn" type="button">USE RECOMMENDATION</button></div>
   <div class="moneyInputWrap"><span>$</span><input id="goalAddAmount" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0"></div>
   <div class="amountChips"><button class="amountChip goal-chip" data-amount="25">$25</button><button class="amountChip goal-chip" data-amount="50">$50</button><button class="amountChip goal-chip" data-amount="100">$100</button><button class="amountChip goal-chip" data-amount="250">$250</button></div>
-  <button id="saveGoalAddBtn" class="btn goldbtn full">Add to Goal</button>
+  <div id="goalAddImpact" class="goalAddImpact">Enter any amount to preview how it moves your goal forward.</div>
+  <button id="saveGoalAddBtn" class="btn goldbtn full">Save My Amount</button>
   <button id="closeGoalAddBtn" class="btn ghost full" style="margin-top:8px">Cancel</button>
 </div></div>
 <div id="budgetModal" class="modal"><div class="sheet">
@@ -2914,17 +2917,50 @@ function saveGoal(){
 let addingGoal=null;
 function openGoalAdd(k){
  addingGoal=k;
- q("goalAddTitle").textContent="Add to "+k;
+ q("goalAddTitle").textContent="Choose Your "+k+" Savings Step";
  q("goalAddAmount").value="";
+ const recommended=recommendedGoalDeposit(k),recommendation=q("goalAddRecommendation"),button=q("useGoalRecommendationBtn");
+ if(recommended>0){
+   recommendation.style.display="block";
+   q("goalAddRecommendationText").textContent="Suggested: "+money(recommended)+" toward "+k+" based on your current plan. This is only a recommendation—you may choose any amount.";
+   button.textContent="USE "+money(recommended)+" RECOMMENDATION";button.dataset.amount=recommended;button.disabled=false;
+ }else{
+   recommendation.style.display="block";
+   q("goalAddRecommendationText").textContent="Choose any amount that feels sustainable. Life’s Quest will show how your choice moves "+k+" forward.";
+   button.textContent="NO RECOMMENDATION YET";button.dataset.amount="";button.disabled=true;
+ }
+ updateGoalAddImpact();
  q("goalAddModal").classList.add("show");
  setTimeout(()=>q("goalAddAmount").focus(),100);
 }
 function closeGoalAdd(){q("goalAddModal").classList.remove("show");addingGoal=null}
+function recommendedGoalDeposit(k){
+ const income=+(d.income?.amount||0),weeks=d.income?.frequency==="biweekly"?2:1;
+ const chosen=+(d.savingsPerPaycheck||0)/weeks,planned=income>0?(income/weeks)*((+d.income?.recommendedSavingsRate||0)/100):0;
+ const available=chosen>0?chosen:planned,g=d.goals?.[k],remaining=g?Math.max(0,(+g.goal||0)-(+g.saved||0)):0;
+ return Math.round(Math.min(available,remaining)*100)/100;
+}
+function goalDepositImpact(k,amount,beforeSaved=+(d.goals?.[k]?.saved||0)){
+ const g=d.goals?.[k]||{},deposit=Math.max(0,Math.min(+amount||0,Math.max(0,(+g.goal||0)-beforeSaved)));
+ if(!(deposit>0))return "Enter any amount to preview how it moves your goal forward.";
+ if(k==="Emergency"){
+   const monthly=Math.max(recurringMonthlyTotal(),estimatedMonthlyTotal());
+   if(monthly>0){const added=deposit/(monthly/30),label=added<.1?"less than 0.1":added.toFixed(1),plural=Math.abs(added-1)>.05;return money(deposit)+" adds about "+label+" protected day"+(plural?"s":"")+"."}
+ }
+ const target=+g.goal||0,after=beforeSaved+deposit,remaining=Math.max(0,target-after),pct=target>0?Math.min(100,after/target*100):0;
+ return money(deposit)+" moves "+k+" to "+Math.round(pct)+"% funded"+(remaining>0?" with "+money(remaining)+" remaining":"—goal reached")+".";
+}
+function updateGoalAddImpact(){if(!addingGoal)return;const amount=+q("goalAddAmount").value||0;q("goalAddImpact").innerHTML=amount>0?"<strong>Your choice:</strong> "+goalDepositImpact(addingGoal,amount):"Enter any amount to preview how it moves your goal forward."}
+function showSavingsImpact(message){
+ let t=q("savingsImpactToast");if(!t){t=document.createElement("div");t.id="savingsImpactToast";t.style.cssText="position:fixed;z-index:119999;left:50%;bottom:calc(88px + env(safe-area-inset-bottom));width:min(90%,390px);transform:translate(-50%,18px);opacity:0;transition:.28s ease;padding:13px 16px;border-radius:16px;background:linear-gradient(180deg,#123d53,#082432);border:1px solid #66df99;color:#fff;box-shadow:0 14px 38px #0009;font-weight:800;font-size:11px;line-height:1.45;text-align:center;pointer-events:none";document.body.appendChild(t)}
+ t.textContent=message;t.style.opacity="1";t.style.transform="translate(-50%,0)";clearTimeout(t._hide);t._hide=setTimeout(()=>{t.style.opacity="0";t.style.transform="translate(-50%,18px)"},4200);
+}
 function saveGoalAdd(){
  if(!addingGoal)return;
  const a=+q("goalAddAmount").value;
  if(!(a>0))return;
  const g=d.goals[addingGoal];
+ const goalName=addingGoal,beforeSaved=+g.saved||0;
  const beforeFreedom=freedomSnapshot().days;
  const beforePercent=g.goal>0?((+g.saved||0)/g.goal)*100:0;
  g.saved=Math.min(g.goal,g.saved+a);
@@ -2932,9 +2968,13 @@ function saveGoalAdd(){
  const afterPercent=g.goal>0?(g.saved/g.goal)*100:0;
  const crossed=addingGoal==="Emergency"?[1,7,14,30,90,180,365].filter(x=>beforeFreedom<x&&afterFreedom>=x):[25,50,100].filter(x=>beforePercent<x&&afterPercent>=x);
  const week=fridayStart().toISOString().slice(0,10);
- awardQuestXP("weekly-saving",15,week,"Saved toward your future");
- crossed.forEach(mark=>awardQuestXP("savings-milestone",20,addingGoal+"-"+mark,"Reached a savings milestone"));
- save();closeGoalAdd();render();window.LQWorld?.refresh();
+ const deposited=g.saved-beforeSaved;
+ if(!(deposited>0))return;
+ awardQuestXP("weekly-saving",15,week,"Saved "+money(deposited)+" toward "+goalName);
+ crossed.forEach(mark=>{d.questLedger=d.questLedger||{};d.questLedger["savings-milestone:"+addingGoal+"-"+mark]=Date.now()});
+ const impact=goalDepositImpact(goalName,deposited,beforeSaved);
+ const milestone=crossed.length?" You also reached a savings milestone!":"";
+ save();closeGoalAdd();render();window.LQWorld?.refresh();showSavingsImpact("Your choice is saved. "+impact+milestone+" The same weekly XP applies to any positive amount.");
 }
 function addGoal(k){
  const g=d.goals[k];
@@ -3206,8 +3246,10 @@ document.addEventListener("DOMContentLoaded",async()=>{
  q("closeQuickMoneyBtn").addEventListener("click",closeQuickMoney);
  q("saveGoalAddBtn").addEventListener("click",saveGoalAdd);
  q("closeGoalAddBtn").addEventListener("click",closeGoalAdd);
+ q("goalAddAmount").addEventListener("input",updateGoalAddImpact);
+ q("useGoalRecommendationBtn").addEventListener("click",()=>{const amount=+q("useGoalRecommendationBtn").dataset.amount||0;if(amount>0){q("goalAddAmount").value=amount;updateGoalAddImpact()}});
  document.querySelectorAll("#quickMoneyModal .amountChip").forEach(b=>b.addEventListener("click",()=>q("quickMoneyAmount").value=b.dataset.amount));
- document.querySelectorAll(".goal-chip").forEach(b=>b.addEventListener("click",()=>q("goalAddAmount").value=b.dataset.amount));
+ document.querySelectorAll(".goal-chip").forEach(b=>b.addEventListener("click",()=>{q("goalAddAmount").value=b.dataset.amount;updateGoalAddImpact()}));
  const begin=q("beginBtn")||document.querySelector("#chooser .goldbtn"); if(begin)begin.addEventListener("click",startQuest);
  const saveOnboard=q("saveOnboardGoalsBtn"); if(saveOnboard)saveOnboard.addEventListener("click",()=>finishGoalOnboarding(true));
  document.querySelectorAll("[data-vacation-tier]").forEach(b=>b.addEventListener("click",()=>{d.goalPrefs=d.goalPrefs||{};d.goalPrefs.vacationTier=b.dataset.vacationTier;updateGoalFinder();})); updateGoalFinder();
@@ -3250,7 +3292,7 @@ document.addEventListener("DOMContentLoaded",async()=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const reg = await navigator.serviceWorker.register("./sw.js?v=122");
+      const reg = await navigator.serviceWorker.register("./sw.js?v=124");
       await reg.update();
     } catch (e) {}
   });
@@ -3496,4 +3538,4 @@ if ("serviceWorker" in navigator) {
   window.addEventListener("pageshow",boot);
   setTimeout(boot,250);setTimeout(boot,1000);
 })();
-</script><script src="./journey-config-v95.js?v=103"></script><script src="./character-bases.js?v=114"></script><script src="./environment-bases.js?v=103"></script><script src="./asset-contract.js?v=83"></script><script src="./asset-manifest.js?v=103"></script><script src="./asset-loader.js?v=103"></script><script src="./compositor-runtime.js?v=103"></script><script src="./world-runtime.js?v=114"></script><script src="./evolution-path-v115.js?v=117"></script><script src="./cosmetic-store-v120.js?v=123"></script><script src="./world-map-v118.js?v=120"></script><script src="./studio-runtime.js?v=83"></script><script src="./preview-lab.js?v=83"></script><script src="./asset-qa.js?v=85"></script><script src="./lab-ui.js?v=85"></script><script src="./premium-layout-v89.js?v=120"></script></body></html>
+</script><script src="./journey-config-v95.js?v=103"></script><script src="./character-bases.js?v=114"></script><script src="./environment-bases.js?v=103"></script><script src="./asset-contract.js?v=83"></script><script src="./asset-manifest.js?v=103"></script><script src="./asset-loader.js?v=103"></script><script src="./compositor-runtime.js?v=103"></script><script src="./world-runtime.js?v=114"></script><script src="./evolution-path-v115.js?v=124"></script><script src="./cosmetic-store-v120.js?v=123"></script><script src="./world-map-v118.js?v=120"></script><script src="./studio-runtime.js?v=83"></script><script src="./preview-lab.js?v=83"></script><script src="./asset-qa.js?v=85"></script><script src="./lab-ui.js?v=85"></script><script src="./premium-layout-v89.js?v=120"></script></body></html>
