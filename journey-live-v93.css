@@ -246,3 +246,48 @@ body.journey-active #app>.nav{height:70px!important;min-height:70px!important;bo
 @keyframes lqWaterGlint{from{opacity:.28;filter:saturate(1.2) brightness(.94)}to{opacity:.52;filter:saturate(1.65) brightness(1.12)}}
 @keyframes lqHeroBreathe{from{transform:scale(1.12) translate3d(0,0,0)}to{transform:scale(1.135) translate3d(-.35%,1px,0)}}
 @keyframes lqForegroundSway{from{transform:scale(1.13) rotate(-.12deg) translate3d(-.2%,0,0)}to{transform:scale(1.14) rotate(.12deg) translate3d(.2%,0,0)}}
+
+/* v101 — exact premium alpine artwork created as independently animated planes. */
+#journey .lqEnvironment[data-scene="premium-alpine"] .lqLayer{
+  inset:0!important;
+  width:100%!important;
+  height:100%!important;
+  object-fit:cover!important;
+  object-position:center 47%!important;
+  mix-blend-mode:normal!important;
+  will-change:transform,filter,opacity
+}
+#journey .lqEnvironment[data-scene="premium-alpine"] .lqLayer[data-active="false"],
+#journey .lqEnvironment[data-scene="premium-alpine"] .lqMidMountains,
+#journey .lqEnvironment[data-scene="premium-alpine"] .lqValley{display:none!important}
+#journey .lqEnvironment[data-scene="premium-alpine"] .lqSky{
+  z-index:1!important;opacity:1!important;filter:saturate(1.04) contrast(1.02)!important;
+  animation:lqPremiumSky 16s ease-in-out infinite alternate!important
+}
+#journey .lqEnvironment[data-scene="premium-alpine"] .lqBackMountains{
+  z-index:3!important;opacity:1!important;filter:saturate(.98) contrast(1.02)!important;
+  animation:lqPremiumPeaks 22s ease-in-out infinite alternate!important
+}
+#journey .lqEnvironment[data-scene="premium-alpine"] .lqWater{
+  z-index:6!important;opacity:1!important;filter:saturate(1.05) brightness(1)!important;
+  animation:lqPremiumWater 6.5s ease-in-out infinite alternate!important
+}
+#journey .lqEnvironment[data-scene="premium-alpine"] .lqHeroMountain{
+  z-index:7!important;opacity:1!important;filter:saturate(1.04) contrast(1.04) drop-shadow(-6px 8px 15px rgba(0,0,0,.18))!important;
+  animation:lqPremiumHero 15s ease-in-out infinite alternate!important
+}
+#journey .lqEnvironment[data-scene="premium-alpine"] .lqForeground{
+  z-index:11!important;opacity:1!important;filter:saturate(1.08) contrast(1.03)!important;
+  transform-origin:50% 100%!important;animation:lqPremiumForeground 7.5s ease-in-out infinite alternate!important
+}
+#journey .lqWaterfallMotion{display:none!important}
+
+@keyframes lqPremiumSky{from{transform:scale(1.012) translate3d(0,0,0)}to{transform:scale(1.027) translate3d(0,2px,0)}}
+@keyframes lqPremiumPeaks{from{transform:scale(1.018) translate3d(-.45%,0,0)}to{transform:scale(1.024) translate3d(.45%,1px,0)}}
+@keyframes lqPremiumWater{from{transform:scale(1.022) translate3d(0,0,0);filter:saturate(1.02) brightness(.98)}to{transform:scale(1.027) translate3d(0,-1px,0);filter:saturate(1.1) brightness(1.06)}}
+@keyframes lqPremiumHero{from{transform:scale(1.02) translate3d(.15%,0,0)}to{transform:scale(1.028) translate3d(-.25%,1px,0)}}
+@keyframes lqPremiumForeground{from{transform:scale(1.025) rotate(-.08deg) translate3d(-.12%,0,0)}to{transform:scale(1.032) rotate(.08deg) translate3d(.12%,0,0)}}
+
+@media (prefers-reduced-motion:reduce){
+  #journey .lqEnvironment[data-scene="premium-alpine"] .lqLayer{animation:none!important;transform:scale(1.02)!important}
+}

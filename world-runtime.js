@@ -134,7 +134,14 @@
     const map=sceneLayerMap();
     Object.entries(map).forEach(([slot,domSlot])=>{
       const el=q('#journey .lqEnvironment [data-scene-slot="'+domSlot+'"]'),src=scene?.layers?.[slot];
-      if(el&&src)el.setAttribute("src",src);
+      if(!el)return;
+      if(src){
+        el.setAttribute("src",src);
+        el.dataset.active="true";
+      }else{
+        el.removeAttribute("src");
+        el.dataset.active="false";
+      }
     });
     document.documentElement.dataset.lqParticles=scene?.effects?.particles||"none";
     document.documentElement.dataset.lqLighting=scene?.effects?.lighting||"golden";

@@ -1,5 +1,5 @@
 window.LQEnvironmentBases={
-  version:2,
+  version:101,
   slots:[
     {id:"sky",z:1,parallax:.02},
     {id:"celestial",z:2,parallax:.04},
@@ -22,13 +22,11 @@ window.LQEnvironmentBases={
       id:"premium-alpine",
       label:"Premium Alpine",
       layers:{
-        sky:"assets/journey/v79/sky.svg?v=79",
-        farMountains:"assets/journey/v79/mountains-back.svg?v=79",
-        midMountains:"assets/journey/v79/mountains-back.svg?v=79",
-        valley:"assets/journey/v79/valley.svg?v=79",
-        water:"assets/journey/v79/valley.svg?v=79",
-        heroMountain:"assets/journey/v79/hero-mountain.svg?v=79",
-        foreground:"assets/journey/v79/foreground.svg?v=79"
+        sky:"assets/journey/premium-v101/sky.png?v=101",
+        farMountains:"assets/journey/premium-v101/far-mountains.png?v=101",
+        water:"assets/journey/premium-v101/waterfall-valley.png?v=101",
+        heroMountain:"assets/journey/premium-v101/hero-mountain.png?v=101",
+        foreground:"assets/journey/premium-v101/foreground.png?v=101"
       },
       effects:{particles:"none",weather:"clear",lighting:"golden",mist:true},
       characterAnchors:{

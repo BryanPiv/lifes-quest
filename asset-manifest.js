@@ -1,15 +1,13 @@
 window.LQAssetManifest={
-  version:2,
+  version:101,
   environment:{
     baseScene:"premium-alpine",
     required:[
-      {slot:"sky",kind:"opaque",path:"assets/journey/v79/sky.svg"},
-      {slot:"farMountains",kind:"transparent",path:"assets/journey/v79/mountains-back.svg"},
-      {slot:"midMountains",kind:"transparent",path:"assets/journey/v79/mountains-back.svg"},
-      {slot:"valley",kind:"transparent",path:"assets/journey/v79/valley.svg"},
-      {slot:"water",kind:"transparent",path:"assets/journey/v79/valley.svg"},
-      {slot:"heroMountain",kind:"transparent",path:"assets/journey/v79/hero-mountain.svg"},
-      {slot:"foreground",kind:"transparent",path:"assets/journey/v79/foreground.svg"}
+      {slot:"sky",kind:"opaque",path:"assets/journey/premium-v101/sky.png"},
+      {slot:"farMountains",kind:"transparent",path:"assets/journey/premium-v101/far-mountains.png"},
+      {slot:"water",kind:"transparent",path:"assets/journey/premium-v101/waterfall-valley.png"},
+      {slot:"heroMountain",kind:"transparent",path:"assets/journey/premium-v101/hero-mountain.png"},
+      {slot:"foreground",kind:"transparent",path:"assets/journey/premium-v101/foreground.png"}
     ]
   },
   companions:{
