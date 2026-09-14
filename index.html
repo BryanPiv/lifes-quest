@@ -2316,7 +2316,7 @@ body.journey-active #app>.nav button.on{
     <img class="lqLayer lqForeground" data-scene-slot="foreground" src="assets/journey/premium-v101/foreground.png?v=101" alt="">
     <div class="lqAtmosphere"></div>
   </div>
-    <div class="pjCompanionCard"><div class="eyebrow">YOUR FUTURE COMPANION</div><div id="pjCompanionName" class="pjCompanionName">Ember</div><div id="pjCompanionType" class="pjType">🔥 FIRE</div><div id="pjQuote" class="pjQuote">“Awareness begins the climb.”</div></div>
+    <div class="pjCompanionCard"><div class="eyebrow">YOUR FINANCIAL COMPANION</div><div id="pjCompanionName" class="pjCompanionName">Ember</div><div id="pjCompanionType" class="pjType">🔥 FIRE</div><div id="pjQuote" class="pjQuote">“Awareness begins the climb.”</div></div>
     <div class="pjTrail">
       <svg class="pjPath" viewBox="0 0 190 390" preserveAspectRatio="none" aria-hidden="true">
   <defs>
@@ -2336,11 +2336,11 @@ body.journey-active #app>.nav button.on{
   <path d="M108 365 C132 330 133 300 114 270 C94 238 96 209 122 179 C143 154 142 124 121 96 C105 75 110 47 133 23"
         fill="none" stroke="url(#questTrailV45)" stroke-width="6" stroke-linecap="round" filter="url(#questTrailGlowV45)"/>
 </svg>
-      <div class="pjMilestone m1">BUILD<br>STABILITY</div><div class="pjMilestone m2">GAIN<br>SECURITY</div><div class="pjMilestone m3" aria-hidden="true"></div><div class="pjMilestone m4">GROW<br>WEALTH</div><div class="pjMilestone m5">FREEDOM<br>SUMMIT</div>
-      <div class="pjNode n1">1</div><div class="pjNode n2 locked">5</div><div class="pjNode n3 locked">10</div><div class="pjNode n4 locked">15</div><div class="pjNode n5 locked">20</div>
+      <div class="pjMilestone m1">BUILD<br>STABILITY</div><div class="pjMilestone m2">GAIN<br>SECURITY</div><div class="pjMilestone m3">BUILD<br>RESILIENCE</div><div class="pjMilestone m4">GROW<br>WEALTH</div><div class="pjMilestone m5">FREEDOM<br>SUMMIT</div>
+      <div class="pjNode n1">1</div><div class="pjNode n2 locked">5</div><div class="pjNode n3 locked">10</div><div class="pjNode n4 locked">20</div><div class="pjNode n5 locked">35</div>
     </div>
     <div class="pjSummitGlow" aria-hidden="true"></div>
-    <div class="pjTagline">Your Financial<br>Freedom Awaits</div>
+    <div class="pjTagline">Every Smart Choice<br>Builds Your Future</div>
   </div>
   <div class="pjPanel pjBudget"><div class="pjBudgetIcon">🪙</div><div class="pjBudgetMain"><b>WEEKLY BUDGET</b><div class="bar"><i id="journeyBudgetBar" style="width:0%"></i></div><div id="journeyWeekSpent" class="tiny">No weekly budget yet</div></div><button id="editBudgetBtn" class="btn ghost" style="padding:9px 11px;white-space:nowrap">Set Budget</button></div>
   <button class="pjFreedom" data-nav-direct="goals" aria-label="Open goals and Freedom Time">
@@ -2525,7 +2525,7 @@ const DEFAULTS={
  income:{amount:0,frequency:"weekly",recommendedSavingsRate:0,healthcare:0,workRetirementPct:0,workRetirementMatchPct:0},
  type:"fire",xp:0,companionProgress:{fire:0,water:0,lightning:0,shadow:0,cloud:0},allowance:0,expenses:[],
  goals:{Vacation:{saved:0,goal:0,icon:"🏝️"},Emergency:{saved:0,goal:0,icon:"🛡️"},Investing:{saved:0,goal:0,icon:"📈"}},
- bills:[]
+ bills:[],questLedger:{}
 };
 function deepMerge(base, saved){
   if(Array.isArray(base)) return Array.isArray(saved)?saved:base;
@@ -2547,7 +2547,7 @@ if(!savedData.companionProgress){
   d.companionProgress={fire:0,water:0,lightning:0,shadow:0,cloud:0};
   d.companionProgress[d.type||"fire"]=+savedData.xp||0;
 }
-d.dataVersion=6;
+d.dataVersion=7;
 localStorage.setItem("lifesQuestWeb",JSON.stringify(d));
 let choice=d.type||"fire",cat="Food",calDate=new Date();
 const q=id=>document.getElementById(id);
@@ -2556,7 +2556,14 @@ function money(n){return new Intl.NumberFormat("en-US",{style:"currency",currenc
 function activeXP(type=d.type){return +(d.companionProgress?.[type]||0)}
 function addCompanionXP(amount,type=d.type){d.companionProgress=d.companionProgress||{fire:0,water:0,lightning:0,shadow:0,cloud:0};d.companionProgress[type]=Math.max(0,activeXP(type)+amount);d.xp=activeXP(d.type);}
 function level(type=d.type){return Math.floor(activeXP(type)/100)+1}
-function stage(type=d.type){const l=level(type);return l>=20?3:l>=10?2:l>=5?1:0}
+function stage(type=d.type){const l=level(type);return l>=35?4:l>=20?3:l>=10?2:l>=5?1:0}
+function showQuestReward(amount,label){
+ let t=q("questRewardToast");if(!t){t=document.createElement("div");t.id="questRewardToast";t.style.cssText="position:fixed;z-index:120000;left:50%;top:max(22px,env(safe-area-inset-top));transform:translate(-50%,-18px);opacity:0;transition:.28s ease;padding:11px 16px;border-radius:999px;background:linear-gradient(180deg,#163f5e,#071e32);border:1px solid #f1c763;color:#fff;box-shadow:0 12px 35px #0009;font-weight:900;font-size:12px;pointer-events:none";document.body.appendChild(t)}
+ t.textContent="+"+amount+" Quest XP • "+label;t.style.opacity="1";t.style.transform="translate(-50%,0)";clearTimeout(t._hide);t._hide=setTimeout(()=>{t.style.opacity="0";t.style.transform="translate(-50%,-18px)"},2200);
+}
+function awardQuestXP(action,amount,period,label){
+ d.questLedger=d.questLedger||{};const key=action+":"+period;if(d.questLedger[key])return false;d.questLedger[key]=Date.now();addCompanionXP(amount);showQuestReward(amount,label);return true;
+}
 function petSVG(type,st=0){
  const themes={
   fire:{a:"#ffefb0",b:"#ff9a3d",c:"#ff4b1f",d:"#7f1d12",eye:"#ffcf33",kind:"fox"},
@@ -2798,6 +2805,7 @@ function saveIncomeSetup(){
  };
  d.allowance=suggestedWeeklyBudget();
  d.onboardingComplete=true;
+ awardQuestXP("financial-plan",30,"once","Created your financial plan");
  save();
  q("incomeOnboarding").classList.add("hidden");
  q("app").classList.remove("hidden");
@@ -2851,7 +2859,7 @@ function weekly(){let s=fridayStart(),e=new Date(s);e.setDate(e.getDate()+7);ret
 function saveExpense(){
  const a=+q("expenseAmount").value;if(!a)return;
  d.expenses.unshift({id:Date.now(),amount:a,cat,note:q("expenseNote").value,date:q("expenseDate").value||new Date().toISOString().slice(0,10)});
- addCompanionXP(5);save();q("expenseAmount").value="";q("expenseNote").value="";render();go("journey");
+ awardQuestXP("daily-awareness",5,(q("expenseDate").value||new Date().toISOString().slice(0,10)),"Daily awareness");save();q("expenseAmount").value="";q("expenseNote").value="";render();go("journey");
 }
 let editingGoal=null;
 function openBudget(){
@@ -2870,7 +2878,7 @@ function closeBudget(){q("budgetModal").classList.remove("show")}
 function saveBudget(){
   const a=+q("weeklyBudgetInput").value;
   if(a<0||!Number.isFinite(a))return;
-  d.allowance=a; save(); closeBudget(); render();
+  d.allowance=a; awardQuestXP("build-budget",25,"once","Built your first budget"); save(); closeBudget(); render();
 }
 function updateGoalPreview(){
  const target=+q("goalTargetInput").value||0;
@@ -2900,6 +2908,7 @@ function saveGoal(){
   if(target<=0||saved<0)return;
   d.goals[editingGoal].goal=target;
   d.goals[editingGoal].saved=Math.min(saved,target);
+  awardQuestXP("set-goal",15,editingGoal,"Set a meaningful goal");
   save(); closeGoal(); render();
 }
 let addingGoal=null;
@@ -2921,8 +2930,10 @@ function saveGoalAdd(){
  g.saved=Math.min(g.goal,g.saved+a);
  const afterFreedom=freedomSnapshot().days;
  const afterPercent=g.goal>0?(g.saved/g.goal)*100:0;
- const crossed=addingGoal==="Emergency"?[1,7,14,30,90,180,365].filter(x=>beforeFreedom<x&&afterFreedom>=x).length:[25,50,100].filter(x=>beforePercent<x&&afterPercent>=x).length;
- addCompanionXP(15+crossed*20);
+ const crossed=addingGoal==="Emergency"?[1,7,14,30,90,180,365].filter(x=>beforeFreedom<x&&afterFreedom>=x):[25,50,100].filter(x=>beforePercent<x&&afterPercent>=x);
+ const week=fridayStart().toISOString().slice(0,10);
+ awardQuestXP("weekly-saving",15,week,"Saved toward your future");
+ crossed.forEach(mark=>awardQuestXP("savings-milestone",20,addingGoal+"-"+mark,"Reached a savings milestone"));
  save();closeGoalAdd();render();window.LQWorld?.refresh();
 }
 function addGoal(k){
@@ -3011,10 +3022,11 @@ function renderJourney(p,st,lv){
  if(q("pjXpText"))q("pjXpText").textContent=(activeXP()%100)+" / 100 XP";
  if(q("pjXpBar"))q("pjXpBar").style.width=(activeXP()%100)+"%";
  const evolution=[
-   {label:"Awareness • Form 1",quote:"“Awareness begins the climb.”"},
-   {label:"Discipline • Form 2",quote:"“Consistency builds security.”"},
-   {label:"Growth • Form 3",quote:"“Growth creates more choices.”"},
-   {label:"Freedom • Final Form",quote:"“Your discipline became freedom.”"}
+   {label:"Awareness • Form 1",quote:"“See where your money goes.”"},
+   {label:"Stability • Form 2",quote:"“A plan turns income into progress.”"},
+   {label:"Security • Form 3",quote:"“Savings turn surprises into choices.”"},
+   {label:"Growth • Form 4",quote:"“Put each paycheck to work for your future.”"},
+   {label:"Freedom • Form 5",quote:"“You built the freedom to choose your path.”"}
  ][st]||{};
  if(q("pjEvolutionText"))q("pjEvolutionText").textContent=evolution.label||"Awareness • Form 1";
  if(q("pjQuote"))q("pjQuote").textContent=evolution.quote||"“Awareness begins the climb.”";
@@ -3023,7 +3035,7 @@ function renderJourney(p,st,lv){
  if(q("pjFreedomDays"))q("pjFreedomDays").textContent=freedom.monthly>0?freedom.days+" day"+(freedom.days===1?"":"s")+" protected":"Build your safety plan";
  if(q("pjFreedomBar"))q("pjFreedomBar").style.width=freedom.progress+"%";
  if(q("pjFreedomHint"))q("pjFreedomHint").textContent=freedom.hint;
- const req=[1,5,10,15,20];
+ const req=[1,5,10,20,35];
  req.forEach((r,i)=>{const n=document.querySelector(".pjNode.n"+(i+1));if(n)n.classList.toggle("locked",lv<r)});
  if(q("pjBillsText"))q("pjBillsText").textContent=d.bills.length?d.bills.length+" bill"+(d.bills.length===1?"":"s")+" added":"No bills added";
  const activeGoals=Object.values(d.goals).filter(g=>g.goal>0).length;
@@ -3166,7 +3178,7 @@ function openPlannerGoal(k){
  go("goals");
  setTimeout(()=>openGoal(k),80);
 }
-async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260914-107&refresh="+Date.now());}
+async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260914-108&refresh="+Date.now());}
 document.addEventListener("DOMContentLoaded",async()=>{
  try{if(navigator.storage&&navigator.storage.persist)await navigator.storage.persist();}catch(e){}
  renderChoices();
@@ -3238,7 +3250,7 @@ document.addEventListener("DOMContentLoaded",async()=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const reg = await navigator.serviceWorker.register("./sw.js?v=107");
+      const reg = await navigator.serviceWorker.register("./sw.js?v=108");
       await reg.update();
     } catch (e) {}
   });
