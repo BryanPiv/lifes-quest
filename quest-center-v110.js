@@ -84,7 +84,7 @@
   const guide=compass(tasks);o.querySelector(".lqCompass").innerHTML='<div class="lqCompassTop"><small>JOURNEY COMPASS</small><span class="lqCompassBadge">'+guide.badge+'</span></div><h3>'+guide.title+'</h3><p>'+guide.why+'</p><div class="lqCompassWhy">✦ One focused action is enough to move forward today.</div>';
   o.querySelector(".lqPath").innerHTML=pathHTML(m.d);
   o.querySelector(".lqMissions").innerHTML=tasks.map(x=>'<div class="lqMission '+(x.done?"done":"")+'"><div class="lqMissionIcon">'+x.icon+'</div><div><b>'+x.title+'</b><small>'+x.why+'</small></div><div class="lqMissionState">'+(x.done?"✓ ": "")+x.state+'</div></div>').join("");
-  if(done===3){window.awardQuestXP?.("weekly-quest",40,weekKey(),"Weekly quest complete");window.save?.()}
+  if(done===3&&window.awardQuestXP?.("weekly-quest",40,weekKey(),"Weekly quest complete"))window.save?.()
   const idx=stageIndex(m.d),l=LESSONS[idx],id="stage-"+idx,complete=completedLesson(id);
   const lesson=o.querySelector(".lqLesson");lesson.innerHTML='<div class="lqLessonTag">'+l.stage.toUpperCase()+' LESSON</div><h3>'+l.title+'</h3><p>'+l.body+'</p><p class="lqTakeaway">'+l.takeaway+'</p><button '+(complete?"disabled":"")+'>'+(complete?"Lesson complete ✓":"Complete lesson • +20 XP")+'</button>';
   lesson.querySelector("button").onclick=()=>finishLesson(idx);
