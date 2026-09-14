@@ -106,8 +106,8 @@
 
   function emote(name,duration=900){setState(name,duration)}
 
-  async function evolve(newLevel){
-    const d=read(),id=d.type||"cloud",before=formFor(id,d.level||1);
+  async function evolve(newLevel,previousLevel){
+    const d=read(),id=d.type||"cloud",before=formFor(id,previousLevel||d.level||1);
     const nextLevel=Math.max(1,+newLevel||1),after=formFor(id,nextLevel);
     if(!after||before?.id===after.id){d.level=nextLevel;write(d);mountCharacter();return false}
     state.locked=true;setState("evolve");
@@ -192,8 +192,8 @@
   function watchProgress(){
     const current=level();
     if(current>observedLevel&&!state.locked){
-      observedLevel=current;
-      evolve(current);
+      const previous=observedLevel;observedLevel=current;
+      evolve(current,previous);
     }else if(current<observedLevel){observedLevel=current}
   }
 
