@@ -42,7 +42,7 @@
   function mountCharacter(){
     const h=host(),d=characterDef(),f=formFor();if(!h||!d||!f)return;
     state.character={type:d.id,form:f.id};
-    h.dataset.type=d.id;h.dataset.form=f.id;h.dataset.state=state.mode;h.dataset.direction=state.direction;
+    h.dataset.type=d.id;h.dataset.form=f.id;h.dataset.state=state.mode;h.dataset.direction=state.direction;h.dataset.atlas=f.atlas?"true":"false";
     h.style.setProperty("--character-accent",d.accent||"#7de8ff");
     h.style.setProperty("--character-scale",f.scale||1);
     h.style.setProperty("--sprite-row",f.atlas?.row||0);
