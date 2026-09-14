@@ -122,6 +122,7 @@
       farMountains:"farMountains",
       midMountains:"midMountains",
       valley:"valley",
+      water:"water",
       heroMountain:"heroMountain",
       foreground:"foreground"
     };

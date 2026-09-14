@@ -4,7 +4,7 @@
  * Percentages position responsive elements; trail coordinates use its 190x410 canvas.
  */
 window.LQJourneyConfig={
-  version:98,
+  version:99,
   assets:{
     environment:{
       premiumAlpine:{

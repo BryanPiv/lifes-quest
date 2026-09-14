@@ -22,7 +22,13 @@ window.LQEnvironmentBases={
       id:"premium-alpine",
       label:"Premium Alpine",
       layers:{
-        sky:window.LQJourneyConfig?.assets?.environment?.premiumAlpine?.runtime||"assets/journey/premium-alpine-v94.webp?v=98"
+        sky:"assets/journey/v79/sky.svg?v=79",
+        farMountains:"assets/journey/v79/mountains-back.svg?v=79",
+        midMountains:"assets/journey/v79/mountains-back.svg?v=79",
+        valley:"assets/journey/v79/valley.svg?v=79",
+        water:"assets/journey/v79/valley.svg?v=79",
+        heroMountain:"assets/journey/v79/hero-mountain.svg?v=79",
+        foreground:"assets/journey/v79/foreground.svg?v=79"
       },
       effects:{particles:"none",weather:"clear",lighting:"golden",mist:true},
       characterAnchors:{

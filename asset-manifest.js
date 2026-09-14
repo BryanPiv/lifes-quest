@@ -1,16 +1,15 @@
 window.LQAssetManifest={
-  version:1,
+  version:2,
   environment:{
     baseScene:"premium-alpine",
     required:[
-      {slot:"sky",kind:"opaque",path:"assets/art/environment/premium-alpine/sky.webp"},
-      {slot:"farMountains",kind:"transparent",path:"assets/art/environment/premium-alpine/far-mountains.webp"},
-      {slot:"midMountains",kind:"transparent",path:"assets/art/environment/premium-alpine/mid-mountains.webp"},
-      {slot:"valley",kind:"transparent",path:"assets/art/environment/premium-alpine/valley-water.webp"},
-      {slot:"heroMountain",kind:"transparent",path:"assets/art/environment/premium-alpine/hero-mountain.webp"},
-      {slot:"foreground",kind:"transparent",path:"assets/art/environment/premium-alpine/foreground.webp"},
-      {slot:"mist",kind:"transparent",path:"assets/art/environment/premium-alpine/mist.webp"},
-      {slot:"lighting",kind:"transparent",path:"assets/art/environment/premium-alpine/lighting.webp"}
+      {slot:"sky",kind:"opaque",path:"assets/journey/v79/sky.svg"},
+      {slot:"farMountains",kind:"transparent",path:"assets/journey/v79/mountains-back.svg"},
+      {slot:"midMountains",kind:"transparent",path:"assets/journey/v79/mountains-back.svg"},
+      {slot:"valley",kind:"transparent",path:"assets/journey/v79/valley.svg"},
+      {slot:"water",kind:"transparent",path:"assets/journey/v79/valley.svg"},
+      {slot:"heroMountain",kind:"transparent",path:"assets/journey/v79/hero-mountain.svg"},
+      {slot:"foreground",kind:"transparent",path:"assets/journey/v79/foreground.svg"}
     ]
   },
   companions:{
