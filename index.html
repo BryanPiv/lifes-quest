@@ -2859,7 +2859,7 @@ function weekly(){let s=fridayStart(),e=new Date(s);e.setDate(e.getDate()+7);ret
 function saveExpense(){
  const a=+q("expenseAmount").value;if(!a)return;
  d.expenses.unshift({id:Date.now(),amount:a,cat,note:q("expenseNote").value,date:q("expenseDate").value||new Date().toISOString().slice(0,10)});
- awardQuestXP("daily-awareness",5,(q("expenseDate").value||new Date().toISOString().slice(0,10)),"Daily awareness");save();q("expenseAmount").value="";q("expenseNote").value="";render();go("journey");
+ window.LQQuestCenter?.recordAwareness?.(q("expenseDate").value||new Date().toISOString().slice(0,10));save();q("expenseAmount").value="";q("expenseNote").value="";render();go("journey");
 }
 let editingGoal=null;
 function openBudget(){
@@ -3250,7 +3250,7 @@ document.addEventListener("DOMContentLoaded",async()=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const reg = await navigator.serviceWorker.register("./sw.js?v=116");
+      const reg = await navigator.serviceWorker.register("./sw.js?v=117");
       await reg.update();
     } catch (e) {}
   });
@@ -3495,4 +3495,4 @@ if ("serviceWorker" in navigator) {
   window.addEventListener("pageshow",boot);
   setTimeout(boot,250);setTimeout(boot,1000);
 })();
-</script><script src="./journey-config-v95.js?v=103"></script><script src="./character-bases.js?v=114"></script><script src="./environment-bases.js?v=103"></script><script src="./asset-contract.js?v=83"></script><script src="./asset-manifest.js?v=103"></script><script src="./asset-loader.js?v=103"></script><script src="./compositor-runtime.js?v=103"></script><script src="./world-runtime.js?v=114"></script><script src="./evolution-path-v115.js?v=116"></script><script src="./studio-runtime.js?v=83"></script><script src="./preview-lab.js?v=83"></script><script src="./asset-qa.js?v=85"></script><script src="./lab-ui.js?v=85"></script><script src="./premium-layout-v89.js?v=116"></script></body></html>
+</script><script src="./journey-config-v95.js?v=103"></script><script src="./character-bases.js?v=114"></script><script src="./environment-bases.js?v=103"></script><script src="./asset-contract.js?v=83"></script><script src="./asset-manifest.js?v=103"></script><script src="./asset-loader.js?v=103"></script><script src="./compositor-runtime.js?v=103"></script><script src="./world-runtime.js?v=114"></script><script src="./evolution-path-v115.js?v=117"></script><script src="./studio-runtime.js?v=83"></script><script src="./preview-lab.js?v=83"></script><script src="./asset-qa.js?v=85"></script><script src="./lab-ui.js?v=85"></script><script src="./premium-layout-v89.js?v=117"></script></body></html>
