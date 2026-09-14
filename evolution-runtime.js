@@ -19,7 +19,7 @@
 .lqEvoEyebrow{position:absolute;top:5%;font-weight:900;letter-spacing:.24em;font-size:11px;color:var(--evo-accent);text-transform:uppercase}.lqEvoTitle{position:absolute;top:10%;margin:0;font:800 clamp(25px,7vw,38px) Georgia,serif;text-shadow:0 4px 20px #000}
 .lqEvoOrb{position:relative;width:min(72vw,310px);aspect-ratio:1;display:grid;place-items:center;border-radius:50%;filter:drop-shadow(0 0 28px var(--evo-accent));transition:transform .5s ease,filter .5s ease}
 .lqEvoOrb:before{content:"";position:absolute;inset:2%;border:2px solid var(--evo-accent);border-radius:50%;box-shadow:inset 0 0 40px var(--evo-accent),0 0 45px var(--evo-accent);animation:evoRing 1.4s ease-in-out infinite}
-.lqEvoSprite{width:82%;height:82%;object-fit:contain;filter:brightness(.14) saturate(0) drop-shadow(0 0 9px var(--evo-accent));transform:scale(var(--from-scale,1));transition:filter .7s ease,transform .7s cubic-bezier(.2,.9,.2,1.25),opacity .25s}
+.lqEvoSprite{width:82%;height:82%;background-repeat:no-repeat;background-size:500% 500%;filter:brightness(.14) saturate(0) drop-shadow(0 0 9px var(--evo-accent));transform:scale(var(--from-scale,1));transition:filter .7s ease,transform .7s cubic-bezier(.2,.9,.2,1.25),opacity .25s}
 .lqEvoRunes{position:absolute;inset:-9%;border:1px dashed color-mix(in srgb,var(--evo-accent) 70%,transparent);border-radius:50%;animation:evoSpin 5s linear infinite;font-size:30px;color:var(--evo-accent)}.lqEvoRunes span{position:absolute;left:50%;top:-18px;transform:translateX(-50%)}
 .lqEvoStatus{margin-top:34px;font-size:13px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#dcecff}.lqEvoName{margin:9px 0 0;font:800 clamp(28px,8vw,44px) Georgia,serif;color:#fff;text-shadow:0 0 22px var(--evo-accent);opacity:0;transform:translateY(14px);transition:.6s ease}
 .lqEvolutionCut.is-charging .lqEvoOrb{animation:evoCharge .7s ease-in-out infinite}.lqEvolutionCut.is-flash{background:#fff}.lqEvolutionCut.is-flash .lqEvoSprite{opacity:0}.lqEvolutionCut.is-reveal .lqEvoSprite{filter:brightness(1.08) saturate(1.18) drop-shadow(0 0 18px var(--evo-accent));transform:scale(var(--to-scale,1.2))}.lqEvolutionCut.is-reveal .lqEvoName{opacity:1;transform:none}.lqEvolutionCut.is-celebrate .lqEvoOrb{animation:evoCelebrate .8s ease both}
@@ -31,9 +31,12 @@
   function make(detail){
     const el=document.createElement("div");el.className="lqEvolutionCut";el.setAttribute("role","dialog");el.setAttribute("aria-modal","true");el.setAttribute("aria-label","Companion evolution");
     const meta=ELEMENTS[detail.type]||ELEMENTS.cloud;el.style.setProperty("--evo-accent",meta.accent);el.style.setProperty("--evo-deep",meta.deep);
-    el.innerHTML='<button class="lqEvoSkip" type="button">Skip</button><div class="lqEvoStage"><div class="lqEvoEyebrow">'+meta.label+' evolution</div><h2 class="lqEvoTitle">A new form is awakening</h2><div class="lqEvoOrb"><div class="lqEvoRunes"><span>'+meta.symbol+'</span></div><img class="lqEvoSprite" alt=""></div><div class="lqEvoStatus">Gathering energy…</div><div class="lqEvoName">'+detail.to.name+'</div></div>';
-    const img=el.querySelector(".lqEvoSprite");img.src=detail.from?.art||detail.to.art;img.alt=detail.from?.name||"Companion";el.style.setProperty("--from-scale",detail.from?.scale||1);el.style.setProperty("--to-scale",detail.to.scale||1.2);
+    el.innerHTML='<button class="lqEvoSkip" type="button">Skip</button><div class="lqEvoStage"><div class="lqEvoEyebrow">'+meta.label+' evolution</div><h2 class="lqEvoTitle">A new form is awakening</h2><div class="lqEvoOrb"><div class="lqEvoRunes"><span>'+meta.symbol+'</span></div><div class="lqEvoSprite" role="img" aria-label=""></div></div><div class="lqEvoStatus">Gathering energy…</div><div class="lqEvoName">'+detail.to.name+'</div></div>';
+    const sprite=el.querySelector(".lqEvoSprite");setSprite(sprite,detail.from||detail.to);el.style.setProperty("--from-scale",detail.from?.scale||1);el.style.setProperty("--to-scale",detail.to.scale||1.2);
     return el;
+  }
+  function setSprite(el,form){
+    const a=form?.atlas||{row:0,col:0};el.style.backgroundImage='url("'+form.art+'")';el.style.backgroundPosition=(a.col*25)+"% "+(a.row*25)+"%";el.setAttribute("aria-label",form?.name||"Companion");
   }
   async function play(detail){
     if(active)return false;active=true;styles();const el=make(detail);document.body.appendChild(el);document.body.style.overflow="hidden";
@@ -41,7 +44,7 @@
     requestAnimationFrame(()=>el.classList.add("is-on"));await sleep(450);
     el.classList.add("is-charging");await wait(1450,()=>skipped);
     if(!skipped){el.querySelector(".lqEvoStatus").textContent="Transformation beginning…";el.classList.add("is-flash");await sleep(280);el.classList.remove("is-flash");}
-    if(detail.onSwap)detail.onSwap();const img=el.querySelector(".lqEvoSprite");img.src=detail.to.art;img.alt=detail.to.name;el.classList.remove("is-charging");el.classList.add("is-reveal");el.querySelector(".lqEvoStatus").textContent="Evolution complete";await wait(1700,()=>skipped);
+    if(detail.onSwap)detail.onSwap();const img=el.querySelector(".lqEvoSprite");setSprite(img,detail.to);el.classList.remove("is-charging");el.classList.add("is-reveal");el.querySelector(".lqEvoStatus").textContent="Evolution complete";await wait(1700,()=>skipped);
     el.classList.add("is-celebrate");await wait(850,()=>skipped);el.classList.remove("is-on");await sleep(360);el.remove();document.body.style.removeProperty("overflow");active=false;return true;
   }
   async function wait(ms,stop){const step=50;for(let n=0;n<ms;n+=step){if(stop())return;await sleep(step)}}
