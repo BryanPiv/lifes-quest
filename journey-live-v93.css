@@ -220,6 +220,12 @@ body.journey-active #app>.nav{height:70px!important;min-height:70px!important;bo
    asset slot so future scenes can swap one layer without rebuilding the dashboard. */
 #journey .pjScene{background:linear-gradient(180deg,rgba(2,15,25,.02),rgba(2,15,25,.18) 72%,rgba(2,15,25,.46))!important}
 #journey .lqEnvironment .lqLayer{display:block!important;opacity:1!important;visibility:visible!important}
+#journey .lqEnvironment[data-scene="premium-alpine"] .lqBackMountains,
+#journey .lqEnvironment[data-scene="premium-alpine"] .lqMidMountains,
+#journey .lqEnvironment[data-scene="premium-alpine"] .lqValley,
+#journey .lqEnvironment[data-scene="premium-alpine"] .lqWater,
+#journey .lqEnvironment[data-scene="premium-alpine"] .lqHeroMountain,
+#journey .lqEnvironment[data-scene="premium-alpine"] .lqForeground{display:block!important;visibility:visible!important}
 #journey .lqEnvironment .lqSky{z-index:1!important;animation:lqSkyBreathe var(--camera-duration,14s) ease-in-out infinite alternate!important}
 #journey .lqEnvironment .lqBackMountains{z-index:3!important;opacity:.78!important;transform:scale(1.045)!important;filter:saturate(.78) contrast(1.05) brightness(1.08)!important;animation:lqFarDrift 24s ease-in-out infinite alternate!important}
 #journey .lqEnvironment .lqMidMountains{z-index:4!important;opacity:.86!important;transform:scale(1.075)!important;filter:saturate(.94) contrast(1.08)!important;animation:lqMidDrift 18s ease-in-out infinite alternate!important}
