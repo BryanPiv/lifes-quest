@@ -95,10 +95,10 @@
       '<div class="lqPathHero"><div class="lqPathOrb">'+sprite(current,{large:true})+'</div><div class="lqPathHeroText"><label>CURRENT FORM · '+esc(STAGES[currentIndex])+'</label><h3>'+esc(current.name)+'</h3><p>Level '+lv+' · Form '+(currentIndex+1)+' of 5</p><div class="lqPathProgress"><div><i style="width:'+progress+'%"></i></div><small>'+(next?xp+' / '+nextTarget+' total XP':xp+' total XP · Final form')+'</small></div></div></div>'+
       hero+'<h3 class="lqFormsTitle">All Five Forms</h3><div class="lqForms">'+forms+'</div>'+
       '<div class="lqEarn"><h3>How to earn Quest XP</h3><p>Small financial actions power your companion’s evolution.</p><div class="lqEarnGrid">'+
-      '<button class="lqEarnItem" data-xp-action="daily"><span class="lqEarnIcon">✍️</span><div><b>Complete today’s check-in</b><small>+5 XP daily</small></div></button>'+
+      '<button class="lqEarnItem" data-xp-action="daily"><span class="lqEarnIcon">✍️</span><div><b>Complete all 3 daily actions</b><small>+5 XP each completed day</small></div></button>'+
       '<button class="lqEarnItem" data-xp-action="save"><span class="lqEarnIcon">🌱</span><div><b>Save toward a goal</b><small>+15 XP weekly</small></div></button>'+
       '<button class="lqEarnItem" data-xp-action="lesson"><span class="lqEarnIcon">📖</span><div><b>Complete a stage lesson</b><small>+20 XP</small></div></button>'+
-      '<button class="lqEarnItem" data-xp-action="weekly"><span class="lqEarnIcon">🧭</span><div><b>Finish the weekly quest</b><small>+40 XP</small></div></button>'+
+      '<button class="lqEarnItem" data-xp-action="weekly"><span class="lqEarnIcon">🧭</span><div><b>Check in on 5 of 7 days</b><small>+40 XP weekly bonus</small></div></button>'+
       '</div></div>';
     hydrateSilhouettes(overlay);
     overlay.querySelectorAll("[data-xp-action]").forEach(button=>button.onclick=()=>{
