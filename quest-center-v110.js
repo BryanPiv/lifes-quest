@@ -21,6 +21,7 @@
  const stageIndex=d=>{const l=level(d);return l>=35?4:l>=20?3:l>=10?2:l>=5?1:0};
  function metrics(){
   const d=read(),start=weekStart(),dates=new Set((d.expenses||[]).filter(x=>new Date((x.date||"")+"T12:00:00")>=start).map(x=>x.date));
+  Object.keys(d.questLedger||{}).filter(k=>k.startsWith("daily-awareness:")).map(k=>k.split(":")[1]).filter(Boolean).forEach(day=>{if(new Date(day+"T12:00:00")>=start)dates.add(day)});
   const saved=!!d.questLedger?.["weekly-saving:"+weekKey()];
   return {d,dates:dates.size,budget:+d.allowance>0,saved};
  }
@@ -36,11 +37,11 @@
 .lqAchievements{margin-top:16px}.lqAchievements h3{font:800 17px Georgia,serif;margin:0 0 9px}.lqBadgeGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.lqBadge{min-height:82px;padding:10px 5px;border-radius:14px;text-align:center;background:#071d30;border:1px solid #ffffff14;opacity:.43;filter:saturate(.35)}.lqBadge.earned{opacity:1;filter:none;border-color:#e3bd5c55;background:linear-gradient(180deg,#15354b,#092439)}.lqBadgeIcon{font-size:23px}.lqBadge b{display:block;font-size:8px;margin-top:5px}.lqBadge small{display:block;color:#8fa8b9;font-size:7px;margin-top:3px}.lqBadge.earned small{color:#70dfa0}
 .lqStreak{display:inline-flex;align-items:center;gap:5px;margin-left:6px;color:#ffb34e;font-size:9px;font-weight:900}
 .lqVoice{margin:13px 0;padding:14px;border-radius:19px;background:linear-gradient(145deg,#0e304b,#071e31);border:1px solid #71d9f344}.lqVoiceTop{display:grid;grid-template-columns:62px 1fr;gap:12px;align-items:center}.lqVoiceAvatar{width:62px;height:62px;border-radius:17px;background-image:url("assets/characters/evolution-atlas-v105.png?v=105");background-size:500% 500%;background-repeat:no-repeat;background-color:#071a2a;border:1px solid #ffffff25;box-shadow:0 8px 20px #0005}.lqVoiceMeta small{font-size:8px;letter-spacing:.14em;color:#77e5ff;font-weight:900}.lqVoiceMeta b{display:block;font:800 19px Georgia,serif;color:#f4cf71;margin-top:2px}.lqSpeech{position:relative;margin:12px 0 10px;padding:12px 13px;border-radius:14px;background:#061725;color:#d9e6ee;font:italic 11px/1.55 Georgia,serif}.lqSpeech:before{content:"";position:absolute;top:-7px;left:24px;width:14px;height:14px;background:#061725;transform:rotate(45deg)}.lqTalkActions{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.lqTalkActions button{border:1px solid #ffffff21;border-radius:11px;padding:9px 4px;background:#0a2940;color:#bcd0dc;font-size:8px;font-weight:900}.lqTalkActions button.on{border-color:#f1c7638a;background:#423717;color:#f6d77f}
-.lqMission{display:grid;grid-template-columns:38px 1fr auto;align-items:center;gap:10px;margin:8px 0;padding:12px;border-radius:16px;background:#092a43;border:1px solid #ffffff17}.lqMission.done{border-color:#61df9680;background:linear-gradient(180deg,#0b3a43,#082b3d)}.lqMissionIcon{width:36px;height:36px;border-radius:12px;display:grid;place-items:center;background:#061c2e;font-size:18px}.lqMission b{font-size:12px}.lqMission small{display:block;color:#9eb5c5;font-size:9px;margin-top:3px;line-height:1.35}.lqMissionState{font-size:10px;font-weight:900;color:#f2c966}.lqMission.done .lqMissionState{color:#69e59c}
+.lqMission{display:grid;grid-template-columns:38px 1fr auto;align-items:center;gap:10px;margin:8px 0;padding:12px;border-radius:16px;background:#092a43;border:1px solid #ffffff17}.lqMission.done{border-color:#61df9680;background:linear-gradient(180deg,#0b3a43,#082b3d)}.lqMissionIcon{width:36px;height:36px;border-radius:12px;display:grid;place-items:center;background:#061c2e;font-size:18px}.lqMission b{font-size:12px}.lqMission small{display:block;color:#9eb5c5;font-size:9px;margin-top:3px;line-height:1.35}.lqMissionState{font-size:10px;font-weight:900;color:#f2c966}.lqMission.done .lqMissionState{color:#69e59c}.lqMissionAction{border:1px solid #f1c76388;border-radius:9px;padding:7px 8px;background:#4a3a16;color:#f5d474;font-size:7px;font-weight:900}.lqDailyCheck{display:none;margin:10px 0;padding:14px;border-radius:18px;background:#061827;border:1px solid #68dff05c}.lqDailyCheck.on{display:block}.lqDailyCheck h3{font:800 17px Georgia,serif;margin:0 0 4px}.lqDailyCheck p{font-size:9px;color:#a9bfcc;margin:0 0 10px}.lqDailyCats{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}.lqDailyCats button,.lqNoSpend{border:1px solid #ffffff21;border-radius:10px;padding:9px 3px;background:#0a2940;color:#fff;font-size:8px;font-weight:900}.lqNoSpend{width:100%;margin-top:7px;border-color:#65df9780;background:#103c39;color:#7ce9aa}
 .lqLesson{margin-top:15px;padding:16px;border-radius:19px;background:radial-gradient(circle at 100% 0,#3b629055,transparent 35%),linear-gradient(180deg,#142f55,#0b2039);border:1px solid #8cadcf55}.lqLessonTag{font-size:9px;letter-spacing:.15em;color:#73e3ff;font-weight:900}.lqLesson h3{font:800 20px Georgia,serif;margin:6px 0}.lqLesson p{font-size:11px;color:#c4d4df;line-height:1.55}.lqTakeaway{padding:10px;border-radius:12px;background:#061827;color:#f3cf78!important}.lqLesson button{width:100%;border:0;border-radius:13px;padding:12px;background:linear-gradient(#f7dc8c,#dba947);font-weight:900;color:#142438}.lqLesson button:disabled{background:#315269;color:#a9c0ce}
 `;document.head.appendChild(s)}
  function ensure(){
-  styles();let o=document.getElementById("lqQuestOverlay");if(!o){o=document.createElement("div");o.id="lqQuestOverlay";o.className="lqQuestOverlay";o.innerHTML='<div class="lqQuestSheet" role="dialog" aria-modal="true"><div class="lqQuestHead"><div><small>YOUR PATH THIS WEEK</small><h2>Weekly Quest</h2></div><button class="lqQuestClose" aria-label="Close">×</button></div><div class="lqQuestProgress"><div><i></i></div><p></p></div><div class="lqCompass"></div><div class="lqVoice"></div><div class="lqPath"></div><div class="lqMissions"></div><div class="lqLesson"></div><div class="lqAchievements"><h3>Achievements</h3><div class="lqBadgeGrid"></div></div></div>';document.body.appendChild(o);o.addEventListener("click",e=>{if(e.target===o||e.target.closest(".lqQuestClose"))o.classList.remove("on")})}
+  styles();let o=document.getElementById("lqQuestOverlay");if(!o){o=document.createElement("div");o.id="lqQuestOverlay";o.className="lqQuestOverlay";o.innerHTML='<div class="lqQuestSheet" role="dialog" aria-modal="true"><div class="lqQuestHead"><div><small>YOUR PATH THIS WEEK</small><h2>Weekly Quest</h2></div><button class="lqQuestClose" aria-label="Close">×</button></div><div class="lqQuestProgress"><div><i></i></div><p></p></div><div class="lqCompass"></div><div class="lqVoice"></div><div class="lqPath"></div><div class="lqMissions"></div><div class="lqDailyCheck"></div><div class="lqLesson"></div><div class="lqAchievements"><h3>Achievements</h3><div class="lqBadgeGrid"></div></div></div>';document.body.appendChild(o);o.addEventListener("click",e=>{if(e.target===o||e.target.closest(".lqQuestClose"))o.classList.remove("on")})}
   let b=document.querySelector(".lqQuestOpen");const card=document.querySelector("#journey .pjCompanionCard");if(card&&!b){b=document.createElement("button");b.className="lqQuestOpen";b.type="button";b.addEventListener("click",open);card.appendChild(b)}
   return {o,b};
  }
@@ -92,18 +93,32 @@
   const id="stage-"+idx,data=JSON.parse(localStorage.getItem("lifesQuestLessons")||"{}");if(data[id])return;data[id]=Date.now();localStorage.setItem("lifesQuestLessons",JSON.stringify(data));
   window.awardQuestXP?.("lesson",20,id,"Completed a money lesson");window.save?.();window.render?.();render();
  }
+ function showDaily(){
+  const {o}=ensure(),box=o.querySelector(".lqDailyCheck"),today=new Date().toISOString().slice(0,10),d=read(),done=!!d.questLedger?.["daily-awareness:"+today];
+  box.innerHTML='<h3>Today’s Money Check-In</h3><p>'+(done?'Today is complete. Come back tomorrow for another daily XP opportunity.':'Log an expense, or confirm that today was intentionally a no-spend day.')+'</p>'+(done?'<button class="lqNoSpend" disabled>CHECK-IN COMPLETE ✓</button>':'<div class="lqDailyCats"><button data-cat="Food">🍴 FOOD</button><button data-cat="Gas">⛽ GAS</button><button data-cat="Entertainment">🎮 FUN</button><button data-cat="Misc">🛒 MISC</button></div><button class="lqNoSpend">✓ NO-SPEND DAY</button>');
+  box.classList.add("on");box.scrollIntoView({behavior:"smooth",block:"center"});
+  box.querySelectorAll("[data-cat]").forEach(btn=>btn.onclick=()=>{o.classList.remove("on");box.classList.remove("on");window.quickAdd?.(btn.dataset.cat)});
+  const noSpend=box.querySelector(".lqNoSpend:not([disabled])");if(noSpend)noSpend.onclick=()=>{window.awardQuestXP?.("daily-awareness",5,today,"Daily no-spend check-in");window.save?.();window.render?.();render();showDaily()};
+ }
+ function handleMission(action){
+  const o=document.getElementById("lqQuestOverlay");
+  if(action==="budget"){o?.classList.remove("on");window.openBudget?.();return}
+  if(action==="daily"){showDaily();return}
+  if(action==="save"){o?.classList.remove("on");window.go?.("goals")}
+ }
  function render(){
   const {o,b}=ensure(),m=metrics(),tasks=[
-   {icon:"🧭",title:"Build your weekly plan",why:"Know what is safe to spend before the week begins.",done:m.budget,state:m.budget?"Complete":"Set budget"},
-   {icon:"✍️",title:"Check in on 3 days",why:"Awareness builds control without requiring perfection.",done:m.dates>=3,state:Math.min(m.dates,3)+"/3 days"},
-   {icon:"🌱",title:"Save toward your future",why:"One intentional deposit keeps your larger goal moving.",done:m.saved,state:m.saved?"Complete":"Not yet"}
+   {icon:"🧭",action:"budget",cta:"SET PLAN",title:"Build your weekly plan",why:"Know what is safe to spend before the week begins.",done:m.budget,state:m.budget?"Complete":"Set budget"},
+   {icon:"✍️",action:"daily",cta:"CHECK IN",title:"Check in on 3 days",why:"Awareness builds control without requiring perfection.",done:m.dates>=3,state:Math.min(m.dates,3)+"/3 days"},
+   {icon:"🌱",action:"save",cta:"ADD SAVINGS",title:"Save toward your future",why:"One intentional deposit keeps your larger goal moving.",done:m.saved,state:m.saved?"Complete":"Not yet"}
   ],done=tasks.filter(x=>x.done).length;
   if(b)b.innerHTML="WEEKLY QUEST · TALK TO "+((VOICES[m.d.type]||VOICES.fire).name).toUpperCase()+" <span>"+done+"/3</span>";
   o.querySelector(".lqQuestProgress i").style.width=(done/3*100)+"%";o.querySelector(".lqQuestProgress p").innerHTML=(done===3?"Quest complete — your consistency moved you forward.":"Complete "+(3-done)+" more mission"+(3-done===1?"":"s")+" to earn 40 Quest XP.")+(awarenessStreak(m.d)>0?'<span class="lqStreak">🔥 '+awarenessStreak(m.d)+' day streak</span>':"");
   const guide=compass(tasks);o.querySelector(".lqCompass").innerHTML='<div class="lqCompassTop"><small>JOURNEY COMPASS</small><span class="lqCompassBadge">'+guide.badge+'</span></div><h3>'+guide.title+'</h3><p>'+guide.why+'</p><div class="lqCompassWhy">✦ One focused action is enough to move forward today.</div>';
   const voice=o.querySelector(".lqVoice");voice.innerHTML=voiceHTML(m.d,tasks);voice.querySelectorAll("[data-talk]").forEach(btn=>btn.onclick=()=>{dialogueMode=btn.dataset.talk;if(navigator.vibrate)navigator.vibrate(12);render()});
   o.querySelector(".lqPath").innerHTML=pathHTML(m.d);
-  o.querySelector(".lqMissions").innerHTML=tasks.map(x=>'<div class="lqMission '+(x.done?"done":"")+'"><div class="lqMissionIcon">'+x.icon+'</div><div><b>'+x.title+'</b><small>'+x.why+'</small></div><div class="lqMissionState">'+(x.done?"✓ ": "")+x.state+'</div></div>').join("");
+  o.querySelector(".lqMissions").innerHTML=tasks.map(x=>'<div class="lqMission '+(x.done?"done":"")+'"><div class="lqMissionIcon">'+x.icon+'</div><div><b>'+x.title+'</b><small>'+x.why+'</small></div>'+(x.done?'<div class="lqMissionState">✓ '+x.state+'</div>':'<button class="lqMissionAction" data-mission="'+x.action+'">'+x.cta+'</button>')+'</div>').join("");
+  o.querySelectorAll("[data-mission]").forEach(btn=>btn.onclick=()=>handleMission(btn.dataset.mission));
   if(done===3&&window.awardQuestXP?.("weekly-quest",40,weekKey(),"Weekly quest complete"))window.save?.()
   const idx=stageIndex(m.d),l=LESSONS[idx],id="stage-"+idx,complete=completedLesson(id);
   const lesson=o.querySelector(".lqLesson");lesson.innerHTML='<div class="lqLessonTag">'+l.stage.toUpperCase()+' LESSON</div><h3>'+l.title+'</h3><p>'+l.body+'</p><p class="lqTakeaway">'+l.takeaway+'</p><button '+(complete?"disabled":"")+'>'+(complete?"Lesson complete ✓":"Complete lesson • +20 XP")+'</button>';
@@ -111,5 +126,6 @@
   o.querySelector(".lqBadgeGrid").innerHTML=achievementData(m.d).map(a=>'<div class="lqBadge '+(a.earned?"earned":"")+'"><div class="lqBadgeIcon">'+(a.earned?a.icon:"🔒")+'</div><b>'+a.name+'</b><small>'+(a.earned?"Earned":a.hint)+'</small></div>').join("");
  }
  function open(){render();document.getElementById("lqQuestOverlay").classList.add("on")}
+ window.LQQuestCenter={open,render,showDaily};
  function boot(){render()}if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();window.addEventListener("pageshow",boot);setInterval(render,2500);
 })();
