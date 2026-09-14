@@ -28,4 +28,4 @@
 
 ;(function(){if(document.querySelector('script[data-lq-evolution]'))return;const s=document.createElement("script");s.src="./evolution-runtime.js?v=106";s.dataset.lqEvolution="true";document.head.appendChild(s)})();
 
-;(function(){if(document.querySelector('script[data-lq-quests]'))return;const s=document.createElement("script");s.src="./quest-center-v110.js?v=111";s.dataset.lqQuests="true";document.head.appendChild(s)})();
+;(function(){if(document.querySelector('script[data-lq-quests]'))return;const s=document.createElement("script");s.src="./quest-center-v110.js?v=112";s.dataset.lqQuests="true";document.head.appendChild(s)})();
