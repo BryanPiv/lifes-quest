@@ -15,15 +15,39 @@
   {stage:"Freedom",title:"Money creates choices",body:"Financial freedom is not only a number. It is the ability to make decisions without immediate financial pressure.",takeaway:"Build wealth around the life you actually want."}
  ];
  const read=()=>{try{return JSON.parse(localStorage.getItem("lifesQuestWeb")||"{}")}catch(e){return {}}};
- const weekStart=()=>{const n=new Date(),d=new Date(n.getFullYear(),n.getMonth(),n.getDate());let diff=(d.getDay()-5+7)%7;d.setDate(d.getDate()-diff);return d};
- const weekKey=()=>{const d=weekStart();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")};
+ const localDay=(date=new Date())=>date.getFullYear()+"-"+String(date.getMonth()+1).padStart(2,"0")+"-"+String(date.getDate()).padStart(2,"0");
+ const weekStart=()=>{const n=new Date(),d=new Date(n.getFullYear(),n.getMonth(),n.getDate()),day=d.getDay()||7;d.setDate(d.getDate()-day+1);return d};
+ const weekKey=()=>localDay(weekStart());
+ const rhythmRead=()=>{try{return JSON.parse(localStorage.getItem("lifesQuestDailyRhythm")||"{}")}catch(e){return {}}};
+ const rhythmWrite=value=>localStorage.setItem("lifesQuestDailyRhythm",JSON.stringify(value));
+ const SAVINGS_INSIGHTS=[
+  {title:"Savings buys breathing room",body:"Even a small cushion gives you time to think before turning an unexpected bill into debt."},
+  {title:"Consistency beats intensity",body:"A smaller amount saved every week usually builds more security than waiting for a perfect month."},
+  {title:"Pay yourself first",body:"Savings grows more reliably when it is treated like a bill owed to your future self."},
+  {title:"Emergency funds protect choices",body:"Cash reserves help you solve a problem without sacrificing a goal or relying immediately on credit."},
+  {title:"A goal gives money direction",body:"Savings becomes easier to protect when every dollar is connected to something meaningful."},
+  {title:"Small gaps become large gains",body:"Finding one repeat expense to reduce can create a permanent stream of money toward your future."},
+  {title:"Automation removes friction",body:"An automatic transfer makes progress before daily decisions have a chance to compete with it."},
+  {title:"Progress creates confidence",body:"Watching your reserve grow changes how financial surprises feel, even before the goal is complete."},
+  {title:"Saving is future flexibility",body:"Money set aside is not unused—it is purchasing options for the person you will be later."},
+  {title:"Protect the first milestone",body:"Your first $500 can prevent a common surprise from becoming a long-term balance."},
+  {title:"Build in layers",body:"Start with one protected week, then one month, and eventually several months of essential expenses."},
+  {title:"Raise savings with income",body:"Directing part of every raise toward savings improves your future without reducing today’s lifestyle."},
+  {title:"Separate goals reduce temptation",body:"Dedicated balances for emergencies, travel, and major purchases make each goal easier to understand."},
+  {title:"A budget makes saving possible",body:"Knowing what is safe to spend turns saving from a hope into a repeatable decision."},
+  {title:"Your reserve protects your time",body:"Savings can give you space to change jobs, handle illness, or help family without immediate panic."},
+  {title:"Every deposit is a vote",body:"Each amount saved is a vote for more stability, more freedom, and more control over your future."}
+ ];
+ const weeklyInsight=()=>{const start=weekStart(),weekNumber=Math.floor(start.getTime()/604800000);return SAVINGS_INSIGHTS[Math.abs(weekNumber)%SAVINGS_INSIGHTS.length]};
  const level=d=>Math.max(1,Math.floor(+(d.companionProgress?.[d.type]||0)/100)+1,+d.level||1);
  const stageIndex=d=>{const l=level(d);return l>=35?4:l>=20?3:l>=10?2:l>=5?1:0};
  function metrics(){
-  const d=read(),start=weekStart(),dates=new Set((d.expenses||[]).filter(x=>new Date((x.date||"")+"T12:00:00")>=start).map(x=>x.date));
-  Object.keys(d.questLedger||{}).filter(k=>k.startsWith("daily-awareness:")).map(k=>k.split(":")[1]).filter(Boolean).forEach(day=>{if(new Date(day+"T12:00:00")>=start)dates.add(day)});
-  const saved=!!d.questLedger?.["weekly-saving:"+weekKey()];
-  return {d,dates:dates.size,budget:+d.allowance>0,saved};
+  const d=read(),start=weekStart(),end=new Date(start);end.setDate(end.getDate()+7);
+  const rhythm=rhythmRead(),todayKey=localDay(),today={...(rhythm[todayKey]||{})};
+  const hasExpense=(d.expenses||[]).some(x=>x.date===todayKey),hasNoSpend=!!d.questLedger?.["no-spend:"+todayKey];
+  if(hasExpense||hasNoSpend)today.awareness=true;
+  const weeklyDays=Object.entries(rhythm).filter(([day,state])=>{const when=new Date(day+"T12:00:00");return when>=start&&when<end&&state?.completed}).length;
+  return {d,rhythm,todayKey,today,weeklyDays,insight:weeklyInsight()};
  }
  function styles(){
   if(document.getElementById("lqQuestCenterStyles"))return;const s=document.createElement("style");s.id="lqQuestCenterStyles";s.textContent=`
@@ -37,7 +61,7 @@
 .lqAchievements{margin-top:16px}.lqAchievements h3{font:800 17px Georgia,serif;margin:0 0 9px}.lqBadgeGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.lqBadge{min-height:82px;padding:10px 5px;border-radius:14px;text-align:center;background:#071d30;border:1px solid #ffffff14;opacity:.43;filter:saturate(.35)}.lqBadge.earned{opacity:1;filter:none;border-color:#e3bd5c55;background:linear-gradient(180deg,#15354b,#092439)}.lqBadgeIcon{font-size:23px}.lqBadge b{display:block;font-size:8px;margin-top:5px}.lqBadge small{display:block;color:#8fa8b9;font-size:7px;margin-top:3px}.lqBadge.earned small{color:#70dfa0}
 .lqStreak{display:inline-flex;align-items:center;gap:5px;margin-left:6px;color:#ffb34e;font-size:9px;font-weight:900}
 .lqVoice{margin:13px 0;padding:14px;border-radius:19px;background:linear-gradient(145deg,#0e304b,#071e31);border:1px solid #71d9f344}.lqVoiceTop{display:grid;grid-template-columns:62px 1fr;gap:12px;align-items:center}.lqVoiceAvatar{width:62px;height:62px;border-radius:17px;background-image:url("assets/characters/evolution-atlas-v105.png?v=105");background-size:500% 500%;background-repeat:no-repeat;background-color:#071a2a;border:1px solid #ffffff25;box-shadow:0 8px 20px #0005}.lqVoiceMeta small{font-size:8px;letter-spacing:.14em;color:#77e5ff;font-weight:900}.lqVoiceMeta b{display:block;font:800 19px Georgia,serif;color:#f4cf71;margin-top:2px}.lqSpeech{position:relative;margin:12px 0 10px;padding:12px 13px;border-radius:14px;background:#061725;color:#d9e6ee;font:italic 11px/1.55 Georgia,serif}.lqSpeech:before{content:"";position:absolute;top:-7px;left:24px;width:14px;height:14px;background:#061725;transform:rotate(45deg)}.lqTalkActions{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.lqTalkActions button{border:1px solid #ffffff21;border-radius:11px;padding:9px 4px;background:#0a2940;color:#bcd0dc;font-size:8px;font-weight:900}.lqTalkActions button.on{border-color:#f1c7638a;background:#423717;color:#f6d77f}
-.lqMission{display:grid;grid-template-columns:38px 1fr auto;align-items:center;gap:10px;margin:8px 0;padding:12px;border-radius:16px;background:#092a43;border:1px solid #ffffff17}.lqMission.done{border-color:#61df9680;background:linear-gradient(180deg,#0b3a43,#082b3d)}.lqMissionIcon{width:36px;height:36px;border-radius:12px;display:grid;place-items:center;background:#061c2e;font-size:18px}.lqMission b{font-size:12px}.lqMission small{display:block;color:#9eb5c5;font-size:9px;margin-top:3px;line-height:1.35}.lqMissionState{font-size:10px;font-weight:900;color:#f2c966}.lqMission.done .lqMissionState{color:#69e59c}.lqMissionAction{border:1px solid #f1c76388;border-radius:9px;padding:7px 8px;background:#4a3a16;color:#f5d474;font-size:7px;font-weight:900}.lqDailyCheck{display:none;margin:10px 0;padding:14px;border-radius:18px;background:#061827;border:1px solid #68dff05c}.lqDailyCheck.on{display:block}.lqDailyCheck h3{font:800 17px Georgia,serif;margin:0 0 4px}.lqDailyCheck p{font-size:9px;color:#a9bfcc;margin:0 0 10px}.lqDailyCats{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}.lqDailyCats button,.lqNoSpend{border:1px solid #ffffff21;border-radius:10px;padding:9px 3px;background:#0a2940;color:#fff;font-size:8px;font-weight:900}.lqNoSpend{width:100%;margin-top:7px;border-color:#65df9780;background:#103c39;color:#7ce9aa}
+.lqMission{display:grid;grid-template-columns:38px 1fr auto;align-items:center;gap:10px;margin:8px 0;padding:12px;border-radius:16px;background:#092a43;border:1px solid #ffffff17}.lqMission.done{border-color:#61df9680;background:linear-gradient(180deg,#0b3a43,#082b3d)}.lqMissionIcon{width:36px;height:36px;border-radius:12px;display:grid;place-items:center;background:#061c2e;font-size:18px}.lqMission b{font-size:12px}.lqMission small{display:block;color:#9eb5c5;font-size:9px;margin-top:3px;line-height:1.35}.lqMissionState{font-size:10px;font-weight:900;color:#f2c966}.lqMission.done .lqMissionState{color:#69e59c}.lqMissionAction{border:1px solid #f1c76388;border-radius:9px;padding:7px 8px;background:#4a3a16;color:#f5d474;font-size:7px;font-weight:900}.lqDailyCheck{display:none;margin:10px 0;padding:14px;border-radius:18px;background:#061827;border:1px solid #68dff05c}.lqDailyCheck.on{display:block}.lqDailyCheck h3{font:800 19px Georgia,serif;margin:0 0 3px}.lqDailyCheck>p{font-size:9px;color:#a9bfcc;margin:0 0 11px}.lqDailyTask{margin:8px 0;padding:11px;border-radius:15px;background:#092a43;border:1px solid #ffffff18}.lqDailyTask.done{border-color:#61df9670;background:#0a383e}.lqDailyTaskHead{display:flex;gap:8px;align-items:center}.lqDailyTaskIcon{width:31px;height:31px;border-radius:10px;display:grid;place-items:center;background:#061827}.lqDailyTaskHead b{font-size:11px}.lqDailyTaskHead small{display:block;color:#8faabd;font-size:8px;margin-top:2px}.lqDailyTask.done .lqDailyTaskHead small{color:#70e6a1}.lqDailyCats{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:9px}.lqDailyCats button,.lqDailyDone,.lqNoSpend{border:1px solid #ffffff21;border-radius:10px;padding:9px 3px;background:#0a2940;color:#fff;font-size:8px;font-weight:900}.lqNoSpend,.lqDailyDone{width:100%;margin-top:7px;border-color:#65df9780;background:#103c39;color:#7ce9aa}.lqInsightCopy{margin:9px 0 0;padding:10px;border-radius:11px;background:#061827;color:#c8d9e3;font:italic 10px/1.5 Georgia,serif}.lqDailyReward{margin-top:10px;padding:10px;border-radius:13px;text-align:center;background:linear-gradient(135deg,#503d16,#183846);color:#f4d476;font-size:9px;font-weight:900}.lqWeekDots{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:8px}.lqWeekDot{text-align:center;font-size:7px;color:#7892a4}.lqWeekDot i{display:grid;place-items:center;width:25px;height:25px;margin:0 auto 3px;border-radius:50%;background:#061827;border:1px solid #29485e;font-style:normal}.lqWeekDot.done i{background:#175044;border-color:#69e39b;color:#8af0b2}.lqWeekDot.today i{border-color:#f2ca67;color:#f2ca67}
 .lqLesson{margin-top:15px;padding:16px;border-radius:19px;background:radial-gradient(circle at 100% 0,#3b629055,transparent 35%),linear-gradient(180deg,#142f55,#0b2039);border:1px solid #8cadcf55}.lqLessonTag{font-size:9px;letter-spacing:.15em;color:#73e3ff;font-weight:900}.lqLesson h3{font:800 20px Georgia,serif;margin:6px 0}.lqLesson p{font-size:11px;color:#c4d4df;line-height:1.55}.lqTakeaway{padding:10px;border-radius:12px;background:#061827;color:#f3cf78!important}.lqLesson button{width:100%;border:0;border-radius:13px;padding:12px;background:linear-gradient(#f7dc8c,#dba947);font-weight:900;color:#142438}.lqLesson button:disabled{background:#315269;color:#a9c0ce}
 `;document.head.appendChild(s)}
  function ensure(){
@@ -93,39 +117,65 @@
   const id="stage-"+idx,data=JSON.parse(localStorage.getItem("lifesQuestLessons")||"{}");if(data[id])return;data[id]=Date.now();localStorage.setItem("lifesQuestLessons",JSON.stringify(data));
   window.awardQuestXP?.("lesson",20,id,"Completed a money lesson");window.save?.();window.render?.();render();
  }
+ function saveRhythm(day,state){
+  const all=rhythmRead();all[day]=state;rhythmWrite(all);
+ }
+ function maybeCompleteDaily(day){
+  const all=rhythmRead(),state=all[day]||{};
+  if(state.awareness&&state.budget&&state.insight&&!state.completed){
+    state.completed=true;state.completedAt=Date.now();all[day]=state;rhythmWrite(all);
+    window.awardQuestXP?.("daily-checkin",5,day,"Completed all 3 daily check-ins");window.save?.();window.render?.();
+  }
+  const start=weekStart(),end=new Date(start);end.setDate(end.getDate()+7);
+  const count=Object.entries(all).filter(([key,value])=>{const when=new Date(key+"T12:00:00");return when>=start&&when<end&&value?.completed}).length;
+  if(count>=5){window.awardQuestXP?.("weekly-consistency",40,weekKey(),"Completed 5 of 7 daily check-ins");window.save?.();window.render?.()}
+ }
+ function markDaily(part){
+  const day=localDay(),all=rhythmRead(),state={...(all[day]||{})};state[part]=true;all[day]=state;rhythmWrite(all);maybeCompleteDaily(day);render();showDaily();
+ }
+ function recordAwareness(day=localDay()){
+  const all=rhythmRead(),state={...(all[day]||{})};state.awareness=true;all[day]=state;rhythmWrite(all);maybeCompleteDaily(day);
+ }
+ function weekDots(m){
+  const labels=["M","T","W","T","F","S","S"],start=weekStart(),all=rhythmRead();
+  return '<div class="lqWeekDots">'+labels.map((label,i)=>{const date=new Date(start);date.setDate(start.getDate()+i);const key=localDay(date),done=!!all[key]?.completed;return '<div class="lqWeekDot '+(done?"done ":"")+(key===m.todayKey?"today":"")+'"><i>'+(done?"✓":i+1)+'</i>'+label+'</div>'}).join("")+'</div>';
+ }
  function showDaily(){
-  const {o}=ensure(),box=o.querySelector(".lqDailyCheck"),today=new Date().toISOString().slice(0,10),d=read(),done=!!d.questLedger?.["daily-awareness:"+today];
-  box.innerHTML='<h3>Today’s Money Check-In</h3><p>'+(done?'Today is complete. Come back tomorrow for another daily XP opportunity.':'Log an expense, or confirm that today was intentionally a no-spend day.')+'</p>'+(done?'<button class="lqNoSpend" disabled>CHECK-IN COMPLETE ✓</button>':'<div class="lqDailyCats"><button data-cat="Food">🍴 FOOD</button><button data-cat="Gas">⛽ GAS</button><button data-cat="Entertainment">🎮 FUN</button><button data-cat="Misc">🛒 MISC</button></div><button class="lqNoSpend">✓ NO-SPEND DAY</button>');
+  const {o}=ensure(),box=o.querySelector(".lqDailyCheck"),m=metrics(),state=m.today,remaining=m.d.allowance>0?Math.max(0,m.d.allowance-(m.d.expenses||[]).filter(x=>{const when=new Date((x.date||"")+"T12:00:00");return when>=weekStart()}).reduce((sum,x)=>sum+(+x.amount||0),0)):0;
+  const awareness=state.awareness?'<button class="lqDailyDone" disabled>MONEY CHECK COMPLETE ✓</button>':'<div class="lqDailyCats"><button data-cat="Food">🍴 FOOD</button><button data-cat="Gas">⛽ GAS</button><button data-cat="Entertainment">🎮 FUN</button><button data-cat="Misc">🛒 MISC</button></div><button class="lqNoSpend" data-no-spend>✓ NO-SPEND DAY</button>';
+  box.innerHTML='<h3>Today’s 3-Step Check-In</h3><p>Complete all three small actions to earn +5 Quest XP today.</p>'+
+   '<div class="lqDailyTask '+(state.awareness?"done":"")+'"><div class="lqDailyTaskHead"><span class="lqDailyTaskIcon">✍️</span><div><b>1. Money awareness</b><small>'+(state.awareness?"Complete":"Log spending or confirm a no-spend day")+'</small></div></div>'+awareness+'</div>'+
+   '<div class="lqDailyTask '+(state.budget?"done":"")+'"><div class="lqDailyTaskHead"><span class="lqDailyTaskIcon">📊</span><div><b>2. Review your weekly budget</b><small>'+(m.d.allowance>0?"$"+remaining.toFixed(0)+" currently available":"No weekly budget has been set")+'</small></div></div>'+(state.budget?'<button class="lqDailyDone" disabled>BUDGET REVIEWED ✓</button>':'<button class="lqDailyDone" data-review-budget>I REVIEWED MY BUDGET</button>')+'</div>'+
+   '<div class="lqDailyTask '+(state.insight?"done":"")+'"><div class="lqDailyTaskHead"><span class="lqDailyTaskIcon">🌱</span><div><b>3. This week’s savings insight</b><small>'+m.insight.title+'</small></div></div><div class="lqInsightCopy">'+m.insight.body+'</div>'+(state.insight?'<button class="lqDailyDone" disabled>INSIGHT COMPLETE ✓</button>':'<button class="lqDailyDone" data-read-insight>I UNDERSTAND WHY THIS MATTERS</button>')+'</div>'+
+   '<div class="lqDailyReward">'+(state.completed?"TODAY COMPLETE · +5 XP EARNED":"FINISH "+(3-[state.awareness,state.budget,state.insight].filter(Boolean).length)+" MORE TO EARN +5 XP")+'</div>'+weekDots(m);
   box.classList.add("on");box.scrollIntoView({behavior:"smooth",block:"center"});
   box.querySelectorAll("[data-cat]").forEach(btn=>btn.onclick=()=>{o.classList.remove("on");box.classList.remove("on");window.quickAdd?.(btn.dataset.cat)});
-  const noSpend=box.querySelector(".lqNoSpend:not([disabled])");if(noSpend)noSpend.onclick=()=>{window.awardQuestXP?.("daily-awareness",5,today,"Daily no-spend check-in");window.save?.();window.render?.();render();showDaily()};
+  box.querySelector("[data-no-spend]")?.addEventListener("click",()=>{const day=localDay();window.awardQuestXP?.("no-spend",0,day,"No-spend day recorded");window.save?.();recordAwareness(day);render();showDaily()});
+  box.querySelector("[data-review-budget]")?.addEventListener("click",()=>markDaily("budget"));
+  box.querySelector("[data-read-insight]")?.addEventListener("click",()=>markDaily("insight"));
  }
- function handleMission(action){
-  const o=document.getElementById("lqQuestOverlay");
-  if(action==="budget"){o?.classList.remove("on");window.openBudget?.();return}
-  if(action==="daily"){showDaily();return}
-  if(action==="save"){o?.classList.remove("on");window.go?.("goals")}
- }
+ function handleMission(){showDaily()}
  function render(){
   const {o,b}=ensure(),m=metrics(),tasks=[
-   {icon:"🧭",action:"budget",cta:"SET PLAN",title:"Build your weekly plan",why:"Know what is safe to spend before the week begins.",done:m.budget,state:m.budget?"Complete":"Set budget"},
-   {icon:"✍️",action:"daily",cta:"CHECK IN",title:"Check in on 3 days",why:"Awareness builds control without requiring perfection.",done:m.dates>=3,state:Math.min(m.dates,3)+"/3 days"},
-   {icon:"🌱",action:"save",cta:"ADD SAVINGS",title:"Save toward your future",why:"One intentional deposit keeps your larger goal moving.",done:m.saved,state:m.saved?"Complete":"Not yet"}
+   {icon:"✍️",action:"daily",cta:"CHECK IN",title:"Money awareness",why:"Log spending or intentionally record a no-spend day.",done:!!m.today.awareness,state:m.today.awareness?"Complete":"Not yet"},
+   {icon:"📊",action:"daily",cta:"REVIEW",title:"Budget pulse",why:"Look at what remains before making the next spending decision.",done:!!m.today.budget,state:m.today.budget?"Complete":"Not yet"},
+   {icon:"🌱",action:"daily",cta:"READ",title:"Savings insight",why:m.insight.title,done:!!m.today.insight,state:m.today.insight?"Complete":"Not yet"}
   ],done=tasks.filter(x=>x.done).length;
-  if(b)b.innerHTML="WEEKLY QUEST · TALK TO "+((VOICES[m.d.type]||VOICES.fire).name).toUpperCase()+" <span>"+done+"/3</span>";
-  o.querySelector(".lqQuestProgress i").style.width=(done/3*100)+"%";o.querySelector(".lqQuestProgress p").innerHTML=(done===3?"Quest complete — your consistency moved you forward.":"Complete "+(3-done)+" more mission"+(3-done===1?"":"s")+" to earn 40 Quest XP.")+(awarenessStreak(m.d)>0?'<span class="lqStreak">🔥 '+awarenessStreak(m.d)+' day streak</span>':"");
-  const guide=compass(tasks);o.querySelector(".lqCompass").innerHTML='<div class="lqCompassTop"><small>JOURNEY COMPASS</small><span class="lqCompassBadge">'+guide.badge+'</span></div><h3>'+guide.title+'</h3><p>'+guide.why+'</p><div class="lqCompassWhy">✦ One focused action is enough to move forward today.</div>';
+  if(b)b.innerHTML="DAILY CHECK-IN · "+m.weeklyDays+"/5 DAYS <span>"+done+"/3</span>";
+  o.querySelector(".lqQuestProgress i").style.width=(done/3*100)+"%";
+  o.querySelector(".lqQuestProgress p").innerHTML=(m.today.completed?"Today complete — +5 Quest XP earned.":"Complete "+(3-done)+" more daily action"+(3-done===1?"":"s")+" for +5 XP.")+'<span class="lqStreak">🏆 '+m.weeklyDays+'/5 toward +40 weekly XP</span>';
+  const guide=compass(tasks);o.querySelector(".lqCompass").innerHTML='<div class="lqCompassTop"><small>THIS WEEK’S SAVINGS IDEA</small><span class="lqCompassBadge">'+(m.weeklyDays>=5?"BONUS EARNED":"5 OF 7 DAYS")+'</span></div><h3>'+m.insight.title+'</h3><p>'+m.insight.body+'</p><div class="lqCompassWhy">✦ A new savings insight appears every Monday.</div>'+weekDots(m);
   const voice=o.querySelector(".lqVoice");voice.innerHTML=voiceHTML(m.d,tasks);voice.querySelectorAll("[data-talk]").forEach(btn=>btn.onclick=()=>{dialogueMode=btn.dataset.talk;if(navigator.vibrate)navigator.vibrate(12);render()});
   o.querySelector(".lqPath").innerHTML=pathHTML(m.d);
-  o.querySelector(".lqMissions").innerHTML=tasks.map(x=>'<div class="lqMission '+(x.done?"done":"")+'"><div class="lqMissionIcon">'+x.icon+'</div><div><b>'+x.title+'</b><small>'+x.why+'</small></div>'+(x.done?'<div class="lqMissionState">✓ '+x.state+'</div>':'<button class="lqMissionAction" data-mission="'+x.action+'">'+x.cta+'</button>')+'</div>').join("");
-  o.querySelectorAll("[data-mission]").forEach(btn=>btn.onclick=()=>handleMission(btn.dataset.mission));
-  if(done===3&&window.awardQuestXP?.("weekly-quest",40,weekKey(),"Weekly quest complete"))window.save?.()
+  o.querySelector(".lqMissions").innerHTML=tasks.map(x=>'<div class="lqMission '+(x.done?"done":"")+'"><div class="lqMissionIcon">'+x.icon+'</div><div><b>'+x.title+'</b><small>'+x.why+'</small></div>'+(x.done?'<div class="lqMissionState">✓</div>':'<button class="lqMissionAction" data-mission="'+x.action+'">'+x.cta+'</button>')+'</div>').join("");
+  o.querySelectorAll("[data-mission]").forEach(btn=>btn.onclick=showDaily);
+  if(m.weeklyDays>=5){window.awardQuestXP?.("weekly-consistency",40,weekKey(),"Completed 5 of 7 daily check-ins");window.save?.()}
   const idx=stageIndex(m.d),l=LESSONS[idx],id="stage-"+idx,complete=completedLesson(id);
   const lesson=o.querySelector(".lqLesson");lesson.innerHTML='<div class="lqLessonTag">'+l.stage.toUpperCase()+' LESSON</div><h3>'+l.title+'</h3><p>'+l.body+'</p><p class="lqTakeaway">'+l.takeaway+'</p><button '+(complete?"disabled":"")+'>'+(complete?"Lesson complete ✓":"Complete lesson • +20 XP")+'</button>';
   lesson.querySelector("button").onclick=()=>finishLesson(idx);
   o.querySelector(".lqBadgeGrid").innerHTML=achievementData(m.d).map(a=>'<div class="lqBadge '+(a.earned?"earned":"")+'"><div class="lqBadgeIcon">'+(a.earned?a.icon:"🔒")+'</div><b>'+a.name+'</b><small>'+(a.earned?"Earned":a.hint)+'</small></div>').join("");
  }
  function open(){render();document.getElementById("lqQuestOverlay").classList.add("on")}
- window.LQQuestCenter={open,render,showDaily};
+ window.LQQuestCenter={open,render,showDaily,recordAwareness};
  function boot(){render()}if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();window.addEventListener("pageshow",boot);setInterval(render,2500);
 })();
