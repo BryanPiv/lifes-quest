@@ -2154,7 +2154,7 @@ body.journey-active #app>.nav button.on{
   #journey #lqLiveCharacter{width:28.5%!important}
   body.journey-active #app>.nav{height:62px!important}
 }
-</style><link rel="stylesheet" href="./world-runtime.css?v=102"><link rel="stylesheet" href="./compositor-runtime.css?v=102"><link rel="stylesheet" href="./lab-ui.css?v=85"><link rel="stylesheet" href="./dashboard-premium.css?v=86"><link rel="stylesheet" href="./dashboard-stable.css?v=87"><link rel="stylesheet" href="./journey-live-v93.css?v=102"></head>
+</style><link rel="stylesheet" href="./world-runtime.css?v=103"><link rel="stylesheet" href="./compositor-runtime.css?v=103"><link rel="stylesheet" href="./lab-ui.css?v=85"><link rel="stylesheet" href="./dashboard-premium.css?v=86"><link rel="stylesheet" href="./dashboard-stable.css?v=87"><link rel="stylesheet" href="./journey-live-v93.css?v=103"></head>
 <body><div class="phone"><script>document.documentElement.dataset.lqBoot="welcome";</script>
 <div id="welcome" class="welcome">
   <button id="frontSettingsBtn" type="button" aria-label="Open Settings" onclick="return openSettingsFromWelcome(event)" style="position:fixed!important;top:calc(env(safe-area-inset-top,0px) + 10px)!important;right:12px!important;left:auto!important;bottom:auto!important;z-index:2147483647!important;width:48px!important;height:48px!important;border-radius:50%!important;border:2px solid #ffe08a!important;background:linear-gradient(145deg,#0b5ba5,#06284d)!important;color:#ffe08a!important;font-size:23px!important;display:grid!important;place-items:center!important;padding:0!important;box-shadow:0 10px 28px rgba(0,0,0,.5),0 0 0 4px rgba(213,31,53,.18)!important;pointer-events:auto!important;-webkit-appearance:none!important;">⚙️</button>
@@ -2163,7 +2163,7 @@ body.journey-active #app>.nav button.on{
   <div id="welcomePet" class="welcomePet"></div>
   <div class="welcomeCopy">
     <h2>Begin Your Journey</h2>
-    <p>Build better money habits, grow your companion, and climb toward the life you want—one choice at a time.</p>
+    <p>Build financial freedom, evolve your companion, and give your future self more choices—one small step at a time.</p>
     <button id="beginJourneyBtn" class="btn goldbtn full welcomeBtn">Begin Your Journey</button>
   </div>
 </div>
@@ -2171,11 +2171,11 @@ body.journey-active #app>.nav button.on{
 <div id="goalOnboarding" class="goalOnboard hidden">
   <div class="goalOnboardHead">
     <div class="brand">Life's Quest</div>
-    <h2>Let's Find Your Goals</h2>
-    <p>You shouldn't have to guess a number. We'll help turn your life plans and bills into useful savings targets.</p>
+    <h2>What Does Freedom Mean to You?</h2>
+    <p>Your goals give every dollar a purpose. We’ll turn your plans and bills into clear savings targets.</p>
   </div>
 
-  <div class="tipCard"><div class="tipIcon">🧭</div><div><b>Start with purpose</b><p>A good savings goal should answer one question: what do I want this money to do for me?</p></div></div>
+  <div class="tipCard"><div class="tipIcon">🧭</div><div><b>Build choices for your future</b><p>Saving is not about having less today. It is about giving your future self more safety, time, and possibility.</p></div></div>
 
   <div class="onboardGoals">
     <div class="onboardGoal">
@@ -2189,9 +2189,9 @@ body.journey-active #app>.nav button.on{
     </div>
 
     <div class="onboardGoal">
-      <div class="onboardGoalTop"><div class="onboardGoalIcon">🛡️</div><div class="onboardGoalMain"><b>Emergency Fund</b><small>Life's Quest calculates this for you from your recurring bills.</small></div></div>
-      <div class="recommendBadge">🧮 Recommended: 3× your monthly bills</div>
-      <div id="emergencyRecommendation" class="goalExplain">Add your recurring bills and we'll automatically calculate your emergency-fund target.</div>
+      <div class="onboardGoalTop"><div class="onboardGoalIcon">🛡️</div><div class="onboardGoalMain"><b>Emergency Fund</b><small>Life's Quest turns your essential expenses into a personal safety target.</small></div></div>
+      <div class="recommendBadge">🧮 Recommended: 3× your essential monthly expenses</div>
+      <div id="emergencyRecommendation" class="goalExplain">Add your bills and expenses and we'll calculate how much Freedom Time they can protect.</div>
     </div>
   </div>
 
@@ -2270,12 +2270,14 @@ body.journey-active #app>.nav button.on{
 <div class="reportTotal"><span id="reportRangeLabel">This Month</span><b id="reportRangeTotal">$0</b></div>
 <div class="sectionhead" style="padding:2px 0 5px"><h3>By Category</h3></div><div id="expenseSummaryGrid" class="expenseSummaryGrid"></div><div class="sectionhead" style="padding:2px 0 7px"><h3>Transactions</h3></div><div id="expenseList" class="transactionCard"></div></div></section>
 <section id="goals" class="page">
-  <div class="top"><div><div class="brand">Goals</div><div class="muted">Pick the goal and date. We'll do the math.</div></div></div>
+  <div class="top"><div><div class="brand">Build Your Freedom</div><div class="muted">Turn today’s choices into safety, time, and possibility.</div></div></div>
   <div class="simpleGoals">
     <div class="autoGoalCard">
       <b>🛡️ Emergency Fund</b>
-      <p>Life's Quest automatically recommends 3× your monthly recurring bills.</p>
+      <p>This safety fund powers your Freedom Time and protects your future when life changes.</p>
       <div id="simpleEmergencyTarget" class="autoGoalValue">Add bills to calculate your target.</div>
+      <div id="simpleEmergencySaved" class="autoGoalSaved">$0 saved • 0 days protected</div>
+      <button id="addEmergencySavingsBtn" class="autoGoalAction">+ Add Safety Savings</button>
     </div>
     <div class="goalCreateCard">
       <h3>What are you saving for?</h3>
@@ -2302,7 +2304,7 @@ body.journey-active #app>.nav button.on{
 <div class="premiumJourney">
   <div class="pjTop">
     <div class="pjLogo"><span>Life's</span> <em>Quest</em><small>SMALL STEPS. A BRIGHTER TOMORROW.</small></div>
-    <div class="pjLevel"><b>Level <span id="pjLevelNum">1</span></b><div class="bar"><i id="pjXpBar" style="width:0%"></i></div><div id="pjXpText" class="tiny">0 / 100 XP</div></div>
+    <div class="pjLevel"><b>Level <span id="pjLevelNum">1</span></b><div class="bar"><i id="pjXpBar" style="width:0%"></i></div><div id="pjXpText" class="tiny">0 / 100 XP</div><div id="pjEvolutionText" class="pjEvolutionText">Awareness • Form 1</div></div>
   </div>
   <button id="journeySettingsBtn" class="settingsBtn pjGear" aria-label="Settings">⚙️</button>
   <div class="pjScene">
@@ -2314,7 +2316,7 @@ body.journey-active #app>.nav button.on{
     <img class="lqLayer lqForeground" data-scene-slot="foreground" src="assets/journey/premium-v101/foreground.png?v=101" alt="">
     <div class="lqAtmosphere"></div>
   </div>
-    <div class="pjCompanionCard"><div class="eyebrow">YOUR COMPANION</div><div id="pjCompanionName" class="pjCompanionName">Ember</div><div id="pjCompanionType" class="pjType">🔥 FIRE</div><div class="pjQuote">“Discipline fuels greatness.”</div></div>
+    <div class="pjCompanionCard"><div class="eyebrow">YOUR FUTURE COMPANION</div><div id="pjCompanionName" class="pjCompanionName">Ember</div><div id="pjCompanionType" class="pjType">🔥 FIRE</div><div id="pjQuote" class="pjQuote">“Awareness begins the climb.”</div></div>
     <div class="pjTrail">
       <svg class="pjPath" viewBox="0 0 190 390" preserveAspectRatio="none" aria-hidden="true">
   <defs>
@@ -2334,13 +2336,18 @@ body.journey-active #app>.nav button.on{
   <path d="M108 365 C132 330 133 300 114 270 C94 238 96 209 122 179 C143 154 142 124 121 96 C105 75 110 47 133 23"
         fill="none" stroke="url(#questTrailV45)" stroke-width="6" stroke-linecap="round" filter="url(#questTrailGlowV45)"/>
 </svg>
-      <div class="pjMilestone m1">BUILD<br>HABITS</div><div class="pjMilestone m2">GAIN<br>CONTROL</div><div class="pjMilestone m3" aria-hidden="true"></div><div class="pjMilestone m4">CREATE<br>FREEDOM</div><div class="pjMilestone m5">BRIGHTER<br>SELF</div>
+      <div class="pjMilestone m1">BUILD<br>STABILITY</div><div class="pjMilestone m2">GAIN<br>SECURITY</div><div class="pjMilestone m3" aria-hidden="true"></div><div class="pjMilestone m4">GROW<br>WEALTH</div><div class="pjMilestone m5">FREEDOM<br>SUMMIT</div>
       <div class="pjNode n1">1</div><div class="pjNode n2 locked">5</div><div class="pjNode n3 locked">10</div><div class="pjNode n4 locked">15</div><div class="pjNode n5 locked">20</div>
     </div>
     <div class="pjSummitGlow" aria-hidden="true"></div>
-    <div class="pjTagline">A More Mindful<br>You Awaits</div>
+    <div class="pjTagline">Your Financial<br>Freedom Awaits</div>
   </div>
   <div class="pjPanel pjBudget"><div class="pjBudgetIcon">🪙</div><div class="pjBudgetMain"><b>WEEKLY BUDGET</b><div class="bar"><i id="journeyBudgetBar" style="width:0%"></i></div><div id="journeyWeekSpent" class="tiny">No weekly budget yet</div></div><button id="editBudgetBtn" class="btn ghost" style="padding:9px 11px;white-space:nowrap">Set Budget</button></div>
+  <button class="pjFreedom" data-nav-direct="goals" aria-label="Open goals and Freedom Time">
+    <div class="pjFreedomShield">🛡️</div>
+    <div class="pjFreedomMain"><span id="pjFreedomStage">BUILDING STABILITY</span><b id="pjFreedomDays">0 days protected</b><div class="pjFreedomBar"><i id="pjFreedomBar" style="width:0%"></i></div><small id="pjFreedomHint">Add monthly expenses to calculate your Freedom Time</small></div>
+    <div class="pjFreedomArrow">›</div>
+  </button>
   <div class="pjQuickTitle">QUICK ADD EXPENSE</div>
   <div class="pjQuick">
     <button data-journey-quick="Food"><div class="icon">🍴</div><b>Food</b></button>
@@ -2649,7 +2656,7 @@ function startQuest(){
  q("app").classList.add("hidden");
 }
 function recommendedEmergencyGoal(){
- return recurringMonthlyTotal()*3;
+ return Math.max(recurringMonthlyTotal(),estimatedMonthlyTotal())*3;
 }
 function recommendedInvestingGoal(){
  const per=+(d.savingsPerPaycheck||0);
@@ -2667,7 +2674,7 @@ function updateGoalFinder(){
  document.querySelectorAll("[data-vacation-tier]").forEach(b=>b.classList.toggle("sel",b.dataset.vacationTier===vac));
  if(q("vacationRecommendation"))q("vacationRecommendation").textContent=money(targets[vac]||2500);
  const emergency=recommendedEmergencyGoal();
- if(q("emergencyRecommendation"))q("emergencyRecommendation").textContent=emergency>0?"Based on your bills, your current target is "+money(emergency)+".":"Add your recurring bills and we'll automatically calculate your emergency-fund target.";
+ if(q("emergencyRecommendation"))q("emergencyRecommendation").textContent=emergency>0?"Your three-month safety target is "+money(emergency)+".":"Add your bills and expenses and we'll calculate how much Freedom Time they can protect.";
  const investing=recommendedInvestingGoal();
  if(q("investingRecommendation"))q("investingRecommendation").textContent=investing>0?"Based on your paycheck savings plan, your yearly target is "+money(investing)+".":"Once you choose a savings amount per paycheck, we'll turn it into a yearly target.";
 }
@@ -2692,6 +2699,20 @@ function estimatedMonthlyTotal(){
  const base=["housing","car","insurance","utilities","debt","subscriptions","food","gas","entertainment","other"].reduce((sum,k)=>sum+(+e[k]||0),0);
  const extras=(e.additionalBills||[]).reduce((sum,b)=>sum+(+b.amount||0),0);
  return base+extras;
+}
+function freedomSnapshot(){
+ const monthly=Math.max(recurringMonthlyTotal(),estimatedMonthlyTotal());
+ const saved=+(d.goals?.Emergency?.saved||0);
+ if(!(monthly>0))return {monthly:0,saved,days:0,next:1,progress:0,stage:"BUILD CLARITY",hint:"Add monthly expenses to calculate your Freedom Time"};
+ const daily=monthly/30;
+ const days=Math.max(0,Math.floor(saved/daily));
+ const milestones=[1,7,14,30,90,180,365];
+ const next=milestones.find(value=>days<value)||365;
+ const progress=days>=365?100:Math.min(100,(days/next)*100);
+ const amountToNext=Math.max(0,next*daily-saved);
+ const stage=days<7?"BUILDING STABILITY":days<30?"GROWING SECURITY":days<90?"PROTECTING YOUR FUTURE":"CREATING FREEDOM";
+ const hint=days>=365?"One full year of your future is protected":"Next: "+next+" protected day"+(next===1?"":"s")+" • "+money(amountToNext)+" to go";
+ return {monthly,saved,days,next,progress,stage,hint};
 }
 function renderExtraBills(){
  const root=q("extraBillList"); if(!root)return;
@@ -2895,9 +2916,14 @@ function saveGoalAdd(){
  const a=+q("goalAddAmount").value;
  if(!(a>0))return;
  const g=d.goals[addingGoal];
+ const beforeFreedom=freedomSnapshot().days;
+ const beforePercent=g.goal>0?((+g.saved||0)/g.goal)*100:0;
  g.saved=Math.min(g.goal,g.saved+a);
- addCompanionXP(Math.max(10,Math.min(50,Math.round(a/25))));
- save();closeGoalAdd();render();
+ const afterFreedom=freedomSnapshot().days;
+ const afterPercent=g.goal>0?(g.saved/g.goal)*100:0;
+ const crossed=addingGoal==="Emergency"?[1,7,14,30,90,180,365].filter(x=>beforeFreedom<x&&afterFreedom>=x).length:[25,50,100].filter(x=>beforePercent<x&&afterPercent>=x).length;
+ addCompanionXP(15+crossed*20);
+ save();closeGoalAdd();render();window.LQWorld?.refresh();
 }
 function addGoal(k){
  const g=d.goals[k];
@@ -2984,6 +3010,19 @@ function renderJourney(p,st,lv){
  if(q("pjLevelNum"))q("pjLevelNum").textContent=lv;
  if(q("pjXpText"))q("pjXpText").textContent=(activeXP()%100)+" / 100 XP";
  if(q("pjXpBar"))q("pjXpBar").style.width=(activeXP()%100)+"%";
+ const evolution=[
+   {label:"Awareness • Form 1",quote:"“Awareness begins the climb.”"},
+   {label:"Discipline • Form 2",quote:"“Consistency builds security.”"},
+   {label:"Growth • Form 3",quote:"“Growth creates more choices.”"},
+   {label:"Freedom • Final Form",quote:"“Your discipline became freedom.”"}
+ ][st]||{};
+ if(q("pjEvolutionText"))q("pjEvolutionText").textContent=evolution.label||"Awareness • Form 1";
+ if(q("pjQuote"))q("pjQuote").textContent=evolution.quote||"“Awareness begins the climb.”";
+ const freedom=freedomSnapshot();
+ if(q("pjFreedomStage"))q("pjFreedomStage").textContent=freedom.stage;
+ if(q("pjFreedomDays"))q("pjFreedomDays").textContent=freedom.monthly>0?freedom.days+" day"+(freedom.days===1?"":"s")+" protected":"Build your safety plan";
+ if(q("pjFreedomBar"))q("pjFreedomBar").style.width=freedom.progress+"%";
+ if(q("pjFreedomHint"))q("pjFreedomHint").textContent=freedom.hint;
  const req=[1,5,10,15,20];
  req.forEach((r,i)=>{const n=document.querySelector(".pjNode.n"+(i+1));if(n)n.classList.toggle("locked",lv<r)});
  if(q("pjBillsText"))q("pjBillsText").textContent=d.bills.length?d.bills.length+" bill"+(d.bills.length===1?"":"s")+" added":"No bills added";
@@ -3050,10 +3089,13 @@ function addSimpleGoal(){
  save();renderSimpleGoals();
 }
 function renderSimpleGoals(){
+ const freedom=freedomSnapshot();
  if(q("simpleEmergencyTarget")){
    const target=recommendedEmergencyGoal();
-   q("simpleEmergencyTarget").textContent=target>0?money(target)+" target":"Add recurring bills to calculate your target.";
+   q("simpleEmergencyTarget").textContent=target>0?money(target)+" three-month safety target":"Add bills or expenses to calculate your target.";
  }
+ if(q("simpleEmergencySaved"))q("simpleEmergencySaved").textContent=money(freedom.saved)+" saved • "+freedom.days+" protected day"+(freedom.days===1?"":"s");
+ if(q("addEmergencySavingsBtn"))q("addEmergencySavingsBtn").textContent=freedom.monthly>0?"+ Add Safety Savings":"Add Expenses First";
  const root=q("simpleGoalList");if(!root)return;
  const goals=d.plan?.goals||[];
  root.innerHTML=goals.length?goals.map((g,i)=>{
@@ -3061,7 +3103,7 @@ function renderSimpleGoals(){
    const date=new Date(g.date+"T12:00:00").toLocaleDateString(undefined,{month:"short",day:"numeric",year:"numeric"});
    return '<div class="simpleGoalCard"><div class="simpleGoalTop"><div class="simpleGoalIcon">'+g.icon+'</div><div class="simpleGoalMain"><b>'+g.name+'</b><small>'+money(g.saved||0)+' saved of '+money(g.amount)+' • '+date+' • '+checks+' paychecks left</small></div><div class="simpleGoalPay"><b>'+money(per)+'</b><small>PER PAYCHECK</small></div></div><div class="simpleGoalBar"><i style="width:'+pc+'%"></i></div><div class="simpleGoalActions"><button data-simple-add="'+i+'">+ Add Savings</button><button data-simple-remove="'+i+'">Remove</button></div></div>';
  }).join(""):'<div class="tiny" style="padding:8px 2px">No personal goals yet. Create your first one above.</div>';
- root.querySelectorAll("[data-simple-add]").forEach(b=>b.addEventListener("click",()=>{const i=+b.dataset.simpleAdd,g=d.plan.goals[i],checks=planGoalPaychecksLeft(g.date),per=checks?Math.max(0,(g.amount-g.saved)/checks):0;const val=prompt("Add savings to "+g.name,Math.ceil(per));if(val!==null&&+val>0){g.saved=Math.min(g.amount,(+g.saved||0)+(+val));save();renderSimpleGoals();}}));
+ root.querySelectorAll("[data-simple-add]").forEach(b=>b.addEventListener("click",()=>{const i=+b.dataset.simpleAdd,g=d.plan.goals[i],checks=planGoalPaychecksLeft(g.date),per=checks?Math.max(0,(g.amount-g.saved)/checks):0;const val=prompt("Add savings to "+g.name,Math.ceil(per));if(val!==null&&+val>0){const before=g.amount?((+g.saved||0)/g.amount)*100:0;g.saved=Math.min(g.amount,(+g.saved||0)+(+val));const after=g.amount?(g.saved/g.amount)*100:0;const crossed=[25,50,100].filter(x=>before<x&&after>=x).length;addCompanionXP(15+crossed*20);save();render();window.LQWorld?.refresh();}}));
  root.querySelectorAll("[data-simple-remove]").forEach(b=>b.addEventListener("click",()=>{d.plan.goals.splice(+b.dataset.simpleRemove,1);save();renderSimpleGoals();}));
 }
 function renderPaycheckPlan(){
@@ -3124,7 +3166,7 @@ function openPlannerGoal(k){
  go("goals");
  setTimeout(()=>openGoal(k),80);
 }
-async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260914-102&refresh="+Date.now());}
+async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260914-103&refresh="+Date.now());}
 document.addEventListener("DOMContentLoaded",async()=>{
  try{if(navigator.storage&&navigator.storage.persist)await navigator.storage.persist();}catch(e){}
  renderChoices();
@@ -3135,6 +3177,7 @@ document.addEventListener("DOMContentLoaded",async()=>{
  if(q("createPlanGoalBtn"))q("createPlanGoalBtn").addEventListener("click",addPlannedGoal);
  document.querySelectorAll("[data-simple-type]").forEach(b=>b.addEventListener("click",()=>{simpleGoalType=b.dataset.simpleType;simpleGoalIcon=b.dataset.simpleIcon;document.querySelectorAll("[data-simple-type]").forEach(x=>x.classList.remove("sel"));b.classList.add("sel");}));
  if(q("simpleCreateGoalBtn"))q("simpleCreateGoalBtn").addEventListener("click",addSimpleGoal);
+ if(q("addEmergencySavingsBtn"))q("addEmergencySavingsBtn").addEventListener("click",()=>{if(freedomSnapshot().monthly>0)openGoalAdd("Emergency");else openBudget();});
  document.querySelectorAll("[data-plan-goal]").forEach(b=>b.addEventListener("click",()=>openPlannerGoal(b.dataset.planGoal))); const journeySettingsBtn=q("journeySettingsBtn"); if(journeySettingsBtn)journeySettingsBtn.addEventListener("click",()=>go("settings"));
  const settingsBackBtn=q("settingsBackBtn"); if(settingsBackBtn)settingsBackBtn.addEventListener("click",()=>{if(d.onboardingComplete){q("app").classList.remove("hidden");go("journey");}else{q("app").classList.add("hidden");q("welcome").classList.remove("hidden");document.documentElement.dataset.lqBoot="welcome";}});
  const refreshAppBtn=q("refreshAppBtn"); if(refreshAppBtn)refreshAppBtn.addEventListener("click",refreshApp);
@@ -3195,7 +3238,7 @@ document.addEventListener("DOMContentLoaded",async()=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const reg = await navigator.serviceWorker.register("./sw.js?v=102");
+      const reg = await navigator.serviceWorker.register("./sw.js?v=103");
       await reg.update();
     } catch (e) {}
   });
@@ -3440,4 +3483,4 @@ if ("serviceWorker" in navigator) {
   window.addEventListener("pageshow",boot);
   setTimeout(boot,250);setTimeout(boot,1000);
 })();
-</script><script src="./journey-config-v95.js?v=102"></script><script src="./character-bases.js?v=98"></script><script src="./environment-bases.js?v=102"></script><script src="./asset-contract.js?v=83"></script><script src="./asset-manifest.js?v=102"></script><script src="./asset-loader.js?v=102"></script><script src="./compositor-runtime.js?v=102"></script><script src="./world-runtime.js?v=102"></script><script src="./studio-runtime.js?v=83"></script><script src="./preview-lab.js?v=83"></script><script src="./asset-qa.js?v=85"></script><script src="./lab-ui.js?v=85"></script><script src="./premium-layout-v89.js?v=98"></script></body></html>
+</script><script src="./journey-config-v95.js?v=103"></script><script src="./character-bases.js?v=98"></script><script src="./environment-bases.js?v=103"></script><script src="./asset-contract.js?v=83"></script><script src="./asset-manifest.js?v=103"></script><script src="./asset-loader.js?v=103"></script><script src="./compositor-runtime.js?v=103"></script><script src="./world-runtime.js?v=103"></script><script src="./studio-runtime.js?v=83"></script><script src="./preview-lab.js?v=83"></script><script src="./asset-qa.js?v=85"></script><script src="./lab-ui.js?v=85"></script><script src="./premium-layout-v89.js?v=98"></script></body></html>
