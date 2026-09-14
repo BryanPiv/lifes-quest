@@ -124,11 +124,11 @@
   const all=rhythmRead(),state=all[day]||{};
   if(state.awareness&&state.budget&&state.insight&&!state.completed){
     state.completed=true;state.completedAt=Date.now();all[day]=state;rhythmWrite(all);
-    window.awardQuestXP?.("daily-checkin",5,day,"Completed all 3 daily check-ins");window.save?.();window.render?.();
+    window.awardQuestXP?.("daily-checkin",5,day,"Completed all 3 daily check-ins");window.LQCosmetics?.grantTokens?.(3,"daily-checkin:"+day,"Daily check-in complete");window.save?.();window.render?.();
   }
   const start=weekStart(),end=new Date(start);end.setDate(end.getDate()+7);
   const count=Object.entries(all).filter(([key,value])=>{const when=new Date(key+"T12:00:00");return when>=start&&when<end&&value?.completed}).length;
-  if(count>=5){window.awardQuestXP?.("weekly-consistency",40,weekKey(),"Completed 5 of 7 daily check-ins");window.save?.();window.render?.()}
+  if(count>=5){window.awardQuestXP?.("weekly-consistency",40,weekKey(),"Completed 5 of 7 daily check-ins");window.LQCosmetics?.grantTokens?.(20,"weekly-consistency:"+weekKey(),"Five-day weekly streak");window.save?.();window.render?.()}
  }
  function markDaily(part){
   const day=localDay(),all=rhythmRead(),state={...(all[day]||{})};state[part]=true;all[day]=state;rhythmWrite(all);maybeCompleteDaily(day);render();showDaily();
@@ -169,7 +169,7 @@
   o.querySelector(".lqPath").innerHTML=pathHTML(m.d);
   o.querySelector(".lqMissions").innerHTML=tasks.map(x=>'<div class="lqMission '+(x.done?"done":"")+'"><div class="lqMissionIcon">'+x.icon+'</div><div><b>'+x.title+'</b><small>'+x.why+'</small></div>'+(x.done?'<div class="lqMissionState">✓</div>':'<button class="lqMissionAction" data-mission="'+x.action+'">'+x.cta+'</button>')+'</div>').join("");
   o.querySelectorAll("[data-mission]").forEach(btn=>btn.onclick=showDaily);
-  if(m.weeklyDays>=5){window.awardQuestXP?.("weekly-consistency",40,weekKey(),"Completed 5 of 7 daily check-ins");window.save?.()}
+  if(m.weeklyDays>=5){window.awardQuestXP?.("weekly-consistency",40,weekKey(),"Completed 5 of 7 daily check-ins");window.LQCosmetics?.grantTokens?.(20,"weekly-consistency:"+weekKey(),"Five-day weekly streak");window.save?.()}
   const idx=stageIndex(m.d),l=LESSONS[idx],id="stage-"+idx,complete=completedLesson(id);
   const lesson=o.querySelector(".lqLesson");lesson.innerHTML='<div class="lqLessonTag">'+l.stage.toUpperCase()+' LESSON</div><h3>'+l.title+'</h3><p>'+l.body+'</p><p class="lqTakeaway">'+l.takeaway+'</p><button '+(complete?"disabled":"")+'>'+(complete?"Lesson complete ✓":"Complete lesson • +20 XP")+'</button>';
   lesson.querySelector("button").onclick=()=>finishLesson(idx);
