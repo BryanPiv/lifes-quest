@@ -15,9 +15,31 @@
     const cls="lqPathSprite"+(locked?" is-locked":"")+(large?" is-large":"");
     if(!form)return '<div class="'+cls+'"></div>';
     if(form.atlas){
-      return '<div class="'+cls+'" role="img" aria-label="'+(locked?"Locked evolution":esc(form.name))+'" style="background-image:url(&quot;'+esc(form.art)+'&quot;);background-size:500% 500%;background-position:'+(form.atlas.col*25)+'% '+(form.atlas.row*25)+'%"></div>';
+      if(locked)return '<canvas class="'+cls+' lqSilhouetteCanvas" role="img" aria-label="Locked evolution silhouette" data-src="'+esc(form.art)+'" data-row="'+form.atlas.row+'" data-col="'+form.atlas.col+'"></canvas>';
+      return '<div class="'+cls+'" role="img" aria-label="'+esc(form.name)+'" style="background-image:url(&quot;'+esc(form.art)+'&quot;);background-size:500% 500%;background-position:'+(form.atlas.col*25)+'% '+(form.atlas.row*25)+'%"></div>';
     }
     return '<img class="'+cls+'" src="'+esc(form.art)+'" alt="'+(locked?"Locked evolution":esc(form.name))+'">';
+  }
+  function hydrateSilhouettes(root){
+    root.querySelectorAll("canvas.lqSilhouetteCanvas").forEach(canvas=>{
+      const img=new Image();img.decoding="async";
+      img.onload=()=>{
+        const cellW=Math.floor(img.naturalWidth/5),cellH=Math.floor(img.naturalHeight/5);
+        canvas.width=cellW;canvas.height=cellH;
+        const ctx=canvas.getContext("2d",{willReadFrequently:true}),col=+canvas.dataset.col||0,row=+canvas.dataset.row||0;
+        ctx.clearRect(0,0,cellW,cellH);ctx.drawImage(img,col*cellW,row*cellH,cellW,cellH,0,0,cellW,cellH);
+        const pixels=ctx.getImageData(0,0,cellW,cellH),p=pixels.data;
+        const samples=[[2,2],[cellW-3,2],[2,cellH-3],[cellW-3,cellH-3]].map(([x,y])=>{const n=(y*cellW+x)*4;return [p[n],p[n+1],p[n+2]]});
+        const bg=samples.reduce((a,s)=>[a[0]+s[0]/4,a[1]+s[1]/4,a[2]+s[2]/4],[0,0,0]);
+        for(let n=0;n<p.length;n+=4){
+          const dr=p[n]-bg[0],dg=p[n+1]-bg[1],db=p[n+2]-bg[2],distance=Math.sqrt(dr*dr+dg*dg+db*db),light=p[n]+p[n+1]+p[n+2];
+          if(p[n+3]<20||distance<42||light<18){p[n+3]=0;continue}
+          const edge=Math.min(255,Math.max(105,distance*3.2));p[n]=3;p[n+1]=8;p[n+2]=13;p[n+3]=Math.min(p[n+3],edge);
+        }
+        ctx.putImageData(pixels,0,0);
+      };
+      img.src=canvas.dataset.src;
+    });
   }
   function styles(){
     if(document.getElementById("lqEvolutionPathStyles"))return;
@@ -37,7 +59,7 @@
 .lqNextCard{margin:12px 0;padding:13px;display:grid;grid-template-columns:88px 1fr;gap:12px;align-items:center;border-radius:20px;border:1px solid #f2ca675c;background:radial-gradient(circle at 15% 50%,color-mix(in srgb,var(--path-accent) 17%,transparent),transparent 28%),linear-gradient(145deg,#102e46,#071c2e)}
 .lqNextVisual{width:88px;height:96px;display:grid;place-items:center}.lqNextCard small{font-size:8px;color:#f4d477;letter-spacing:.14em;font-weight:900}.lqNextCard h3{font:800 18px Georgia,serif;margin:4px 0}.lqNextCard p{font-size:10px;color:#bed0dc;line-height:1.4;margin:0}.lqNextCard b{color:#fff}
 .lqFormsTitle{margin:18px 2px 8px;font:800 17px Georgia,serif}.lqForms{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}.lqForm{min-width:0;padding:7px 3px 8px;border-radius:14px;text-align:center;background:#071d2f;border:1px solid #ffffff18}.lqForm.current{border-color:var(--path-accent);background:linear-gradient(180deg,color-mix(in srgb,var(--path-accent) 18%,#092238),#071927);box-shadow:0 0 17px color-mix(in srgb,var(--path-accent) 20%,transparent)}.lqForm.earned{border-color:#63d99a66}.lqFormArt{height:63px;display:grid;place-items:center}.lqForm .lqPathSprite{width:54px;height:60px}.lqForm b{display:block;font-size:7px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.lqForm small{display:block;margin-top:3px;color:#8fa9b9;font-size:6.5px}.lqForm.current small{color:var(--path-accent)}
-.lqEarn{margin-top:16px;padding:15px;border-radius:20px;background:linear-gradient(160deg,#0d304c,#071e31);border:1px solid #ffffff1c}.lqEarn h3{font:800 18px Georgia,serif;margin:0 0 4px}.lqEarn>p{color:#9fb7c6;font-size:9px;margin:0 0 11px}.lqEarnGrid{display:grid;grid-template-columns:1fr 1fr;gap:7px}.lqEarnItem{display:flex;align-items:center;gap:8px;min-height:50px;padding:8px;border-radius:13px;background:#061827;border:1px solid #ffffff12}.lqEarnIcon{font-size:20px}.lqEarnItem b{display:block;font-size:9px}.lqEarnItem small{display:block;color:#f2cc6b;font-size:8px;margin-top:2px}
+.lqEarn{margin-top:16px;padding:15px;border-radius:20px;background:linear-gradient(160deg,#0d304c,#071e31);border:1px solid #ffffff1c}.lqEarn h3{font:800 18px Georgia,serif;margin:0 0 4px}.lqEarn>p{color:#9fb7c6;font-size:9px;margin:0 0 11px}.lqEarnGrid{display:grid;grid-template-columns:1fr 1fr;gap:7px}.lqEarnItem{display:flex;align-items:center;gap:8px;min-height:50px;padding:8px;border-radius:13px;background:#061827;border:1px solid #ffffff12;color:#fff;text-align:left}.lqEarnItem[data-xp-action]{cursor:pointer}.lqEarnItem[data-xp-action]:after{content:"›";margin-left:auto;color:var(--path-accent);font-size:18px}.lqEarnIcon{font-size:20px}.lqEarnItem b{display:block;font-size:9px}.lqEarnItem small{display:block;color:#f2cc6b;font-size:8px;margin-top:2px}
 #journey .pjLevel{cursor:pointer!important;pointer-events:auto!important}.lqLevelHint{display:block;margin-top:2px;color:#7de9ff;font-size:5.5px;font-weight:900;letter-spacing:.35px}
 @keyframes lqPathSpin{to{transform:rotate(360deg)}}@media(prefers-reduced-motion:reduce){.lqPathOrb:after{animation:none}}
 `;document.head.appendChild(s);
@@ -73,11 +95,18 @@
       '<div class="lqPathHero"><div class="lqPathOrb">'+sprite(current,{large:true})+'</div><div class="lqPathHeroText"><label>CURRENT FORM · '+esc(STAGES[currentIndex])+'</label><h3>'+esc(current.name)+'</h3><p>Level '+lv+' · Form '+(currentIndex+1)+' of 5</p><div class="lqPathProgress"><div><i style="width:'+progress+'%"></i></div><small>'+(next?xp+' / '+nextTarget+' total XP':xp+' total XP · Final form')+'</small></div></div></div>'+
       hero+'<h3 class="lqFormsTitle">All Five Forms</h3><div class="lqForms">'+forms+'</div>'+
       '<div class="lqEarn"><h3>How to earn Quest XP</h3><p>Small financial actions power your companion’s evolution.</p><div class="lqEarnGrid">'+
-      '<div class="lqEarnItem"><span class="lqEarnIcon">✍️</span><div><b>Track today’s spending</b><small>+5 XP daily</small></div></div>'+
-      '<div class="lqEarnItem"><span class="lqEarnIcon">🌱</span><div><b>Save toward a goal</b><small>+15 XP weekly</small></div></div>'+
-      '<div class="lqEarnItem"><span class="lqEarnIcon">📖</span><div><b>Complete a lesson</b><small>+20 XP</small></div></div>'+
-      '<div class="lqEarnItem"><span class="lqEarnIcon">🧭</span><div><b>Finish the weekly quest</b><small>+40 XP</small></div></div>'+
+      '<button class="lqEarnItem" data-xp-action="daily"><span class="lqEarnIcon">✍️</span><div><b>Complete today’s check-in</b><small>+5 XP daily</small></div></button>'+
+      '<button class="lqEarnItem" data-xp-action="save"><span class="lqEarnIcon">🌱</span><div><b>Save toward a goal</b><small>+15 XP weekly</small></div></button>'+
+      '<button class="lqEarnItem" data-xp-action="lesson"><span class="lqEarnIcon">📖</span><div><b>Complete a stage lesson</b><small>+20 XP</small></div></button>'+
+      '<button class="lqEarnItem" data-xp-action="weekly"><span class="lqEarnIcon">🧭</span><div><b>Finish the weekly quest</b><small>+40 XP</small></div></button>'+
       '</div></div>';
+    hydrateSilhouettes(overlay);
+    overlay.querySelectorAll("[data-xp-action]").forEach(button=>button.onclick=()=>{
+      const action=button.dataset.xpAction;close();
+      if(action==="save"){window.go?.("goals");return}
+      window.LQQuestCenter?.open?.();
+      if(action==="daily")setTimeout(()=>window.LQQuestCenter?.showDaily?.(),120);
+    });
     return overlay;
   }
   function open(){
