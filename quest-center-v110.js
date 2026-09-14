@@ -150,7 +150,7 @@
    '<div class="lqDailyReward">'+(state.completed?"TODAY COMPLETE · +5 XP EARNED":"FINISH "+(3-[state.awareness,state.budget,state.insight].filter(Boolean).length)+" MORE TO EARN +5 XP")+'</div>'+weekDots(m);
   box.classList.add("on");box.scrollIntoView({behavior:"smooth",block:"center"});
   box.querySelectorAll("[data-cat]").forEach(btn=>btn.onclick=()=>{o.classList.remove("on");box.classList.remove("on");window.quickAdd?.(btn.dataset.cat)});
-  box.querySelector("[data-no-spend]")?.addEventListener("click",()=>{const day=localDay();window.awardQuestXP?.("no-spend",0,day,"No-spend day recorded");window.save?.();recordAwareness(day);render();showDaily()});
+  box.querySelector("[data-no-spend]")?.addEventListener("click",()=>{const day=localDay();recordAwareness(day);render();showDaily()});
   box.querySelector("[data-review-budget]")?.addEventListener("click",()=>markDaily("budget"));
   box.querySelector("[data-read-insight]")?.addEventListener("click",()=>markDaily("insight"));
  }
