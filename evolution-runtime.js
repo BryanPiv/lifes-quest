@@ -44,6 +44,6 @@
     if(detail.onSwap)detail.onSwap();const img=el.querySelector(".lqEvoSprite");img.src=detail.to.art;img.alt=detail.to.name;el.classList.remove("is-charging");el.classList.add("is-reveal");el.querySelector(".lqEvoStatus").textContent="Evolution complete";await wait(1700,()=>skipped);
     el.classList.add("is-celebrate");await wait(850,()=>skipped);el.classList.remove("is-on");await sleep(360);el.remove();document.body.style.removeProperty("overflow");active=false;return true;
   }
-  async function wait(ms,stop){const step=50;for(let n=0;n<ms;n+=step){if(stop())return;sleep(step);await sleep(step)}}
+  async function wait(ms,stop){const step=50;for(let n=0;n<ms;n+=step){if(stop())return;await sleep(step)}}
   window.LQEvolution={play,isActive:()=>active};
 })();
