@@ -81,7 +81,7 @@ body[data-map-reward="ember-ridge"] #lqCharacterHost .lqCharacterAccessory:after
  function checkUnlocks(lv){
   const state=mapRead();state.seen=state.seen||{"first-ascent":true};
   const newly=REGIONS.filter(r=>lv>=r.level&&!state.seen[r.id]);
-  if(newly.length){const r=newly[0];state.seen[r.id]=true;mapWrite(state);setTimeout(()=>openRegion(r.id,true),450)}
+  if(newly.length){const r=newly[0];state.seen[r.id]=true;mapWrite(state);window.LQCosmetics?.grantTokens?.(30,"region:"+r.id,r.name+" discovered");setTimeout(()=>openRegion(r.id,true),450)}
   else mapWrite(state);
  }
  function render({center=false}={}){
