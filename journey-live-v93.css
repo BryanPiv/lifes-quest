@@ -326,3 +326,104 @@ body.journey-active #app>.nav{height:70px!important;min-height:70px!important;bo
   #journey .pjFreedomShield{width:34px;height:34px;flex-basis:34px;font-size:18px}
   #journey .pjFreedomMain>b{font-size:11px}
 }
+
+
+/* v113 — iPhone character visibility and collision-free dashboard layout */
+#journey #lqCharacterHost{
+  display:block!important;
+  width:clamp(132px,38vw,174px)!important;
+  height:auto!important;
+  aspect-ratio:360 / 400!important;
+  left:22%!important;
+  top:70%!important;
+  overflow:visible!important;
+  opacity:1!important;
+  visibility:visible!important;
+  z-index:32!important;
+}
+#journey #lqCharacterHost .lqCharacterViewport{
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;
+  height:100%!important;
+  overflow:hidden!important;
+}
+#journey #lqCharacterHost .lqCharacterSprite{
+  display:block!important;
+  opacity:1!important;
+  visibility:visible!important;
+}
+#journey .pjTop{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) 132px 44px!important;
+  column-gap:8px!important;
+  align-items:start!important;
+  padding-left:13px!important;
+  padding-right:10px!important;
+}
+#journey .pjLogo{min-width:0!important;max-width:none!important}
+#journey .pjLevel{
+  position:relative!important;
+  grid-column:2!important;
+  top:auto!important;
+  right:auto!important;
+  width:132px!important;
+  min-width:0!important;
+}
+#journey .pjGear{
+  position:relative!important;
+  grid-column:3!important;
+  top:auto!important;
+  right:auto!important;
+  margin-top:1px!important;
+}
+#journey .pjCompanionCard{
+  max-height:none!important;
+  overflow:visible!important;
+}
+#journey .lqQuestOpen{
+  float:none!important;
+  line-height:1.25!important;
+  white-space:normal!important;
+}
+@media(max-width:430px){
+  #journey .pjTop{
+    grid-template-columns:minmax(0,1fr) 112px 39px!important;
+    column-gap:6px!important;
+    height:82px!important;
+  }
+  #journey .pjLogo{font-size:27px!important}
+  #journey .pjLogo small{
+    max-width:170px!important;
+    white-space:normal!important;
+    line-height:1.15!important;
+  }
+  #journey .pjLevel{width:112px!important;padding:8px 9px!important}
+  #journey .pjGear{width:39px!important;height:39px!important}
+  #journey .pjCompanionCard{
+    top:22px!important;
+    left:13px!important;
+    width:154px!important;
+  }
+  #journey #lqCharacterHost{
+    left:23%!important;
+    top:73%!important;
+    width:158px!important;
+  }
+  #journey .pjTrail{
+    right:-5px!important;
+    top:16px!important;
+    transform:scale(.82)!important;
+  }
+}
+@media(max-width:380px){
+  #journey .pjTop{
+    grid-template-columns:minmax(0,1fr) 104px 37px!important;
+    column-gap:5px!important;
+  }
+  #journey .pjLogo{font-size:24px!important}
+  #journey .pjLogo small{font-size:5px!important;max-width:145px!important}
+  #journey .pjLevel{width:104px!important}
+  #journey .pjGear{width:37px!important;height:37px!important}
+  #journey #lqCharacterHost{left:22%!important;width:145px!important}
+}
