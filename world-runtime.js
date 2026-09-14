@@ -188,6 +188,15 @@
     write(d);mountCharacter();
   }
 
+  let observedLevel=Math.max(1,+read().level||1);
+  function watchProgress(){
+    const current=level();
+    if(current>observedLevel&&!state.locked){
+      observedLevel=current;
+      evolve(current);
+    }else if(current<observedLevel){observedLevel=current}
+  }
+
   function boot(){
     mountCharacter();
     const d=read(),defaultScene=window.LQEnvironmentBases?.defaultScene;
@@ -220,4 +229,5 @@
 
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
   window.addEventListener("pageshow",boot);
+  setInterval(watchProgress,900);
 })();
