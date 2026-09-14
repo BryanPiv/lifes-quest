@@ -97,18 +97,22 @@
 
   function emote(name,duration=900){setState(name,duration)}
 
-  function evolve(newLevel){
-    const d=read(),before=formFor(d.type||"cloud",d.level||1);
-    d.level=Math.max(1,+newLevel||1);write(d);
-    const after=formFor(d.type||"cloud",d.level);
-    if(!after||before?.id===after.id){mountCharacter();return Promise.resolve(false)}
+  async function evolve(newLevel){
+    const d=read(),id=d.type||"cloud",before=formFor(id,d.level||1);
+    const nextLevel=Math.max(1,+newLevel||1),after=formFor(id,nextLevel);
+    if(!after||before?.id===after.id){d.level=nextLevel;write(d);mountCharacter();return false}
     state.locked=true;setState("evolve");
-    const total=window.LQCharacterBases?.evolution?.durationMs||2300;
-    return new Promise(res=>setTimeout(()=>{
-      mountCharacter();setState("celebrate",900);state.locked=false;
-      window.dispatchEvent(new CustomEvent("lq:evolved",{detail:{from:before,to:after,type:d.type||"cloud"}}));
-      res(true);
-    },total));
+    const swap=()=>{d.level=nextLevel;d.evolutionHistory=d.evolutionHistory||{};d.evolutionHistory[id]=after.id;write(d);mountCharacter()};
+    try{
+      if(window.LQEvolution?.play){
+        await window.LQEvolution.play({from:before,to:after,type:id,level:nextLevel,onSwap:swap});
+      }else{
+        swap();await new Promise(res=>setTimeout(res,900));
+      }
+      setState("celebrate",900);
+      window.dispatchEvent(new CustomEvent("lq:evolved",{detail:{from:before,to:after,type:id,level:nextLevel}}));
+      return true;
+    }finally{state.locked=false}
   }
 
   function sceneDef(id){
