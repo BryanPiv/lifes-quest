@@ -1,4 +1,4 @@
-const VERSION="lifes-quest-v103";
+const VERSION="lifes-quest-v113";
 self.addEventListener("install",event=>{self.skipWaiting()});
 self.addEventListener("activate",event=>{
   event.waitUntil((async()=>{
