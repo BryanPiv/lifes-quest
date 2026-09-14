@@ -2852,7 +2852,7 @@ function saveQuickMoney(){
  const a=+q("quickMoneyAmount").value;
  if(!(a>0))return;
  d.expenses.unshift({id:Date.now(),amount:a,cat:quickCategory,note:q("quickMoneyNote").value,date:new Date().toISOString().slice(0,10)});
- addCompanionXP(5);save();closeQuickMoney();render();go("journey");
+ window.LQQuestCenter?.recordAwareness?.();save();closeQuickMoney();render();go("journey");
 }
 function fridayStart(x=new Date()){let z=new Date(x);z.setHours(0,0,0,0);z.setDate(z.getDate()-((z.getDay()-5+7)%7));return z}
 function weekly(){let s=fridayStart(),e=new Date(s);e.setDate(e.getDate()+7);return d.expenses.filter(x=>{let dt=new Date(x.date+"T12:00");return dt>=s&&dt<e})}
@@ -3250,7 +3250,7 @@ document.addEventListener("DOMContentLoaded",async()=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const reg = await navigator.serviceWorker.register("./sw.js?v=117");
+      const reg = await navigator.serviceWorker.register("./sw.js?v=118");
       await reg.update();
     } catch (e) {}
   });
@@ -3305,12 +3305,13 @@ if ("serviceWorker" in navigator) {
 })();
 </script><script id="v66-nav-routing-script">
 (function(){
- const order=["journey","expenses","goals","calendar"];
+ const order=["journey","worldMap","expenses","goals","calendar"];
  function normalizeBottomNav(){
    const nav=document.querySelector("#app>.nav");
    if(!nav)return;
    const labels=[
      ["⛰️","Home","journey"],
+     ["🗺️","Map","worldMap"],
      ["🧾","Expenses","expenses"],
      ["🎯","Goals","goals"],
      ["📅","Calendar","calendar"]
@@ -3495,4 +3496,4 @@ if ("serviceWorker" in navigator) {
   window.addEventListener("pageshow",boot);
   setTimeout(boot,250);setTimeout(boot,1000);
 })();
-</script><script src="./journey-config-v95.js?v=103"></script><script src="./character-bases.js?v=114"></script><script src="./environment-bases.js?v=103"></script><script src="./asset-contract.js?v=83"></script><script src="./asset-manifest.js?v=103"></script><script src="./asset-loader.js?v=103"></script><script src="./compositor-runtime.js?v=103"></script><script src="./world-runtime.js?v=114"></script><script src="./evolution-path-v115.js?v=117"></script><script src="./studio-runtime.js?v=83"></script><script src="./preview-lab.js?v=83"></script><script src="./asset-qa.js?v=85"></script><script src="./lab-ui.js?v=85"></script><script src="./premium-layout-v89.js?v=117"></script></body></html>
+</script><script src="./journey-config-v95.js?v=103"></script><script src="./character-bases.js?v=114"></script><script src="./environment-bases.js?v=103"></script><script src="./asset-contract.js?v=83"></script><script src="./asset-manifest.js?v=103"></script><script src="./asset-loader.js?v=103"></script><script src="./compositor-runtime.js?v=103"></script><script src="./world-runtime.js?v=114"></script><script src="./evolution-path-v115.js?v=117"></script><script src="./world-map-v118.js?v=118"></script><script src="./studio-runtime.js?v=83"></script><script src="./preview-lab.js?v=83"></script><script src="./asset-qa.js?v=85"></script><script src="./lab-ui.js?v=85"></script><script src="./premium-layout-v89.js?v=117"></script></body></html>
