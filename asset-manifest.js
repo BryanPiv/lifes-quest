@@ -1,5 +1,5 @@
 window.LQAssetManifest={
-  version:101,
+  version:102,
   environment:{
     baseScene:"premium-alpine",
     required:[

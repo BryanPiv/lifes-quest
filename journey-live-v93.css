@@ -227,12 +227,12 @@ body.journey-active #app>.nav{height:70px!important;min-height:70px!important;bo
 #journey .lqEnvironment[data-scene="premium-alpine"] .lqHeroMountain,
 #journey .lqEnvironment[data-scene="premium-alpine"] .lqForeground{display:block!important;visibility:visible!important}
 #journey .lqEnvironment .lqSky{z-index:1!important;animation:lqSkyBreathe var(--camera-duration,14s) ease-in-out infinite alternate!important}
-#journey .lqEnvironment .lqBackMountains{z-index:3!important;opacity:.78!important;transform:scale(1.045)!important;filter:saturate(.78) contrast(1.05) brightness(1.08)!important;animation:lqFarDrift 24s ease-in-out infinite alternate!important}
-#journey .lqEnvironment .lqMidMountains{z-index:4!important;opacity:.86!important;transform:scale(1.075)!important;filter:saturate(.94) contrast(1.08)!important;animation:lqMidDrift 18s ease-in-out infinite alternate!important}
-#journey .lqEnvironment .lqValley{z-index:5!important;opacity:.96!important;transform:scale(1.1)!important;filter:saturate(1.12) contrast(1.05)!important;animation:lqValleyBreathe 12s ease-in-out infinite alternate!important}
-#journey .lqEnvironment .lqWater{z-index:6!important;opacity:.42!important;transform:scale(1.12)!important;mix-blend-mode:screen!important;filter:saturate(1.4) hue-rotate(5deg)!important;animation:lqWaterGlint 5.5s ease-in-out infinite alternate!important}
-#journey .lqEnvironment .lqHeroMountain{z-index:7!important;opacity:1!important;transform:scale(1.12)!important;filter:saturate(1.1) contrast(1.13) drop-shadow(-9px 10px 17px rgba(0,0,0,.28))!important;animation:lqHeroBreathe 15s ease-in-out infinite alternate!important}
-#journey .lqEnvironment .lqForeground{z-index:11!important;opacity:1!important;transform:scale(1.13)!important;transform-origin:50% 100%!important;filter:saturate(1.2) contrast(1.1) brightness(.96)!important;animation:lqForegroundSway var(--tree-duration,6.5s) ease-in-out infinite alternate!important}
+#journey .lqEnvironment .lqBackMountains{z-index:3!important;opacity:.78!important;filter:saturate(.78) contrast(1.05) brightness(1.08)!important;animation:lqFarDrift 24s ease-in-out infinite alternate!important}
+#journey .lqEnvironment .lqMidMountains{z-index:4!important;opacity:.86!important;filter:saturate(.94) contrast(1.08)!important;animation:lqMidDrift 18s ease-in-out infinite alternate!important}
+#journey .lqEnvironment .lqValley{z-index:5!important;opacity:.96!important;filter:saturate(1.12) contrast(1.05)!important;animation:lqValleyBreathe 12s ease-in-out infinite alternate!important}
+#journey .lqEnvironment .lqWater{z-index:6!important;opacity:.42!important;mix-blend-mode:screen!important;filter:saturate(1.4) hue-rotate(5deg)!important;animation:lqWaterGlint 5.5s ease-in-out infinite alternate!important}
+#journey .lqEnvironment .lqHeroMountain{z-index:7!important;opacity:1!important;filter:saturate(1.1) contrast(1.13) drop-shadow(-9px 10px 17px rgba(0,0,0,.28))!important;animation:lqHeroBreathe 15s ease-in-out infinite alternate!important}
+#journey .lqEnvironment .lqForeground{z-index:11!important;opacity:1!important;transform-origin:50% 100%!important;filter:saturate(1.2) contrast(1.1) brightness(.96)!important;animation:lqForegroundSway var(--tree-duration,6.5s) ease-in-out infinite alternate!important}
 #journey .lqEnvironment .lqCelestial{z-index:2!important}
 #journey .lqEnvironment .lqMist{z-index:10!important}
 #journey .lqEnvironment .lqLightingLayer{z-index:15!important}
