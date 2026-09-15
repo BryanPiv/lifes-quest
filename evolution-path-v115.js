@@ -96,7 +96,7 @@
       hero+'<h3 class="lqFormsTitle">All Five Forms</h3><div class="lqForms">'+forms+'</div>'+
       '<div class="lqEarn"><h3>How to earn Quest XP</h3><p>Small financial actions power your companion’s evolution.</p><div class="lqEarnGrid">'+
       '<button class="lqEarnItem" data-xp-action="daily"><span class="lqEarnIcon">✍️</span><div><b>Complete all 3 daily actions</b><small>+5 XP each completed day</small></div></button>'+
-      '<button class="lqEarnItem" data-xp-action="save"><span class="lqEarnIcon">🌱</span><div><b>Save toward a goal</b><small>+15 XP weekly</small></div></button>'+
+      '<button class="lqEarnItem" data-xp-action="save"><span class="lqEarnIcon">🌱</span><div><b>Choose any savings amount</b><small>+15 XP weekly · any amount</small></div></button>'+
       '<button class="lqEarnItem" data-xp-action="lesson"><span class="lqEarnIcon">📖</span><div><b>Complete a stage lesson</b><small>+20 XP</small></div></button>'+
       '<button class="lqEarnItem" data-xp-action="weekly"><span class="lqEarnIcon">🧭</span><div><b>Check in on 5 of 7 days</b><small>+40 XP weekly bonus</small></div></button>'+
       '</div></div>';
