@@ -2337,19 +2337,19 @@ body.journey-active #app>.nav button.on{
   <path d="M108 365 C132 330 133 300 114 270 C94 238 96 209 122 179 C143 154 142 124 121 96 C105 75 110 47 133 23"
         fill="none" stroke="url(#questTrailV45)" stroke-width="6" stroke-linecap="round" filter="url(#questTrailGlowV45)"/>
 </svg>
-      <div class="pjMilestone m1">BUILD<br>STABILITY</div><div class="pjMilestone m2">GAIN<br>SECURITY</div><div class="pjMilestone m3">BUILD<br>RESILIENCE</div><div class="pjMilestone m4">GROW<br>WEALTH</div><div class="pjMilestone m5">FREEDOM<br>SUMMIT</div>
+      <div class="pjMilestone m1">KNOW YOUR<br>MONEY</div><div class="pjMilestone m2">BUILD A<br>PLAN</div><div class="pjMilestone m3">CREATE A<br>CUSHION</div><div class="pjMilestone m4">GROW YOUR<br>FUTURE</div><div class="pjMilestone m5">FREEDOM TO<br>CHOOSE</div>
       <div class="pjNode n1">1</div><div class="pjNode n2 locked">5</div><div class="pjNode n3 locked">10</div><div class="pjNode n4 locked">20</div><div class="pjNode n5 locked">35</div>
     </div>
     <div class="pjSummitGlow" aria-hidden="true"></div>
-    <div class="pjTagline">Every Smart Choice<br>Builds Your Future</div>
+    <div class="pjTagline">Know Today. Plan Tomorrow.<br>Build More Choices.</div>
   </div>
-  <div class="pjPanel pjBudget"><div class="pjBudgetIcon">🪙</div><div class="pjBudgetMain"><b>WEEKLY BUDGET</b><div class="bar"><i id="journeyBudgetBar" style="width:0%"></i></div><div id="journeyWeekSpent" class="tiny">No weekly budget yet</div></div><button id="editBudgetBtn" class="btn ghost" style="padding:9px 11px;white-space:nowrap">Set Budget</button></div>
-  <button class="pjFreedom" data-nav-direct="goals" aria-label="Open goals and Freedom Time">
+  <div class="pjPanel pjBudget"><div class="pjBudgetIcon">🪙</div><div class="pjBudgetMain"><b>WEEKLY SPENDING PLAN</b><div class="bar"><i id="journeyBudgetBar" style="width:0%"></i></div><div id="journeyWeekSpent" class="tiny">No weekly plan yet</div></div><button id="editBudgetBtn" class="btn ghost" style="padding:9px 11px;white-space:nowrap">Set Plan</button></div>
+  <button class="pjFreedom" data-nav-direct="goals" aria-label="Open savings goals and safety cushion">
     <div class="pjFreedomShield">🛡️</div>
-    <div class="pjFreedomMain"><span id="pjFreedomStage">BUILDING STABILITY</span><b id="pjFreedomDays">0 days protected</b><div class="pjFreedomBar"><i id="pjFreedomBar" style="width:0%"></i></div><small id="pjFreedomHint">Add monthly expenses to calculate your Freedom Time</small></div>
+    <div class="pjFreedomMain"><span id="pjFreedomStage">YOUR SAFETY CUSHION</span><b id="pjFreedomDays">Set up your plan</b><div class="pjFreedomBar"><i id="pjFreedomBar" style="width:0%"></i></div><small id="pjFreedomHint">Add monthly expenses to calculate how many days are covered</small></div>
     <div class="pjFreedomArrow">›</div>
   </button>
-  <div class="pjQuickTitle">QUICK ADD EXPENSE</div>
+  <div class="pjQuickTitle">ADD TODAY’S SPENDING</div>
   <div class="pjQuick">
     <button data-journey-quick="Food"><div class="icon">🍴</div><b>Food</b></button>
     <button data-journey-quick="Gas"><div class="icon">⛽</div><b>Gas</b></button>
@@ -2357,8 +2357,8 @@ body.journey-active #app>.nav button.on{
     <button data-journey-quick="Misc"><div class="icon">🛒</div><b>Misc</b></button>
   </div>
   <div class="pjTiles">
-    <button class="pjTile" data-nav-direct="calendar"><div class="ti">📅</div><b>Recurring Bills</b><small id="pjBillsText">No bills added</small></button>
-    <button class="pjTile" data-nav-direct="goals"><div class="ti">💰</div><b>Goal Planner</b><small>See savings per paycheck</small></button>
+    <button class="pjTile" data-nav-direct="calendar"><div class="ti">📅</div><b>Your Bills</b><small id="pjBillsText">No bills added</small></button>
+    <button class="pjTile" data-nav-direct="goals"><div class="ti">💰</div><b>Savings Goals</b><small>Choose what you are working toward</small></button>
   </div>
 </div>
 </section>
@@ -2713,14 +2713,14 @@ function estimatedMonthlyTotal(){
 function freedomSnapshot(){
  const monthly=Math.max(recurringMonthlyTotal(),estimatedMonthlyTotal());
  const saved=+(d.goals?.Emergency?.saved||0);
- if(!(monthly>0))return {monthly:0,saved,days:0,next:1,progress:0,stage:"BUILD CLARITY",hint:"Add monthly expenses to calculate your Freedom Time"};
+ if(!(monthly>0))return {monthly:0,saved,days:0,next:1,progress:0,stage:"SET UP YOUR PLAN",hint:"Add monthly expenses to calculate how many days are covered"};
  const daily=monthly/30;
  const days=Math.max(0,Math.floor(saved/daily));
  const milestones=[1,7,14,30,90,180,365];
  const next=milestones.find(value=>days<value)||365;
  const progress=days>=365?100:Math.min(100,(days/next)*100);
  const amountToNext=Math.max(0,next*daily-saved);
- const stage=days<7?"BUILDING STABILITY":days<30?"GROWING SECURITY":days<90?"PROTECTING YOUR FUTURE":"CREATING FREEDOM";
+ const stage=days<7?"STARTING YOUR CUSHION":days<30?"BUILDING YOUR CUSHION":days<90?"GROWING YOUR SECURITY":"MORE FREEDOM TO CHOOSE";
  const hint=days>=365?"One full year of your future is protected":"Next: "+next+" protected day"+(next===1?"":"s")+" • "+money(amountToNext)+" to go";
  return {monthly,saved,days,next,progress,stage,hint};
 }
@@ -3538,4 +3538,4 @@ if ("serviceWorker" in navigator) {
   window.addEventListener("pageshow",boot);
   setTimeout(boot,250);setTimeout(boot,1000);
 })();
-</script><script src="./journey-config-v95.js?v=103"></script><script src="./character-bases.js?v=114"></script><script src="./environment-bases.js?v=103"></script><script src="./asset-contract.js?v=83"></script><script src="./asset-manifest.js?v=103"></script><script src="./asset-loader.js?v=103"></script><script src="./compositor-runtime.js?v=103"></script><script src="./world-runtime.js?v=114"></script><script src="./evolution-path-v115.js?v=124"></script><script src="./cosmetic-store-v120.js?v=131"></script><script src="./world-map-v118.js?v=120"></script><script src="./studio-runtime.js?v=83"></script><script src="./preview-lab.js?v=83"></script><script src="./asset-qa.js?v=85"></script><script src="./lab-ui.js?v=85"></script><script src="./premium-layout-v89.js?v=120"></script></body></html>
+</script><script src="./journey-config-v95.js?v=103"></script><script src="./character-bases.js?v=114"></script><script src="./environment-bases.js?v=103"></script><script src="./asset-contract.js?v=83"></script><script src="./asset-manifest.js?v=103"></script><script src="./asset-loader.js?v=103"></script><script src="./compositor-runtime.js?v=103"></script><script src="./world-runtime.js?v=114"></script><script src="./evolution-path-v115.js?v=124"></script><script src="./cosmetic-store-v120.js?v=131"></script><script src="./world-map-v118.js?v=120"></script><script src="./studio-runtime.js?v=83"></script><script src="./preview-lab.js?v=83"></script><script src="./premium-layout-v89.js?v=132"></script></body></html>
