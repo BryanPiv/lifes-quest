@@ -51,12 +51,13 @@
  }
  function styles(){
   if(document.getElementById("lqQuestCenterStyles"))return;const s=document.createElement("style");s.id="lqQuestCenterStyles";s.textContent=`
-.lqQuestOpen{width:100%;margin-top:10px;border:1px solid rgba(241,199,99,.5);border-radius:10px;padding:8px 9px;background:linear-gradient(180deg,rgba(241,199,99,.19),rgba(241,199,99,.07));color:#fff;text-align:left;font-weight:900;font-size:9px;letter-spacing:.06em}.lqQuestOpen span{float:right;color:#f6cf70}
+.lqQuestOpen{width:100%;margin-top:10px;border:1px solid rgba(241,199,99,.62);border-radius:13px;padding:10px 11px;background:linear-gradient(180deg,rgba(241,199,99,.24),rgba(241,199,99,.09));color:#fff;text-align:left}.lqQuestOpen strong,.lqQuestOpen small{display:block}.lqQuestOpen strong{font-size:10px;letter-spacing:.1em;color:#f6d475}.lqQuestOpen small{margin-top:3px;color:#d8e5ec;font-size:9px}.lqQuestOpen span{float:right;color:#fff;font-weight:900}
 .lqQuestOverlay{position:fixed;z-index:110000;inset:0;background:rgba(1,8,15,.78);backdrop-filter:blur(10px);display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:.25s}.lqQuestOverlay.on{opacity:1;pointer-events:auto}
 .lqQuestSheet{width:min(100%,430px);max-height:88vh;overflow:auto;border-radius:26px 26px 0 0;padding:20px 16px calc(24px + env(safe-area-inset-bottom));background:linear-gradient(180deg,#103653,#061a2b 72%);border:1px solid rgba(114,174,210,.35);box-shadow:0 -24px 60px #0009;color:#fff}
 .lqQuestHead{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.lqQuestHead small{color:#f2c966;font-weight:900;letter-spacing:.16em}.lqQuestHead h2{font:800 27px Georgia,serif;margin:4px 0}.lqQuestClose{border:1px solid #ffffff3b;background:#071c2e;color:#fff;border-radius:50%;width:38px;height:38px;font-size:21px}
 .lqQuestProgress{margin:10px 0 14px}.lqQuestProgress>div{height:8px;background:#04131f;border-radius:99px;overflow:hidden}.lqQuestProgress i{display:block;height:100%;background:linear-gradient(90deg,#e84046,#f4c85f);transition:.4s}.lqQuestProgress p{font-size:11px;color:#acc2d1;margin:7px 0 0}
 .lqCompass{margin:13px 0;padding:15px;border-radius:19px;background:radial-gradient(circle at 100% 0,#ffd66b3b,transparent 38%),linear-gradient(135deg,#173f60,#0b2841);border:1px solid #f1c7636b;box-shadow:0 12px 28px #0003}.lqCompassTop{display:flex;justify-content:space-between;align-items:center}.lqCompassTop small{font-size:9px;letter-spacing:.16em;color:#f2cd70;font-weight:900}.lqCompassBadge{border-radius:999px;padding:5px 8px;background:#061a2b;color:#79e5ff;font-size:9px;font-weight:900}.lqCompass h3{font:800 19px Georgia,serif;margin:8px 0 4px}.lqCompass p{font-size:10px;color:#b9ccd8;line-height:1.45;margin:0}.lqCompassWhy{display:flex;gap:7px;align-items:center;margin-top:10px;color:#f4d98d;font-size:9px;font-weight:800}
+.lqFocusJump{width:100%;margin-top:12px;border:0;border-radius:12px;padding:11px;background:linear-gradient(#f7dc8c,#dba947);color:#142438;font-size:9px;font-weight:950}.lqQuestMore{margin-top:14px;border:1px solid #ffffff1c;border-radius:16px;background:#061725;overflow:hidden}.lqQuestMore>summary{cursor:pointer;padding:13px 14px;color:#b9ceda;font-size:9px;font-weight:900;list-style:none}.lqQuestMore>summary:after{content:"＋";float:right;color:#f2cc69}.lqQuestMore[open]>summary:after{content:"−"}.lqQuestMoreBody{padding:0 12px 13px}.lqQuestMore .lqVoice,.lqQuestMore .lqPath,.lqQuestMore .lqLesson{margin-top:10px}.lqQuestMore .lqAchievements{margin-top:12px}
 .lqPath{margin:13px 0;padding:14px;border-radius:18px;background:#061c2e;border:1px solid #ffffff18}.lqPathHead{display:flex;justify-content:space-between;align-items:end}.lqPathHead b{font:800 15px Georgia,serif}.lqPathHead small{font-size:9px;color:#8eaabc}.lqPathTrack{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-top:13px;position:relative}.lqPathTrack:before{content:"";position:absolute;left:8%;right:8%;top:14px;height:2px;background:#29465c}.lqPathNode{position:relative;text-align:center;z-index:1}.lqPathNode i{width:29px;height:29px;border-radius:50%;display:grid;place-items:center;margin:auto;background:#0a2a42;border:2px solid #3b5c72;color:#8298a7;font-style:normal;font-size:10px;font-weight:900}.lqPathNode span{display:block;margin-top:6px;font-size:7px;color:#7893a5;font-weight:900}.lqPathNode.done i{background:#153f43;border-color:#67e09a;color:#79eca9}.lqPathNode.current i{background:#5b4519;border-color:#f2ca68;color:#ffe49a;box-shadow:0 0 16px #f2ca6860}.lqPathNode.current span{color:#f2ca68}
 .lqAchievements{margin-top:16px}.lqAchievements h3{font:800 17px Georgia,serif;margin:0 0 9px}.lqBadgeGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.lqBadge{min-height:82px;padding:10px 5px;border-radius:14px;text-align:center;background:#071d30;border:1px solid #ffffff14;opacity:.43;filter:saturate(.35)}.lqBadge.earned{opacity:1;filter:none;border-color:#e3bd5c55;background:linear-gradient(180deg,#15354b,#092439)}.lqBadgeIcon{font-size:23px}.lqBadge b{display:block;font-size:8px;margin-top:5px}.lqBadge small{display:block;color:#8fa8b9;font-size:7px;margin-top:3px}.lqBadge.earned small{color:#70dfa0}
 .lqStreak{display:inline-flex;align-items:center;gap:5px;margin-left:6px;color:#ffb34e;font-size:9px;font-weight:900}
@@ -65,7 +66,7 @@
 .lqLesson{margin-top:15px;padding:16px;border-radius:19px;background:radial-gradient(circle at 100% 0,#3b629055,transparent 35%),linear-gradient(180deg,#142f55,#0b2039);border:1px solid #8cadcf55}.lqLessonTag{font-size:9px;letter-spacing:.15em;color:#73e3ff;font-weight:900}.lqLesson h3{font:800 20px Georgia,serif;margin:6px 0}.lqLesson p{font-size:11px;color:#c4d4df;line-height:1.55}.lqTakeaway{padding:10px;border-radius:12px;background:#061827;color:#f3cf78!important}.lqLesson button{width:100%;border:0;border-radius:13px;padding:12px;background:linear-gradient(#f7dc8c,#dba947);font-weight:900;color:#142438}.lqLesson button:disabled{background:#315269;color:#a9c0ce}
 `;document.head.appendChild(s)}
  function ensure(){
-  styles();let o=document.getElementById("lqQuestOverlay");if(!o){o=document.createElement("div");o.id="lqQuestOverlay";o.className="lqQuestOverlay";o.innerHTML='<div class="lqQuestSheet" role="dialog" aria-modal="true"><div class="lqQuestHead"><div><small>YOUR PATH THIS WEEK</small><h2>Weekly Quest</h2></div><button class="lqQuestClose" aria-label="Close">×</button></div><div class="lqQuestProgress"><div><i></i></div><p></p></div><div class="lqCompass"></div><div class="lqVoice"></div><div class="lqPath"></div><div class="lqMissions"></div><div class="lqDailyCheck"></div><div class="lqLesson"></div><div class="lqAchievements"><h3>Achievements</h3><div class="lqBadgeGrid"></div></div></div>';document.body.appendChild(o);o.addEventListener("click",e=>{if(e.target===o||e.target.closest(".lqQuestClose"))o.classList.remove("on")})}
+  styles();let o=document.getElementById("lqQuestOverlay");if(!o){o=document.createElement("div");o.id="lqQuestOverlay";o.className="lqQuestOverlay";o.innerHTML='<div class="lqQuestSheet" role="dialog" aria-modal="true"><div class="lqQuestHead"><div><small>ONE STEP AT A TIME</small><h2>Today’s Focus</h2></div><button class="lqQuestClose" aria-label="Close">×</button></div><div class="lqQuestProgress"><div><i></i></div><p></p></div><div class="lqCompass"></div><div class="lqDailyCheck"></div><details class="lqQuestMore"><summary>Explore advice, lessons, and rewards</summary><div class="lqQuestMoreBody"><div class="lqVoice"></div><div class="lqPath"></div><div class="lqLesson"></div><div class="lqAchievements"><h3>Achievements</h3><div class="lqBadgeGrid"></div></div></div></details></div>';document.body.appendChild(o);o.addEventListener("click",e=>{if(e.target===o||e.target.closest(".lqQuestClose"))o.classList.remove("on")})}
   let b=document.querySelector(".lqQuestOpen");const card=document.querySelector("#journey .pjCompanionCard");if(card&&!b){b=document.createElement("button");b.className="lqQuestOpen";b.type="button";b.addEventListener("click",open);card.appendChild(b)}
   return {o,b};
  }
@@ -85,7 +86,7 @@
   const next=tasks.find(x=>!x.done);return next?{title:next.title,why:next.why,badge:"NEXT BEST MOVE"}:{title:"Protect your momentum",why:"You completed this week’s core habits. Keep your plan visible and enjoy the progress you created.",badge:"WEEK COMPLETE"};
  }
  function voiceLine(d,tasks,mode){
-  const v=VOICES[d.type]||VOICES.fire,next=tasks.find(x=>!x.done),key=!next?"complete":next.title.includes("weekly plan")?"plan":next.title.includes("Check")?"check":"save";
+  const v=VOICES[d.type]||VOICES.fire,next=tasks.find(x=>!x.done),key=!next?"complete":next.action==="plan"?"plan":next.action==="log"?"check":"save";
   if(mode==="why")return v.lines.why+" "+(next?next.why:"Your completed habits are evidence that your system is working.");
   if(mode==="encourage")return v.lines.encourage;
   return v.lines[key];
@@ -131,7 +132,7 @@
   if(count>=5){window.awardQuestXP?.("weekly-consistency",40,weekKey(),"Completed 5 of 7 daily check-ins");window.LQCosmetics?.grantTokens?.(20,"weekly-consistency:"+weekKey(),"Five-day weekly streak");window.save?.();window.render?.()}
  }
  function markDaily(part){
-  const day=localDay(),all=rhythmRead(),state={...(all[day]||{})};state[part]=true;all[day]=state;rhythmWrite(all);maybeCompleteDaily(day);render();showDaily();
+  const day=localDay(),all=rhythmRead(),state={...(all[day]||{})};state[part]=true;all[day]=state;rhythmWrite(all);maybeCompleteDaily(day);render();showDaily(false);
  }
  function recordAwareness(day=localDay()){
   const all=rhythmRead(),state={...(all[day]||{})};state.awareness=true;all[day]=state;rhythmWrite(all);maybeCompleteDaily(day);
@@ -140,42 +141,41 @@
   const labels=["M","T","W","T","F","S","S"],start=weekStart(),all=rhythmRead();
   return '<div class="lqWeekDots">'+labels.map((label,i)=>{const date=new Date(start);date.setDate(start.getDate()+i);const key=localDay(date),done=!!all[key]?.completed;return '<div class="lqWeekDot '+(done?"done ":"")+(key===m.todayKey?"today":"")+'"><i>'+(done?"✓":i+1)+'</i>'+label+'</div>'}).join("")+'</div>';
  }
- function showDaily(){
+ function showDaily(shouldScroll=true){
   const {o}=ensure(),box=o.querySelector(".lqDailyCheck"),m=metrics(),state=m.today,remaining=m.d.allowance>0?Math.max(0,m.d.allowance-(m.d.expenses||[]).filter(x=>{const when=new Date((x.date||"")+"T12:00:00");return when>=weekStart()}).reduce((sum,x)=>sum+(+x.amount||0),0)):0;
   const awareness=state.awareness?'<button class="lqDailyDone" disabled>MONEY CHECK COMPLETE ✓</button>':'<div class="lqDailyCats"><button data-cat="Food">🍴 FOOD</button><button data-cat="Gas">⛽ GAS</button><button data-cat="Entertainment">🎮 FUN</button><button data-cat="Misc">🛒 MISC</button></div><button class="lqNoSpend" data-no-spend>✓ NO-SPEND DAY</button>';
-  box.innerHTML='<h3>Today’s 3-Step Check-In</h3><p>Complete all three small actions to earn +5 Quest XP today.</p>'+
-   '<div class="lqDailyTask '+(state.awareness?"done":"")+'"><div class="lqDailyTaskHead"><span class="lqDailyTaskIcon">✍️</span><div><b>1. Money awareness</b><small>'+(state.awareness?"Complete":"Log spending or confirm a no-spend day")+'</small></div></div>'+awareness+'</div>'+
-   '<div class="lqDailyTask '+(state.budget?"done":"")+'"><div class="lqDailyTaskHead"><span class="lqDailyTaskIcon">📊</span><div><b>2. Review your weekly budget</b><small>'+(m.d.allowance>0?"$"+remaining.toFixed(0)+" currently available":"No weekly budget has been set")+'</small></div></div>'+(state.budget?'<button class="lqDailyDone" disabled>BUDGET REVIEWED ✓</button>':'<button class="lqDailyDone" data-review-budget>I REVIEWED MY BUDGET</button>')+'</div>'+
-   '<div class="lqDailyTask '+(state.insight?"done":"")+'"><div class="lqDailyTaskHead"><span class="lqDailyTaskIcon">🌱</span><div><b>3. This week’s savings insight</b><small>'+m.insight.title+'</small></div></div><div class="lqInsightCopy">'+m.insight.body+'</div>'+(state.insight?'<button class="lqDailyDone" disabled>INSIGHT COMPLETE ✓</button>':'<button class="lqDailyDone" data-read-insight>I UNDERSTAND WHY THIS MATTERS</button>')+'</div>'+
+  box.innerHTML='<h3>Your three simple steps</h3><p>Know where your money stands today. There is no perfect amount and no judgment.</p>'+
+   '<div class="lqDailyTask '+(state.awareness?"done":"")+'"><div class="lqDailyTaskHead"><span class="lqDailyTaskIcon">✍️</span><div><b>1. Log today</b><small>'+(state.awareness?"Done for today":"Add spending, or mark today as no-spend")+'</small></div></div>'+awareness+'</div>'+
+   '<div class="lqDailyTask '+(state.budget?"done":"")+'"><div class="lqDailyTaskHead"><span class="lqDailyTaskIcon">📊</span><div><b>2. Check your weekly plan</b><small>'+(m.d.allowance>0?"$"+remaining.toFixed(0)+" remains this week":"Set a weekly plan when you are ready")+'</small></div></div>'+(state.budget?'<button class="lqDailyDone" disabled>CHECKED ✓</button>':'<button class="lqDailyDone" data-review-budget>MARK AS CHECKED</button>')+'</div>'+
+   '<div class="lqDailyTask '+(state.insight?"done":"")+'"><div class="lqDailyTaskHead"><span class="lqDailyTaskIcon">🌱</span><div><b>3. Learn one useful idea</b><small>'+m.insight.title+'</small></div></div><div class="lqInsightCopy">'+m.insight.body+'</div>'+(state.insight?'<button class="lqDailyDone" disabled>READ ✓</button>':'<button class="lqDailyDone" data-read-insight>MARK AS READ</button>')+'</div>'+
    '<div class="lqDailyReward">'+(state.completed?"TODAY COMPLETE · +5 XP EARNED":"FINISH "+(3-[state.awareness,state.budget,state.insight].filter(Boolean).length)+" MORE TO EARN +5 XP")+'</div>'+weekDots(m);
-  box.classList.add("on");box.scrollIntoView({behavior:"smooth",block:"center"});
+  box.classList.add("on");if(shouldScroll)box.scrollIntoView({behavior:"smooth",block:"center"});
   box.querySelectorAll("[data-cat]").forEach(btn=>btn.onclick=()=>{o.classList.remove("on");box.classList.remove("on");window.quickAdd?.(btn.dataset.cat)});
-  box.querySelector("[data-no-spend]")?.addEventListener("click",()=>{const day=localDay();recordAwareness(day);render();showDaily()});
+  box.querySelector("[data-no-spend]")?.addEventListener("click",()=>{const day=localDay();recordAwareness(day);render();showDaily(false)});
   box.querySelector("[data-review-budget]")?.addEventListener("click",()=>markDaily("budget"));
   box.querySelector("[data-read-insight]")?.addEventListener("click",()=>markDaily("insight"));
  }
  function handleMission(){showDaily()}
  function render(){
   const {o,b}=ensure(),m=metrics(),tasks=[
-   {icon:"✍️",action:"daily",cta:"CHECK IN",title:"Money awareness",why:"Log spending or intentionally record a no-spend day.",done:!!m.today.awareness,state:m.today.awareness?"Complete":"Not yet"},
-   {icon:"📊",action:"daily",cta:"REVIEW",title:"Budget pulse",why:"Look at what remains before making the next spending decision.",done:!!m.today.budget,state:m.today.budget?"Complete":"Not yet"},
-   {icon:"🌱",action:"daily",cta:"READ",title:"Savings insight",why:m.insight.title,done:!!m.today.insight,state:m.today.insight?"Complete":"Not yet"}
+   {icon:"✍️",action:"log",title:"Log today’s spending",why:"Add what you spent, or mark today as a no-spend day.",done:!!m.today.awareness},
+   {icon:"📊",action:"plan",title:"Check your weekly plan",why:"See what remains so you can spend with confidence.",done:!!m.today.budget},
+   {icon:"🌱",action:"learn",title:"Learn one useful idea",why:m.insight.title,done:!!m.today.insight}
   ],done=tasks.filter(x=>x.done).length;
-  if(b)b.innerHTML="DAILY CHECK-IN · "+m.weeklyDays+"/5 DAYS <span>"+done+"/3</span>";
+  if(b)b.innerHTML='<strong>TODAY’S FOCUS <span>'+done+'/3</span></strong><small>'+(done===3?'Complete — enjoy your progress':'Continue your next simple step →')+'</small>';
   o.querySelector(".lqQuestProgress i").style.width=(done/3*100)+"%";
-  o.querySelector(".lqQuestProgress p").innerHTML=(m.today.completed?"Today complete — +5 Quest XP earned.":"Complete "+(3-done)+" more daily action"+(3-done===1?"":"s")+" for +5 XP.")+'<span class="lqStreak">🏆 '+m.weeklyDays+'/5 toward +40 weekly XP</span>';
-  const guide=compass(tasks);o.querySelector(".lqCompass").innerHTML='<div class="lqCompassTop"><small>THIS WEEK’S SAVINGS IDEA</small><span class="lqCompassBadge">'+(m.weeklyDays>=5?"BONUS EARNED":"5 OF 7 DAYS")+'</span></div><h3>'+m.insight.title+'</h3><p>'+m.insight.body+'</p><div class="lqCompassWhy">✦ A new savings insight appears every Monday.</div>'+weekDots(m);
+  o.querySelector(".lqQuestProgress p").textContent=done+" of 3 complete today · "+m.weeklyDays+" of 5 days this week";
+  const guide=compass(tasks);o.querySelector(".lqCompass").innerHTML='<div class="lqCompassTop"><small>YOUR NEXT STEP</small><span class="lqCompassBadge">'+done+'/3 DONE</span></div><h3>'+guide.title+'</h3><p>'+guide.why+'</p>'+(done<3?'<button class="lqFocusJump" data-focus-jump>CONTINUE</button>':'<div class="lqCompassWhy">✓ You are finished for today.</div>');
+  o.querySelector("[data-focus-jump]")?.addEventListener("click",()=>showDaily());
   const voice=o.querySelector(".lqVoice");voice.innerHTML=voiceHTML(m.d,tasks);voice.querySelectorAll("[data-talk]").forEach(btn=>btn.onclick=()=>{dialogueMode=btn.dataset.talk;if(navigator.vibrate)navigator.vibrate(12);render()});
   o.querySelector(".lqPath").innerHTML=pathHTML(m.d);
-  o.querySelector(".lqMissions").innerHTML=tasks.map(x=>'<div class="lqMission '+(x.done?"done":"")+'"><div class="lqMissionIcon">'+x.icon+'</div><div><b>'+x.title+'</b><small>'+x.why+'</small></div>'+(x.done?'<div class="lqMissionState">✓</div>':'<button class="lqMissionAction" data-mission="'+x.action+'">'+x.cta+'</button>')+'</div>').join("");
-  o.querySelectorAll("[data-mission]").forEach(btn=>btn.onclick=showDaily);
   if(m.weeklyDays>=5){window.awardQuestXP?.("weekly-consistency",40,weekKey(),"Completed 5 of 7 daily check-ins");window.LQCosmetics?.grantTokens?.(20,"weekly-consistency:"+weekKey(),"Five-day weekly streak");window.save?.()}
   const idx=stageIndex(m.d),l=LESSONS[idx],id="stage-"+idx,complete=completedLesson(id);
   const lesson=o.querySelector(".lqLesson");lesson.innerHTML='<div class="lqLessonTag">'+l.stage.toUpperCase()+' LESSON</div><h3>'+l.title+'</h3><p>'+l.body+'</p><p class="lqTakeaway">'+l.takeaway+'</p><button '+(complete?"disabled":"")+'>'+(complete?"Lesson complete ✓":"Complete lesson • +20 XP")+'</button>';
   lesson.querySelector("button").onclick=()=>finishLesson(idx);
   o.querySelector(".lqBadgeGrid").innerHTML=achievementData(m.d).map(a=>'<div class="lqBadge '+(a.earned?"earned":"")+'"><div class="lqBadgeIcon">'+(a.earned?a.icon:"🔒")+'</div><b>'+a.name+'</b><small>'+(a.earned?"Earned":a.hint)+'</small></div>').join("");
  }
- function open(){render();document.getElementById("lqQuestOverlay").classList.add("on")}
+ function open(){render();showDaily(false);document.getElementById("lqQuestOverlay").classList.add("on")}
  window.LQQuestCenter={open,render,showDaily,recordAwareness};
  function boot(){render()}if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();window.addEventListener("pageshow",boot);setInterval(render,2500);
 })();
