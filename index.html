@@ -3218,7 +3218,7 @@ function openPlannerGoal(k){
  go("goals");
  setTimeout(()=>openGoal(k),80);
 }
-async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260915-128&refresh="+Date.now());}
+async function refreshApp(){const btn=q("refreshAppBtn");if(btn){btn.disabled=true;btn.textContent="Refreshing…";}try{if("serviceWorker" in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){}const base=location.origin+location.pathname;location.replace(base+"?app=20260915-133&refresh="+Date.now());}
 document.addEventListener("DOMContentLoaded",async()=>{
  try{if(navigator.storage&&navigator.storage.persist)await navigator.storage.persist();}catch(e){}
  renderChoices();
@@ -3292,7 +3292,7 @@ document.addEventListener("DOMContentLoaded",async()=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const reg = await navigator.serviceWorker.register("./sw.js?v=128");
+      const reg = await navigator.serviceWorker.register("./sw.js?v=133");
       await reg.update();
     } catch (e) {}
   });
@@ -3538,4 +3538,4 @@ if ("serviceWorker" in navigator) {
   window.addEventListener("pageshow",boot);
   setTimeout(boot,250);setTimeout(boot,1000);
 })();
-</script><script src="./journey-config-v95.js?v=103"></script><script src="./character-bases.js?v=114"></script><script src="./environment-bases.js?v=103"></script><script src="./asset-contract.js?v=83"></script><script src="./asset-manifest.js?v=103"></script><script src="./asset-loader.js?v=103"></script><script src="./compositor-runtime.js?v=103"></script><script src="./world-runtime.js?v=114"></script><script src="./evolution-path-v115.js?v=124"></script><script src="./cosmetic-store-v120.js?v=131"></script><script src="./world-map-v118.js?v=120"></script><script src="./studio-runtime.js?v=83"></script><script src="./preview-lab.js?v=83"></script><script src="./premium-layout-v89.js?v=132"></script></body></html>
+</script><script src="./journey-config-v95.js?v=103"></script><script src="./character-bases.js?v=114"></script><script src="./environment-bases.js?v=103"></script><script src="./asset-contract.js?v=83"></script><script src="./asset-manifest.js?v=103"></script><script src="./asset-loader.js?v=103"></script><script src="./compositor-runtime.js?v=103"></script><script src="./world-runtime.js?v=114"></script><script src="./evolution-path-v115.js?v=124"></script><script src="./cosmetic-store-v120.js?v=131"></script><script src="./world-map-v118.js?v=133"></script><script src="./studio-runtime.js?v=83"></script><script src="./preview-lab.js?v=83"></script><script src="./premium-layout-v89.js?v=132"></script></body></html>
