@@ -49,7 +49,8 @@
  }
  const chapterProgress=(region,d)=>{const done=region.objectives.filter(o=>objectiveDone(o.id,d)).length;return {done,total:region.objectives.length,complete:done===region.objectives.length}};
  const regionUnlocked=(index,d)=>level(d)>=REGIONS[index].level&&REGIONS.slice(0,index).every(r=>chapterProgress(r,d).complete);
- function sprite(form,cls=""){
+ function sprite(form,cls="",type="fire"){
+  const skin=window.LQCosmetics?.skinMarkup?.(type,"lqMapSprite "+cls);if(skin)return skin;
   if(!form)return '<span class="lqMapFallback">✦</span>';
   if(form.atlas)return '<div class="lqMapSprite '+cls+'" style="background-image:url(&quot;'+esc(form.art)+'&quot;);background-size:500% 500%;background-position:'+(form.atlas.col*25)+'% '+(form.atlas.row*25)+'%"></div>';
   return '<img class="lqMapSprite '+cls+'" src="'+esc(form.art)+'" alt="">';
@@ -60,7 +61,6 @@
 #worldMap{padding:0 0 82px!important;min-height:100dvh;background:#020b13;color:#fff}
 .lqMapHeader{position:sticky;top:0;z-index:40;padding:max(10px,env(safe-area-inset-top)) 14px 10px;background:linear-gradient(180deg,#092a43f8,#061b2df5);border-bottom:1px solid #f1c76342;backdrop-filter:blur(14px)}
 .lqMapHeaderTop{display:flex;align-items:center;gap:8px}.lqMapTitle{flex:1;min-width:0}.lqMapHeader small{color:#f2ce6d;font-size:7px;font-weight:900;letter-spacing:.16em}.lqMapHeader h2{font:800 20px Georgia,serif;margin:2px 0 0;white-space:nowrap}.lqMapLevel{min-width:60px;padding:6px 7px;border-radius:11px;background:#061827;border:1px solid #f1c76375;text-align:center}.lqMapLevel b{display:block;font:800 11px Georgia,serif}.lqMapLevel span{display:block;margin-top:1px;font-size:6px;color:#78e2f2}.lqMapNext{margin-top:6px;color:#bcd0db;font-size:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.lqMapNext strong{color:#f4d477}.lqMapProgress{margin-top:7px;height:5px;border-radius:99px;background:#03101a;overflow:hidden}.lqMapProgress i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#4edbf2,#f3ce68)}
-.lqMapHeader .lqStoreOpen{width:38px;height:38px;padding:0;border-radius:11px;font-size:0}.lqMapHeader .lqStoreOpen:before{content:"🎒";font-size:17px}.lqMapHeader .lqStoreOpen span{display:none}
 .lqMapPurpose{margin-top:10px;padding:10px 11px;border-radius:13px;background:#061827;border:1px solid #ffffff18}.lqMapPurpose b{display:block;color:#f4d477;font-size:9px;letter-spacing:.08em}.lqMapPurpose span{display:block;margin-top:3px;color:#c1d3dd;font-size:8px;line-height:1.4}
 .lqMapViewport{position:relative;height:calc(100dvh - 166px);overflow-y:auto;overscroll-behavior:contain;background:linear-gradient(180deg,#080d20 0,#18132b 15%,#17384a 37%,#15536a 56%,#75301f 76%,#164254 100%);scroll-behavior:smooth}
 .lqMapWorld{position:relative;height:1580px;overflow:hidden;background:radial-gradient(circle at 15% 92%,#81e7ff55,transparent 17%),radial-gradient(circle at 82% 72%,#ff602e55,transparent 16%),radial-gradient(circle at 20% 54%,#38d9ff4d,transparent 17%),radial-gradient(circle at 80% 36%,#ffe25c42,transparent 17%),radial-gradient(circle at 17% 18%,#a65cff4f,transparent 16%),linear-gradient(180deg,transparent,#ffffff08 45%,transparent)}
@@ -126,7 +126,7 @@ body[data-map-reward="ember-ridge"] #lqCharacterHost .lqCharacterAccessory:after
   const world=page.querySelector(".lqMapWorld");
   world.innerHTML=pathSVG()+'<div class="lqMapCloud" style="top:12%;left:4%"></div><div class="lqMapCloud" style="top:43%;right:-8%;animation-delay:-3s"></div><div class="lqMapCloud" style="top:74%;left:-6%;animation-delay:-6s"></div>'+
    REGIONS.map((r,i)=>{const unlocked=regionUnlocked(i,d),p=chapterProgress(r,d);return '<article class="lqMapRegion '+r.side+' '+(!unlocked?"locked ":"")+(i===currentIndex?"current":"")+'" data-region="'+r.id+'" style="--region:'+r.tone+';top:'+r.y+'%"><div class="lqMapRegionTop"><span class="lqMapIcon">'+(!unlocked?"🔒":r.icon)+'</span><div><label>'+r.stage.toUpperCase()+' · LEVEL '+r.level+'</label><h3>'+r.name+'</h3></div></div><div class="lqChapterProgress"><strong>'+p.done+'/'+p.total+' STEPS</strong> · '+(p.complete?"COMPLETE":"IN PROGRESS")+'</div><div class="lqRegionRewardTag">'+r.icon+' '+r.reward.toUpperCase()+'</div><button>'+(!unlocked?"REQUIREMENTS":"VIEW")+'</button></article>'}).join("")+
-   '<div class="lqMapPlayer" style="left:'+(current.side==="left"?69:31)+'%;top:'+(current.y-5)+'%">'+sprite(form)+'</div>';
+   '<div class="lqMapPlayer" style="left:'+(current.side==="left"?69:31)+'%;top:'+(current.y-5)+'%">'+sprite(form,"",d.type||"fire")+'</div>';
   world.querySelectorAll("[data-region]").forEach(card=>card.onclick=()=>openRegion(card.dataset.region));
   applyReward();checkUnlocks(lv);
   if(center){const viewport=page.querySelector(".lqMapViewport"),marker=world.querySelector(".lqMapPlayer");requestAnimationFrame(()=>{viewport.scrollTop=Math.max(0,marker.offsetTop-viewport.clientHeight*.45)})}
