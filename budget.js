@@ -14,6 +14,8 @@ const categories=['Gas','Food','Fun','Misc'];
 const defaultExpenses=()=>allPresets.map(name=>({name,amount:0}));
 let data;
 let page='plan';
+let calendarMonth=new Date(new Date().getFullYear(),new Date().getMonth(),1);
+let selectedDay=new Date().getDate();
 function migrate(){
   try{
     const old=JSON.parse(localStorage.getItem('lifesQuestWeb')||'null');
@@ -34,7 +36,7 @@ if(!Array.isArray(data.transactions))data.transactions=[];
 for(const name of allPresets){if(!data.expenses.some(x=>x.name===name))data.expenses.push({name,amount:0})}
 const save=()=>localStorage.setItem(KEY,JSON.stringify(data));
 function openPage(target){
-  if(!['plan','expenses','goals','breakdown'].includes(target))return;
+  if(!['plan','expenses','goals','breakdown','calendar'].includes(target))return;
   page=target;
   document.querySelectorAll('.page').forEach(el=>{el.hidden=el.id!==target;el.classList.toggle('active',el.id===target)});
   document.querySelectorAll('.tabs button').forEach(button=>{
@@ -61,10 +63,15 @@ function expenseRow(item){
   else name.addEventListener('input',()=>{item.name=name.value;save()});
   const amount=document.createElement('input');amount.type='number';amount.min='0';amount.step='0.01';amount.inputMode='decimal';amount.placeholder='0.00';amount.value=item.amount||'';amount.setAttribute('aria-label',(item.name||'Expense')+' monthly amount');
   amount.addEventListener('input',()=>{item.amount=positive(amount.value);save();render()});
+  const due=document.createElement('select');due.setAttribute('aria-label',(item.name||'Expense')+' due day');
+  const blank=document.createElement('option');blank.value='';blank.textContent='Day';due.append(blank);
+  for(let day=1;day<=31;day++){const option=document.createElement('option');option.value=String(day);option.textContent=String(day);due.append(option)}
+  due.value=item.dueDay?String(item.dueDay):'';
+  due.addEventListener('change',()=>{item.dueDay=due.value?Number(due.value):null;save();renderCalendar()});
   const remove=document.createElement('button');remove.type='button';remove.className='remove';remove.textContent='×';remove.setAttribute('aria-label','Remove '+(item.name||'expense'));
   remove.addEventListener('click',()=>{data.expenses.splice(data.expenses.indexOf(item),1);save();renderExpenses();render()});
   if(allPresets.includes(item.name)){remove.disabled=true;remove.style.visibility='hidden'}
-  row.append(name,amount,remove);return row;
+  row.append(name,amount,due,remove);return row;
 }
 function renderExpenses(){
   const root=$('expenseGroups');
@@ -136,6 +143,58 @@ function approximatePaychecks(date){
   const days=Math.ceil((departure-today)/86400000);
   return days>0?Math.ceil(days/(data.frequency==='biweekly'?14:7)):0;
 }
+const monthThemes=[
+  ['❄️','Fresh starts, frosty mornings.','#dcefff','#d8d8ff','#285995'],
+  ['💗','A little love for your future self.','#ffe1ec','#f6d9ff','#9d3e81'],
+  ['☘️','Small steps bring good things.','#e1f9dd','#d3f0ee','#26705e'],
+  ['🌦️','Rainy days make room for blooms.','#e4efff','#eadcff','#4b67a2'],
+  ['🌷','Make space for what grows.','#ffe4ee','#f4e7c9','#9c507d'],
+  ['☀️','Sunny plans ahead.','#fff0bd','#ffd9ba','#a26322'],
+  ['🎆','A bright new chapter.','#ffdfec','#e2dcff','#88409c'],
+  ['🏖️','A little sunshine in the plan.','#dff5ff','#ffe9c9','#227b9b'],
+  ['🍂','Golden leaves and fresh starts.','#ffdfbc','#f8c8aa','#9b532f'],
+  ['🎃','Cozy plans, crisp nights.','#ffe2bd','#ead5f7','#914c57'],
+  ['🍁','A season to feel grounded.','#f4dfc4','#f7cdb8','#995a39'],
+  ['☃️','Warm wishes for winter days.','#ddecff','#e8dfff','#5a639f']
+];
+const activeBills=()=>data.expenses.filter(item=>!trackedNames.has(item.name)&&positive(item.amount)>0);
+function billsOnDay(day){
+  const last=new Date(calendarMonth.getFullYear(),calendarMonth.getMonth()+1,0).getDate();
+  return activeBills().filter(item=>item.dueDay&&Math.min(Number(item.dueDay),last)===day);
+}
+function billList(root,bills,emptyText){
+  root.replaceChildren();
+  if(!bills.length){const p=document.createElement('p');p.className='muted';p.textContent=emptyText;root.append(p);return}
+  bills.forEach(item=>{const row=document.createElement('div');row.className='calendar-bill';const name=document.createElement('span');name.textContent=item.name||'Monthly bill';const amount=document.createElement('strong');amount.textContent=money(positive(item.amount));row.append(name,amount);root.append(row)});
+}
+function renderCalendar(){
+  const year=calendarMonth.getFullYear(),month=calendarMonth.getMonth(),last=new Date(year,month+1,0).getDate();
+  selectedDay=Math.min(Math.max(1,selectedDay),last);
+  const theme=monthThemes[month],banner=$('monthBanner');
+  banner.style.setProperty('--month-a',theme[2]);banner.style.setProperty('--month-b',theme[3]);banner.style.setProperty('--month-ink',theme[4]);
+  $('monthTitle').textContent=calendarMonth.toLocaleDateString(undefined,{month:'long',year:'numeric'});
+  $('monthSubtitle').textContent=theme[1];$('monthArt').textContent=theme[0];
+  const scheduled=activeBills().filter(item=>item.dueDay);
+  $('monthBillTotal').textContent=money(scheduled.reduce((sum,item)=>sum+positive(item.amount),0))+' scheduled';
+  const root=$('calendarGrid');root.replaceChildren();
+  for(let i=0;i<new Date(year,month,1).getDay();i++){const blank=document.createElement('span');blank.className='calendar-blank';root.append(blank)}
+  const today=localDate();
+  for(let day=1;day<=last;day++){
+    const bills=billsOnDay(day),button=document.createElement('button');button.type='button';button.className='calendar-day';
+    if(bills.length)button.classList.add('has-bill');if(day===selectedDay)button.classList.add('selected');
+    const iso=`${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+    if(iso===today)button.classList.add('today');
+    button.setAttribute('aria-label',`${calendarMonth.toLocaleDateString(undefined,{month:'long'})} ${day}: ${bills.length} ${bills.length===1?'bill':'bills'}`);
+    const numeral=document.createElement('span');numeral.textContent=String(day);button.append(numeral);
+    if(bills.length){const dot=document.createElement('i');dot.setAttribute('aria-hidden','true');button.append(dot)}
+    button.addEventListener('click',()=>{selectedDay=day;renderCalendar()});root.append(button);
+  }
+  $('selectedDayTitle').textContent=new Date(year,month,selectedDay).toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'});
+  billList($('dayBills'),billsOnDay(selectedDay),'No bills due on this day.');
+  billList($('undatedBills'),activeBills().filter(item=>!item.dueDay),'All your entered bills have due days.');
+}
+$('prevMonth').addEventListener('click',()=>{calendarMonth=new Date(calendarMonth.getFullYear(),calendarMonth.getMonth()-1,1);selectedDay=1;renderCalendar()});
+$('nextMonth').addEventListener('click',()=>{calendarMonth=new Date(calendarMonth.getFullYear(),calendarMonth.getMonth()+1,1);selectedDay=1;renderCalendar()});
 function render(){
   const periods=data.frequency==='biweekly'?26:52;
   const pay=positive(data.pay),learned=tracking(),current=payPeriod();
@@ -184,6 +243,7 @@ function render(){
     const items=data.expenses.filter(item=>group.dataset.group==='Added by you'?!allPresets.includes(item.name)&&!trackedNames.has(item.name):(presets[group.dataset.group]||[]).includes(item.name));
     const subtotal=group.querySelector('summary small');if(subtotal)subtotal.textContent=money(items.reduce((sum,item)=>sum+positive(item.amount),0))+'/mo';
   });
+  renderCalendar();
   const result=$('tripResult');result.replaceChildren();
   const cost=positive(data.tripCost),saved=positive(data.tripSaved),checks=data.tripDate?approximatePaychecks(data.tripDate):0;
   if(!cost||!data.tripDate){result.textContent='Add an amount and a date to see your target per paycheck.';$('goalContext').textContent='Your budget and vacation goal update together.';return}
