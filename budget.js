@@ -144,18 +144,18 @@ function approximatePaychecks(date){
   return days>0?Math.ceil(days/(data.frequency==='biweekly'?14:7)):0;
 }
 const monthThemes=[
-  ['❄️','Fresh starts, frosty mornings.','#dcefff','#d8d8ff','#285995'],
-  ['💗','A little love for your future self.','#ffe1ec','#f6d9ff','#9d3e81'],
-  ['☘️','Small steps bring good things.','#e1f9dd','#d3f0ee','#26705e'],
-  ['🌦️','Rainy days make room for blooms.','#e4efff','#eadcff','#4b67a2'],
-  ['🌷','Make space for what grows.','#ffe4ee','#f4e7c9','#9c507d'],
-  ['☀️','Sunny plans ahead.','#fff0bd','#ffd9ba','#a26322'],
-  ['🎆','A bright new chapter.','#ffdfec','#e2dcff','#88409c'],
-  ['🏖️','A little sunshine in the plan.','#dff5ff','#ffe9c9','#227b9b'],
-  ['🍂','Golden leaves and fresh starts.','#ffdfbc','#f8c8aa','#9b532f'],
-  ['🎃','Cozy plans, crisp nights.','#ffe2bd','#ead5f7','#914c57'],
-  ['🍁','A season to feel grounded.','#f4dfc4','#f7cdb8','#995a39'],
-  ['☃️','Warm wishes for winter days.','#ddecff','#e8dfff','#5a639f']
+  ['❄️','Fresh starts, frosty mornings.','#dcefff','#d8d8ff','#285995','Winter wishes','⛄','✨','#4a8ed0'],
+  ['💗','A little love for your future self.','#ffe1ec','#f6d9ff','#9d3e81','Sweet February','💌','✨','#df599a'],
+  ['☘️','Small steps bring good things.','#e1f9dd','#d3f0ee','#26705e','Lucky little steps','🌈','🌱','#43a873'],
+  ['🌦️','Rainy days make room for blooms.','#e4efff','#eadcff','#4b67a2','April showers','🌼','💧','#6a9bdc'],
+  ['🌷','Make space for what grows.','#ffe4ee','#f4e7c9','#9c507d','Spring in bloom','🦋','🌸','#dd78a1'],
+  ['☀️','Sunny plans ahead.','#fff0bd','#ffd9ba','#a26322','Hello, sunshine','🍋','🌻','#e5a941'],
+  ['🎆','A bright new chapter.','#ffdfec','#e2dcff','#88409c','Summer sparkle','🍉','⭐','#b767c8'],
+  ['🏖️','A little sunshine in the plan.','#dff5ff','#ffe9c9','#227b9b','Seaside days','🐚','☀️','#56acc5'],
+  ['🍂','Golden leaves and fresh starts.','#ffdfbc','#f8c8aa','#9b532f','Autumn days','🍎','✨','#db8451'],
+  ['🎃','Cozy plans, crisp nights.','#ffe2bd','#ead5f7','#914c57','Spooky season','🍬','👻','#d47756'],
+  ['🍁','A season to feel grounded.','#f4dfc4','#f7cdb8','#995a39','Cozy November','🥧','🧣','#bb7a55'],
+  ['☃️','Warm wishes for winter days.','#ddecff','#e8dfff','#5a639f','Winter magic','🎁','✨','#8496d3']
 ];
 const activeBills=()=>data.expenses.filter(item=>!trackedNames.has(item.name)&&positive(item.amount)>0);
 function billsOnDay(day){
@@ -170,10 +170,11 @@ function billList(root,bills,emptyText){
 function renderCalendar(){
   const year=calendarMonth.getFullYear(),month=calendarMonth.getMonth(),last=new Date(year,month+1,0).getDate();
   selectedDay=Math.min(Math.max(1,selectedDay),last);
-  const theme=monthThemes[month],banner=$('monthBanner');
-  banner.style.setProperty('--month-a',theme[2]);banner.style.setProperty('--month-b',theme[3]);banner.style.setProperty('--month-ink',theme[4]);
+  const theme=monthThemes[month],card=$('calendarCard'),details=$('calendarDetails');
+  for(const node of [card,details]){node.style.setProperty('--month-a',theme[2]);node.style.setProperty('--month-b',theme[3]);node.style.setProperty('--month-ink',theme[4]);node.style.setProperty('--month-accent',theme[8])}
   $('monthTitle').textContent=calendarMonth.toLocaleDateString(undefined,{month:'long',year:'numeric'});
-  $('monthSubtitle').textContent=theme[1];$('monthArt').textContent=theme[0];
+  $('monthSubtitle').textContent=theme[1];$('monthBadge').textContent=theme[5];
+  $('monthArtA').textContent=theme[0];$('monthArtB').textContent=theme[6];$('monthArtC').textContent=theme[7];
   const scheduled=activeBills().filter(item=>item.dueDay);
   $('monthBillTotal').textContent=money(scheduled.reduce((sum,item)=>sum+positive(item.amount),0))+' scheduled';
   const root=$('calendarGrid');root.replaceChildren();
@@ -184,9 +185,10 @@ function renderCalendar(){
     if(bills.length)button.classList.add('has-bill');if(day===selectedDay)button.classList.add('selected');
     const iso=`${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
     if(iso===today)button.classList.add('today');
-    button.setAttribute('aria-label',`${calendarMonth.toLocaleDateString(undefined,{month:'long'})} ${day}: ${bills.length} ${bills.length===1?'bill':'bills'}`);
+    const dueTotal=bills.reduce((sum,item)=>sum+positive(item.amount),0);
+    button.setAttribute('aria-label',`${calendarMonth.toLocaleDateString(undefined,{month:'long'})} ${day}: ${bills.length} ${bills.length===1?'bill':'bills'}, ${money(dueTotal)} due`);
     const numeral=document.createElement('span');numeral.textContent=String(day);button.append(numeral);
-    if(bills.length){const dot=document.createElement('i');dot.setAttribute('aria-hidden','true');button.append(dot)}
+    if(bills.length){const tag=document.createElement('small');tag.className='bill-tag';tag.textContent=dueTotal>=1000?'$'+(dueTotal/1000).toFixed(dueTotal%1000?1:0)+'k':money(dueTotal).replace(/\.00$/,'');button.append(tag)}
     button.addEventListener('click',()=>{selectedDay=day;renderCalendar()});root.append(button);
   }
   $('selectedDayTitle').textContent=new Date(year,month,selectedDay).toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'});
