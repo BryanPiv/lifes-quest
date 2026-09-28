@@ -7,7 +7,7 @@ const presets={
   Home:['Rent / mortgage','Electricity','Water','Internet / phone'],
   Transportation:['Car payment','Car insurance','Gas','Parking / transit'],
   Everyday:['Groceries','Dining out','Entertainment','Personal care'],
-  Other:['Debt payments','Subscriptions','Healthcare','Other spending']
+  Other:['Debt payments','Subscriptions','Healthcare out of pocket','Other spending']
 };
 const allPresets=Object.values(presets).flat();
 const defaultExpenses=()=>allPresets.map(name=>({name,amount:0}));
@@ -21,11 +21,12 @@ function migrate(){
     const expenses=[['Rent / mortgage',e.housing],['Car payment',e.car],['Car insurance',e.insurance],['Electricity',e.utilities],['Debt payments',e.debt],['Subscriptions',e.subscriptions],['Groceries',e.food],['Gas',e.gas],['Entertainment',e.entertainment],['Other spending',e.other],...(e.additionalBills||[]).map(b=>[b.name,b.amount])]
       .filter(([,amount])=>positive(amount)>0).map(([name,amount])=>({name,amount:positive(amount)}));
     const trip=(old.plan?.goals||[]).find(g=>/vacation|trip/i.test((g.type||'')+' '+(g.name||'')))||{};
-    return {pay:positive(old.income?.amount),frequency:old.income?.frequency==='biweekly'?'biweekly':'weekly',expenses,savings:positive(old.savingsPerPaycheck),tripName:trip.name||'',tripDate:trip.date||'',tripCost:positive(trip.amount),tripSaved:positive(trip.saved)};
+    const frequency=old.income?.frequency==='biweekly'?'biweekly':'weekly';
+    return {pay:positive(old.income?.amount),frequency,expenses,retirement401k:0,healthcarePayroll:positive(old.income?.healthcare)*(frequency==='biweekly'?26:52)/12,ira:0,tripName:trip.name||'',tripDate:trip.date||'',tripCost:positive(trip.amount),tripSaved:positive(trip.saved)};
   }catch{return null}
 }
 try{data=JSON.parse(localStorage.getItem(KEY)||'null')||migrate()}catch{}
-data=data||{pay:0,frequency:'weekly',expenses:defaultExpenses(),savings:0,tripName:'',tripDate:'',tripCost:0,tripSaved:0};
+data=data||{pay:0,frequency:'weekly',expenses:defaultExpenses(),retirement401k:0,healthcarePayroll:0,ira:0,tripName:'',tripDate:'',tripCost:0,tripSaved:0};
 if(!Array.isArray(data.expenses))data.expenses=[];
 // Keep custom and imported expenses, and add each missing preset without copying an amount.
 for(const name of allPresets){if(!data.expenses.some(x=>x.name===name))data.expenses.push({name,amount:0})}
@@ -43,7 +44,7 @@ function openPage(target){
 }
 document.querySelectorAll('[data-page]').forEach(button=>button.addEventListener('click',()=>openPage(button.dataset.page)));
 document.querySelectorAll('[data-goto]').forEach(button=>button.addEventListener('click',()=>openPage(button.dataset.goto)));
-for(const id of ['pay','savings','tripName','tripDate','tripCost','tripSaved']){
+for(const id of ['pay','retirement401k','healthcarePayroll','ira','tripName','tripDate','tripCost','tripSaved']){
   $(id).value=data[id]||'';
   $(id).addEventListener('input',()=>{data[id]=['tripName','tripDate'].includes(id)?$(id).value:positive($(id).value);save();render()});
 }
@@ -87,16 +88,24 @@ function approximatePaychecks(date){
 function render(){
   const periods=data.frequency==='biweekly'?26:52;
   const pay=positive(data.pay),monthly=data.expenses.reduce((total,item)=>total+positive(item.amount),0);
-  const expensePerPay=monthly*12/periods,available=pay-expensePerPay,savings=positive(data.savings);
+  const expensePerPay=monthly*12/periods,iraPerPay=positive(data.ira)*12/periods,available=pay-expensePerPay-iraPerPay;
+  const filled=data.expenses.some(item=>positive(item.amount)>0);
+  // CFPB's 20% take-home benchmark covers savings and debt payments.
+  // Half of the remaining surplus is a separate app buffer, not a CFPB formula.
+  const debtPerPay=data.expenses.filter(item=>item.name==='Debt payments').reduce((sum,item)=>sum+positive(item.amount),0)*12/periods;
+  const target=Math.max(0,pay*.2-iraPerPay-debtPerPay);
+  const suggested=pay>0&&filled?Math.min(target,Math.max(0,available)*.5):0;
   $('period').textContent=data.frequency==='biweekly'?'every 2 weeks':'per week';
-  $('available').textContent=money(available);$('payOut').textContent=money(pay);$('expenseOut').textContent=money(expensePerPay);
-  $('spending').textContent=money(available-savings);$('annual').textContent=money(savings*periods);
+  $('available').textContent=money(available);$('payOut').textContent=money(pay);$('expenseOut').textContent=money(expensePerPay);$('iraPlan').textContent=money(iraPerPay);
+  $('suggested').textContent=money(suggested);
+  $('suggestedPeriod').textContent=data.frequency==='biweekly'?'every 2 weeks, beyond your IRA':'each week, beyond your IRA';
+  $('spending').textContent=money(available-suggested);$('annual').textContent=money(suggested*periods);
   $('monthlyTotal').textContent=money(monthly);$('expenseAside').textContent=money(expensePerPay);
+  $('iraAside').textContent=money(iraPerPay);
   $('count').textContent=data.expenses.filter(x=>positive(x.amount)>0).length+' filled';
   $('shortfall').classList.toggle('hidden',!(pay>0&&available<0));
-  $('shortfall').textContent='Expenses exceed pay by '+money(-available)+' each paycheck.';
-  $('overSaving').classList.toggle('hidden',!(savings>Math.max(0,available)));
-  $('overSaving').textContent='Savings exceed what is available by '+money(savings-Math.max(0,available))+' each paycheck.';
+  $('shortfall').textContent='Expenses and IRA transfers exceed pay by '+money(-available)+' each paycheck.';
+  $('recommendationReason').textContent=!pay?'Enter take-home pay to get started.':!filled?'Add your monthly expenses to see a useful suggestion.':available<=0?'There is no extra room after the costs entered. Review the plan before adding cash savings.':target<=0?'Your IRA and debt payments already reach the 20% take-home benchmark.':'Uses the CFPB 20% savings-and-debt guideline, less your IRA and debt payments, capped at half of what remains. Your 401(k) is already outside take-home pay.';
   $('nextCopy').textContent=monthly>0?'Your plan is ready to review and adjust.':'Add your usual expenses to make this number useful.';
   document.querySelectorAll('.expense-group').forEach(group=>{
     const items=data.expenses.filter(item=>group.dataset.group==='Added by you'?!allPresets.includes(item.name):(presets[group.dataset.group]||[]).includes(item.name));
@@ -110,8 +119,8 @@ function render(){
   const title=document.createElement('strong');title.textContent=money(per)+' each paycheck';
   const detail=document.createElement('p');detail.textContent=remaining?money(remaining)+' to go over approximately '+checks+' paychecks.':'You have already saved enough for this trip.';
   result.append(title,detail);
-  $('goalContext').textContent=remaining&&per>Math.max(0,available)?'This goal exceeds what is currently available after expenses.':remaining&&savings<per?'Your current savings amount is lower than this vacation target.':'This target can fit inside your current savings amount.';
+  $('goalContext').textContent=remaining&&per>Math.max(0,available)?'This goal exceeds what is available after expenses and IRA transfers.':remaining&&suggested<per?'This trip needs more per paycheck than the suggested cash savings.':'This target fits within the suggested cash savings.';
 }
 renderExpenses();render();
-$('reset').addEventListener('click',()=>{if(!confirm('Clear this budget and start over? Your older Life’s Quest data stays separately stored.'))return;data={pay:0,frequency:'weekly',expenses:defaultExpenses(),savings:0,tripName:'',tripDate:'',tripCost:0,tripSaved:0};save();location.reload()});
+$('reset').addEventListener('click',()=>{if(!confirm('Clear this budget and start over? Your older Life’s Quest data stays separately stored.'))return;data={pay:0,frequency:'weekly',expenses:defaultExpenses(),retirement401k:0,healthcarePayroll:0,ira:0,tripName:'',tripDate:'',tripCost:0,tripSaved:0};save();location.reload()});
 if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
