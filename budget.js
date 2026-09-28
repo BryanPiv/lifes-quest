@@ -186,14 +186,14 @@ function renderCalendar(){
     const iso=`${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
     if(iso===today)button.classList.add('today');
     const dueTotal=bills.reduce((sum,item)=>sum+positive(item.amount),0);
-    button.setAttribute('aria-label',`${calendarMonth.toLocaleDateString(undefined,{month:'long'})} ${day}: ${bills.length} ${bills.length===1?'bill':'bills'}, ${money(dueTotal)} due`);
+    button.setAttribute('aria-label',`${calendarMonth.toLocaleDateString(undefined,{month:'long'})} ${day}: ${bills.length?`${bills.length} ${bills.length===1?'bill':'bills'}, ${money(dueTotal)} due`:'no bills'}`);
     const numeral=document.createElement('span');numeral.textContent=String(day);button.append(numeral);
     if(bills.length){const tag=document.createElement('small');tag.className='bill-tag';tag.textContent=dueTotal>=1000?'$'+(dueTotal/1000).toFixed(dueTotal%1000?1:0)+'k':money(dueTotal).replace(/\.00$/,'');button.append(tag)}
     button.addEventListener('click',()=>{selectedDay=day;renderCalendar()});root.append(button);
   }
   $('selectedDayTitle').textContent=new Date(year,month,selectedDay).toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'});
   billList($('dayBills'),billsOnDay(selectedDay),'No bills due on this day.');
-  billList($('undatedBills'),activeBills().filter(item=>!item.dueDay),'All your entered bills have due days.');
+  billList($('undatedBills'),activeBills().filter(item=>!item.dueDay),activeBills().length?'All your entered bills have due days.':'Add a monthly bill on Expenses to get started.');
 }
 $('prevMonth').addEventListener('click',()=>{calendarMonth=new Date(calendarMonth.getFullYear(),calendarMonth.getMonth()-1,1);selectedDay=1;renderCalendar()});
 $('nextMonth').addEventListener('click',()=>{calendarMonth=new Date(calendarMonth.getFullYear(),calendarMonth.getMonth()+1,1);selectedDay=1;renderCalendar()});
