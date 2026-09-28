@@ -6,10 +6,11 @@ const positive=value=>Math.max(0,Number(value)||0);
 const presets={
   Home:['Rent / mortgage','Electricity','Water','Internet / phone'],
   Transportation:['Car payment','Car insurance','Gas','Parking / transit'],
-  Everyday:['Groceries','Dining out','Entertainment','Personal care'],
+  Everyday:['Dining out','Entertainment','Personal care'],
   Other:['Debt payments','Subscriptions','Healthcare out of pocket','Other spending']
 };
 const allPresets=Object.values(presets).flat();
+const trackedNames=new Set(['Groceries','Gas','Food']);
 const defaultExpenses=()=>allPresets.map(name=>({name,amount:0}));
 let data;
 let page='plan';
@@ -28,6 +29,7 @@ function migrate(){
 try{data=JSON.parse(localStorage.getItem(KEY)||'null')||migrate()}catch{}
 data=data||{pay:0,frequency:'weekly',expenses:defaultExpenses(),retirement401k:0,healthcarePayroll:0,ira:0,tripName:'',tripDate:'',tripCost:0,tripSaved:0};
 if(!Array.isArray(data.expenses))data.expenses=[];
+if(!Array.isArray(data.transactions))data.transactions=[];
 // Keep custom and imported expenses, and add each missing preset without copying an amount.
 for(const name of allPresets){if(!data.expenses.some(x=>x.name===name))data.expenses.push({name,amount:0})}
 const save=()=>localStorage.setItem(KEY,JSON.stringify(data));
@@ -66,7 +68,7 @@ function renderExpenses(){
   const root=$('expenseGroups');
   const openGroups=new Set([...root.querySelectorAll('details[open]')].map(x=>x.dataset.group));
   root.replaceChildren();
-  const custom=data.expenses.filter(item=>!allPresets.includes(item.name));
+  const custom=data.expenses.filter(item=>!allPresets.includes(item.name)&&!trackedNames.has(item.name));
   const groups=[...Object.entries(presets).map(([name,names])=>[name,data.expenses.filter(item=>names.includes(item.name))]),['Added by you',custom]];
   for(const [name,items] of groups){
     if(!items.length)continue;
@@ -79,6 +81,35 @@ function renderExpenses(){
   }
 }
 $('add').addEventListener('click',()=>{const item={name:'',amount:0};data.expenses.push(item);save();renderExpenses();const custom=[...document.querySelectorAll('.expense-group')].find(el=>el.dataset.group==='Added by you');if(custom){custom.open=true;custom.querySelector('.expense-item:last-child .name')?.focus()}});
+function localDate(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
+$('quickDate').value=localDate();$('quickDate').max=localDate();
+$('quickForm').addEventListener('submit',event=>{
+  event.preventDefault();const amount=positive($('quickAmount').value),date=$('quickDate').value;
+  if(!amount||!date||date>localDate())return;
+  data.transactions.unshift({id:Date.now()+'-'+Math.random().toString(36).slice(2),category:$('quickCategory').value,amount,date});
+  data.trackingStart=data.trackingStart||localDate();save();$('quickAmount').value='';$('quickDate').value=localDate();render();$('quickAmount').focus();
+});
+function tracking(){
+  const today=localDate(),now=new Date(today+'T12:00:00');
+  const start=data.trackingStart?new Date(data.trackingStart+'T12:00:00'):null;
+  const days=start&&!Number.isNaN(start.getTime())?Math.max(0,Math.floor((now-start)/86400000)):0;
+  const cutoff=new Date(now);cutoff.setDate(cutoff.getDate()-29);
+  const cutoffDate=`${cutoff.getFullYear()}-${String(cutoff.getMonth()+1).padStart(2,'0')}-${String(cutoff.getDate()).padStart(2,'0')}`;
+  const recent=data.transactions.filter(t=>t.date>=cutoffDate&&t.date<=today);
+  const month=data.transactions.filter(t=>t.date?.slice(0,7)===today.slice(0,7));
+  return {days,ready:days>=30&&data.transactions.length>0,monthly:recent.reduce((sum,t)=>sum+positive(t.amount),0),monthToDate:month.reduce((sum,t)=>sum+positive(t.amount),0)};
+}
+function renderRecent(){
+  const list=$('recentExpenses');list.replaceChildren();
+  for(const transaction of data.transactions.slice(0,4)){
+    const item=document.createElement('li');const label=document.createElement('span');
+    label.textContent=`${transaction.category} · ${transaction.date}`;
+    const amount=document.createElement('strong');amount.textContent=money(positive(transaction.amount));
+    const remove=document.createElement('button');remove.type='button';remove.textContent='×';remove.setAttribute('aria-label',`Remove ${transaction.category} expense`);
+    remove.addEventListener('click',()=>{data.transactions=data.transactions.filter(t=>t.id!==transaction.id);if(!data.transactions.length)delete data.trackingStart;save();render()});
+    item.append(label,amount,remove);list.append(item);
+  }
+}
 function approximatePaychecks(date){
   const departure=new Date(date+'T12:00:00');const today=new Date();today.setHours(12,0,0,0);
   if(Number.isNaN(departure.getTime()))return 0;
@@ -87,28 +118,39 @@ function approximatePaychecks(date){
 }
 function render(){
   const periods=data.frequency==='biweekly'?26:52;
-  const pay=positive(data.pay),monthly=data.expenses.reduce((total,item)=>total+positive(item.amount),0);
+  const pay=positive(data.pay),learned=tracking();
+  const fixedMonthly=data.expenses.filter(item=>!trackedNames.has(item.name)).reduce((total,item)=>total+positive(item.amount),0);
+  const monthly=fixedMonthly+(learned.ready?learned.monthly:0);
   const expensePerPay=monthly*12/periods,iraPerPay=positive(data.ira)*12/periods,available=pay-expensePerPay-iraPerPay;
-  const filled=data.expenses.some(item=>positive(item.amount)>0);
+  const filled=data.expenses.some(item=>!trackedNames.has(item.name)&&positive(item.amount)>0)||learned.monthly>0;
   // CFPB's 20% take-home benchmark covers savings and debt payments.
   // Half of the remaining surplus is a separate app buffer, not a CFPB formula.
   const debtPerPay=data.expenses.filter(item=>item.name==='Debt payments').reduce((sum,item)=>sum+positive(item.amount),0)*12/periods;
   const target=Math.max(0,pay*.2-iraPerPay-debtPerPay);
-  const suggested=pay>0&&filled?Math.min(target,Math.max(0,available)*.5):0;
+  const suggested=pay>0&&filled&&learned.ready?Math.min(target,Math.max(0,available)*.5):0;
   $('period').textContent=data.frequency==='biweekly'?'every 2 weeks':'per week';
+  $('balanceBasis').textContent=learned.ready?'Includes actual day-to-day spending from the last 30 days.':'Preliminary — food, gas and other daily purchases are still being learned.';
+  $('spendingLabel').textContent=learned.ready?'Bills + tracked spending':'Regular expenses';
   $('available').textContent=money(available);$('payOut').textContent=money(pay);$('expenseOut').textContent=money(expensePerPay);$('iraPlan').textContent=money(iraPerPay);
   $('suggested').textContent=money(suggested);
   $('suggestedPeriod').textContent=data.frequency==='biweekly'?'every 2 weeks, beyond your IRA':'each week, beyond your IRA';
   $('spending').textContent=money(available-suggested);$('annual').textContent=money(suggested*periods);
   $('monthlyTotal').textContent=money(monthly);$('expenseAside').textContent=money(expensePerPay);
   $('iraAside').textContent=money(iraPerPay);
-  $('count').textContent=data.expenses.filter(x=>positive(x.amount)>0).length+' filled';
+  $('count').textContent=data.expenses.filter(x=>!trackedNames.has(x.name)&&positive(x.amount)>0).length+' filled';
+  $('loggedMonth').textContent=money(learned.monthToDate);renderRecent();
+  $('trackingStatus').textContent=learned.ready?'Using your most recent 30 days of spending.':data.trackingStart?`Learning your spending · day ${Math.min(30,learned.days+1)} of 30`:'Start logging food and gas. Your first 30 days build the baseline.';
+  $('trackedDetail').textContent=learned.ready?`Recent 30-day spending: ${money(learned.monthly)}. This updates as you add purchases.`:`Logged this month: ${money(learned.monthToDate)}. The suggested savings amount begins after 30 days of tracking.`;
+  $('expenseBasis').textContent=learned.ready?'Includes recent 30-day purchases.':'Before food, gas and other daily purchases are learned.';
+  const archived=data.expenses.filter(item=>trackedNames.has(item.name)&&positive(item.amount)>0);
+  $('priorEstimates').hidden=!archived.length;
+  $('priorEstimates').textContent=archived.length?'Older food and gas estimates are saved but excluded from this budget. Log actual purchases on Overview.':'';
   $('shortfall').classList.toggle('hidden',!(pay>0&&available<0));
   $('shortfall').textContent='Expenses and IRA transfers exceed pay by '+money(-available)+' each paycheck.';
-  $('recommendationReason').textContent=!pay?'Enter take-home pay to get started.':!filled?'Add your monthly expenses to see a useful suggestion.':available<=0?'There is no extra room after the costs entered. Review the plan before adding cash savings.':target<=0?'Your IRA and debt payments already reach the 20% take-home benchmark.':'Uses the CFPB 20% savings-and-debt guideline, less your IRA and debt payments, capped at half of what remains. Your 401(k) is already outside take-home pay.';
+  $('recommendationReason').textContent=!pay?'Enter take-home pay to get started.':!filled?'Add your regular bills on Expenses.':!learned.ready?'Keep logging daily purchases. A savings suggestion will appear after the first 30 days so food and gas are based on actual spending.':available<=0?'There is no extra room after the costs entered. Review the plan before adding cash savings.':target<=0?'Your IRA and debt payments already reach the 20% take-home benchmark.':'Uses the CFPB 20% savings-and-debt guideline, less your IRA and debt payments, capped at half of what remains. Your 401(k) is already outside take-home pay.';
   $('nextCopy').textContent=monthly>0?'Your plan is ready to review and adjust.':'Add your usual expenses to make this number useful.';
   document.querySelectorAll('.expense-group').forEach(group=>{
-    const items=data.expenses.filter(item=>group.dataset.group==='Added by you'?!allPresets.includes(item.name):(presets[group.dataset.group]||[]).includes(item.name));
+    const items=data.expenses.filter(item=>group.dataset.group==='Added by you'?!allPresets.includes(item.name)&&!trackedNames.has(item.name):(presets[group.dataset.group]||[]).includes(item.name));
     const subtotal=group.querySelector('summary small');if(subtotal)subtotal.textContent=money(items.reduce((sum,item)=>sum+positive(item.amount),0))+'/mo';
   });
   const result=$('tripResult');result.replaceChildren();
@@ -119,8 +161,8 @@ function render(){
   const title=document.createElement('strong');title.textContent=money(per)+' each paycheck';
   const detail=document.createElement('p');detail.textContent=remaining?money(remaining)+' to go over approximately '+checks+' paychecks.':'You have already saved enough for this trip.';
   result.append(title,detail);
-  $('goalContext').textContent=remaining&&per>Math.max(0,available)?'This goal exceeds what is available after expenses and IRA transfers.':remaining&&suggested<per?'This trip needs more per paycheck than the suggested cash savings.':'This target fits within the suggested cash savings.';
+  $('goalContext').textContent=!learned.ready?'The budget is still learning your food and gas costs; this comparison will update after 30 days.':remaining&&per>Math.max(0,available)?'This goal exceeds what is available after expenses and IRA transfers.':remaining&&suggested<per?'This trip needs more per paycheck than the suggested cash savings.':'This target fits within the suggested cash savings.';
 }
 renderExpenses();render();
-$('reset').addEventListener('click',()=>{if(!confirm('Clear this budget and start over? Your older Life’s Quest data stays separately stored.'))return;data={pay:0,frequency:'weekly',expenses:defaultExpenses(),retirement401k:0,healthcarePayroll:0,ira:0,tripName:'',tripDate:'',tripCost:0,tripSaved:0};save();location.reload()});
+$('reset').addEventListener('click',()=>{if(!confirm('Clear this budget and start over? Your older Life’s Quest data stays separately stored.'))return;data={pay:0,frequency:'weekly',expenses:defaultExpenses(),transactions:[],retirement401k:0,healthcarePayroll:0,ira:0,tripName:'',tripDate:'',tripCost:0,tripSaved:0};save();location.reload()});
 if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
