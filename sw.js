@@ -1,4 +1,4 @@
-const VERSION="lifes-quest-budget-v8";
+const VERSION="lifes-quest-budget-v9";
 self.addEventListener("install",event=>{self.skipWaiting()});
 self.addEventListener("activate",event=>{
   event.waitUntil((async()=>{

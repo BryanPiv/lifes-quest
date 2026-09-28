@@ -4,6 +4,6 @@
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#f4f8ff",
-  "theme_color": "#1365d6"
+  "background_color": "#eaf2fa",
+  "theme_color": "#0b1728"
 }
