@@ -92,3 +92,10 @@ body:has(#plan.active) #plan{justify-content:flex-start}
   #plan .dashboard-column{display:block}
   #plan .dashboard-links{display:none}
 }
+
+/* Keep the same top navigation on every phone page. */
+@media(max-width:740px){
+  main .tabs{position:sticky;top:0;z-index:5;order:0;margin:0 0 10px;padding:3px;min-height:45px;border-radius:15px;background:#d9e8f5;box-shadow:0 4px 12px #173c6026}
+  body:has(#plan.active) .tabs{order:0;position:sticky;top:0;margin:0 0 8px}
+  body:has(#plan.active) #plan{order:0;justify-content:flex-start}
+}
