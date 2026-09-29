@@ -1,4 +1,4 @@
-const VERSION="pocket-peak-budget-v16";
+const VERSION="pocket-peak-budget-v17";
 self.addEventListener("install",event=>{self.skipWaiting()});
 self.addEventListener("activate",event=>{
   event.waitUntil((async()=>{

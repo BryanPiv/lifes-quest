@@ -204,6 +204,7 @@ function render(){
   const periods=data.frequency==='biweekly'?26:52;
   const pay=positive(data.pay),learned=tracking(),current=payPeriod();
   const fixedMonthly=data.expenses.filter(item=>!trackedNames.has(item.name)).reduce((total,item)=>total+positive(item.amount),0);
+  const monthlyIncome=pay*periods/12,monthlyAfterBills=monthlyIncome-fixedMonthly;
   const monthly=fixedMonthly+(learned.ready?learned.monthly:0);
   const expensePerPay=monthly*12/periods,fixedPerPay=fixedMonthly*12/periods,iraPerPay=positive(data.ira)*12/periods,available=pay-expensePerPay-iraPerPay;
   const filled=data.expenses.some(item=>!trackedNames.has(item.name)&&positive(item.amount)>0)||learned.monthly>0;
@@ -217,6 +218,8 @@ function render(){
   $('period').textContent=current?`${current.label} · ${data.frequency==='biweekly'?'2-week':'weekly'} budget`:'Set your payday on Expenses';
   $('balanceBasis').textContent=!pay?'Enter take-home pay on Expenses to begin.':!current?'Add your most recent payday on Expenses to start a pay period.':learned.ready?'Your limit sets aside bills, IRA and suggested savings.':'Preliminary limit: food, gas, fun and misc are logged as you spend.';
   $('available').textContent=money(current&&pay?limit-spent:0);$('payOut').textContent=money(current&&pay?limit:0);$('expenseOut').textContent=money(current?spent:0);
+  $('monthlyIncome').textContent=pay?money(monthlyIncome)+' income':'Add pay on Expenses';$('monthlyBills').textContent=money(fixedMonthly)+' bills';$('monthlyLeft').textContent=pay?money(monthlyAfterBills):'—';
+  $('monthlyLeft').classList.toggle('monthly-deficit',pay>0&&monthlyAfterBills<0);
   $('suggested').textContent=learned.ready?money(suggested):'Learning…';
   $('suggestedPeriod').textContent=data.frequency==='biweekly'?'every 2 weeks, beyond your IRA':'each week, beyond your IRA';
   $('spending').textContent=learned.ready?money(available-suggested):'—';$('annual').textContent=learned.ready?money(suggested*periods):'—';
