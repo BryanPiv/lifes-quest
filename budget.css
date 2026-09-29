@@ -13,40 +13,43 @@
 
 .quick-name-label{margin-top:10px;gap:5px;color:#29516f;font-size:.82rem}.quick-name-label span{color:#6b8498;font-weight:500}.quick-name-label input{height:41px;border-color:#b8d9ee;background:#fff;font-size:.9rem;font-weight:500}.history-card .recent-expenses li{padding:11px 0;min-width:0}.purchase-info{display:grid;gap:3px;flex:1;min-width:0}.history-card .recent-expenses .purchase-name{color:#173751;font-size:.93rem;overflow-wrap:anywhere}.history-card .recent-expenses .purchase-meta{color:#647790;font-size:.77rem}.history-card .recent-expenses li>strong{white-space:nowrap;color:#185782}.history-card .recent-expenses li button{flex:0 0 28px;background:#e3f1f9;color:#356f94}
 
-/* One-screen Overview; the other pages keep their natural scrolling. */
+/* Dashboard fills the viewport without stretching its cards. */
 body:has(#plan.active){height:100dvh;min-height:0;overflow:hidden;display:flex;flex-direction:column}
 body:has(#plan.active) .topbar{flex:none}
-body:has(#plan.active) main{width:100%;flex:1;min-height:0;display:flex;flex-direction:column;padding-top:14px;padding-bottom:14px}
-body:has(#plan.active) .tabs{flex:none;margin-bottom:14px}
-body:has(#plan.active) #plan{flex:1;min-height:0;display:flex;flex-direction:column}
+body:has(#plan.active) main{width:100%;flex:1;min-height:0;display:flex;flex-direction:column;padding:13px 20px}
+body:has(#plan.active) .tabs{flex:none;margin-bottom:12px}
+body:has(#plan.active) #plan{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center}
 body:has(#plan.active) .source-note{display:none}
-#plan .compact-hero{flex:none;min-height:0;height:clamp(110px,18vh,165px);margin-bottom:16px}
-#plan .dashboard-grid{flex:none;min-height:0;align-items:stretch}
+#plan .compact-hero{flex:none;min-height:0;height:clamp(110px,15vh,150px);margin-bottom:14px}
+#plan .dashboard-grid{display:grid;grid-template-columns:.92fr 1.08fr;gap:14px;align-items:stretch;flex:none}
 #plan .dashboard-grid>.card{min-height:0}
-#plan .dashboard-links{flex:none}
+#plan .dashboard-links{flex:none;justify-content:center;margin-top:14px}
+.quick-name-label>span{color:#29516f;font-weight:700}
+.quick-name-label small{font-size:inherit;color:#6b8498;font-weight:500}
 @media(max-width:740px){
-  body:has(#plan.active) .topbar{min-height:54px;padding:8px 15px}
+  body:has(#plan.active) .topbar{min-height:50px;padding:7px 14px}
   body:has(#plan.active) .brand{font-size:1rem}
-  body:has(#plan.active) .brand small{font-size:.48rem;margin-top:4px}
-  body:has(#plan.active) .brand-mark{width:31px;height:31px;font-size:.7rem}
-  body:has(#plan.active) .reset{font-size:.7rem;padding:6px 8px}
-  body:has(#plan.active) main{padding:8px 12px 10px}
-  body:has(#plan.active) .tabs{position:static;margin:0 0 8px;padding:3px;min-height:43px;box-shadow:0 3px 9px #173c6020;border-radius:99px}
-  body:has(#plan.active) .tabs button{min-height:35px}
-  #plan .compact-hero{height:clamp(72px,12vh,100px);margin-bottom:8px;border-radius:17px}
-  #plan .compact-hero .story-copy{padding:12px 16px}
-  #plan .compact-hero .story-copy .eyebrow{font-size:.6rem}
-  #plan .compact-hero .story-copy h1{font-size:clamp(1.3rem,5vw,1.8rem);margin:4px 0}
-  #plan .compact-hero .hero-nimbus{width:96px;bottom:-20px;right:3%}
-  #plan .dashboard-grid{display:grid;grid-template-columns:1fr;grid-template-rows:minmax(130px,.6fr) minmax(270px,1.4fr);gap:8px}
-  #plan .dashboard-grid>.card{padding:12px 15px;border-radius:16px;overflow:hidden}
+  body:has(#plan.active) .brand small{font-size:.48rem;margin-top:3px}
+  body:has(#plan.active) .brand-mark{width:30px;height:30px;font-size:.7rem}
+  body:has(#plan.active) .reset{font-size:.69rem;padding:6px 8px}
+  body:has(#plan.active) main{padding:7px 10px max(9px,env(safe-area-inset-bottom))}
+  body:has(#plan.active) .tabs{order:2;position:static;flex:none;margin:7px 0 0;padding:3px;min-height:45px;border-radius:15px;box-shadow:0 4px 12px #173c6026}
+  body:has(#plan.active) .tabs button{min-height:37px;font-size:clamp(.6rem,2.5vw,.75rem);padding:0 2px}
+  body:has(#plan.active) #plan{order:1;overflow:auto;scrollbar-width:none;justify-content:safe center}
+  body:has(#plan.active) #plan::-webkit-scrollbar{display:none}
+  #plan .compact-hero{height:clamp(72px,10vh,90px);margin-bottom:8px;border-radius:16px}
+  #plan .compact-hero .story-copy{padding:11px 16px}
+  #plan .compact-hero .story-copy .eyebrow{font-size:.59rem}
+  #plan .compact-hero .story-copy h1{font-size:clamp(1.25rem,5vw,1.7rem);margin:4px 0}
+  #plan .compact-hero .hero-nimbus{width:90px;bottom:-18px;right:3%}
+  #plan .dashboard-grid{grid-template-columns:1fr;gap:8px}
+  #plan .dashboard-grid>.card{padding:12px 14px;border-radius:16px}
   #plan .dashboard-links{display:none}
-  #plan .limit-card{display:flex;flex-direction:column;justify-content:center}
-  #plan .limit-card .eyebrow{font-size:.59rem}
-  #plan .limit-card .big-money{font-size:clamp(2rem,5vh,2.7rem);margin:3px 0 0}
-  #plan .limit-card .period{font-size:.76rem;margin:0 0 5px}
+  #plan .limit-card .eyebrow{font-size:.6rem}
+  #plan .limit-card .big-money{font-size:clamp(2rem,5vh,2.6rem);margin:3px 0 0}
+  #plan .limit-card .period{font-size:.77rem;margin:0 0 5px}
   #plan .limit-card .balance-basis{font-size:.7rem;margin:0 0 5px;max-width:none}
-  #plan .limit-card .balance-line{padding:4px 0;font-size:.72rem}
+  #plan .limit-card .balance-line{padding:4px 0;font-size:.73rem}
   #plan .limit-card .warning{font-size:.7rem;margin:4px 0 0;padding:5px}
   #plan .quick-card .card-title{margin-bottom:2px}
   #plan .quick-card h2{font-size:1rem}
@@ -64,13 +67,10 @@ body:has(#plan.active) .source-note{display:none}
   #plan .quick-options label{margin-top:3px}
   #plan .quick-options input{height:35px}
 }
-@media(max-width:740px) and (max-height:700px){
-  #plan .compact-hero{display:none}
-  #plan .dashboard-grid{grid-template-rows:minmax(120px,.52fr) minmax(270px,1.48fr)}
+@media(max-width:740px) and (max-height:700px){#plan .compact-hero{display:none}}
+@media(max-width:740px) and (max-height:600px){
+  #plan .limit-card .balance-basis{display:none}
+  #plan .quick-feedback{display:none}
+  #plan .dashboard-grid>.card{padding:9px 12px}
 }
-@media(max-height:560px){body:has(#plan.active){height:auto;min-height:100dvh;overflow:auto}body:has(#plan.active) main{min-height:500px}}
-@media(max-width:740px){body:has(#plan.active):has(.quick-card input:focus){overflow:auto;height:auto;min-height:100dvh}}
-
-.quick-name-label small{font-size:inherit;color:#6b8498;font-weight:500}
-@media(max-width:740px){#plan .dashboard-grid{flex:1}}
-.quick-name-label>span{color:#29516f;font-weight:700}
+@media(min-width:741px) and (max-height:650px){#plan .compact-hero{height:90px;margin-bottom:8px}#plan .dashboard-grid>.card{padding:16px}#plan .dashboard-links{margin-top:8px}}
