@@ -93,13 +93,13 @@ $('add').addEventListener('click',()=>{const item={name:'',amount:0};data.expens
 function localDate(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
 $('quickDate').value=localDate();$('quickDate').max=localDate();
 document.querySelectorAll('[data-quick]').forEach(button=>button.addEventListener('click',()=>{
-  const amount=positive($('quickAmount').value),date=$('quickDate').value;
+  const amount=positive($('quickAmount').value),date=$('quickDate').value,name=$('quickName').value.trim();
   if(!amount){$('quickFeedback').textContent='Enter an amount first.';$('quickAmount').focus();return}
   if(!date||date>localDate()){$('quickFeedback').textContent='Choose today or an earlier date.';return}
   const category=button.dataset.quick;
-  data.transactions.unshift({id:Date.now()+'-'+Math.random().toString(36).slice(2),category,amount,date});
-  data.trackingStart=data.trackingStart||localDate();save();$('quickAmount').value='';$('quickDate').value=localDate();
-  $('quickFeedback').textContent=`Added ${money(amount)} to ${category}.`;render();$('quickAmount').focus();
+  data.transactions.unshift({id:Date.now()+'-'+Math.random().toString(36).slice(2),category,amount,date,name});
+  data.trackingStart=data.trackingStart||localDate();save();$('quickAmount').value='';$('quickName').value='';$('quickDate').value=localDate();
+  $('quickFeedback').textContent=`Added ${name?name+' · ':''}${money(amount)} to ${category}.`;render();$('quickAmount').focus();
 }));
 function payPeriod(){
   if(!data.payday||data.payday>localDate())return null;
@@ -113,6 +113,7 @@ function payPeriod(){
   return {start:iso(start),end:iso(end),label:`${start.toLocaleDateString(undefined,{month:'short',day:'numeric'})} – ${new Date(end.getTime()-86400000).toLocaleDateString(undefined,{month:'short',day:'numeric'})}`};
 }
 function periodTransactions(period){return period?data.transactions.filter(t=>t.date>=period.start&&t.date<period.end):[]}
+function breakdownTransactions(period){return period?periodTransactions(period):data.transactions.filter(t=>t.date?.slice(0,7)===localDate().slice(0,7))}
 function categoryOf(category){return category==='Other'?'Misc':category}
 function tracking(){
   const today=localDate(),now=new Date(today+'T12:00:00');
@@ -126,15 +127,17 @@ function tracking(){
 }
 function renderRecent(period){
   const list=$('recentExpenses');list.replaceChildren();
-  const recent=periodTransactions(period).sort((a,b)=>b.date.localeCompare(a.date));
-  if(!recent.length){const item=document.createElement('li');item.textContent='No purchases logged for this pay period yet.';list.append(item)}
+  const recent=breakdownTransactions(period).sort((a,b)=>b.date.localeCompare(a.date));
+  if(!recent.length){const item=document.createElement('li');item.textContent=period?'No purchases logged for this pay period yet.':'No purchases logged this month yet.';list.append(item)}
   for(const transaction of recent){
-    const item=document.createElement('li');const label=document.createElement('span');
-    label.textContent=`${categoryOf(transaction.category)} · ${transaction.date}`;
+    const item=document.createElement('li');const info=document.createElement('div');info.className='purchase-info';
+    const label=document.createElement('strong');label.className='purchase-name';label.textContent=transaction.name||categoryOf(transaction.category);
+    const meta=document.createElement('span');meta.className='purchase-meta';meta.textContent=`${categoryOf(transaction.category)} · ${transaction.date}`;
+    info.append(label,meta);
     const amount=document.createElement('strong');amount.textContent=money(positive(transaction.amount));
-    const remove=document.createElement('button');remove.type='button';remove.textContent='×';remove.setAttribute('aria-label',`Remove ${transaction.category} expense`);
+    const remove=document.createElement('button');remove.type='button';remove.textContent='×';remove.setAttribute('aria-label',`Remove ${transaction.name||transaction.category} expense`);
     remove.addEventListener('click',()=>{data.transactions=data.transactions.filter(t=>t.id!==transaction.id);if(!data.transactions.length)delete data.trackingStart;save();render()});
-    item.append(label,amount,remove);list.append(item);
+    item.append(info,amount,remove);list.append(item);
   }
 }
 function approximatePaychecks(date){
@@ -220,9 +223,11 @@ function render(){
   $('monthlyTotal').textContent=money(monthly);$('expenseAside').textContent=money(expensePerPay);
   $('iraAside').textContent=money(iraPerPay);
   $('count').textContent=data.expenses.filter(x=>!trackedNames.has(x.name)&&positive(x.amount)>0).length+' filled';
+  const breakdownItems=breakdownTransactions(current),breakdownSpent=breakdownItems.reduce((sum,t)=>sum+positive(t.amount),0);
   $('loggedMonth').textContent=money(learned.monthToDate)+' this month';renderRecent(current);
-  $('breakdownTotal').textContent=money(spent);$('breakdownPeriod').textContent=current?current.label:'Set your payday on Expenses';
-  $('trackingStatus').textContent=!current?'Add your most recent payday on Expenses to see this period.':learned.ready?'Your recent spending also informs the savings suggestion.':data.trackingStart?`Learning your habits · day ${Math.min(30,learned.days+1)} of 30`:'Log purchases on Overview to build your picture.';
+  $('breakdownTotal').textContent=money(breakdownSpent);$('breakdownPeriod').textContent=current?current.label:new Date().toLocaleDateString(undefined,{month:'long',year:'numeric'});
+  $('breakdownTotalLabel').textContent=current?'SPENT THIS PERIOD':'SPENT THIS MONTH';
+  $('trackingStatus').textContent=!current?'Set your payday on Expenses to switch to a weekly or biweekly view.':learned.ready?'Your recent spending also informs the savings suggestion.':data.trackingStart?`Learning your habits · day ${Math.min(30,learned.days+1)} of 30`:'Log purchases on Overview to build your picture.';
   $('trackedDetail').textContent=learned.ready?`Recent 30-day spending: ${money(learned.monthly)}. This updates as you add purchases.`:`Logged this month: ${money(learned.monthToDate)}. Savings guidance begins after 30 days of tracking.`;
   $('expenseBasis').textContent=learned.ready?'Includes recent 30-day purchases.':'Before food, gas and other daily purchases are learned.';
   const archived=data.expenses.filter(item=>trackedNames.has(item.name)&&positive(item.amount)>0);
@@ -233,12 +238,12 @@ function render(){
   $('recommendationReason').textContent=!pay?'Enter take-home pay to get started.':!filled?'Add your regular bills on Expenses.':!learned.ready?'Keep logging daily purchases. A savings suggestion will appear after the first 30 days so food and gas are based on actual spending.':available<=0?'There is no extra room after the costs entered. Review the plan before adding cash savings.':target<=0?'Your IRA and debt payments already reach the 20% take-home benchmark.':'Uses the CFPB 20% savings-and-debt guideline, less your IRA and debt payments, capped at half of what remains. Your 401(k) is already outside take-home pay.';
   const grid=$('categoryBreakdown');grid.replaceChildren();
   for(const category of categories){
-    const total=transactions.filter(t=>categoryOf(t.category)===category).reduce((sum,t)=>sum+positive(t.amount),0);
-    const count=transactions.filter(t=>categoryOf(t.category)===category).length;
+    const total=breakdownItems.filter(t=>categoryOf(t.category)===category).reduce((sum,t)=>sum+positive(t.amount),0);
+    const count=breakdownItems.filter(t=>categoryOf(t.category)===category).length;
     const card=document.createElement('div');card.className='card category-card category-'+category.toLowerCase();
     const label=document.createElement('span');label.textContent=category;const amount=document.createElement('strong');amount.textContent=money(total);
     const detail=document.createElement('small');detail.textContent=count+' '+(count===1?'purchase':'purchases');
-    const bar=document.createElement('div');bar.className='category-bar';const fill=document.createElement('i');fill.style.width=spent?Math.min(100,total/spent*100)+'%':'0%';bar.append(fill);
+    const bar=document.createElement('div');bar.className='category-bar';const fill=document.createElement('i');fill.style.width=breakdownSpent?Math.min(100,total/breakdownSpent*100)+'%':'0%';bar.append(fill);
     card.append(label,amount,detail,bar);grid.append(card);
   }
   document.querySelectorAll('.expense-group').forEach(group=>{
