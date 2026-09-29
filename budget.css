@@ -21,7 +21,7 @@ body:has(#plan.active) .tabs{flex:none;margin-bottom:14px}
 body:has(#plan.active) #plan{flex:1;min-height:0;display:flex;flex-direction:column}
 body:has(#plan.active) .source-note{display:none}
 #plan .compact-hero{flex:none;min-height:0;height:clamp(110px,18vh,165px);margin-bottom:16px}
-#plan .dashboard-grid{flex:1;min-height:0;align-items:stretch}
+#plan .dashboard-grid{flex:none;min-height:0;align-items:stretch}
 #plan .dashboard-grid>.card{min-height:0}
 #plan .dashboard-links{flex:none}
 @media(max-width:740px){
@@ -70,3 +70,7 @@ body:has(#plan.active) .source-note{display:none}
 }
 @media(max-height:560px){body:has(#plan.active){height:auto;min-height:100dvh;overflow:auto}body:has(#plan.active) main{min-height:500px}}
 @media(max-width:740px){body:has(#plan.active):has(.quick-card input:focus){overflow:auto;height:auto;min-height:100dvh}}
+
+.quick-name-label small{font-size:inherit;color:#6b8498;font-weight:500}
+@media(max-width:740px){#plan .dashboard-grid{flex:1}}
+.quick-name-label>span{color:#29516f;font-weight:700}

@@ -7,7 +7,7 @@
   <meta name="description" content="A simple weekly or biweekly budget for your paycheck, expenses, savings and vacation plans.">
   <title>Pocket Peak | Budget</title>
   <link rel="manifest" href="manifest.json">
-  <link rel="stylesheet" href="budget.css?v=10">
+  <link rel="stylesheet" href="budget.css?v=11">
 </head>
 <body>
   <header class="topbar"><div class="brand"><span class="brand-mark">PP</span><span>Pocket Peak<small>YOUR MONEY, YOUR WAY</small></span></div><button id="reset" class="reset" type="button">Start over</button></header>
@@ -23,7 +23,7 @@
       <div class="story-hero compact-hero"><div class="story-copy"><span class="eyebrow">POCKET PEAK</span><h1>Small steps.<br><em>Big horizons.</em></h1></div><img class="hero-nimbus" src="assets/characters/nimbus/nimbus-idle-premium-v95.webp" alt="Nimbus, your cloud companion"></div>
       <div class="dashboard-grid">
         <div class="card balance limit-card"><span class="eyebrow">LEFT THIS PAY PERIOD</span><div id="available" class="big-money">$0.00</div><div id="period" class="period">this week</div><p id="balanceBasis" class="balance-basis">Add your payday and take-home pay to begin.</p><div class="balance-line"><span>Spending limit</span><strong id="payOut">$0.00</strong></div><div class="balance-line"><span>Logged this period</span><strong id="expenseOut">$0.00</strong></div><div id="shortfall" class="warning hidden" role="status"></div></div>
-        <div class="card quick-card"><div class="card-title"><span class="round orange">+</span><h2>Add a purchase</h2></div><div class="quick-instruction"><b>1</b><span>Enter the amount you spent</span></div><label class="quick-amount-label"><span class="sr-only">Amount spent</span><input id="quickAmount" type="number" inputmode="decimal" step="0.01" min="0.01" placeholder="$ 0.00"></label><label class="quick-name-label">What was it? <span>(optional)</span><input id="quickName" type="text" maxlength="80" autocomplete="off" placeholder="e.g. McDonald's, groceries, movie"></label><div class="quick-instruction"><b>2</b><span>Tap a category to save it</span></div><div class="quick-tiles" aria-label="Tap a category to save"><button type="button" data-quick="Gas" aria-label="Add Gas expense"><span>⛽</span>Gas</button><button type="button" data-quick="Food" aria-label="Add Food expense"><span>🍴</span>Food</button><button type="button" data-quick="Fun" aria-label="Add Fun expense"><span>✦</span>Fun</button><button type="button" data-quick="Misc" aria-label="Add Misc expense"><span>•••</span>Misc</button></div><p id="quickFeedback" class="quick-feedback" role="status">Saved purchases appear in Breakdown.</p><details class="quick-options"><summary>Choose an earlier date</summary><label>Date<input id="quickDate" type="date"></label></details></div>
+        <div class="card quick-card"><div class="card-title"><span class="round orange">+</span><h2>Add a purchase</h2></div><div class="quick-instruction"><b>1</b><span>Enter the amount you spent</span></div><label class="quick-amount-label"><span class="sr-only">Amount spent</span><input id="quickAmount" type="number" inputmode="decimal" step="0.01" min="0.01" placeholder="$ 0.00"></label><label class="quick-name-label"><span>What was it? <small>(optional)</small></span><input id="quickName" type="text" maxlength="80" autocomplete="off" placeholder="e.g. McDonald's, groceries, movie"></label><div class="quick-instruction"><b>2</b><span>Tap a category to save it</span></div><div class="quick-tiles" aria-label="Tap a category to save"><button type="button" data-quick="Gas" aria-label="Add Gas expense"><span>⛽</span>Gas</button><button type="button" data-quick="Food" aria-label="Add Food expense"><span>🍴</span>Food</button><button type="button" data-quick="Fun" aria-label="Add Fun expense"><span>✦</span>Fun</button><button type="button" data-quick="Misc" aria-label="Add Misc expense"><span>•••</span>Misc</button></div><p id="quickFeedback" class="quick-feedback" role="status">Saved purchases appear in Breakdown.</p><details class="quick-options"><summary>Choose an earlier date</summary><label>Date<input id="quickDate" type="date"></label></details></div>
       </div>
       <div class="dashboard-links"><button type="button" data-goto="expenses">Pay & bills <span>→</span></button><button type="button" data-goto="breakdown">Spending breakdown <span>→</span></button><button type="button" data-goto="goals">Vacation & savings <span>→</span></button><button type="button" data-goto="calendar">Bill calendar <span>→</span></button></div>
     </section>
@@ -49,6 +49,6 @@
     </section>
   </main>
   <footer class="source-note">Savings guidance: <a href="https://files.consumerfinance.gov/f/201603_cfpb_rules-to-live-by_my-spending-rule-to-live-by.pdf" target="_blank" rel="noopener">CFPB spending rule</a>. Your suggested amount is an estimate based on the expenses you enter, not a guarantee.</footer>
-  <script src="budget.js?v=10" defer></script>
+  <script src="budget.js?v=11" defer></script>
 </body>
 </html>
