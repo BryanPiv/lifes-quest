@@ -1,4 +1,4 @@
-# Life's Quest
+# Pocket Peak
 
 Mobile-first personal finance quest prototype.
 

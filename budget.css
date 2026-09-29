@@ -12,3 +12,61 @@
 :root{color:#13283e;background:#eaf2fa}body{background:radial-gradient(circle at 7% 14%,#c5e0f5 0,transparent 33%),radial-gradient(circle at 93% 48%,#d8eafa 0,transparent 32%),linear-gradient(150deg,#f3f8fd,#e8f1fa 62%,#edf5fc)}.topbar{background:linear-gradient(100deg,#070f1c,#0b223b 52%,#155182);box-shadow:0 7px 22px #08182c3d}.brand-mark{background:#85d0ff;color:#071d33;box-shadow:0 3px 0 #4e9fce}.brand small{color:#b8daf3}.reset{border-color:#6385a4;color:#e2f3ff}.tabs{background:#d9e8f5;border-color:#c4dcef;box-shadow:0 5px 13px #23517422}.tabs button{color:#42627f}.tabs button.active{color:#104d83;box-shadow:0 4px 10px #173c6026}.story-hero{background:linear-gradient(90deg,#071525f5 0%,#0a2542d9 38%,#0b376244 76%),url('assets/journey/premium-alpine-v94.webp') center 44%/cover;box-shadow:0 14px 30px #0a243b3d}.story-copy .eyebrow{color:#83cbff}.story-copy h1 em{color:#a7ddff}.story-copy p{color:#e2f2ff}.balance{background:linear-gradient(125deg,#07111f,#0c2d4d 65%,#17619a);box-shadow:0 12px 24px #0b2d4e4d}.balance .eyebrow{color:#92d5ff}.balance .big-money{color:#edfaff}.balance-basis{color:#bfddf2}.quick-card{background:linear-gradient(145deg,#f6fbff,#e8f4fc);border-color:#b8d9ee}.quick-card h2,.card h2{color:#173751}.quick-instruction{color:#29516f}.quick-instruction b{background:#1875b5}.quick-amount-label input{border-color:#9ccae7;background:#fff}.quick-feedback{color:#315d7b}.quick-options{color:#547590}.quick-tiles button{box-shadow:0 3px 0 #b7d0e2}.quick-tiles button:nth-child(1){background:#d9eefb;border-color:#86c2e7;color:#125783}.quick-tiles button:nth-child(2){background:#e8f5fb;border-color:#a2d1e5;color:#1b657c}.quick-tiles button:nth-child(3){background:#e0eafe;border-color:#9bb7e5;color:#315c9e}.quick-tiles button:nth-child(4){background:#e7f1f5;border-color:#abcad6;color:#426479}.dashboard-links button{background:#f8fcff;border-color:#c7deef;color:#285471}.heading h1{color:#173950}.heading .eyebrow,.eyebrow{color:#286b9a}.heading p{color:#55708b}.source-note{color:#5b7083}.source-note a{color:#175f99}.primary,.add{background:linear-gradient(100deg,#0b4d82,#2186c1);box-shadow:0 6px 12px #205b8b2b}.count{background:#dceefa;color:#175d8d}.expense-group summary{background:#eef6fc;color:#254c70}.expense-group summary small{color:#527ca0}.round.blue{color:#146195;background:#dceefa}.round.coral{color:#1b6d9b;background:#d7edf8}.round.orange{color:#1b6d9b;background:#d8eef8}.month-banner h2{color:var(--month-ink)}.calendar-details h2{color:var(--month-ink)}
 
 .quick-name-label{margin-top:10px;gap:5px;color:#29516f;font-size:.82rem}.quick-name-label span{color:#6b8498;font-weight:500}.quick-name-label input{height:41px;border-color:#b8d9ee;background:#fff;font-size:.9rem;font-weight:500}.history-card .recent-expenses li{padding:11px 0;min-width:0}.purchase-info{display:grid;gap:3px;flex:1;min-width:0}.history-card .recent-expenses .purchase-name{color:#173751;font-size:.93rem;overflow-wrap:anywhere}.history-card .recent-expenses .purchase-meta{color:#647790;font-size:.77rem}.history-card .recent-expenses li>strong{white-space:nowrap;color:#185782}.history-card .recent-expenses li button{flex:0 0 28px;background:#e3f1f9;color:#356f94}
+
+/* One-screen Overview; the other pages keep their natural scrolling. */
+body:has(#plan.active){height:100dvh;min-height:0;overflow:hidden;display:flex;flex-direction:column}
+body:has(#plan.active) .topbar{flex:none}
+body:has(#plan.active) main{width:100%;flex:1;min-height:0;display:flex;flex-direction:column;padding-top:14px;padding-bottom:14px}
+body:has(#plan.active) .tabs{flex:none;margin-bottom:14px}
+body:has(#plan.active) #plan{flex:1;min-height:0;display:flex;flex-direction:column}
+body:has(#plan.active) .source-note{display:none}
+#plan .compact-hero{flex:none;min-height:0;height:clamp(110px,18vh,165px);margin-bottom:16px}
+#plan .dashboard-grid{flex:1;min-height:0;align-items:stretch}
+#plan .dashboard-grid>.card{min-height:0}
+#plan .dashboard-links{flex:none}
+@media(max-width:740px){
+  body:has(#plan.active) .topbar{min-height:54px;padding:8px 15px}
+  body:has(#plan.active) .brand{font-size:1rem}
+  body:has(#plan.active) .brand small{font-size:.48rem;margin-top:4px}
+  body:has(#plan.active) .brand-mark{width:31px;height:31px;font-size:.7rem}
+  body:has(#plan.active) .reset{font-size:.7rem;padding:6px 8px}
+  body:has(#plan.active) main{padding:8px 12px 10px}
+  body:has(#plan.active) .tabs{position:static;margin:0 0 8px;padding:3px;min-height:43px;box-shadow:0 3px 9px #173c6020;border-radius:99px}
+  body:has(#plan.active) .tabs button{min-height:35px}
+  #plan .compact-hero{height:clamp(72px,12vh,100px);margin-bottom:8px;border-radius:17px}
+  #plan .compact-hero .story-copy{padding:12px 16px}
+  #plan .compact-hero .story-copy .eyebrow{font-size:.6rem}
+  #plan .compact-hero .story-copy h1{font-size:clamp(1.3rem,5vw,1.8rem);margin:4px 0}
+  #plan .compact-hero .hero-nimbus{width:96px;bottom:-20px;right:3%}
+  #plan .dashboard-grid{display:grid;grid-template-columns:1fr;grid-template-rows:minmax(130px,.6fr) minmax(270px,1.4fr);gap:8px}
+  #plan .dashboard-grid>.card{padding:12px 15px;border-radius:16px;overflow:hidden}
+  #plan .dashboard-links{display:none}
+  #plan .limit-card{display:flex;flex-direction:column;justify-content:center}
+  #plan .limit-card .eyebrow{font-size:.59rem}
+  #plan .limit-card .big-money{font-size:clamp(2rem,5vh,2.7rem);margin:3px 0 0}
+  #plan .limit-card .period{font-size:.76rem;margin:0 0 5px}
+  #plan .limit-card .balance-basis{font-size:.7rem;margin:0 0 5px;max-width:none}
+  #plan .limit-card .balance-line{padding:4px 0;font-size:.72rem}
+  #plan .limit-card .warning{font-size:.7rem;margin:4px 0 0;padding:5px}
+  #plan .quick-card .card-title{margin-bottom:2px}
+  #plan .quick-card h2{font-size:1rem}
+  #plan .quick-card .round{width:25px;height:25px}
+  #plan .quick-instruction{font-size:.77rem;margin:5px 0 4px;gap:6px}
+  #plan .quick-instruction b{width:20px;height:20px;font-size:.65rem}
+  #plan .quick-amount-label input{height:42px;font-size:1.15rem}
+  #plan .quick-name-label{font-size:.72rem;margin-top:5px;gap:3px}
+  #plan .quick-name-label input{height:35px;font-size:.8rem}
+  #plan .quick-tiles{gap:5px}
+  #plan .quick-tiles button{min-height:50px;font-size:.73rem;padding:4px}
+  #plan .quick-tiles button span{font-size:1.1rem;margin-bottom:2px}
+  #plan .quick-feedback{font-size:.72rem;margin:6px 0 0}
+  #plan .quick-options{font-size:.7rem;margin-top:4px}
+  #plan .quick-options label{margin-top:3px}
+  #plan .quick-options input{height:35px}
+}
+@media(max-width:740px) and (max-height:700px){
+  #plan .compact-hero{display:none}
+  #plan .dashboard-grid{grid-template-rows:minmax(120px,.52fr) minmax(270px,1.48fr)}
+}
+@media(max-height:560px){body:has(#plan.active){height:auto;min-height:100dvh;overflow:auto}body:has(#plan.active) main{min-height:500px}}
+@media(max-width:740px){body:has(#plan.active):has(.quick-card input:focus){overflow:auto;height:auto;min-height:100dvh}}

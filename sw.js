@@ -1,4 +1,4 @@
-const VERSION="lifes-quest-budget-v10";
+const VERSION="pocket-peak-budget-v11";
 self.addEventListener("install",event=>{self.skipWaiting()});
 self.addEventListener("activate",event=>{
   event.waitUntil((async()=>{
