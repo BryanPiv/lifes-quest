@@ -214,26 +214,29 @@ function render(){
   const fixedMonthly=data.expenses.filter(item=>!trackedNames.has(item.name)).reduce((total,item)=>total+positive(item.amount),0);
   const monthlyIncome=pay*periods/12,monthlyAfterBills=monthlyIncome-fixedMonthly;
   const monthly=fixedMonthly+(learned.ready?learned.monthly:0);
-  const expensePerPay=monthly*12/periods,fixedPerPay=fixedMonthly*12/periods,iraPerPay=positive(data.ira),available=pay-expensePerPay-iraPerPay;
+  const expensePerPay=monthly*12/periods,fixedPerPay=fixedMonthly*12/periods,available=pay-expensePerPay;
   const filled=data.expenses.some(item=>!trackedNames.has(item.name)&&positive(item.amount)>0)||learned.monthly>0;
-  // CFPB's 20% take-home benchmark covers savings and debt payments.
-  // Half of the remaining surplus is a separate app buffer, not a CFPB formula.
-  const debtPerPay=data.expenses.filter(item=>item.name==='Debt payments').reduce((sum,item)=>sum+positive(item.amount),0)*12/periods;
-  const target=Math.max(0,pay*.2-iraPerPay-debtPerPay);
+  // Fidelity's near-term savings guideline is 10% of take-home pay.
+  // The 50% surplus cap is Pocket Peak's own buffer for expenses we may not yet see.
+  const target=pay*.1;
   const suggested=pay>0&&filled&&learned.ready?Math.min(target,Math.max(0,available)*.5):0;
-  const limit=pay-fixedPerPay-iraPerPay-suggested;
+  const limit=pay-fixedPerPay-suggested;
   const transactions=periodTransactions(current),spent=transactions.reduce((sum,t)=>sum+positive(t.amount),0);
   $('period').textContent=current?`${current.label} · ${data.frequency==='biweekly'?'2-week':'weekly'} budget`:'Set your payday on Expenses';
-  $('balanceBasis').textContent=!pay?'Enter take-home pay on Expenses to begin.':!current?'Add your most recent payday on Expenses to start a pay period.':learned.ready?'Your limit sets aside bills, IRA and suggested savings.':'Preliminary limit: food, gas, fun and misc are logged as you spend.';
+  $('balanceBasis').textContent=!pay?'Enter take-home pay on Expenses to begin.':!current?'Add your most recent payday on Expenses to start a pay period.':learned.ready?'Your limit sets aside bills and suggested cash savings.':'Preliminary limit: food, gas, fun and misc are logged as you spend.';
   $('available').textContent=money(current&&pay?limit-spent:0);$('payOut').textContent=money(current&&pay?limit:0);$('expenseOut').textContent=money(current?spent:0);
   $('monthlyIncome').textContent=pay?money(monthlyIncome)+' income':'Add pay on Expenses';$('monthlyBills').textContent=money(fixedMonthly)+' bills';$('monthlyLeft').textContent=pay?money(monthlyAfterBills):'—';
   $('monthlyLeft').classList.toggle('monthly-deficit',pay>0&&monthlyAfterBills<0);
   $('suggested').textContent=learned.ready?money(suggested):'Learning…';
-  $('suggestedPeriod').textContent=data.frequency==='biweekly'?'every 2 weeks, beyond your IRA':'each week, beyond your IRA';
+  $('suggestedPeriod').textContent=data.frequency==='biweekly'?'every 2 weeks':'each week';
   $('spending').textContent=learned.ready?money(available-suggested):'—';$('annual').textContent=learned.ready?money(suggested*periods):'—';
   $('monthlyTotal').textContent=money(monthly);$('expenseAside').textContent=money(expensePerPay);
-  $('iraAside').textContent=money(iraPerPay);
-  $('payrollAside').textContent=money(positive(data.retirement401k)+positive(data.healthcarePayroll));
+  $('iraAside').textContent=money(positive(data.ira));
+  $('retirementAside').textContent=money(positive(data.retirement401k));
+  $('healthcareAside').textContent=money(positive(data.healthcarePayroll));
+  $('payrollAside').textContent=money(positive(data.ira)+positive(data.retirement401k)+positive(data.healthcarePayroll));
+  $('emergencyTarget').textContent=money(monthly*3);
+  $('emergencyBasis').textContent=learned.ready?'Three months of entered bills plus recent everyday spending.':'Starting target from entered bills; everyday spending is added after 30 days.';
   $('count').textContent=data.expenses.filter(x=>!trackedNames.has(x.name)&&positive(x.amount)>0).length+' filled';
   const breakdownItems=breakdownTransactions(current),breakdownSpent=breakdownItems.reduce((sum,t)=>sum+positive(t.amount),0);
   $('loggedMonth').textContent=money(learned.monthToDate)+' this month';renderRecent(current);
@@ -246,8 +249,8 @@ function render(){
   $('priorEstimates').hidden=!archived.length;
   $('priorEstimates').textContent=archived.length?'Older day-to-day estimates are preserved but excluded. Log actual purchases on Overview.':'';
   $('shortfall').classList.toggle('hidden',!(pay>0&&current&&limit-spent<0));
-  $('shortfall').textContent=limit<0?'Regular bills and IRA transfers exceed take-home pay by '+money(-limit)+'.':'You are '+money(spent-limit)+' over this period’s limit.';
-  $('recommendationReason').textContent=!pay?'Enter take-home pay to get started.':!filled?'Add your regular bills on Expenses.':!learned.ready?'Keep logging daily purchases. A savings suggestion will appear after the first 30 days so food and gas are based on actual spending.':available<=0?'There is no extra room after the costs entered. Review the plan before adding cash savings.':target<=0?'Your IRA and debt payments already reach the 20% take-home benchmark.':'Uses the CFPB 20% savings-and-debt guideline, less your IRA and debt payments, capped at half of what remains. Your 401(k) is already outside take-home pay.';
+  $('shortfall').textContent=limit<0?'Regular bills exceed take-home pay by '+money(-limit)+'.':'You are '+money(spent-limit)+' over this period’s limit.';
+  $('recommendationReason').textContent=!pay?'Enter take-home pay to get started.':!filled?'Add your regular bills on Expenses.':!learned.ready?'Keep logging daily purchases. A savings suggestion will appear after 30 days so food and gas use actual spending.':available<=0?'No room remains after the bills and purchases tracked. Review the plan before adding cash savings.':suggested<target?'Aim for this manageable amount now, then work toward 10% as room opens up.':'A 10% take-home starting point for cash goals, supported by your tracked spending.';
   const grid=$('categoryBreakdown');grid.replaceChildren();
   for(const category of categories){
     const total=breakdownItems.filter(t=>categoryOf(t.category)===category).reduce((sum,t)=>sum+positive(t.amount),0);
@@ -271,7 +274,7 @@ function render(){
   const title=document.createElement('strong');title.textContent=money(per)+' each paycheck';
   const detail=document.createElement('p');detail.textContent=remaining?money(remaining)+' to go over approximately '+checks+' paychecks.':'You have already saved enough for this trip.';
   result.append(title,detail);
-  $('goalContext').textContent=!learned.ready?'The budget is still learning your food and gas costs; this comparison will update after 30 days.':remaining&&per>Math.max(0,available)?'This goal exceeds what is available after expenses and IRA transfers.':remaining&&suggested<per?'This trip needs more per paycheck than the suggested cash savings.':'This target fits within the suggested cash savings.';
+  $('goalContext').textContent=!learned.ready?'The budget is still learning your food and gas costs; this comparison will update after 30 days.':remaining&&per>Math.max(0,available)?'This goal exceeds what is available after tracked expenses.':remaining&&suggested<per?'This trip needs more per paycheck than the suggested cash savings.':'This target fits within the suggested cash savings.';
 }
 renderExpenses();render();
 $('reset').addEventListener('click',()=>{if(!confirm('Clear this budget and start over? Your older data stays separately stored.'))return;data={pay:0,frequency:'weekly',expenses:defaultExpenses(),transactions:[],retirement401k:0,healthcarePayroll:0,ira:0,contributionsPerPaycheck:true,tripName:'',tripDate:'',tripCost:0,tripSaved:0};save();location.reload()});

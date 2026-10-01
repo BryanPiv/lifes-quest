@@ -110,3 +110,14 @@ body:has(#plan.active) #plan{justify-content:flex-start}
 .retirement-box .fields{grid-template-columns:repeat(3,minmax(0,1fr))}
 @media(max-width:740px){.retirement-box .fields{grid-template-columns:1fr}}
 @media(max-width:740px){#plan .monthly-glance{margin-top:6px;padding:7px 9px}#plan .monthly-glance-top strong{font-size:1rem}#plan .monthly-glance-top span{font-size:.58rem}#plan .monthly-glance-math{font-size:.7rem;margin:2px 0}#plan .monthly-glance small{font-size:.59rem}}
+.tracked-deductions{display:grid;gap:8px}
+.tracked-deductions>.muted{font-size:.77rem;line-height:1.35}
+.tracked-deductions>div{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:.84rem;color:#566b84}
+.tracked-deductions strong{color:#173651;font-size:1rem;white-space:nowrap}
+.tracked-deductions .deduction-total{border-top:1px solid #d8bfd1;padding-top:10px;margin-top:3px;font-weight:800}
+.savings-evidence{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;border-top:1px solid #e5cbd8;padding-top:14px}
+.savings-evidence p{background:#fff9f7;border:1px solid #f1d9db;border-radius:12px;padding:12px;margin:0;color:#5a546a;font-size:.78rem;line-height:1.45}
+.savings-evidence strong{display:block;color:#4a3170;font-size:.84rem;margin-bottom:4px}
+.savings-evidence #emergencyTarget{font-weight:850;color:#164d77;font-size:1.2rem}
+.savings-evidence small{display:block;margin-top:4px;color:#746a7b;line-height:1.35}
+@media(max-width:740px){.savings-evidence{grid-template-columns:1fr}.savings-evidence p{padding:11px}}
