@@ -235,6 +235,7 @@ function render(){
   $('retirementAside').textContent=money(positive(data.retirement401k));
   $('healthcareAside').textContent=money(positive(data.healthcarePayroll));
   $('payrollAside').textContent=money(positive(data.ira)+positive(data.retirement401k)+positive(data.healthcarePayroll));
+  $('annualTracked').textContent=money((positive(data.ira)+positive(data.retirement401k)+positive(data.healthcarePayroll))*periods);
   $('emergencyTarget').textContent=money(monthly*3);
   $('emergencyBasis').textContent=learned.ready?'Three months of entered bills plus recent everyday spending.':'Starting target from entered bills; everyday spending is added after 30 days.';
   $('count').textContent=data.expenses.filter(x=>!trackedNames.has(x.name)&&positive(x.amount)>0).length+' filled';
