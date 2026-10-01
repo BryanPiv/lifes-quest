@@ -107,4 +107,6 @@ body:has(#plan.active) #plan{justify-content:flex-start}
 .monthly-glance-math{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin:3px 0;font-size:.76rem;color:#edf8ff}
 .monthly-glance small{display:block;font-size:.66rem;line-height:1.25;color:#bed6e8}
 .monthly-glance-top .monthly-deficit{color:#ffd6ce}
+.retirement-box .fields{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media(max-width:740px){.retirement-box .fields{grid-template-columns:1fr}}
 @media(max-width:740px){#plan .monthly-glance{margin-top:6px;padding:7px 9px}#plan .monthly-glance-top strong{font-size:1rem}#plan .monthly-glance-top span{font-size:.58rem}#plan .monthly-glance-math{font-size:.7rem;margin:2px 0}#plan .monthly-glance small{font-size:.59rem}}

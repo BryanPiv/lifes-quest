@@ -25,11 +25,19 @@ function migrate(){
       .filter(([,amount])=>positive(amount)>0).map(([name,amount])=>({name,amount:positive(amount)}));
     const trip=(old.plan?.goals||[]).find(g=>/vacation|trip/i.test((g.type||'')+' '+(g.name||'')))||{};
     const frequency=old.income?.frequency==='biweekly'?'biweekly':'weekly';
-    return {pay:positive(old.income?.amount),frequency,expenses,retirement401k:0,healthcarePayroll:positive(old.income?.healthcare)*(frequency==='biweekly'?26:52)/12,ira:0,tripName:trip.name||'',tripDate:trip.date||'',tripCost:positive(trip.amount),tripSaved:positive(trip.saved)};
+    return {pay:positive(old.income?.amount),frequency,expenses,retirement401k:0,healthcarePayroll:positive(old.income?.healthcare),ira:0,contributionsPerPaycheck:true,tripName:trip.name||'',tripDate:trip.date||'',tripCost:positive(trip.amount),tripSaved:positive(trip.saved)};
   }catch{return null}
 }
 try{data=JSON.parse(localStorage.getItem(KEY)||'null')||migrate()}catch{}
-data=data||{pay:0,frequency:'weekly',expenses:defaultExpenses(),retirement401k:0,healthcarePayroll:0,ira:0,tripName:'',tripDate:'',tripCost:0,tripSaved:0};
+data=data||{pay:0,frequency:'weekly',expenses:defaultExpenses(),retirement401k:0,healthcarePayroll:0,ira:0,contributionsPerPaycheck:true,tripName:'',tripDate:'',tripCost:0,tripSaved:0};
+// Earlier Pocket Peak versions stored these three entries as monthly amounts.
+// Convert once, preserving their effective paycheck values for existing users.
+if(!data.contributionsPerPaycheck){
+  const periods=data.frequency==='biweekly'?26:52;
+  for(const id of ['retirement401k','healthcarePayroll','ira'])data[id]=Math.round(positive(data[id])*1200/periods)/100;
+  data.contributionsPerPaycheck=true;
+  localStorage.setItem(KEY,JSON.stringify(data));
+}
 if(!Array.isArray(data.expenses))data.expenses=[];
 if(!Array.isArray(data.transactions))data.transactions=[];
 // Keep custom and imported expenses, and add each missing preset without copying an amount.
@@ -106,7 +114,7 @@ function payPeriod(){
   const anchor=new Date(data.payday+'T12:00:00'),today=new Date(localDate()+'T12:00:00');
   if(Number.isNaN(anchor.getTime()))return null;
   const length=data.frequency==='biweekly'?14:7;
-  const elapsed=Math.max(0,Math.floor((today-anchor)/86400000));
+  const elapsed=Math.max(0,Math.round((Date.UTC(today.getFullYear(),today.getMonth(),today.getDate())-Date.UTC(anchor.getFullYear(),anchor.getMonth(),anchor.getDate()))/86400000));
   const start=new Date(anchor);start.setDate(start.getDate()+Math.floor(elapsed/length)*length);
   const end=new Date(start);end.setDate(end.getDate()+length);
   const iso=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
@@ -206,7 +214,7 @@ function render(){
   const fixedMonthly=data.expenses.filter(item=>!trackedNames.has(item.name)).reduce((total,item)=>total+positive(item.amount),0);
   const monthlyIncome=pay*periods/12,monthlyAfterBills=monthlyIncome-fixedMonthly;
   const monthly=fixedMonthly+(learned.ready?learned.monthly:0);
-  const expensePerPay=monthly*12/periods,fixedPerPay=fixedMonthly*12/periods,iraPerPay=positive(data.ira)*12/periods,available=pay-expensePerPay-iraPerPay;
+  const expensePerPay=monthly*12/periods,fixedPerPay=fixedMonthly*12/periods,iraPerPay=positive(data.ira),available=pay-expensePerPay-iraPerPay;
   const filled=data.expenses.some(item=>!trackedNames.has(item.name)&&positive(item.amount)>0)||learned.monthly>0;
   // CFPB's 20% take-home benchmark covers savings and debt payments.
   // Half of the remaining surplus is a separate app buffer, not a CFPB formula.
@@ -225,6 +233,7 @@ function render(){
   $('spending').textContent=learned.ready?money(available-suggested):'—';$('annual').textContent=learned.ready?money(suggested*periods):'—';
   $('monthlyTotal').textContent=money(monthly);$('expenseAside').textContent=money(expensePerPay);
   $('iraAside').textContent=money(iraPerPay);
+  $('payrollAside').textContent=money(positive(data.retirement401k)+positive(data.healthcarePayroll));
   $('count').textContent=data.expenses.filter(x=>!trackedNames.has(x.name)&&positive(x.amount)>0).length+' filled';
   const breakdownItems=breakdownTransactions(current),breakdownSpent=breakdownItems.reduce((sum,t)=>sum+positive(t.amount),0);
   $('loggedMonth').textContent=money(learned.monthToDate)+' this month';renderRecent(current);
@@ -265,5 +274,5 @@ function render(){
   $('goalContext').textContent=!learned.ready?'The budget is still learning your food and gas costs; this comparison will update after 30 days.':remaining&&per>Math.max(0,available)?'This goal exceeds what is available after expenses and IRA transfers.':remaining&&suggested<per?'This trip needs more per paycheck than the suggested cash savings.':'This target fits within the suggested cash savings.';
 }
 renderExpenses();render();
-$('reset').addEventListener('click',()=>{if(!confirm('Clear this budget and start over? Your older data stays separately stored.'))return;data={pay:0,frequency:'weekly',expenses:defaultExpenses(),transactions:[],retirement401k:0,healthcarePayroll:0,ira:0,tripName:'',tripDate:'',tripCost:0,tripSaved:0};save();location.reload()});
+$('reset').addEventListener('click',()=>{if(!confirm('Clear this budget and start over? Your older data stays separately stored.'))return;data={pay:0,frequency:'weekly',expenses:defaultExpenses(),transactions:[],retirement401k:0,healthcarePayroll:0,ira:0,contributionsPerPaycheck:true,tripName:'',tripDate:'',tripCost:0,tripSaved:0};save();location.reload()});
 if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
