@@ -269,7 +269,7 @@ function upcomingBills(period,today=localDate()){
 function renderUpcomingBills(period){
   const bills=upcomingBills(period),list=$('upcomingBillList');list.replaceChildren();
   $('upcomingBillTotal').textContent=period?money(bills.reduce((sum,b)=>sum+b.amount,0)):'';
-  $('upcomingBillRange').textContent=period?'Today through '+new Date(period.end+'T12:00:00').toLocaleDateString(undefined,{month:'short',day:'numeric'})+' (next payday excluded).':'Add your most recent payday on Expenses to see upcoming bills.';
+  $('upcomingBillRange').textContent=period?'Before '+new Date(period.end+'T12:00:00').toLocaleDateString(undefined,{month:'short',day:'numeric'})+'.':'Add a payday on Expenses.';
   if(period&&!bills.length){const empty=document.createElement('li');empty.textContent='No dated bills due before your next payday.';list.append(empty)}
   for(const bill of bills){
     const row=document.createElement('li'),info=document.createElement('div'),name=document.createElement('strong'),date=document.createElement('small'),amount=document.createElement('strong');
@@ -343,7 +343,7 @@ function render(){
   const limit=pay-fixedPerPay-suggested;
   const transactions=periodTransactions(current),spent=transactions.reduce((sum,t)=>sum+positive(t.amount),0);
   $('period').textContent=current?`${current.label} · ${data.frequency==='biweekly'?'2-week':'weekly'} budget`:'Set your payday on Expenses';
-  $('balanceBasis').textContent=!pay?'Enter take-home pay on Expenses to build your payday plan.':!current?'Add your most recent payday on Expenses to start your payday plan.':limit<0?`This paycheck: bills need ${money(fixedPerPay)}, leaving a ${money(-limit)} shortfall.`:`This paycheck: reserve ${money(fixedPerPay)} for bills, save ${money(suggested)}, and keep ${money(limit)} available to spend.`;
+  $('balanceBasis').textContent=!pay?'Enter take-home pay on Expenses to build your payday plan.':!current?'Add your most recent payday on Expenses to start your payday plan.':limit<0?`This paycheck: bills need ${money(fixedPerPay)}, leaving a ${money(-limit)} shortfall.`:`Bills ${money(fixedPerPay)} · Save ${money(suggested)} · Spend ${money(limit)}`;
   $('paydayPlanNote').textContent=!pay||!current?'Uses take-home pay; retirement and healthcare are tracked separately.':`Bills are averaged across paychecks. ${learned.ready?'Savings is a suggestion, not a recorded deposit.':'Savings stays at $0 while we learn your spending for 30 days.'}`;
 
   renderWeeklyCheckin(current,limit-spent,pay);
@@ -418,3 +418,4 @@ function render(){
 renderExpenses();render();
 $('reset').addEventListener('click',()=>{if(!confirm('Clear this budget and start over? Your older data stays separately stored.'))return;data={pay:0,frequency:'weekly',expenses:defaultExpenses(),transactions:[],retirement401k:0,healthcarePayroll:0,ira:0,contributionsPerPaycheck:true,tripName:'',tripDate:'',tripCost:0,tripSaved:0};save();location.reload()});
 if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
+

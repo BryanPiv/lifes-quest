@@ -1,0 +1,67 @@
+/* A quieter, compact surface for Pocket Peak. */
+body{background:#f2f6fa}
+.topbar{min-height:60px;padding-top:10px;padding-bottom:10px;box-shadow:none;background:#0b2138}
+.brand-mark{box-shadow:none;border-radius:10px}
+.tabs{box-shadow:none;border:0;background:#e5edf5;max-width:none}
+.tabs button{font-size:.875rem;font-weight:650;min-height:44px}
+.card{box-shadow:none;border-color:#dce5ee;border-radius:14px;padding:20px}
+.heading{margin-bottom:18px}.heading h1{font-size:1.65rem;margin:0;letter-spacing:-.035em}.heading p{font-size:.875rem}
+.round{display:none}.card-title{margin-bottom:14px}.card h2{font-size:1rem}
+.help{font-size:.875rem}.fields{gap:12px}label{font-size:.875rem}input,select{font-size:1rem;border-radius:8px}
+.primary,.add{box-shadow:none;background:#196ba6;border-radius:8px;font-size:.875rem}
+.expense-group{border:0;border-bottom:1px solid #dce5ee;border-radius:0;margin-top:8px}
+.expense-group summary{padding:12px 0;background:transparent;font-size:.9375rem}
+.expense-group summary small{font-size:.8125rem}.expense-items{padding:4px 0;border-top:0}
+.tracked-box{background:transparent;border:0;padding:12px 0;margin-top:12px}
+.tracked-box strong{font-size:.875rem}.tracked-box p{font-size:.875rem}
+.account-details{background:transparent;border:0;border-top:1px solid #dce5ee;border-radius:0;padding:0;margin-top:16px}
+.account-details>summary,.contribution-plan>summary,.tracked-deductions>summary,.deposit-history>summary{cursor:pointer;padding:14px 0;font-size:.9375rem;font-weight:650}
+.contribution-plan{padding-top:0;margin-top:8px;border-color:#dce5ee}.contribution-plan .fields{grid-template-columns:repeat(2,minmax(0,1fr))}
+.tracked-deductions:not([open]){display:block}.tracked-deductions summary{padding:0}.tracked-deductions[open] summary{margin-bottom:12px}
+.savings-progress-card{padding:14px;border-radius:10px;background:#f7fafd;border:0}.savings-progress-card h3{font-size:.9375rem;margin-bottom:8px}.savings-progress-card small{font-size:.8125rem}
+.savings-progress-grid{margin:16px 0;gap:8px}.deposit-history{margin-top:18px;border-top:1px solid #dce5ee}
+.goal-savings,.goal-result{background:#fff}.mini-stats div{background:#f2f6fa;border-radius:8px}
+.overview-heading{margin:0 0 12px}.overview-heading h1{margin:0;font-size:1.35rem;font-weight:650;letter-spacing:-.03em}
+#plan .dashboard-grid{gap:16px;grid-template-columns:1fr 1fr}
+#plan .limit-card{padding:22px;border-radius:14px;background:#0d2c49;box-shadow:none}
+#plan .limit-card .eyebrow{font-size:.8125rem;letter-spacing:.06em}
+#plan .big-money{font-size:2.9rem;margin:10px 0 4px;letter-spacing:-.045em}
+#plan .period{font-size:.875rem;margin-bottom:16px}
+.payday-plan{padding:12px 0}.payday-plan-title{font-size:.875rem;letter-spacing:0;color:#cde2f4}
+#plan .payday-plan .balance-basis{font-size:1rem;line-height:1.5;margin:6px 0}
+.weekly-checkin{padding:0;margin:0;border-color:#ffffff30}.weekly-checkin summary{cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-size:.875rem;font-weight:600;padding:14px 0;gap:12px}
+.weekly-checkin summary::after{content:'+';font-size:1.1rem}.weekly-checkin[open] summary::after{content:'−'}.weekly-checkin summary small{margin-left:auto;font-size:.8125rem;font-weight:400;color:#cde2f4}
+.weekly-checkin-stats span{font-size:.875rem}.weekly-checkin-stats strong{font-size:1rem}.weekly-checkin p{font-size:.8125rem;line-height:1.5}
+.budget-details{border-top:1px solid #ffffff30;margin-top:0;font-size:.875rem}.budget-details summary{padding:14px 0;font-weight:600}.budget-details>small{font-size:.8125rem}
+#plan .quick-card{background:white;padding:20px;border-radius:14px}
+#plan .quick-card .card-title{margin-bottom:12px}#plan .quick-card h2{font-size:1rem}
+#plan .quick-amount-label input{height:48px;font-size:1.35rem;border-color:#c7d6ea}
+#plan .quick-name-label{font-size:.875rem;margin-top:10px;gap:6px}#plan .quick-name-label input{font-size:1rem;height:44px}
+.quick-save-hint{font-size:.8125rem;margin:10px 0 6px}
+#plan .quick-tiles{gap:8px;margin-top:0}#plan .quick-tiles button{box-shadow:none;border:0;border-radius:10px;min-height:48px;font-size:.875rem;padding:8px;display:flex;flex-direction:row;align-items:center;justify-content:center;gap:6px}
+#plan .quick-tiles button span{font-size:1rem;margin:0}
+#plan .quick-options{font-size:.875rem;margin-top:12px}#plan .quick-options summary{padding:4px 0}
+#plan .upcoming-bills{margin-top:14px;padding-top:14px}#plan .upcoming-bills h2{font-size:.9375rem}
+#plan .upcoming-bills .help{font-size:.8125rem;line-height:1.4;margin:6px 0}
+#plan .upcoming-bill-list{max-height:96px;margin:8px 0}#plan .upcoming-bill-list li{font-size:.875rem;padding:6px 0}#plan .upcoming-bill-list small{font-size:.8125rem}
+.upcoming-calendar{font-size:.875rem;min-height:36px}
+.source-note{font-size:.8125rem}.recent-expenses li button{min-height:36px;min-width:36px}
+@media(max-width:740px){
+ main{padding:12px 12px 40px}.topbar{padding:10px 14px;min-height:52px}
+ main .tabs,body:has(#plan.active) .tabs{margin:0 0 14px;padding:3px;border-radius:10px;box-shadow:none;min-height:44px}
+ .tabs button,body:has(#plan.active) .tabs button{font-size:.875rem;min-height:40px;padding:0 2px}
+ body:has(#plan.active) main{padding:10px 12px max(12px,env(safe-area-inset-bottom))}
+ #plan .dashboard-grid{grid-template-columns:1fr;gap:10px}
+ #plan .limit-card{padding:16px}#plan .big-money{font-size:2.25rem;margin:6px 0 2px}
+ #plan .period{font-size:.8125rem;margin:0 0 8px}
+ #plan .payday-plan{padding:8px 0}#plan .payday-plan .balance-basis{font-size:.875rem;margin:4px 0}
+ .weekly-checkin summary,.budget-details summary{padding:10px 0}
+ #plan .quick-card{padding:16px}#plan .quick-card .card-title{margin-bottom:8px}
+ #plan .quick-name-label{margin-top:8px}#plan .quick-options{margin-top:8px}
+ #plan .upcoming-bills{margin-top:10px;padding-top:10px}
+ .overview-heading{display:none}.contribution-plan .fields{grid-template-columns:1fr}
+ .savings-progress-grid{grid-template-columns:1fr}.savings-progress-card{padding:12px}
+ .expense-aside{order:0}.card{padding:16px}.heading h1{font-size:1.5rem}
+}
+@media(max-width:360px){.tabs button,body:has(#plan.active) .tabs button{font-size:.8125rem}#plan .quick-tiles{gap:4px}#plan .quick-tiles button{gap:3px;padding:6px}}
+@media(min-width:741px){body:has(#plan.active){height:auto;min-height:100dvh;overflow:auto}}
