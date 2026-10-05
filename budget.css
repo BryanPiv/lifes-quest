@@ -128,3 +128,14 @@ body:has(#plan.active) #plan{justify-content:flex-start}
 .breakdown-controls .fields { grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); }
 .breakdown-controls [hidden] { display: none; }
 .breakdown-controls p { margin-bottom: 0; }
+
+.savings-tracker { margin: 18px 0; }
+.savings-settings { margin-top: 18px; }
+.savings-progress-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 12px; margin: 22px 0; }
+.savings-progress-card { padding: 16px; border: 1px solid #c7d6ea; border-radius: 14px; }
+.savings-progress-card h3 { margin: 0 0 12px; overflow-wrap: anywhere; }
+.savings-progress-card strong { font-size: 1.2rem; }
+.savings-progress-card progress { display: block; width: 100%; height: 14px; margin-top: 14px; accent-color: #288fe8; }
+.savings-progress-card small { display: block; margin-top: 8px; color: #63758e; }
+#savingsDepositForm .primary { margin-top: 16px; }
+@media(max-width:740px) { .savings-progress-grid { grid-template-columns: 1fr; } }

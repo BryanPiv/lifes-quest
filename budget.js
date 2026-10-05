@@ -43,6 +43,7 @@ if(!data.contributionsPerPaycheck){
 }
 if(!Array.isArray(data.expenses))data.expenses=[];
 if(!Array.isArray(data.transactions))data.transactions=[];
+if(!Array.isArray(data.savingsDeposits))data.savingsDeposits=[];
 // Keep custom and imported expenses, and add each missing preset without copying an amount.
 for(const name of allPresets){if(!data.expenses.some(x=>x.name===name))data.expenses.push({name,amount:0})}
 const save=()=>localStorage.setItem(KEY,JSON.stringify(data));
@@ -59,9 +60,9 @@ function openPage(target){
 }
 document.querySelectorAll('[data-page]').forEach(button=>button.addEventListener('click',()=>openPage(button.dataset.page)));
 document.querySelectorAll('[data-goto]').forEach(button=>button.addEventListener('click',()=>openPage(button.dataset.goto)));
-for(const id of ['pay','grossPay','retirement401k','retirement401kMatchRate','retirement401kMatchCap','healthcarePayroll','ira','iraMatchRate','iraMatchCap','tripName','tripDate','tripCost','tripSaved']){
+for(const id of ['pay','grossPay','retirement401k','retirement401kMatchRate','retirement401kMatchCap','healthcarePayroll','ira','iraMatchRate','iraMatchCap','tripName','tripDate','tripCost','tripSaved','emergencySaved','customGoalName','customGoalTarget','customGoalSaved']){
   $(id).value=data[id]||'';
-  $(id).addEventListener('input',()=>{data[id]=['tripName','tripDate'].includes(id)?$(id).value:positive($(id).value);save();render()});
+  $(id).addEventListener('input',()=>{data[id]=['tripName','tripDate','customGoalName'].includes(id)?$(id).value:positive($(id).value);save();render()});
 }
 for(const key of ['retirement401k','ira']){
   data[key+'Mode']=data[key+'Mode']||(positive(data[key])>0?'amount':'percent');
@@ -127,6 +128,43 @@ document.querySelectorAll('[data-quick]').forEach(button=>button.addEventListene
   data.trackingStart=data.trackingStart||localDate();save();$('quickAmount').value='';$('quickName').value='';$('quickDate').value=localDate();
   $('quickFeedback').textContent=`Added ${name?name+' · ':''}${money(amount)} to ${category}.`;render();$('quickAmount').focus();
 }));
+function savedFor(goal){return data.savingsDeposits.filter(d=>d.goal===goal).reduce((sum,d)=>sum+positive(d.amount),0)}
+$('savingsDate').value=localDate();$('savingsDate').max=localDate();
+$('savingsDepositForm').addEventListener('submit',event=>{
+  event.preventDefault();
+  const amount=positive($('savingsAmount').value),date=$('savingsDate').value,goal=$('savingsGoal').value;
+  if(!amount||!date||date>localDate()){$('savingsFeedback').textContent='Enter an amount and choose today or an earlier date.';return}
+  if(goal==='custom'&&(!data.customGoalName?.trim()||!positive(data.customGoalTarget))){$('savingsFeedback').textContent='Give your other goal a name and target first.';return}
+  data.savingsDeposits.unshift({id:Date.now()+'-'+Math.random().toString(36).slice(2),goal,amount,date,note:$('savingsNote').value.trim()});
+  save();$('savingsAmount').value='';$('savingsNote').value='';$('savingsDate').value=localDate();
+  $('savingsFeedback').textContent='Recorded '+money(amount)+' toward your savings goal.';render();
+});
+function renderSavings(emergencyTarget){
+  const goals=[{key:'emergency',name:'Emergency fund',target:emergencyTarget,start:positive(data.emergencySaved)},{key:'vacation',name:data.tripName||'Vacation',target:positive(data.tripCost),start:positive(data.tripSaved)},{key:'custom',name:data.customGoalName||'Another goal',target:positive(data.customGoalTarget),start:positive(data.customGoalSaved)}];
+  const root=$('savingsProgress');root.replaceChildren();
+  for(const goal of goals){
+    const deposited=savedFor(goal.key),saved=goal.start+deposited;
+    const card=document.createElement('div');card.className='savings-progress-card';
+    const name=document.createElement('h3');name.textContent=goal.name;
+    const balance=document.createElement('strong');balance.textContent=money(saved)+' saved';
+    const progress=document.createElement('progress');progress.max=goal.target||1;progress.value=goal.target?Math.min(saved,goal.target):0;progress.setAttribute('aria-label',goal.name+' savings progress');
+    const status=document.createElement('p');status.className='help';status.textContent=goal.target?`${Math.min(100,saved/goal.target*100).toFixed(0)}% of ${money(goal.target)} · ${saved>=goal.target?'Goal reached!':money(goal.target-saved)+' to go'}`:'Add a target to see your progress.';
+    const source=document.createElement('small');source.textContent=money(goal.start)+' starting balance + '+money(deposited)+' deposits';
+    card.append(name,balance,progress,status,source);root.append(card);
+  }
+  $('savingsGoal').options[1].textContent=data.tripName||'Vacation';$('savingsGoal').options[2].textContent=data.customGoalName||'Another goal';
+  $('savingsDepositedTotal').textContent=money(data.savingsDeposits.reduce((sum,d)=>sum+positive(d.amount),0))+' total deposits';
+  const list=$('savingsHistory');list.replaceChildren();
+  if(!data.savingsDeposits.length){const empty=document.createElement('li');empty.textContent='No deposits recorded yet.';list.append(empty)}
+  for(const deposit of [...data.savingsDeposits].sort((a,b)=>b.date.localeCompare(a.date))){
+    const row=document.createElement('li'),info=document.createElement('div');info.className='purchase-info';
+    const name=document.createElement('strong');name.textContent=goals.find(g=>g.key===deposit.goal)?.name||'Savings';
+    const detail=document.createElement('span');detail.className='purchase-meta';detail.textContent=deposit.date+(deposit.note?' · '+deposit.note:'');info.append(name,detail);
+    const amount=document.createElement('strong');amount.textContent=money(positive(deposit.amount));
+    const remove=document.createElement('button');remove.type='button';remove.textContent='×';remove.setAttribute('aria-label','Remove '+money(positive(deposit.amount))+' savings record');
+    remove.addEventListener('click',()=>{data.savingsDeposits=data.savingsDeposits.filter(d=>d.id!==deposit.id);save();render()});row.append(info,amount,remove);list.append(row);
+  }
+}
 function payPeriod(){
   if(!data.payday||data.payday>localDate())return null;
   const anchor=new Date(data.payday+'T12:00:00'),today=new Date(localDate()+'T12:00:00');
@@ -268,6 +306,7 @@ function render(){
   $('annualTracked').textContent=money((ira.employee+retirement.employee+positive(data.healthcarePayroll))*periods);
   $('retirementAnnual').textContent=money((ira.employee+retirement.employee+ira.employer+retirement.employer)*periods);
   $('emergencyTarget').textContent=money(monthly*3);
+  renderSavings(monthly*3);
   $('emergencyBasis').textContent=learned.ready?'Three months of entered bills plus recent everyday spending.':'Starting target from entered bills; everyday spending is added after 30 days.';
   $('count').textContent=data.expenses.filter(x=>!trackedNames.has(x.name)&&positive(x.amount)>0).length+' filled';
   const breakdownItems=breakdownTransactions(current),breakdownSpent=breakdownItems.reduce((sum,t)=>sum+positive(t.amount),0);
@@ -303,7 +342,7 @@ function render(){
   });
   renderCalendar();
   const result=$('tripResult');result.replaceChildren();
-  const cost=positive(data.tripCost),saved=positive(data.tripSaved),checks=data.tripDate?approximatePaychecks(data.tripDate):0;
+  const cost=positive(data.tripCost),saved=positive(data.tripSaved)+savedFor('vacation'),checks=data.tripDate?approximatePaychecks(data.tripDate):0;
   if(!cost||!data.tripDate){result.textContent='Add an amount and a date to see your target per paycheck.';$('goalContext').textContent='Your budget and vacation goal update together.';return}
   if(!checks){result.textContent='Pick a future departure date to make a plan.';return}
   const remaining=Math.max(0,cost-saved),per=remaining/checks;
