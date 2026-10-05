@@ -94,7 +94,7 @@ function expenseRow(item){
   const blank=document.createElement('option');blank.value='';blank.textContent='Day';due.append(blank);
   for(let day=1;day<=31;day++){const option=document.createElement('option');option.value=String(day);option.textContent=String(day);due.append(option)}
   due.value=item.dueDay?String(item.dueDay):'';
-  due.addEventListener('change',()=>{item.dueDay=due.value?Number(due.value):null;save();renderCalendar()});
+  due.addEventListener('change',()=>{item.dueDay=due.value?Number(due.value):null;save();render()});
   const remove=document.createElement('button');remove.type='button';remove.className='remove';remove.textContent='×';remove.setAttribute('aria-label','Remove '+(item.name||'expense'));
   remove.addEventListener('click',()=>{data.expenses.splice(data.expenses.indexOf(item),1);save();renderExpenses();render()});
   if(allPresets.includes(item.name)){remove.disabled=true;remove.style.visibility='hidden'}
@@ -228,6 +228,31 @@ const monthThemes=[
   ['☃️','Warm wishes for winter days.','#ddecff','#e8dfff','#5a639f','Winter magic','🎁','✨','#8496d3']
 ];
 const activeBills=()=>data.expenses.filter(item=>!trackedNames.has(item.name)&&positive(item.amount)>0);
+function upcomingBills(period,today=localDate()){
+  if(!period)return [];
+  const result=[];
+  const cursor=new Date(today+'T12:00:00');
+  while(true){
+    const date=`${cursor.getFullYear()}-${String(cursor.getMonth()+1).padStart(2,'0')}-${String(cursor.getDate()).padStart(2,'0')}`;
+    if(date>=period.end)break;
+    const last=new Date(cursor.getFullYear(),cursor.getMonth()+1,0).getDate();
+    for(const bill of activeBills())if(bill.dueDay&&Math.min(Number(bill.dueDay),last)===cursor.getDate())result.push({name:bill.name||'Monthly bill',amount:positive(bill.amount),date});
+    cursor.setDate(cursor.getDate()+1);
+  }
+  return result;
+}
+function renderUpcomingBills(period){
+  const bills=upcomingBills(period),list=$('upcomingBillList');list.replaceChildren();
+  $('upcomingBillTotal').textContent=period?money(bills.reduce((sum,b)=>sum+b.amount,0)):'';
+  $('upcomingBillRange').textContent=period?'Today through '+new Date(period.end+'T12:00:00').toLocaleDateString(undefined,{month:'short',day:'numeric'})+' (next payday excluded).':'Add your most recent payday on Expenses to see upcoming bills.';
+  if(period&&!bills.length){const empty=document.createElement('li');empty.textContent='No dated bills due before your next payday.';list.append(empty)}
+  for(const bill of bills){
+    const row=document.createElement('li'),info=document.createElement('div'),name=document.createElement('strong'),date=document.createElement('small'),amount=document.createElement('strong');
+    name.textContent=bill.name;date.textContent=bill.date===localDate()?'Due today':new Date(bill.date+'T12:00:00').toLocaleDateString(undefined,{month:'short',day:'numeric'});amount.textContent=money(bill.amount);info.append(name,date);row.append(info,amount);list.append(row);
+  }
+  const undated=activeBills().filter(b=>!b.dueDay).length;
+  $('upcomingBillNote').textContent=period?'Scheduled bills; payment status is not tracked.'+(undated?` ${undated} ${undated===1?'bill needs':'bills need'} a due day on Expenses.`:''):'';
+}
 function billsOnDay(day){
   const last=new Date(calendarMonth.getFullYear(),calendarMonth.getMonth()+1,0).getDate();
   return activeBills().filter(item=>item.dueDay&&Math.min(Number(item.dueDay),last)===day);
@@ -342,7 +367,7 @@ function render(){
     const items=data.expenses.filter(item=>group.dataset.group==='Added by you'?!allPresets.includes(item.name)&&!trackedNames.has(item.name):(presets[group.dataset.group]||[]).includes(item.name));
     const subtotal=group.querySelector('summary small');if(subtotal)subtotal.textContent=money(items.reduce((sum,item)=>sum+positive(item.amount),0))+'/mo';
   });
-  renderCalendar();
+  renderCalendar();renderUpcomingBills(current);
   const result=$('tripResult');result.replaceChildren();
   const cost=positive(data.tripCost),saved=positive(data.tripSaved)+savedFor('vacation'),checks=data.tripDate?approximatePaychecks(data.tripDate):0;
   if(!cost||!data.tripDate){result.textContent='Add an amount and a date to see your target per paycheck.';$('goalContext').textContent='Your budget and vacation goal update together.';return}
