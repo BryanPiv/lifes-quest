@@ -121,3 +121,10 @@ body:has(#plan.active) #plan{justify-content:flex-start}
 .savings-evidence #emergencyTarget{font-weight:850;color:#164d77;font-size:1.2rem}
 .savings-evidence small{display:block;margin-top:4px;color:#746a7b;line-height:1.35}
 @media(max-width:740px){.savings-evidence{grid-template-columns:1fr}.savings-evidence p{padding:11px}}
+
+.contribution-plan { margin-top: 20px; padding-top: 14px; border-top: 1px solid #b8c8da; }
+.contribution-plan h3 { margin: 0 0 12px; }
+.breakdown-controls { margin-bottom: 18px; }
+.breakdown-controls .fields { grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); }
+.breakdown-controls [hidden] { display: none; }
+.breakdown-controls p { margin-bottom: 0; }

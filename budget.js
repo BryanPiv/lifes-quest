@@ -14,6 +14,9 @@ const categories=['Gas','Food','Fun','Misc'];
 const defaultExpenses=()=>allPresets.map(name=>({name,amount:0}));
 let data;
 let page='plan';
+let breakdownView='period';
+let purchaseQuery='';
+let breakdownMonth=localDate().slice(0,7);
 let calendarMonth=new Date(new Date().getFullYear(),new Date().getMonth(),1);
 let selectedDay=new Date().getDate();
 function migrate(){
@@ -56,9 +59,23 @@ function openPage(target){
 }
 document.querySelectorAll('[data-page]').forEach(button=>button.addEventListener('click',()=>openPage(button.dataset.page)));
 document.querySelectorAll('[data-goto]').forEach(button=>button.addEventListener('click',()=>openPage(button.dataset.goto)));
-for(const id of ['pay','retirement401k','healthcarePayroll','ira','tripName','tripDate','tripCost','tripSaved']){
+for(const id of ['pay','grossPay','retirement401k','retirement401kMatchRate','retirement401kMatchCap','healthcarePayroll','ira','iraMatchRate','iraMatchCap','tripName','tripDate','tripCost','tripSaved']){
   $(id).value=data[id]||'';
   $(id).addEventListener('input',()=>{data[id]=['tripName','tripDate'].includes(id)?$(id).value:positive($(id).value);save();render()});
+}
+for(const key of ['retirement401k','ira']){
+  $(key+'Mode').value=data[key+'Mode']||'amount';
+  $(key+'Mode').addEventListener('change',()=>{data[key+'Mode']=$(key+'Mode').value;data[key]=0;$(key).value='';save();render()});
+}
+$('breakdownMonth').value=breakdownMonth;
+$('breakdownView').addEventListener('change',()=>{breakdownView=$('breakdownView').value;render()});
+$('breakdownMonth').addEventListener('input',()=>{breakdownMonth=$('breakdownMonth').value||localDate().slice(0,7);render()});
+$('purchaseSearch').addEventListener('input',()=>{purchaseQuery=$('purchaseSearch').value.trim().toLowerCase();render()});
+function contribution(key){
+  const gross=positive(data.grossPay),percent=data[key+'Mode']==='percent';
+  const employee=percent?gross*Math.min(100,positive(data[key]))/100:positive(data[key]);
+  const employer=Math.min(employee,gross*Math.min(100,positive(data[key+'MatchCap']))/100)*Math.min(100,positive(data[key+'MatchRate']))/100;
+  return {employee,employer,needsGross:!gross&&(percent||positive(data[key+'MatchRate'])>0)};
 }
 $('frequency').value=data.frequency;
 $('frequency').addEventListener('change',()=>{data.frequency=$('frequency').value;save();render()});
@@ -121,7 +138,10 @@ function payPeriod(){
   return {start:iso(start),end:iso(end),label:`${start.toLocaleDateString(undefined,{month:'short',day:'numeric'})} – ${new Date(end.getTime()-86400000).toLocaleDateString(undefined,{month:'short',day:'numeric'})}`};
 }
 function periodTransactions(period){return period?data.transactions.filter(t=>t.date>=period.start&&t.date<period.end):[]}
-function breakdownTransactions(period){return period?periodTransactions(period):data.transactions.filter(t=>t.date?.slice(0,7)===localDate().slice(0,7))}
+function breakdownTransactions(period){
+  const items=breakdownView==='period'&&period?periodTransactions(period):data.transactions.filter(t=>t.date?.slice(0,7)===breakdownMonth);
+  return items.filter(t=>!purchaseQuery||(t.name||'').toLowerCase().includes(purchaseQuery));
+}
 function categoryOf(category){return category==='Other'?'Misc':category}
 function tracking(){
   const today=localDate(),now=new Date(today+'T12:00:00');
@@ -136,7 +156,7 @@ function tracking(){
 function renderRecent(period){
   const list=$('recentExpenses');list.replaceChildren();
   const recent=breakdownTransactions(period).sort((a,b)=>b.date.localeCompare(a.date));
-  if(!recent.length){const item=document.createElement('li');item.textContent=period?'No purchases logged for this pay period yet.':'No purchases logged this month yet.';list.append(item)}
+  if(!recent.length){const item=document.createElement('li');item.textContent=purchaseQuery?'No purchases match this name in the selected view.':'No purchases logged in the selected view yet.';list.append(item)}
   for(const transaction of recent){
     const item=document.createElement('li');const info=document.createElement('div');info.className='purchase-info';
     const label=document.createElement('strong');label.className='purchase-name';label.textContent=transaction.name||categoryOf(transaction.category);
@@ -212,7 +232,7 @@ function render(){
   const periods=data.frequency==='biweekly'?26:52;
   const pay=positive(data.pay),learned=tracking(),current=payPeriod();
   const fixedMonthly=data.expenses.filter(item=>!trackedNames.has(item.name)).reduce((total,item)=>total+positive(item.amount),0);
-  const monthlyIncome=pay*periods/12,monthlyAfterBills=monthlyIncome-fixedMonthly;
+  const monthlyIncome=pay*periods/12,monthlyAfterBills=monthlyIncome-fixedMonthly-learned.monthToDate;
   const monthly=fixedMonthly+(learned.ready?learned.monthly:0);
   const expensePerPay=monthly*12/periods,fixedPerPay=fixedMonthly*12/periods,available=pay-expensePerPay;
   const filled=data.expenses.some(item=>!trackedNames.has(item.name)&&positive(item.amount)>0)||learned.monthly>0;
@@ -226,23 +246,37 @@ function render(){
   $('balanceBasis').textContent=!pay?'Enter take-home pay on Expenses to begin.':!current?'Add your most recent payday on Expenses to start a pay period.':learned.ready?'Your limit sets aside bills and suggested cash savings.':'Preliminary limit: food, gas, fun and misc are logged as you spend.';
   $('available').textContent=money(current&&pay?limit-spent:0);$('payOut').textContent=money(current&&pay?limit:0);$('expenseOut').textContent=money(current?spent:0);
   $('monthlyIncome').textContent=pay?money(monthlyIncome)+' income':'Add pay on Expenses';$('monthlyBills').textContent=money(fixedMonthly)+' bills';$('monthlyLeft').textContent=pay?money(monthlyAfterBills):'—';
+  $('monthlyPurchaseNote').textContent=money(learned.monthToDate)+' purchases this month · after monthly bills';
   $('monthlyLeft').classList.toggle('monthly-deficit',pay>0&&monthlyAfterBills<0);
   $('suggested').textContent=learned.ready?money(suggested):'Learning…';
   $('suggestedPeriod').textContent=data.frequency==='biweekly'?'every 2 weeks':'each week';
   $('spending').textContent=learned.ready?money(available-suggested):'—';$('annual').textContent=learned.ready?money(suggested*periods):'—';
   $('monthlyTotal').textContent=money(monthly);$('expenseAside').textContent=money(expensePerPay);
-  $('iraAside').textContent=money(positive(data.ira));
-  $('retirementAside').textContent=money(positive(data.retirement401k));
+  const retirement=contribution('retirement401k'),ira=contribution('ira');
+  for(const key of ['retirement401k','ira']){
+    const value=contribution(key),percent=data[key+'Mode']==='percent';
+    $(key+'InputLabel').textContent=percent?'Your contribution (%)':'Your contribution ($)';
+    $(key).max=percent?'100':'';
+    $(key+'Estimate').textContent=value.needsGross?'Enter gross pay to calculate percentage contributions and employer matching.':`You: ${money(value.employee)} · Employer: ${money(value.employer)} · Total: ${money(value.employee+value.employer)} per paycheck`;
+  }
+  $('iraAside').textContent=money(ira.employee);
+  $('retirementAside').textContent=money(retirement.employee);
+  $('employerAside').textContent=money(retirement.employer+ira.employer);
   $('healthcareAside').textContent=money(positive(data.healthcarePayroll));
-  $('payrollAside').textContent=money(positive(data.ira)+positive(data.retirement401k)+positive(data.healthcarePayroll));
-  $('annualTracked').textContent=money((positive(data.ira)+positive(data.retirement401k)+positive(data.healthcarePayroll))*periods);
+  $('payrollAside').textContent=money(ira.employee+retirement.employee+positive(data.healthcarePayroll));
+  $('annualTracked').textContent=money((ira.employee+retirement.employee+positive(data.healthcarePayroll))*periods);
+  $('retirementAnnual').textContent=money((ira.employee+retirement.employee+ira.employer+retirement.employer)*periods);
   $('emergencyTarget').textContent=money(monthly*3);
   $('emergencyBasis').textContent=learned.ready?'Three months of entered bills plus recent everyday spending.':'Starting target from entered bills; everyday spending is added after 30 days.';
   $('count').textContent=data.expenses.filter(x=>!trackedNames.has(x.name)&&positive(x.amount)>0).length+' filled';
   const breakdownItems=breakdownTransactions(current),breakdownSpent=breakdownItems.reduce((sum,t)=>sum+positive(t.amount),0);
   $('loggedMonth').textContent=money(learned.monthToDate)+' this month';renderRecent(current);
-  $('breakdownTotal').textContent=money(breakdownSpent);$('breakdownPeriod').textContent=current?current.label:new Date().toLocaleDateString(undefined,{month:'long',year:'numeric'});
-  $('breakdownTotalLabel').textContent=current?'SPENT THIS PERIOD':'SPENT THIS MONTH';
+  const isPeriod=breakdownView==='period'&&current;
+  $('breakdownMonthField').hidden=!!isPeriod;
+  $('breakdownPeriod').textContent=isPeriod?current.label:new Date(breakdownMonth+'-01T12:00:00').toLocaleDateString(undefined,{month:'long',year:'numeric'});
+  $('breakdownTotal').textContent=money(breakdownSpent);
+  $('searchSummary').textContent=purchaseQuery?`${breakdownItems.length} matching purchases · ${money(breakdownSpent)} total in this view`:`${breakdownItems.length} purchases · ${money(breakdownSpent)} total in this view`;
+  $('breakdownTotalLabel').textContent=purchaseQuery?'MATCHING PURCHASES':isPeriod?'SPENT THIS PERIOD':'SPENT THIS MONTH';
   $('trackingStatus').textContent=!current?'Set your payday on Expenses to switch to a weekly or biweekly view.':learned.ready?'Your recent spending also informs the savings suggestion.':data.trackingStart?`Learning your habits · day ${Math.min(30,learned.days+1)} of 30`:'Log purchases on Overview to build your picture.';
   $('trackedDetail').textContent=learned.ready?`Recent 30-day spending: ${money(learned.monthly)}. This updates as you add purchases.`:`Logged this month: ${money(learned.monthToDate)}. Savings guidance begins after 30 days of tracking.`;
   $('expenseBasis').textContent=learned.ready?'Includes recent 30-day purchases.':'Before food, gas and other daily purchases are learned.';
