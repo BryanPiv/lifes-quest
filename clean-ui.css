@@ -89,4 +89,25 @@ body{background:#f2f6fa}
 .recovery-copy{display:flex;align-items:center;gap:12px;justify-content:space-between;border-bottom:1px solid #dce5ee;padding:10px 0}.recovery-copy p{font-size:.875rem;margin:0}.recovery-copy .primary{margin:0;flex:none}
 .backup-actions{display:grid;gap:16px;margin:20px 0}.backup-actions .primary{margin:0}.backup-actions input{height:auto;padding:10px;font-size:.875rem}
 #storageNotice[hidden]{display:none}
+/* CloudStash color: cool skies, distinct spending categories, and gentle goal accents. */
+body{background:linear-gradient(145deg,#e4f0fc,#eef4ff 55%,#e7f5f6);background-attachment:fixed}
+.tabs{background:#d5e7f6;border:1px solid #bdd8ec}.tabs button.active{background:#f4fbff;color:#155782;box-shadow:none}
+.card{background:#f6faff;border-color:#bed8eb}
+.pay-setup{background:#edf6ff}.expense-card{background:#f5faff}.expense-aside{background:#e4f2fb;border-color:#adcee7}
+.expense-group summary{background:transparent}.expense-group[open] summary{color:#175d88}
+.expense-item input.name{background:#eaf2fa}.count{background:#cfe8f8;color:#155d88}
+.goal-savings{background:linear-gradient(120deg,#e1f1ff,#e8eaff);border-color:#b9cde9}.goal-result{background:#eaf0ff}
+.savings-tracker{background:#f1f8ff}.savings-progress-card:nth-child(1){background:#dff4f1}.savings-progress-card:nth-child(2){background:#e4edff}.savings-progress-card:nth-child(3){background:#fff0d9}
+.mini-stats div{background:#ffffff85}.savings-progress-card h3{color:#23455f}
+.breakdown-controls,.history-card{background:#f0f7fd}.breakdown-summary{background:#deeffb;border-color:#afcee7}
+#plan .limit-card{background:linear-gradient(125deg,#102d4b,#14527c);border:1px solid #1b5e89}
+#plan .quick-card{background:#edf7ff;border-color:#b2d4eb}
+#plan .quick-tiles button:nth-child(1){background:#cce9fc;color:#155b86}
+#plan .quick-tiles button:nth-child(2){background:#ffedcc;color:#80501c}
+#plan .quick-tiles button:nth-child(3){background:#e5ddfc;color:#584386}
+#plan .quick-tiles button:nth-child(4){background:#d5f0e8;color:#285f51}
+#plan .quick-tiles button:hover{filter:brightness(.97)}
+.upcoming-bills{border-color:#b4d3e8}.upcoming-bill-list li{border-color:#c3ddec}
+.welcome-dialog{background:linear-gradient(155deg,#f6fbff,#eaf4ff);border-color:#b7d3e8}.welcome-top{color:#335c7a}.setup-checklist li:before{background:#cde8fa}
+.primary,.add{background:#176ba4}.reset{background:#ffffff0a}
 @media(max-width:740px){.topbar{flex-wrap:wrap;gap:8px}.header-actions{margin-left:auto}.header-actions .reset{font-size:.75rem;padding:7px}.brand{font-size:.9375rem}.brand-nimbus{width:30px;height:30px}}
