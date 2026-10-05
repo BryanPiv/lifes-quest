@@ -5,18 +5,18 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#0b1728">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-title" content="CloudStash">
+  <meta name="apple-mobile-web-app-title" content="Cloud Stash">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="description" content="A simple weekly or biweekly budget for your paycheck, expenses, savings and vacation plans.">
-  <title>CloudStash | Budget</title>
-  <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/pocket-peak-192.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
+  <title>Cloud Stash | Budget</title>
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/cloud-stash-192-v32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/cloud-stash-apple-v32.png">
   <link rel="manifest" href="manifest.json">
-  <link rel="stylesheet" href="budget.css?v=31">
-  <link rel="stylesheet" href="clean-ui.css?v=31">
+  <link rel="stylesheet" href="budget.css?v=32">
+  <link rel="stylesheet" href="clean-ui.css?v=32">
 </head>
 <body>
-  <header class="topbar"><div class="brand"><img class="brand-nimbus" src="assets/characters/nimbus/nimbus-idle-premium-v95.webp" alt="Nimbus, your cloud companion"><span>CloudStash</span></div><div class="header-actions"><button id="savedData" class="reset" type="button">Saved data</button><button id="setupHelp" class="reset" type="button" aria-label="Open getting started guide">Guide</button><button id="reset" class="reset" type="button">Start over</button></div></header>
+  <header class="topbar"><div class="brand"><img class="brand-nimbus" src="assets/characters/nimbus/nimbus-idle-premium-v95.webp" alt="Nimbus, your cloud companion"><span>Cloud Stash</span></div><div class="header-actions"><button id="savedData" class="reset" type="button">Saved data</button><button id="setupHelp" class="reset" type="button" aria-label="Open getting started guide">Guide</button><button id="reset" class="reset" type="button">Start over</button></div></header>
   <main>
     <p id="storageNotice" class="warning" role="status" hidden></p>
     <nav class="tabs" aria-label="Budget pages">
@@ -41,7 +41,7 @@
     </section>
     <section class="page" id="goals" aria-label="Savings goals" hidden>
       <div class="heading"><div><h1>Savings goals</h1></div><p>See a realistic amount to set aside each paycheck.</p></div>
-      <div class="card goal-savings"><div><span class="eyebrow">SAVINGS OUTLOOK</span><h2>Suggested cash savings</h2><p id="recommendationReason" class="help">Log a month of spending to see a suggestion.</p></div><div><strong id="suggested" class="suggested">$0.00</strong><span id="suggestedPeriod" class="muted">per paycheck</span></div><div class="mini-stats"><div><span>Room after planned savings</span><strong id="spending">$0.00</strong></div><div><span>Cash savings in a year</span><strong id="annual">$0.00</strong></div></div><details class="savings-explanation"><summary>How the savings suggestion works</summary><div class="savings-evidence"><p><strong>Why this amount?</strong> Fidelity suggests 10% of take-home pay for near-term goals and emergency savings. After 30 days, we cap that at half the room left after bills and logged spending. The cap is CloudStash’s buffer, not Fidelity’s formula.</p><p><strong>National picture:</strong> The Federal Reserve found 55% of U.S. adults, and 75% in households earning $100,000 or more, had three months of emergency savings in 2025. This is a comparison, not a required savings rate.</p><p><strong>Three-month cushion to build:</strong> <span id="emergencyTarget">$0.00</span><small id="emergencyBasis">Starting target from entered bills; everyday spending is added after 30 days.</small></p></div></details></div>
+      <div class="card goal-savings"><div><span class="eyebrow">SAVINGS OUTLOOK</span><h2>Suggested cash savings</h2><p id="recommendationReason" class="help">Log a month of spending to see a suggestion.</p></div><div><strong id="suggested" class="suggested">$0.00</strong><span id="suggestedPeriod" class="muted">per paycheck</span></div><div class="mini-stats"><div><span>Room after planned savings</span><strong id="spending">$0.00</strong></div><div><span>Cash savings in a year</span><strong id="annual">$0.00</strong></div></div><details class="savings-explanation"><summary>How the savings suggestion works</summary><div class="savings-evidence"><p><strong>Why this amount?</strong> Fidelity suggests 10% of take-home pay for near-term goals and emergency savings. After 30 days, we cap that at half the room left after bills and logged spending. The cap is Cloud Stash’s buffer, not Fidelity’s formula.</p><p><strong>National picture:</strong> The Federal Reserve found 55% of U.S. adults, and 75% in households earning $100,000 or more, had three months of emergency savings in 2025. This is a comparison, not a required savings rate.</p><p><strong>Three-month cushion to build:</strong> <span id="emergencyTarget">$0.00</span><small id="emergencyBasis">Starting target from entered bills; everyday spending is added after 30 days.</small></p></div></details></div>
       <div class="card savings-tracker"><div class="card-title"><h2>Your actual savings</h2></div><p class="help">Record transfers to track progress. Deposits do not change your spending budget.</p><details class="savings-setup"><summary>Set up goals & starting balances</summary><div class="fields savings-settings"><label>Emergency fund starting balance<input id="emergencySaved" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0.00"></label><label>Another goal name<input id="customGoalName" maxlength="80" placeholder="e.g. New car"></label><label>Another goal target<input id="customGoalTarget" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0.00"></label><label>Another goal starting balance<input id="customGoalSaved" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0.00"></label></div></details><div id="savingsProgress" class="savings-progress-grid" aria-live="polite"></div><form id="savingsDepositForm"><h3>Record a savings deposit</h3><div class="fields"><label>Goal<select id="savingsGoal"><option value="emergency">Emergency fund</option><option value="vacation">Vacation</option><option value="custom">Another goal</option></select></label><label>Amount<input id="savingsAmount" type="number" required min="0.01" step="0.01" inputmode="decimal" placeholder="0.00"></label><label>Date<input id="savingsDate" type="date" required></label><label>Note (optional)<input id="savingsNote" maxlength="80" placeholder="e.g. Payday transfer"></label></div><button type="submit" class="primary">Record deposit</button><p id="savingsFeedback" class="help" role="status"></p></form><details class="deposit-history"><summary>Deposit history</summary><div class="history-head"><h3>Recorded deposits</h3><strong id="savingsDepositedTotal"></strong></div><ul id="savingsHistory" class="recent-expenses"></ul></details></div><div class="goals-grid"><div class="card"><div class="card-title"><span class="round orange">✦</span><h2>Vacation details</h2></div><div class="fields"><label>Trip name<input id="tripName" type="text" placeholder="Summer trip"></label><label>Departure date<input id="tripDate" type="date"></label><label>Total amount needed<input id="tripCost" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0.00"></label><label>Starting savings balance<input id="tripSaved" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0.00"></label></div></div><div class="card goal-result"><span class="eyebrow">VACATION PLAN</span><div id="tripResult" aria-live="polite">Add an amount and a date to see your target per paycheck.</div><div class="divider"></div><p id="goalContext">Your budget and vacation goal update together.</p><button type="button" class="primary" data-goto="plan">View overview</button></div></div>
     </section>
     <section class="page" id="breakdown" aria-label="Spending breakdown" hidden>
@@ -64,7 +64,7 @@
   </dialog>
   <dialog id="welcomeDialog" class="welcome-dialog" aria-labelledby="welcomeTitle" aria-describedby="welcomeIntro">
     <div class="welcome-top"><img src="assets/characters/nimbus/nimbus-idle-premium-v95.webp" alt="Nimbus"><span>Meet Nimbus, your budget buddy</span></div>
-    <h2 id="welcomeTitle">Welcome to CloudStash</h2>
+    <h2 id="welcomeTitle">Welcome to Cloud Stash</h2>
     <p id="welcomeIntro">Start with your paycheck and bills. Your budget takes shape as you go.</p>
     <ol class="setup-checklist">
       <li><strong>Add your take-home pay</strong><span>Enter what reaches your bank account each paycheck.</span></li>
@@ -77,7 +77,7 @@
   </dialog>
   <dialog id="purchaseEditDialog" aria-labelledby="purchaseEditTitle"><form id="purchaseEditForm"><h2 id="purchaseEditTitle">Edit purchase</h2><div class="fields"><label>Amount<input id="editPurchaseAmount" type="number" min="0.01" step="0.01" inputmode="decimal" required></label><label>Purchase name<input id="editPurchaseName" type="text" maxlength="80" placeholder="e.g. Clothes"></label><label>Category<select id="editPurchaseCategory"><option>Gas</option><option>Food</option><option>Fun</option><option>Misc</option></select></label><label>Date<input id="editPurchaseDate" type="date" required></label></div><p id="editPurchaseError" class="help" role="alert"></p><div class="purchase-edit-actions"><button id="cancelPurchaseEdit" type="button">Cancel</button><button type="submit" class="primary">Save changes</button></div></form></dialog>
   <footer class="source-note">Sources: <a href="https://www.fidelity.com/learning-center/personal-finance/spending-and-saving" target="_blank" rel="noopener">Fidelity Plan Your Pay</a> · <a href="https://www.federalreserve.gov/publications/2026-economic-well-being-of-us-households-in-2025-savings-investments.htm" target="_blank" rel="noopener">Federal Reserve 2025 household survey</a>. These are starting points; the suggestion is an estimate based on your entries.</footer>
-  <script src="budget.js?v=31" defer></script>
+  <script src="budget.js?v=32" defer></script>
 </body>
 </html>
 

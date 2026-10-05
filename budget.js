@@ -494,7 +494,7 @@ $('savedData').addEventListener('click',()=>{
 });
 $('closeRecovery').addEventListener('click',()=>$('recoveryDialog').close());
 $('downloadBudget').addEventListener('click',()=>{
-  const blob=new Blob([JSON.stringify({app:'CloudStash',version:1,savedAt:new Date().toISOString(),budget:data},null,2)],{type:'application/json'});
+  const blob=new Blob([JSON.stringify({app:'Cloud Stash',version:1,savedAt:new Date().toISOString(),budget:data},null,2)],{type:'application/json'});
   const url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download='CloudStash-budget-'+localDate()+'.json';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
 });
 $('importBudget').addEventListener('change',async()=>{
@@ -502,7 +502,7 @@ $('importBudget').addEventListener('change',async()=>{
   try{const contents=JSON.parse(await file.text());const restored=parseBudget(JSON.stringify(contents.budget||contents));if(!restored)throw Error();
     if(!confirm('Replace your budget with this backup? Your current budget will be kept as a local recovery copy.'))return;
     snapshot(localStorage.getItem(KEY));localStorage.setItem(KEY,JSON.stringify(restored));location.reload();
-  }catch{$('recoveryStatus').textContent='This backup could not be imported. Choose a CloudStash budget JSON file and check that device storage is available.'}
+  }catch{$('recoveryStatus').textContent='This backup could not be imported. Choose a Cloud Stash budget JSON file and check that device storage is available.'}
   finally{$('importBudget').value=''}
 });
 if(recoveredAtStartup){$('storageNotice').hidden=false;$('storageNotice').textContent='Your saved budget could not be read. A local backup has been loaded; review it and download a copy from Saved data.'}

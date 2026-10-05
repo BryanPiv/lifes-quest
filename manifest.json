@@ -1,19 +1,21 @@
 {
-  "name": "CloudStash",
-  "short_name": "CloudStash",
+  "name": "Cloud Stash",
+  "short_name": "Cloud Stash",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "icons": [
     {
-      "src": "assets/icons/pocket-peak-192.png",
+      "src": "assets/icons/cloud-stash-192-v32.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
-      "src": "assets/icons/pocket-peak-512.png",
+      "src": "assets/icons/cloud-stash-512-v32.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     }
   ],
   "background_color": "#eaf2fa",
