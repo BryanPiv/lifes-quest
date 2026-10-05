@@ -153,3 +153,17 @@ body:has(#plan.active) #plan{justify-content:flex-start}
 .upcoming-bill-list li { display: flex; justify-content: space-between; gap: 10px; padding: 6px 0; font-size: .78rem; border-bottom: 1px solid #dbe5f4; }
 .upcoming-bill-list small { display: block; margin-top: 2px; color: #63758e; }
 .upcoming-calendar { border: 0; background: transparent; color: #1763bb; padding: 4px 0; font-size: .75rem; font-weight: 750; }
+
+#purchaseEditDialog { width: min(480px,calc(100% - 28px)); max-height: calc(100dvh - 40px); overflow-y: auto; border: 1px solid #c7d6ea; border-radius: 18px; padding: 24px; color: #152444; background: #f4f8ff; }
+#purchaseEditDialog::backdrop { background: #0b1728aa; }
+#purchaseEditDialog h2 { margin: 0 0 18px; }
+.purchase-edit-actions { display: flex; justify-content: flex-end; gap: 12px; margin-top: 16px; }
+.purchase-edit-actions button { width: auto; padding: 10px 16px; border-radius: 10px; }
+#cancelPurchaseEdit { border: 1px solid #c7d6ea; background: white; color: #344d70; }
+.purchase-row-actions { display: flex; align-items: center; gap: 6px; }
+.recent-expenses .purchase-row-actions .edit-purchase { width: auto; padding: 6px 8px; height: auto; font-size: .75rem; color: #1763bb; background: #eaf2fa; border-radius: 7px; }
+.recent-expenses li .purchase-info { min-width: 0; overflow-wrap: anywhere; }
+#purchaseEditFeedback:empty { display: none; }
+@media(max-width:400px) { #purchaseEditDialog .fields { grid-template-columns: 1fr; } }
+.purchase-row-actions { flex-shrink: 0; }
+.recent-expenses .purchase-row-actions .edit-purchase { flex: 0 0 auto; }

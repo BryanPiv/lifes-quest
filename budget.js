@@ -192,6 +192,29 @@ function tracking(){
   const month=data.transactions.filter(t=>t.date?.slice(0,7)===today.slice(0,7));
   return {days,ready:days>=30&&data.transactions.length>0,monthly:recent.reduce((sum,t)=>sum+positive(t.amount),0),monthToDate:month.reduce((sum,t)=>sum+positive(t.amount),0)};
 }
+let editingPurchaseId=null;
+function editPurchase(transaction){
+  editingPurchaseId=transaction.id;
+  $('editPurchaseAmount').value=positive(transaction.amount);
+  $('editPurchaseName').value=transaction.name||'';
+  $('editPurchaseCategory').value=categoryOf(transaction.category);
+  $('editPurchaseDate').value=transaction.date;
+  $('editPurchaseDate').max=localDate();
+  $('editPurchaseError').textContent='';
+  $('purchaseEditDialog').showModal();$('editPurchaseAmount').focus();
+}
+$('cancelPurchaseEdit').addEventListener('click',()=>$('purchaseEditDialog').close());
+$('purchaseEditDialog').addEventListener('close',()=>{editingPurchaseId=null;$('purchaseSearch').focus()});
+$('purchaseEditForm').addEventListener('submit',event=>{
+  event.preventDefault();
+  const transaction=data.transactions.find(t=>t.id===editingPurchaseId);
+  if(!transaction){$('purchaseEditDialog').close();return}
+  const amount=positive($('editPurchaseAmount').value),date=$('editPurchaseDate').value,category=$('editPurchaseCategory').value;
+  if(!amount||!date||date>localDate()||!categories.includes(category)){$('editPurchaseError').textContent='Enter a positive amount, a category, and today or an earlier date.';return}
+  transaction.amount=amount;transaction.name=$('editPurchaseName').value.trim();transaction.category=category;transaction.date=date;
+  save();render();$('purchaseEditDialog').close();
+  $('purchaseEditFeedback').textContent='Purchase updated. Totals reflect its new amount, category and date; it may move out of the current view or search.';
+});
 function renderRecent(period){
   const list=$('recentExpenses');list.replaceChildren();
   const recent=breakdownTransactions(period).sort((a,b)=>b.date.localeCompare(a.date));
@@ -204,7 +227,9 @@ function renderRecent(period){
     const amount=document.createElement('strong');amount.textContent=money(positive(transaction.amount));
     const remove=document.createElement('button');remove.type='button';remove.textContent='×';remove.setAttribute('aria-label',`Remove ${transaction.name||transaction.category} expense`);
     remove.addEventListener('click',()=>{data.transactions=data.transactions.filter(t=>t.id!==transaction.id);if(!data.transactions.length)delete data.trackingStart;save();render()});
-    item.append(info,amount,remove);list.append(item);
+    const edit=document.createElement('button');edit.type='button';edit.className='edit-purchase';edit.textContent='Edit';edit.setAttribute('aria-label',`Edit ${transaction.name||transaction.category} purchase`);edit.addEventListener('click',()=>editPurchase(transaction));
+    const actions=document.createElement('div');actions.className='purchase-row-actions';actions.append(edit,remove);
+    item.append(info,amount,actions);list.append(item);
   }
 }
 function approximatePaychecks(date){

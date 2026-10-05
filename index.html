@@ -12,7 +12,7 @@
   <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/pocket-peak-192.png">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
   <link rel="manifest" href="manifest.json">
-  <link rel="stylesheet" href="budget.css?v=22">
+  <link rel="stylesheet" href="budget.css?v=23">
 </head>
 <body>
   <header class="topbar"><div class="brand"><span class="brand-mark">PP</span><span>Pocket Peak<small>YOUR MONEY, YOUR WAY</small></span></div><button id="reset" class="reset" type="button">Start over</button></header>
@@ -46,14 +46,15 @@
       <div class="heading"><div><span class="eyebrow">WHERE THE MONEY WENT</span><h1>Your spending breakdown.</h1></div><p id="breakdownPeriod">Current pay period</p></div>
       <div class="card breakdown-controls"><div class="fields"><label>Spending view<select id="breakdownView"><option value="period">Current pay period</option><option value="month">Month</option></select></label><label id="breakdownMonthField" hidden>Month<input id="breakdownMonth" type="month"></label><label>Search purchase name<input id="purchaseSearch" type="search" maxlength="80" placeholder="e.g. Clothes" autocomplete="off"></label></div><p id="searchSummary" role="status"></p></div><div class="card breakdown-summary"><span id="breakdownTotalLabel" class="eyebrow">SPENT THIS PERIOD</span><strong id="breakdownTotal">$0.00</strong><p id="trackingStatus" class="muted">Log purchases on Overview to build your picture.</p></div>
       <div id="categoryBreakdown" class="category-grid"></div>
-      <div class="card history-card"><div class="history-head"><h2>Purchases in this view</h2><span id="loggedMonth" class="muted">$0.00 this month</span></div><ul id="recentExpenses" class="recent-expenses"></ul></div>
+      <div class="card history-card"><div class="history-head"><h2>Purchases in this view</h2><span id="loggedMonth" class="muted">$0.00 this month</span></div><p id="purchaseEditFeedback" class="help" role="status"></p><ul id="recentExpenses" class="recent-expenses"></ul></div>
     </section>
     <section class="page" id="calendar" aria-label="Monthly bill calendar" hidden>
       <div class="heading"><div><span class="eyebrow">A YEAR OF LITTLE MOMENTS</span><h1>Your bill calendar.</h1></div><p>Add due days on Expenses to see monthly bills here.</p></div>
       <div class="calendar-layout"><div class="card calendar-card" id="calendarCard"><div class="month-banner" id="monthBanner"><div class="month-copy"><span id="monthBadge" class="month-badge">Autumn days</span><h2 id="monthTitle">September 2026</h2><p id="monthSubtitle"></p></div><div class="month-art" aria-hidden="true"><span id="monthArtA">🍂</span><span id="monthArtB">🍎</span><span id="monthArtC">✨</span></div></div><div class="month-controls"><button id="prevMonth" type="button" aria-label="Previous month">←</button><span id="monthBillTotal"></span><button id="nextMonth" type="button" aria-label="Next month">→</button></div><div class="weekday-head"><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div><div id="calendarGrid" class="calendar-grid"></div><div class="calendar-legend"><span><i></i> Bill due</span><span>Tap a date for details</span></div></div><aside class="card calendar-details" id="calendarDetails"><span class="eyebrow">ON YOUR CALENDAR</span><h2 id="selectedDayTitle">Select a day</h2><div id="dayBills"></div><div class="divider"></div><h3>Still need a due day</h3><div id="undatedBills"></div><button type="button" class="primary" data-goto="expenses">Edit bill dates →</button></aside></div>
     </section>
   </main>
+  <dialog id="purchaseEditDialog" aria-labelledby="purchaseEditTitle"><form id="purchaseEditForm"><h2 id="purchaseEditTitle">Edit purchase</h2><div class="fields"><label>Amount<input id="editPurchaseAmount" type="number" min="0.01" step="0.01" inputmode="decimal" required></label><label>Purchase name<input id="editPurchaseName" type="text" maxlength="80" placeholder="e.g. Clothes"></label><label>Category<select id="editPurchaseCategory"><option>Gas</option><option>Food</option><option>Fun</option><option>Misc</option></select></label><label>Date<input id="editPurchaseDate" type="date" required></label></div><p id="editPurchaseError" class="help" role="alert"></p><div class="purchase-edit-actions"><button id="cancelPurchaseEdit" type="button">Cancel</button><button type="submit" class="primary">Save changes</button></div></form></dialog>
   <footer class="source-note">Sources: <a href="https://www.fidelity.com/learning-center/personal-finance/spending-and-saving" target="_blank" rel="noopener">Fidelity Plan Your Pay</a> · <a href="https://www.federalreserve.gov/publications/2026-economic-well-being-of-us-households-in-2025-savings-investments.htm" target="_blank" rel="noopener">Federal Reserve 2025 household survey</a>. These are starting points; the suggestion is an estimate based on your entries.</footer>
-  <script src="budget.js?v=20" defer></script>
+  <script src="budget.js?v=21" defer></script>
 </body>
 </html>
