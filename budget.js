@@ -317,6 +317,17 @@ function renderCalendar(){
 }
 $('prevMonth').addEventListener('click',()=>{calendarMonth=new Date(calendarMonth.getFullYear(),calendarMonth.getMonth()-1,1);selectedDay=1;renderCalendar()});
 $('nextMonth').addEventListener('click',()=>{calendarMonth=new Date(calendarMonth.getFullYear(),calendarMonth.getMonth()+1,1);selectedDay=1;renderCalendar()});
+function renderWeeklyCheckin(current,remaining,pay){
+  const today=localDate(),start=new Date(today+'T12:00:00');start.setDate(start.getDate()-6);
+  const from=`${start.getFullYear()}-${String(start.getMonth()+1).padStart(2,'0')}-${String(start.getDate()).padStart(2,'0')}`;
+  const within=item=>item.date>=from&&item.date<=today;
+  const spent=data.transactions.filter(within).reduce((sum,t)=>sum+positive(t.amount),0);
+  const saved=data.savingsDeposits.filter(within).reduce((sum,d)=>sum+positive(d.amount),0);
+  $('weeklyCheckinRange').textContent='Last 7 days';
+  $('weeklySpent').textContent=money(spent);$('weeklySaved').textContent=money(saved);
+  $('weeklyRemaining').textContent=current&&pay?money(remaining):'—';
+  $('weeklyCheckinNote').textContent=current&&pay?`Next payday: ${new Date(current.end+'T12:00:00').toLocaleDateString(undefined,{month:'short',day:'numeric'})}. Saved counts recorded deposits only.`:'Add take-home pay and payday on Expenses. Saved counts recorded deposits only.';
+}
 function render(){
   const periods=data.frequency==='biweekly'?26:52;
   const pay=positive(data.pay),learned=tracking(),current=payPeriod();
@@ -335,6 +346,7 @@ function render(){
   $('balanceBasis').textContent=!pay?'Enter take-home pay on Expenses to build your payday plan.':!current?'Add your most recent payday on Expenses to start your payday plan.':limit<0?`This paycheck: bills need ${money(fixedPerPay)}, leaving a ${money(-limit)} shortfall.`:`This paycheck: reserve ${money(fixedPerPay)} for bills, save ${money(suggested)}, and keep ${money(limit)} available to spend.`;
   $('paydayPlanNote').textContent=!pay||!current?'Uses take-home pay; retirement and healthcare are tracked separately.':`Bills are averaged across paychecks. ${learned.ready?'Savings is a suggestion, not a recorded deposit.':'Savings stays at $0 while we learn your spending for 30 days.'}`;
 
+  renderWeeklyCheckin(current,limit-spent,pay);
   $('available').textContent=money(current&&pay?limit-spent:0);$('payOut').textContent=money(current&&pay?limit:0);$('expenseOut').textContent=money(current?spent:0);
   $('monthlyIncome').textContent=pay?money(monthlyIncome)+' income':'Add pay on Expenses';$('monthlyBills').textContent=money(fixedMonthly)+' bills';$('monthlyLeft').textContent=pay?money(monthlyAfterBills):'—';
   $('monthlyPurchaseNote').textContent=money(learned.monthToDate)+' purchases this month · after monthly bills';
