@@ -282,7 +282,9 @@ function render(){
   const limit=pay-fixedPerPay-suggested;
   const transactions=periodTransactions(current),spent=transactions.reduce((sum,t)=>sum+positive(t.amount),0);
   $('period').textContent=current?`${current.label} · ${data.frequency==='biweekly'?'2-week':'weekly'} budget`:'Set your payday on Expenses';
-  $('balanceBasis').textContent=!pay?'Enter take-home pay on Expenses to begin.':!current?'Add your most recent payday on Expenses to start a pay period.':learned.ready?'Your limit sets aside bills and suggested cash savings.':'Preliminary limit: food, gas, fun and misc are logged as you spend.';
+  $('balanceBasis').textContent=!pay?'Enter take-home pay on Expenses to build your payday plan.':!current?'Add your most recent payday on Expenses to start your payday plan.':limit<0?`This paycheck: bills need ${money(fixedPerPay)}, leaving a ${money(-limit)} shortfall.`:`This paycheck: reserve ${money(fixedPerPay)} for bills, save ${money(suggested)}, and keep ${money(limit)} available to spend.`;
+  $('paydayPlanNote').textContent=!pay||!current?'Uses take-home pay; retirement and healthcare are tracked separately.':`Bills are averaged across paychecks. ${learned.ready?'Savings is a suggestion, not a recorded deposit.':'Savings stays at $0 while we learn your spending for 30 days.'}`;
+
   $('available').textContent=money(current&&pay?limit-spent:0);$('payOut').textContent=money(current&&pay?limit:0);$('expenseOut').textContent=money(current?spent:0);
   $('monthlyIncome').textContent=pay?money(monthlyIncome)+' income':'Add pay on Expenses';$('monthlyBills').textContent=money(fixedMonthly)+' bills';$('monthlyLeft').textContent=pay?money(monthlyAfterBills):'—';
   $('monthlyPurchaseNote').textContent=money(learned.monthToDate)+' purchases this month · after monthly bills';
