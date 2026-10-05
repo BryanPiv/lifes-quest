@@ -64,7 +64,8 @@ for(const id of ['pay','grossPay','retirement401k','retirement401kMatchRate','re
   $(id).addEventListener('input',()=>{data[id]=['tripName','tripDate'].includes(id)?$(id).value:positive($(id).value);save();render()});
 }
 for(const key of ['retirement401k','ira']){
-  $(key+'Mode').value=data[key+'Mode']||'amount';
+  data[key+'Mode']=data[key+'Mode']||(positive(data[key])>0?'amount':'percent');
+  $(key+'Mode').value=data[key+'Mode'];
   $(key+'Mode').addEventListener('change',()=>{data[key+'Mode']=$(key+'Mode').value;data[key]=0;$(key).value='';save();render()});
 }
 $('breakdownMonth').value=breakdownMonth;
