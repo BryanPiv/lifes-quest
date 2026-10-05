@@ -33,7 +33,7 @@ function migrate(){
 }
 try{data=JSON.parse(localStorage.getItem(KEY)||'null')||migrate()}catch{}
 data=data||{pay:0,frequency:'weekly',expenses:defaultExpenses(),retirement401k:0,healthcarePayroll:0,ira:0,contributionsPerPaycheck:true,tripName:'',tripDate:'',tripCost:0,tripSaved:0};
-// Earlier Pocket Peak versions stored these three entries as monthly amounts.
+// Earlier CloudStash versions stored these three entries as monthly amounts.
 // Convert once, preserving their effective paycheck values for existing users.
 if(!data.contributionsPerPaycheck){
   const periods=data.frequency==='biweekly'?26:52;
@@ -337,7 +337,7 @@ function render(){
   const expensePerPay=monthly*12/periods,fixedPerPay=fixedMonthly*12/periods,available=pay-expensePerPay;
   const filled=data.expenses.some(item=>!trackedNames.has(item.name)&&positive(item.amount)>0)||learned.monthly>0;
   // Fidelity's near-term savings guideline is 10% of take-home pay.
-  // The 50% surplus cap is Pocket Peak's own buffer for expenses we may not yet see.
+  // The 50% surplus cap is CloudStash's own buffer for expenses we may not yet see.
   const target=pay*.1;
   const suggested=pay>0&&filled&&learned.ready?Math.min(target,Math.max(0,available)*.5):0;
   const limit=pay-fixedPerPay-suggested;
@@ -419,3 +419,27 @@ renderExpenses();render();
 $('reset').addEventListener('click',()=>{if(!confirm('Clear this budget and start over? Your older data stays separately stored.'))return;data={pay:0,frequency:'weekly',expenses:defaultExpenses(),transactions:[],retirement401k:0,healthcarePayroll:0,ira:0,contributionsPerPaycheck:true,tripName:'',tripDate:'',tripCost:0,tripSaved:0};save();location.reload()});
 if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
 
+
+
+// Keep the established budget storage key so existing budgets survive the rename.
+const WELCOME_KEY='cloudStashWelcomeSeenV1';
+const welcome=$('welcomeDialog');
+let welcomeTrigger=null;
+function openWelcome(trigger=null){
+  welcomeTrigger=trigger;
+  if(!welcome.open)welcome.showModal();
+}
+function dismissWelcome(){
+  try{localStorage.setItem(WELCOME_KEY,'1')}catch{}
+  welcome.close();
+}
+$('setupHelp').addEventListener('click',()=>openWelcome($('setupHelp')));
+$('skipWelcome').addEventListener('click',dismissWelcome);
+$('beginSetup').addEventListener('click',()=>{
+  dismissWelcome();openPage('expenses');
+  $('pay').scrollIntoView({block:'center',behavior:'smooth'});$('pay').focus({preventScroll:true});
+});
+welcome.addEventListener('cancel',()=>{try{localStorage.setItem(WELCOME_KEY,'1')}catch{}});
+welcome.addEventListener('close',()=>{welcomeTrigger?.focus()});
+const hasExistingBudget=positive(data.pay)>0||data.expenses.some(e=>positive(e.amount)>0)||data.transactions.length>0||data.savingsDeposits.length>0;
+try{if(!localStorage.getItem(WELCOME_KEY)&&!hasExistingBudget)openWelcome()}catch{}

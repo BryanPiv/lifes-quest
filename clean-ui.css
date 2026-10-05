@@ -1,4 +1,4 @@
-/* A quieter, compact surface for Pocket Peak. */
+/* A quieter, compact surface for CloudStash. */
 body{background:#f2f6fa}
 .topbar{min-height:60px;padding-top:10px;padding-bottom:10px;box-shadow:none;background:#0b2138}
 .brand-mark{box-shadow:none;border-radius:10px}
@@ -65,3 +65,24 @@ body{background:#f2f6fa}
 }
 @media(max-width:360px){.tabs button,body:has(#plan.active) .tabs button{font-size:.8125rem}#plan .quick-tiles{gap:4px}#plan .quick-tiles button{gap:3px;padding:6px}}
 @media(min-width:741px){body:has(#plan.active){height:auto;min-height:100dvh;overflow:auto}}
+.brand-nimbus{width:42px;height:42px;object-fit:contain;flex:none}
+.header-actions{display:flex;gap:8px;align-items:center}
+.welcome-dialog{width:min(480px,calc(100% - 28px));max-height:calc(100dvh - 32px);overflow:auto;border:1px solid #dce5ee;border-radius:20px;padding:24px;color:#173751;background:#fff}
+.welcome-dialog::backdrop{background:#071b32b3}
+.welcome-top{display:flex;align-items:center;gap:14px;color:#526b82;font-size:.875rem}
+.welcome-top img{width:72px;height:72px;object-fit:contain}
+.welcome-dialog h2{font-size:1.5rem;letter-spacing:-.035em;margin:12px 0}
+.welcome-dialog p{font-size:1rem;line-height:1.5;color:#526b82;margin:12px 0}
+.setup-checklist{list-style:none;counter-reset:setup;padding:0;margin:20px 0;display:grid;gap:16px}
+.setup-checklist li{counter-increment:setup;position:relative;padding-left:40px}
+.setup-checklist li:before{content:counter(setup);position:absolute;left:0;top:0;width:28px;height:28px;border-radius:9px;background:#e6f2fb;color:#196ba6;display:grid;place-items:center;font-size:.875rem;font-weight:700}
+.setup-checklist strong{display:block;font-size:1rem;margin-bottom:4px}
+.setup-checklist span{display:block;font-size:.875rem;line-height:1.5;color:#526b82}
+.welcome-optional{border-top:1px solid #dce5ee;padding-top:12px}
+.welcome-optional summary{cursor:pointer;font-size:.875rem;font-weight:600}
+.welcome-optional p,.welcome-dialog .welcome-next{font-size:.875rem;line-height:1.5}
+.welcome-actions{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:20px}
+.welcome-actions button{min-height:44px;padding:10px 14px;font-size:.875rem;font-weight:650;border-radius:8px}
+.welcome-actions .primary{margin:0}
+#skipWelcome{background:transparent;color:#526b82;border:0}
+@media(max-width:740px){.brand-nimbus{width:34px;height:34px}.header-actions{gap:6px}.welcome-dialog{padding:20px}.brand{font-size:1rem;gap:8px}}
