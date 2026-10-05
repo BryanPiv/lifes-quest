@@ -12,12 +12,13 @@
   <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/pocket-peak-192.png">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
   <link rel="manifest" href="manifest.json">
-  <link rel="stylesheet" href="budget.css?v=29">
-  <link rel="stylesheet" href="clean-ui.css?v=29">
+  <link rel="stylesheet" href="budget.css?v=30">
+  <link rel="stylesheet" href="clean-ui.css?v=30">
 </head>
 <body>
-  <header class="topbar"><div class="brand"><img class="brand-nimbus" src="assets/characters/nimbus/nimbus-idle-premium-v95.webp" alt="Nimbus, your cloud companion"><span>CloudStash</span></div><div class="header-actions"><button id="setupHelp" class="reset" type="button" aria-label="Open getting started guide">Guide</button><button id="reset" class="reset" type="button">Start over</button></div></header>
+  <header class="topbar"><div class="brand"><img class="brand-nimbus" src="assets/characters/nimbus/nimbus-idle-premium-v95.webp" alt="Nimbus, your cloud companion"><span>CloudStash</span></div><div class="header-actions"><button id="savedData" class="reset" type="button">Saved data</button><button id="setupHelp" class="reset" type="button" aria-label="Open getting started guide">Guide</button><button id="reset" class="reset" type="button">Start over</button></div></header>
   <main>
+    <p id="storageNotice" class="warning" role="status" hidden></p>
     <nav class="tabs" aria-label="Budget pages">
       <button data-page="plan" class="active" aria-current="page">Overview</button>
       <button data-page="expenses">Expenses</button>
@@ -54,6 +55,13 @@
       <div class="calendar-layout"><div class="card calendar-card" id="calendarCard"><div class="month-banner" id="monthBanner"><div class="month-copy"><span id="monthBadge" class="month-badge">Autumn days</span><h2 id="monthTitle">September 2026</h2><p id="monthSubtitle"></p></div><div class="month-art" aria-hidden="true"><span id="monthArtA">🍂</span><span id="monthArtB">🍎</span><span id="monthArtC">✨</span></div></div><div class="month-controls"><button id="prevMonth" type="button" aria-label="Previous month">←</button><span id="monthBillTotal"></span><button id="nextMonth" type="button" aria-label="Next month">→</button></div><div class="weekday-head"><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div><div id="calendarGrid" class="calendar-grid"></div><div class="calendar-legend"><span><i></i> Bill due</span><span>Tap a date for details</span></div></div><aside class="card calendar-details" id="calendarDetails"><span class="eyebrow">ON YOUR CALENDAR</span><h2 id="selectedDayTitle">Select a day</h2><div id="dayBills"></div><div class="divider"></div><h3>Still need a due day</h3><div id="undatedBills"></div><button type="button" class="primary" data-goto="expenses">Edit bill dates</button></aside></div>
     </section>
   </main>
+  <dialog id="recoveryDialog" class="welcome-dialog" aria-labelledby="recoveryTitle">
+    <h2 id="recoveryTitle">Your saved budget</h2>
+    <p>Budgets are saved on this device in this app. Local backups help with accidental changes; download a copy to protect against device or browsing-data loss.</p>
+    <p id="recoveryStatus" role="status"></p><div id="recoveryList"></div>
+    <div class="backup-actions"><button id="downloadBudget" class="primary" type="button">Download backup</button><label>Import a backup<input id="importBudget" type="file" accept=".json,application/json"></label></div>
+    <button id="closeRecovery" class="primary" type="button">Close</button>
+  </dialog>
   <dialog id="welcomeDialog" class="welcome-dialog" aria-labelledby="welcomeTitle" aria-describedby="welcomeIntro">
     <div class="welcome-top"><img src="assets/characters/nimbus/nimbus-idle-premium-v95.webp" alt="Nimbus"><span>Meet Nimbus, your budget buddy</span></div>
     <h2 id="welcomeTitle">Welcome to CloudStash</h2>
@@ -69,7 +77,7 @@
   </dialog>
   <dialog id="purchaseEditDialog" aria-labelledby="purchaseEditTitle"><form id="purchaseEditForm"><h2 id="purchaseEditTitle">Edit purchase</h2><div class="fields"><label>Amount<input id="editPurchaseAmount" type="number" min="0.01" step="0.01" inputmode="decimal" required></label><label>Purchase name<input id="editPurchaseName" type="text" maxlength="80" placeholder="e.g. Clothes"></label><label>Category<select id="editPurchaseCategory"><option>Gas</option><option>Food</option><option>Fun</option><option>Misc</option></select></label><label>Date<input id="editPurchaseDate" type="date" required></label></div><p id="editPurchaseError" class="help" role="alert"></p><div class="purchase-edit-actions"><button id="cancelPurchaseEdit" type="button">Cancel</button><button type="submit" class="primary">Save changes</button></div></form></dialog>
   <footer class="source-note">Sources: <a href="https://www.fidelity.com/learning-center/personal-finance/spending-and-saving" target="_blank" rel="noopener">Fidelity Plan Your Pay</a> · <a href="https://www.federalreserve.gov/publications/2026-economic-well-being-of-us-households-in-2025-savings-investments.htm" target="_blank" rel="noopener">Federal Reserve 2025 household survey</a>. These are starting points; the suggestion is an estimate based on your entries.</footer>
-  <script src="budget.js?v=29" defer></script>
+  <script src="budget.js?v=30" defer></script>
 </body>
 </html>
 

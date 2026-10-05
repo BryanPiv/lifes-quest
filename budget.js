@@ -31,7 +31,29 @@ function migrate(){
     return {pay:positive(old.income?.amount),frequency,expenses,retirement401k:0,healthcarePayroll:positive(old.income?.healthcare),ira:0,contributionsPerPaycheck:true,tripName:trip.name||'',tripDate:trip.date||'',tripCost:positive(trip.amount),tripSaved:positive(trip.saved)};
   }catch{return null}
 }
-try{data=JSON.parse(localStorage.getItem(KEY)||'null')||migrate()}catch{}
+const BACKUP_KEY=KEY+':backups';
+function parseBudget(raw){
+  try{const value=JSON.parse(raw||'null');return value&&typeof value==='object'&&!Array.isArray(value)&&Array.isArray(value.expenses)?value:null}catch{return null}
+}
+function readBackups(){try{const entries=JSON.parse(localStorage.getItem(BACKUP_KEY)||'[]');return Array.isArray(entries)?entries.filter(b=>parseBudget(b.raw)):[]}catch{return []}}
+function hasBudget(value){return !!value&&(positive(value.pay)>0||(value.expenses||[]).some(e=>positive(e.amount)>0)||(value.transactions||[]).length>0||(value.savingsDeposits||[]).length>0||positive(value.tripSaved)>0||positive(value.emergencySaved)>0||positive(value.customGoalSaved)>0)}
+function snapshot(raw){
+  if(!hasBudget(parseBudget(raw)))return;
+  const backups=readBackups();if(backups[0]?.raw===raw)return;
+  const now=Date.now();
+  // Keep recent saves plus daily checkpoints, rather than only a few keystrokes.
+  const recent=backups.filter(b=>now-b.at<86400000).slice(0,19);
+  const daily=[];const days=new Set();
+  for(const b of backups){const day=new Date(b.at).toISOString().slice(0,10);if(now-b.at>=86400000&&!days.has(day)){days.add(day);daily.push(b)}}
+  localStorage.setItem(BACKUP_KEY,JSON.stringify([{at:now,raw},...recent,...daily.slice(0,30)]));
+}
+const originalRaw=localStorage.getItem(KEY);
+data=parseBudget(originalRaw);
+let recoveredAtStartup=false;
+if(!data&&originalRaw){const backup=readBackups().find(b=>hasBudget(parseBudget(b.raw)));if(backup){data=parseBudget(backup.raw);recoveredAtStartup=true}}
+if(!data)data=migrate();
+try{snapshot(originalRaw)}catch{}
+
 data=data||{pay:0,frequency:'weekly',expenses:defaultExpenses(),retirement401k:0,healthcarePayroll:0,ira:0,contributionsPerPaycheck:true,tripName:'',tripDate:'',tripCost:0,tripSaved:0};
 // Earlier CloudStash versions stored these three entries as monthly amounts.
 // Convert once, preserving their effective paycheck values for existing users.
@@ -39,6 +61,7 @@ if(!data.contributionsPerPaycheck){
   const periods=data.frequency==='biweekly'?26:52;
   for(const id of ['retirement401k','healthcarePayroll','ira'])data[id]=Math.round(positive(data[id])*1200/periods)/100;
   data.contributionsPerPaycheck=true;
+  try{snapshot(localStorage.getItem(KEY))}catch{}
   localStorage.setItem(KEY,JSON.stringify(data));
 }
 if(!Array.isArray(data.expenses))data.expenses=[];
@@ -46,7 +69,13 @@ if(!Array.isArray(data.transactions))data.transactions=[];
 if(!Array.isArray(data.savingsDeposits))data.savingsDeposits=[];
 // Keep custom and imported expenses, and add each missing preset without copying an amount.
 for(const name of allPresets){if(!data.expenses.some(x=>x.name===name))data.expenses.push({name,amount:0})}
-const save=()=>localStorage.setItem(KEY,JSON.stringify(data));
+const save=()=>{
+  const raw=JSON.stringify(data);
+  try{snapshot(localStorage.getItem(KEY))}catch{}
+  try{localStorage.setItem(KEY,raw);$('storageNotice').hidden=true}catch{
+    $('storageNotice').hidden=false;$('storageNotice').textContent='Your changes could not be saved on this device. Download a backup from Saved data before closing the app.';
+  }
+};
 function openPage(target){
   if(!['plan','expenses','goals','breakdown','calendar'].includes(target))return;
   page=target;
@@ -416,7 +445,7 @@ function render(){
   $('goalContext').textContent=!learned.ready?'The budget is still learning your food and gas costs; this comparison will update after 30 days.':remaining&&per>Math.max(0,available)?'This goal exceeds what is available after tracked expenses.':remaining&&suggested<per?'This trip needs more per paycheck than the suggested cash savings.':'This target fits within the suggested cash savings.';
 }
 renderExpenses();render();
-$('reset').addEventListener('click',()=>{if(!confirm('Clear this budget and start over? Your older data stays separately stored.'))return;data={pay:0,frequency:'weekly',expenses:defaultExpenses(),transactions:[],retirement401k:0,healthcarePayroll:0,ira:0,contributionsPerPaycheck:true,tripName:'',tripDate:'',tripCost:0,tripSaved:0};save();location.reload()});
+$('reset').addEventListener('click',()=>{if(!confirm('Clear this budget and start over? A local recovery copy will be kept when storage is available.'))return;try{snapshot(localStorage.getItem(KEY))}catch{}data={pay:0,frequency:'weekly',expenses:defaultExpenses(),transactions:[],retirement401k:0,healthcarePayroll:0,ira:0,contributionsPerPaycheck:true,tripName:'',tripDate:'',tripCost:0,tripSaved:0};save();location.reload()});
 if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
 
 
@@ -443,3 +472,37 @@ welcome.addEventListener('cancel',()=>{try{localStorage.setItem(WELCOME_KEY,'1')
 welcome.addEventListener('close',()=>{welcomeTrigger?.focus()});
 const hasExistingBudget=positive(data.pay)>0||data.expenses.some(e=>positive(e.amount)>0)||data.transactions.length>0||data.savingsDeposits.length>0;
 try{if(!localStorage.getItem(WELCOME_KEY)&&!hasExistingBudget)openWelcome()}catch{}
+
+function recoveryChoices(){
+  const choices=readBackups().map(b=>({label:'Saved '+new Date(b.at).toLocaleString(),value:parseBudget(b.raw)}));
+  const legacy=migrate();if(hasBudget(legacy))choices.push({label:'Earlier Life’s Quest budget',value:legacy});
+  return choices.filter(c=>hasBudget(c.value));
+}
+$('savedData').addEventListener('click',()=>{
+  const list=$('recoveryList');list.replaceChildren();const choices=recoveryChoices();
+  $('recoveryStatus').textContent=choices.length?'Select a saved copy to restore. Your current budget will be backed up first.':'No older budget was found in this app’s local storage. Copies stored in another browser or app are not accessible here.';
+  for(const choice of choices){
+    const row=document.createElement('div');row.className='recovery-copy';
+    const text=document.createElement('p');text.textContent=choice.label+' · '+money(positive(choice.value.pay))+' take-home · '+(choice.value.transactions||[]).length+' purchases';
+    const button=document.createElement('button');button.type='button';button.textContent='Restore';button.className='primary';
+    button.addEventListener('click',()=>{
+      if(!confirm('Restore this saved budget? Your current budget will be kept as a local backup.'))return;
+      try{snapshot(localStorage.getItem(KEY));localStorage.setItem(KEY,JSON.stringify(choice.value));location.reload()}catch{$('recoveryStatus').textContent='Could not restore this copy. Storage may be full or unavailable.'}
+    });row.append(text,button);list.append(row);
+  }
+  $('recoveryDialog').showModal();
+});
+$('closeRecovery').addEventListener('click',()=>$('recoveryDialog').close());
+$('downloadBudget').addEventListener('click',()=>{
+  const blob=new Blob([JSON.stringify({app:'CloudStash',version:1,savedAt:new Date().toISOString(),budget:data},null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download='CloudStash-budget-'+localDate()+'.json';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+});
+$('importBudget').addEventListener('change',async()=>{
+  const file=$('importBudget').files[0];if(!file)return;
+  try{const contents=JSON.parse(await file.text());const restored=parseBudget(JSON.stringify(contents.budget||contents));if(!restored)throw Error();
+    if(!confirm('Replace your budget with this backup? Your current budget will be kept as a local recovery copy.'))return;
+    snapshot(localStorage.getItem(KEY));localStorage.setItem(KEY,JSON.stringify(restored));location.reload();
+  }catch{$('recoveryStatus').textContent='This backup could not be imported. Choose a CloudStash budget JSON file and check that device storage is available.'}
+  finally{$('importBudget').value=''}
+});
+if(recoveredAtStartup){$('storageNotice').hidden=false;$('storageNotice').textContent='Your saved budget could not be read. A local backup has been loaded; review it and download a copy from Saved data.'}
