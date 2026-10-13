@@ -36,7 +36,7 @@ function parseBudget(raw){
   try{const value=JSON.parse(raw||'null');return value&&typeof value==='object'&&!Array.isArray(value)&&Array.isArray(value.expenses)?value:null}catch{return null}
 }
 function readBackups(){try{const entries=JSON.parse(localStorage.getItem(BACKUP_KEY)||'[]');return Array.isArray(entries)?entries.filter(b=>parseBudget(b.raw)):[]}catch{return []}}
-function hasBudget(value){return !!value&&(positive(value.pay)>0||(value.expenses||[]).some(e=>positive(e.amount)>0)||(value.transactions||[]).length>0||(value.savingsDeposits||[]).length>0||positive(value.tripSaved)>0||positive(value.emergencySaved)>0||positive(value.customGoalSaved)>0||(value.retirementAccounts||[]).length>0||!!value.retirementPlan||!!value.recommendationProfile||!!value.purchasePlan)}
+function hasBudget(value){return !!value&&(positive(value.pay)>0||(value.expenses||[]).some(e=>positive(e.amount)>0)||(value.transactions||[]).length>0||(value.sideIncome||[]).length>0||(value.savingsDeposits||[]).length>0||positive(value.tripSaved)>0||positive(value.emergencySaved)>0||positive(value.customGoalSaved)>0||(value.retirementAccounts||[]).length>0||!!value.retirementPlan||!!value.recommendationProfile||!!value.purchasePlan)}
 function snapshot(raw){
   if(!hasBudget(parseBudget(raw)))return;
   const backups=readBackups();if(backups[0]?.raw===raw)return;
@@ -67,6 +67,7 @@ if(!data.contributionsPerPaycheck){
 if(!Array.isArray(data.expenses))data.expenses=[];
 if(!Array.isArray(data.transactions))data.transactions=[];
 if(!Array.isArray(data.savingsDeposits))data.savingsDeposits=[];
+if(!Array.isArray(data.sideIncome))data.sideIncome=[];
 // Keep custom and imported expenses, and add each missing preset without copying an amount.
 for(const name of allPresets){if(!data.expenses.some(x=>x.name===name))data.expenses.push({name,amount:0})}
 const save=()=>{
@@ -160,6 +161,36 @@ document.querySelectorAll('[data-quick]').forEach(button=>button.addEventListene
   data.trackingStart=data.trackingStart||localDate();save();$('quickAmount').value='';$('quickName').value='';$('quickDate').value=localDate();
   $('quickFeedback').textContent=`Added ${name?name+' · ':''}${money(amount)} to ${category}.`;render();$('quickAmount').focus();
 }));
+function sideIncomeTotal(start,end){return data.sideIncome.filter(item=>item.date>=start&&item.date<end).reduce((sum,item)=>sum+positive(item.amount),0)}
+let editingSideIncomeId=null;
+function openSideIncome(item=null){
+  editingSideIncomeId=item?.id||null;
+  $('sideIncomeTitle').textContent=item?'Edit side income':'Add side income';
+  $('sideIncomeAmount').value=item?.amount||'';$('sideIncomeName').value=item?.name||'';
+  $('sideIncomeDate').value=item?.date||localDate();$('sideIncomeDate').max=localDate();$('sideIncomeFeedback').textContent='';
+  renderSideIncome();if(!$('sideIncomeDialog').open)$('sideIncomeDialog').showModal();$('sideIncomeAmount').focus();
+}
+$('addSideIncome').onclick=()=>openSideIncome();
+$('cancelSideIncome').onclick=()=>$('sideIncomeDialog').close();
+$('sideIncomeForm').onsubmit=event=>{
+  event.preventDefault();const amount=Number($('sideIncomeAmount').value),date=$('sideIncomeDate').value,name=$('sideIncomeName').value.trim();
+  if(!Number.isFinite(amount)||amount<=0||!/^\d{4}-\d{2}-\d{2}$/.test(date)||date>localDate()){$('sideIncomeFeedback').textContent='Enter a positive amount and today or an earlier date.';return}
+  const item=data.sideIncome.find(item=>item.id===editingSideIncomeId);
+  if(item)Object.assign(item,{amount,date,name});else data.sideIncome.unshift({id:Date.now()+'-'+Math.random().toString(36).slice(2),amount,date,name});
+  save();render();$('sideIncomeDialog').close();$('quickFeedback').textContent=(item?'Updated ':'Added ')+money(amount)+' side income.';
+};
+function renderSideIncome(){
+  const root=$('sideIncomeHistory');root.replaceChildren();
+  if(!data.sideIncome.length){const empty=document.createElement('li');empty.textContent='No side income recorded yet.';root.append(empty)}
+  for(const item of [...data.sideIncome].sort((a,b)=>b.date.localeCompare(a.date))){
+    const row=document.createElement('li'),info=document.createElement('div');info.className='purchase-info';
+    const title=document.createElement('strong');title.textContent=item.name||'Side income';const detail=document.createElement('span');detail.className='purchase-meta';detail.textContent=item.date;info.append(title,detail);
+    const amount=document.createElement('strong');amount.textContent='+'+money(item.amount);
+    const edit=document.createElement('button');edit.type='button';edit.textContent='Edit';edit.setAttribute('aria-label','Edit '+(item.name||'side income'));edit.onclick=()=>openSideIncome(item);
+    const remove=document.createElement('button');remove.type='button';remove.textContent='×';remove.setAttribute('aria-label','Remove '+(item.name||'side income'));remove.onclick=()=>{data.sideIncome=data.sideIncome.filter(i=>i.id!==item.id);if(editingSideIncomeId===item.id){editingSideIncomeId=null;$('sideIncomeTitle').textContent='Add side income';$('sideIncomeForm').reset();$('sideIncomeDate').value=localDate()}save();render();renderSideIncome()};
+    row.append(info,amount,edit,remove);root.append(row);
+  }
+}
 function savedFor(goal){return data.savingsDeposits.filter(d=>d.goal===goal).reduce((sum,d)=>sum+positive(d.amount),0)}
 $('savingsDate').value=localDate();$('savingsDate').max=localDate();
 $('savingsDepositForm').addEventListener('submit',event=>{
@@ -367,7 +398,8 @@ function render(){
   const periods=data.frequency==='biweekly'?26:52;
   const pay=positive(data.pay),learned=tracking(),current=payPeriod();
   const fixedMonthly=data.expenses.filter(item=>!trackedNames.has(item.name)).reduce((total,item)=>total+positive(item.amount),0);
-  const monthlyIncome=pay*periods/12,monthlyAfterBills=monthlyIncome-fixedMonthly-learned.monthToDate-data.savingsDeposits.filter(d=>d.accountId&&!d.recurring&&d.date.slice(0,7)===localDate().slice(0,7)).reduce((sum,d)=>sum+positive(d.amount),0);
+  const monthStart=localDate().slice(0,7)+'-01',monthEnd=localISO(new Date(new Date().getFullYear(),new Date().getMonth()+1,1)),monthlySide=sideIncomeTotal(monthStart,monthEnd),periodSide=current?sideIncomeTotal(current.start,current.end):0;
+  const monthlyIncome=pay*periods/12+monthlySide,monthlyAfterBills=monthlyIncome-fixedMonthly-learned.monthToDate-data.savingsDeposits.filter(d=>d.accountId&&!d.recurring&&d.date.slice(0,7)===localDate().slice(0,7)).reduce((sum,d)=>sum+positive(d.amount),0);
   const monthly=fixedMonthly+(learned.ready?learned.monthly:0);
   const expensePerPay=monthly*12/periods,fixedPerPay=fixedMonthly*12/periods,available=pay-expensePerPay;
   const filled=data.expenses.some(item=>!trackedNames.has(item.name)&&positive(item.amount)>0)||learned.monthly>0;
@@ -375,16 +407,16 @@ function render(){
   // The 50% surplus cap is CloudStash's own buffer for expenses we may not yet see.
   const target=pay*.1;
   const suggested=pay>0&&filled&&learned.ready?Math.min(target,Math.max(0,available)*.5):0;
-  const limit=pay-fixedPerPay-suggested;
+  const limit=pay+periodSide-fixedPerPay-suggested;
   const transactions=periodTransactions(current),spent=transactions.reduce((sum,t)=>sum+positive(t.amount),0)+data.savingsDeposits.filter(d=>d.accountId&&!d.recurring&&current&&d.date>=current.start&&d.date<current.end).reduce((sum,d)=>sum+positive(d.amount),0);
   $('period').textContent=current?`${current.label} · ${data.frequency==='biweekly'?'2-week':'weekly'} budget`:'Set your payday on Budget';
   $('balanceBasis').textContent=!pay?'Enter take-home pay on Budget to build your payday plan.':!current?'Add your most recent payday on Budget to start your payday plan.':limit<0?`This paycheck: bills need ${money(fixedPerPay)}, leaving a ${money(-limit)} shortfall.`:`Bills ${money(fixedPerPay)} · Save ${money(suggested)} · Spend ${money(limit)}`;
-  $('paydayPlanNote').textContent=!pay||!current?'Uses take-home pay; retirement and healthcare are tracked separately.':`Bills are averaged across paychecks. ${learned.ready?'Savings is a suggestion, not a recorded deposit.':'Savings stays at $0 while we learn your spending for 30 days.'}`;
+  $('paydayPlanNote').textContent=!pay||!current?'Uses take-home pay; retirement and healthcare are tracked separately.':`Bills are averaged across paychecks. ${learned.ready?'Savings is a suggestion, not a recorded deposit.':'Savings stays at $0 while we learn your spending for 30 days.'}${periodSide?' Includes '+money(periodSide)+' side income received this period.':''}`;
 
   renderWeeklyCheckin(current,limit-spent,pay);
   $('available').textContent=money(current&&pay?limit-spent:0);$('payOut').textContent=money(current&&pay?limit:0);$('expenseOut').textContent=money(current?spent:0);
   $('monthlyIncome').textContent=pay?money(monthlyIncome)+' income':'Add pay on Budget';$('monthlyBills').textContent=money(fixedMonthly)+' bills';$('monthlyLeft').textContent=pay?money(monthlyAfterBills):'—';
-  $('monthlyPurchaseNote').textContent=money(learned.monthToDate)+' purchases this month · after monthly bills';
+  $('monthlyPurchaseNote').textContent=money(learned.monthToDate)+' purchases this month · after monthly bills'+(monthlySide?' · includes '+money(monthlySide)+' side income':'');
   $('monthlyLeft').classList.toggle('monthly-deficit',pay>0&&monthlyAfterBills<0);
   $('suggested').textContent=learned.ready?money(suggested):'Learning…';
   $('suggestedPeriod').textContent=data.frequency==='biweekly'?'every 2 weeks':'each week';
@@ -476,7 +508,7 @@ $('beginSetup').addEventListener('click',()=>{
 });
 welcome.addEventListener('cancel',()=>{try{localStorage.setItem(WELCOME_KEY,'1')}catch{}});
 welcome.addEventListener('close',()=>{welcomeTrigger?.focus()});
-const hasExistingBudget=positive(data.pay)>0||data.expenses.some(e=>positive(e.amount)>0)||data.transactions.length>0||data.savingsDeposits.length>0;
+const hasExistingBudget=positive(data.pay)>0||data.expenses.some(e=>positive(e.amount)>0)||data.transactions.length>0||data.savingsDeposits.length>0||data.sideIncome.length>0;
 try{if(!localStorage.getItem(WELCOME_KEY)&&!hasExistingBudget)openWelcome()}catch{}
 
 function recoveryChoices(){
