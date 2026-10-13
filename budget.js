@@ -203,7 +203,7 @@ $('savingsDepositForm').addEventListener('submit',event=>{
   $('savingsFeedback').textContent='Recorded '+money(amount)+' toward your savings goal.';render();
 });
 function renderSavings(emergencyTarget){
-  const goals=[{key:'emergency',name:'Emergency fund',target:emergencyTarget,start:positive(data.emergencySaved)},{key:'vacation',name:data.tripName||'Vacation',target:positive(data.tripCost),start:positive(data.tripSaved)},{key:'custom',name:data.customGoalName||'Another goal',target:positive(data.customGoalTarget),start:positive(data.customGoalSaved)}];
+  const goals=[{key:'emergency',name:'Nest egg / emergency fund',target:emergencyTarget,start:positive(data.emergencySaved)},{key:'vacation',name:data.tripName||'Vacation',target:positive(data.tripCost),start:positive(data.tripSaved)},{key:'custom',name:data.customGoalName||'Another goal',target:positive(data.customGoalTarget),start:positive(data.customGoalSaved)}];
   const root=$('savingsProgress');root.replaceChildren();
   for(const goal of goals){
     const deposited=savedFor(goal.key),saved=goal.start+deposited;
@@ -215,7 +215,7 @@ function renderSavings(emergencyTarget){
     const source=document.createElement('small');source.textContent=money(goal.start)+' starting balance + '+money(deposited)+' deposits';
     card.append(name,balance,progress,status,source);root.append(card);
   }
-  $('savingsGoal').options[1].textContent=data.tripName||'Vacation';$('savingsGoal').options[2].textContent=data.customGoalName||'Another goal';
+  $('savingsGoal').options[0].textContent='Nest egg / emergency fund';$('savingsGoal').options[1].textContent=data.tripName||'Vacation';$('savingsGoal').options[2].textContent=data.customGoalName||'Another goal';
   $('savingsDepositedTotal').textContent=money(data.savingsDeposits.reduce((sum,d)=>sum+positive(d.amount),0))+' total deposits';
   const list=$('savingsHistory');list.replaceChildren();
   if(!data.savingsDeposits.length){const empty=document.createElement('li');empty.textContent='No deposits recorded yet.';list.append(empty)}
@@ -408,21 +408,24 @@ function renderWeeklyCheckin(current,remaining,pay){
 }
 // Home uses a conservative bill reserve for the entire paycheck window.
 // Keep past-due dates in the reserve: bill payment status is not tracked.
-function calculatePaydayPlan({pay,side,averageBills,datedBills,undatedBills,purchases,goalSaved,extraTransfers,savingsTarget}){
+function calculatePaydayPlan({pay,side,averageBills,datedBills,undatedBills,purchases,extraTransfers,savingsTarget}){
   const bills=Math.max(averageBills,datedBills+undatedBills);
-  const savings=Math.max(savingsTarget,goalSaved);
+  // Goal balances and recorded goal progress are accumulated savings, not
+  // spending from this paycheck. Reserve only an affordable planned amount.
+  const room=pay+side-bills-purchases-extraTransfers;
+  const savings=Math.min(positive(savingsTarget),Math.max(0,room));
   const limit=pay+side-bills-savings;
-  return {bills,savings,limit,spent:purchases+extraTransfers,remaining:limit-purchases-extraTransfers};
+  return {bills,savings,requestedSavings:positive(savingsTarget),limit,spent:purchases+extraTransfers,remaining:limit-purchases-extraTransfers};
 }
 function setupPaydayHome(){
   const details=document.createElement('details');details.className='home-calculation';
   details.innerHTML=`<summary>How is this calculated?</summary><div id="homeCalculation"></div><p>Based on your entries, not your bank balance. Bills stay reserved for this whole pay period because payment status is not tracked. Record daily purchases separately from regular bills.</p>`;
   document.querySelector('.home-balance-note').after(details);
   const settings=document.createElement('details');settings.className='home-plan-settings';
-  settings.innerHTML=`<summary>Adjust my savings plan</summary><label>Savings for each paycheck<input id="homeSavingsTarget" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Use the suggestion"></label><p class="help">A planned amount for cash goals. Recorded goal deposits count toward it. Extra personal retirement deposits count separately; recurring transfers are already in bills.</p><button id="homeSavingsAutomatic" type="button">Use suggested amount</button><p id="homeSavingsStatus" class="help" role="status"></p>`;
+  settings.innerHTML=`<summary>Adjust my savings plan</summary><label>Amount to put away each paycheck<input id="homeSavingsTarget" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Use the suggestion"></label><p class="help">Build your nest egg a little at a time, with or without a named goal. We reserve only what fits after bills and purchases. Goal targets, existing balances and recorded goal progress are tracked separately. Extra personal retirement deposits count separately; recurring transfers are already in bills.</p><button id="homeSavingsAutomatic" type="button">Use suggested amount</button><p id="homeSavingsStatus" class="help" role="status"></p>`;
   $('paydayPlanNote').after(settings);
   $('homeSavingsTarget').value=data.paydaySavingsTarget==null?'':positive(data.paydaySavingsTarget);
-  $('homeSavingsTarget').onchange=()=>{const input=$('homeSavingsTarget');if(!input.checkValidity())return;data.paydaySavingsTarget=input.value===''?null:positive(input.value);save();render();$('homeSavingsStatus').textContent='Savings plan updated. No deposit has been recorded.'};
+  $('homeSavingsTarget').onchange=()=>{const input=$('homeSavingsTarget');if(!input.checkValidity())return;data.paydaySavingsTarget=input.value===''?null:positive(input.value);save();render();if(!$('homeSavingsStatus').textContent)$('homeSavingsStatus').textContent='Savings plan updated. No deposit has been recorded.'};
   $('homeSavingsAutomatic').onclick=()=>{data.paydaySavingsTarget=null;$('homeSavingsTarget').value='';save();render();$('homeSavingsStatus').textContent='Using the suggested amount.'};
   const style=document.createElement('style');style.textContent=`#plan .home-calculation{margin-top:10px;color:#e1f0ff;font-size:.78rem}#plan .home-calculation summary{cursor:pointer;min-height:32px;padding:6px 0;box-sizing:border-box}#plan .home-calculation p{line-height:1.5;color:#d2e6f5}#plan .home-calculation .balance-line{color:#fff;border-color:#ffffff30;gap:16px}#plan .home-plan-settings{padding:8px 0 12px}#plan .home-plan-settings label{display:block;max-width:320px}#homeSavingsAutomatic{min-height:44px;border:1px solid #a8c8df;border-radius:10px;background:#e0eef8;color:#225779;padding:8px 12px}#available[aria-label="Plan shortfall"]{color:#ffe0bf}`;document.head.append(style);
 }
@@ -432,7 +435,7 @@ function render(){
   const pay=positive(data.pay),learned=tracking(),current=payPeriod();
   const fixedMonthly=data.expenses.filter(item=>!trackedNames.has(item.name)).reduce((total,item)=>total+positive(item.amount),0);
   const monthStart=localDate().slice(0,7)+'-01',monthEnd=localISO(new Date(new Date().getFullYear(),new Date().getMonth()+1,1)),monthlySide=sideIncomeTotal(monthStart,monthEnd),periodSide=current?sideIncomeTotal(current.start,current.end):0;
-  const monthlyIncome=pay*periods/12+monthlySide,monthlyAfterBills=monthlyIncome-fixedMonthly-learned.monthToDate-data.savingsDeposits.filter(d=>!d.recurring&&d.date.slice(0,7)===localDate().slice(0,7)).reduce((sum,d)=>sum+positive(d.amount),0);
+  const monthlyIncome=pay*periods/12+monthlySide,monthlyAfterBills=monthlyIncome-fixedMonthly-learned.monthToDate-data.savingsDeposits.filter(d=>d.accountId&&!d.recurring&&d.date.slice(0,7)===localDate().slice(0,7)).reduce((sum,d)=>sum+positive(d.amount),0);
   const monthly=fixedMonthly+(learned.ready?learned.monthly:0);
   const expensePerPay=monthly*12/periods,fixedPerPay=fixedMonthly*12/periods,available=pay-expensePerPay;
   const filled=data.expenses.some(item=>!trackedNames.has(item.name)&&positive(item.amount)>0)||learned.monthly>0;
@@ -442,12 +445,11 @@ function render(){
   const suggested=pay>0&&filled&&learned.ready?Math.min(target,Math.max(0,available)*.5):0;
   const transactions=periodTransactions(current),purchases=transactions.reduce((sum,t)=>sum+positive(t.amount),0);
   const deposits=data.savingsDeposits.filter(d=>current&&d.date>=current.start&&d.date<current.end);
-  const goalSaved=deposits.filter(d=>!d.accountId).reduce((sum,d)=>sum+positive(d.amount),0);
   const extraTransfers=deposits.filter(d=>d.accountId&&!d.recurring).reduce((sum,d)=>sum+positive(d.amount),0);
   const datedBills=current?upcomingBills(current,current.start).reduce((sum,b)=>sum+b.amount,0):0;
   const undatedBills=activeBills().filter(b=>!b.dueDay&&!b.eachPayday).reduce((sum,b)=>sum+positive(b.amount)*12/periods,0);
   const savingsTarget=data.paydaySavingsTarget==null?suggested:positive(data.paydaySavingsTarget);
-  const plan=calculatePaydayPlan({pay,side:periodSide,averageBills:fixedPerPay,datedBills,undatedBills,purchases,goalSaved,extraTransfers,savingsTarget});
+  const plan=calculatePaydayPlan({pay,side:periodSide,averageBills:fixedPerPay,datedBills,undatedBills,purchases,extraTransfers,savingsTarget});
   const {limit,spent}=plan;
   const ready=!!(current&&pay);
   $('period').textContent=current?`Next payday · ${new Date(current.end+'T12:00:00').toLocaleDateString(undefined,{month:'short',day:'numeric'})}`:'Add your payday to get started';
@@ -455,9 +457,10 @@ function render(){
   document.querySelector('.home-balance-note').textContent=ready?'After bill reserves, your savings plan and logged purchases. This is your spending allowance.':'Add take-home pay, bills and payday to build your spending allowance.';
   renderHomeNextStep(current,pay,plan.remaining);
   $('balanceBasis').textContent=!ready?'Enter take-home pay and your most recent payday on Expenses.':`Income ${money(pay+periodSide)} · Reserve ${money(plan.bills)} for bills · Set aside ${money(plan.savings)} for goals · Keep ${money(limit)} for spending`;
-  $('paydayPlanNote').textContent=!ready?'Uses take-home pay; work retirement and healthcare are tracked separately.':`Bill reserve uses the larger of the average per paycheck or dated bills in this period plus an average for undated bills. ${data.paydaySavingsTarget==null?'The goal amount uses the savings suggestion.':'You chose the goal amount.'} Recorded goal deposits count toward that amount; anything saved above it also reduces available spending. No money moves automatically.`;
+  $('paydayPlanNote').textContent=!ready?'Uses take-home pay; work retirement and healthcare are tracked separately.':`Bill reserve uses the larger of the average per paycheck or dated bills in this period plus an average for undated bills. ${data.paydaySavingsTarget==null?'Paycheck savings use the suggestion.':'You chose the amount to put away each paycheck.'} Only the amount that fits after bills and purchases is reserved. Your nest egg, goal targets and recorded goal progress do not reduce this paycheck. No money moves automatically.`;
+  $('homeSavingsStatus').textContent=ready&&plan.requestedSavings>plan.savings?`You planned ${money(plan.requestedSavings)} each paycheck. ${money(plan.savings)} fits this period. Your goal stays in place; build toward it over time.`:'';
   const math=$('homeCalculation');math.replaceChildren();
-  const lines=[['Take-home pay',pay],['Side income received',periodSide],['Bill reserve',-plan.bills],['Goals: planned or recorded, whichever is higher',-plan.savings],['Extra personal retirement deposits',-extraTransfers],['Purchases this period',-purchases],['Available until payday',plan.remaining]];
+  const lines=[['Take-home pay',pay],['Side income received',periodSide],['Bill reserve',-plan.bills],['Savings reserved from this paycheck',-plan.savings],['Extra personal retirement deposits',-extraTransfers],['Purchases this period',-purchases],['Available until payday',plan.remaining]];
   if(ready)for(const [label,value] of lines){const row=document.createElement('div');row.className='balance-line';const name=document.createElement('span'),amount=document.createElement('strong');name.textContent=label;amount.textContent=money(value);row.append(name,amount);math.append(row)}
   else math.textContent='Complete your paycheck details to see the calculation.';
 
@@ -608,7 +611,7 @@ if(recoveredAtStartup){$('storageNotice').hidden=false;$('storageNotice').textCo
   const suggestion=savingsPanel.querySelector('.goal-savings');suggestion.querySelector('h2').textContent='A little to put away each payday';suggestion.querySelector('.eyebrow').textContent='YOUR NEXT STEP';
   const miniLabels=suggestion.querySelectorAll('.mini-stats span');miniLabels[0].textContent='Left for spending each payday';miniLabels[1].textContent='Could save in one year';
   suggestion.querySelector('.savings-explanation summary').textContent='Why this amount?';
-  const tracker=savingsPanel.querySelector('.savings-tracker');tracker.querySelector('h2').textContent='What you’re saving for';tracker.querySelector(':scope > .help').textContent='Add money here after you’ve moved it into savings. We’ll update your progress.';
+  const tracker=savingsPanel.querySelector('.savings-tracker');tracker.querySelector('h2').textContent='Build your nest egg';tracker.querySelector(':scope > .help').textContent='Start with your nest egg, even without a named goal. Record money you’ve saved to build your progress over time. These entries do not reduce your spending allowance; only your planned paycheck savings are reserved on Home.';
   tracker.querySelector('.savings-setup summary').textContent='Set up or change your goals';
   for(const [id,text] of [['emergencySaved','Emergency money you already have'],['customGoalName','What else are you saving for?'],['customGoalTarget','How much will you need?'],['customGoalSaved','Money already saved for it'],['tripName','Name your trip'],['tripDate','When are you going?'],['tripCost','How much will it cost?'],['tripSaved','Money already saved for this trip'],['savingsAmount','How much did you save?'],['savingsDate','When did you save it?']])label(id,text);
   const depositDetails=element('details','','simple-goal-action');depositDetails.append(element('summary','+ Add money you saved'));const depositForm=$('savingsDepositForm');depositForm.before(depositDetails);depositDetails.append(depositForm);depositForm.querySelector('h3').textContent='Add to a goal';depositForm.querySelector('button[type="submit"]').textContent='Add to my savings';
