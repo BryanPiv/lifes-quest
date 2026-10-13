@@ -406,12 +406,33 @@ function renderWeeklyCheckin(current,remaining,pay){
   $('weeklyRemaining').textContent=current&&pay?money(remaining):'—';
   $('weeklyCheckinNote').textContent=current&&pay?`Next payday: ${new Date(current.end+'T12:00:00').toLocaleDateString(undefined,{month:'short',day:'numeric'})}. Saved counts recorded deposits only.`:'Add take-home pay and payday on Budget. Saved counts recorded deposits only.';
 }
+// Home uses a conservative bill reserve for the entire paycheck window.
+// Keep past-due dates in the reserve: bill payment status is not tracked.
+function calculatePaydayPlan({pay,side,averageBills,datedBills,undatedBills,purchases,goalSaved,extraTransfers,savingsTarget}){
+  const bills=Math.max(averageBills,datedBills+undatedBills);
+  const savings=Math.max(savingsTarget,goalSaved);
+  const limit=pay+side-bills-savings;
+  return {bills,savings,limit,spent:purchases+extraTransfers,remaining:limit-purchases-extraTransfers};
+}
+function setupPaydayHome(){
+  const details=document.createElement('details');details.className='home-calculation';
+  details.innerHTML=`<summary>How is this calculated?</summary><div id="homeCalculation"></div><p>Based on your entries, not your bank balance. Bills stay reserved for this whole pay period because payment status is not tracked. Record daily purchases separately from regular bills.</p>`;
+  document.querySelector('.home-balance-note').after(details);
+  const settings=document.createElement('details');settings.className='home-plan-settings';
+  settings.innerHTML=`<summary>Adjust my savings plan</summary><label>Savings for each paycheck<input id="homeSavingsTarget" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Use the suggestion"></label><p class="help">A planned amount for cash goals. Recorded goal deposits count toward it. Extra personal retirement deposits count separately; recurring transfers are already in bills.</p><button id="homeSavingsAutomatic" type="button">Use suggested amount</button><p id="homeSavingsStatus" class="help" role="status"></p>`;
+  $('paydayPlanNote').after(settings);
+  $('homeSavingsTarget').value=data.paydaySavingsTarget==null?'':positive(data.paydaySavingsTarget);
+  $('homeSavingsTarget').onchange=()=>{const input=$('homeSavingsTarget');if(!input.checkValidity())return;data.paydaySavingsTarget=input.value===''?null:positive(input.value);save();render();$('homeSavingsStatus').textContent='Savings plan updated. No deposit has been recorded.'};
+  $('homeSavingsAutomatic').onclick=()=>{data.paydaySavingsTarget=null;$('homeSavingsTarget').value='';save();render();$('homeSavingsStatus').textContent='Using the suggested amount.'};
+  const style=document.createElement('style');style.textContent=`#plan .home-calculation{margin-top:10px;color:#e1f0ff;font-size:.78rem}#plan .home-calculation summary{cursor:pointer;min-height:32px;padding:6px 0;box-sizing:border-box}#plan .home-calculation p{line-height:1.5;color:#d2e6f5}#plan .home-calculation .balance-line{color:#fff;border-color:#ffffff30;gap:16px}#plan .home-plan-settings{padding:8px 0 12px}#plan .home-plan-settings label{display:block;max-width:320px}#homeSavingsAutomatic{min-height:44px;border:1px solid #a8c8df;border-radius:10px;background:#e0eef8;color:#225779;padding:8px 12px}#available[aria-label="Plan shortfall"]{color:#ffe0bf}`;document.head.append(style);
+}
+setupPaydayHome();
 function render(){
   const periods=data.frequency==='biweekly'?26:52;
   const pay=positive(data.pay),learned=tracking(),current=payPeriod();
   const fixedMonthly=data.expenses.filter(item=>!trackedNames.has(item.name)).reduce((total,item)=>total+positive(item.amount),0);
   const monthStart=localDate().slice(0,7)+'-01',monthEnd=localISO(new Date(new Date().getFullYear(),new Date().getMonth()+1,1)),monthlySide=sideIncomeTotal(monthStart,monthEnd),periodSide=current?sideIncomeTotal(current.start,current.end):0;
-  const monthlyIncome=pay*periods/12+monthlySide,monthlyAfterBills=monthlyIncome-fixedMonthly-learned.monthToDate-data.savingsDeposits.filter(d=>d.accountId&&!d.recurring&&d.date.slice(0,7)===localDate().slice(0,7)).reduce((sum,d)=>sum+positive(d.amount),0);
+  const monthlyIncome=pay*periods/12+monthlySide,monthlyAfterBills=monthlyIncome-fixedMonthly-learned.monthToDate-data.savingsDeposits.filter(d=>!d.recurring&&d.date.slice(0,7)===localDate().slice(0,7)).reduce((sum,d)=>sum+positive(d.amount),0);
   const monthly=fixedMonthly+(learned.ready?learned.monthly:0);
   const expensePerPay=monthly*12/periods,fixedPerPay=fixedMonthly*12/periods,available=pay-expensePerPay;
   const filled=data.expenses.some(item=>!trackedNames.has(item.name)&&positive(item.amount)>0)||learned.monthly>0;
@@ -419,12 +440,26 @@ function render(){
   // The 50% surplus cap is CloudStash's own buffer for expenses we may not yet see.
   const target=pay*.1;
   const suggested=pay>0&&filled&&learned.ready?Math.min(target,Math.max(0,available)*.5):0;
-  const limit=pay+periodSide-fixedPerPay-suggested;
-  const transactions=periodTransactions(current),spent=transactions.reduce((sum,t)=>sum+positive(t.amount),0)+data.savingsDeposits.filter(d=>d.accountId&&!d.recurring&&current&&d.date>=current.start&&d.date<current.end).reduce((sum,d)=>sum+positive(d.amount),0);
+  const transactions=periodTransactions(current),purchases=transactions.reduce((sum,t)=>sum+positive(t.amount),0);
+  const deposits=data.savingsDeposits.filter(d=>current&&d.date>=current.start&&d.date<current.end);
+  const goalSaved=deposits.filter(d=>!d.accountId).reduce((sum,d)=>sum+positive(d.amount),0);
+  const extraTransfers=deposits.filter(d=>d.accountId&&!d.recurring).reduce((sum,d)=>sum+positive(d.amount),0);
+  const datedBills=current?upcomingBills(current,current.start).reduce((sum,b)=>sum+b.amount,0):0;
+  const undatedBills=activeBills().filter(b=>!b.dueDay&&!b.eachPayday).reduce((sum,b)=>sum+positive(b.amount)*12/periods,0);
+  const savingsTarget=data.paydaySavingsTarget==null?suggested:positive(data.paydaySavingsTarget);
+  const plan=calculatePaydayPlan({pay,side:periodSide,averageBills:fixedPerPay,datedBills,undatedBills,purchases,goalSaved,extraTransfers,savingsTarget});
+  const {limit,spent}=plan;
+  const ready=!!(current&&pay);
   $('period').textContent=current?`Next payday · ${new Date(current.end+'T12:00:00').toLocaleDateString(undefined,{month:'short',day:'numeric'})}`:'Add your payday to get started';
-  renderHomeNextStep(current,pay,limit-spent);
-  $('balanceBasis').textContent=!pay?'Enter take-home pay on Budget to build your payday plan.':!current?'Add your most recent payday on Budget to start your payday plan.':limit<0?`This paycheck: bills need ${money(fixedPerPay)}, leaving a ${money(-limit)} shortfall.`:`Bills ${money(fixedPerPay)} · Save ${money(suggested)} · Spend ${money(limit)}`;
-  $('paydayPlanNote').textContent=!pay||!current?'Uses take-home pay; retirement and healthcare are tracked separately.':`Bills are averaged across paychecks. ${learned.ready?'Savings is a suggestion, not a recorded deposit.':'Savings stays at $0 while we learn your spending for 30 days.'}${periodSide?' Includes '+money(periodSide)+' side income received this period.':''}`;
+  $('available').setAttribute('aria-label',plan.remaining<0?'Plan shortfall':'Available until payday');
+  document.querySelector('.home-balance-note').textContent=ready?'After bill reserves, your savings plan and logged purchases. This is your spending allowance.':'Add take-home pay, bills and payday to build your spending allowance.';
+  renderHomeNextStep(current,pay,plan.remaining);
+  $('balanceBasis').textContent=!ready?'Enter take-home pay and your most recent payday on Expenses.':`Income ${money(pay+periodSide)} · Reserve ${money(plan.bills)} for bills · Set aside ${money(plan.savings)} for goals · Keep ${money(limit)} for spending`;
+  $('paydayPlanNote').textContent=!ready?'Uses take-home pay; work retirement and healthcare are tracked separately.':`Bill reserve uses the larger of the average per paycheck or dated bills in this period plus an average for undated bills. ${data.paydaySavingsTarget==null?'The goal amount uses the savings suggestion.':'You chose the goal amount.'} Recorded goal deposits count toward that amount; anything saved above it also reduces available spending. No money moves automatically.`;
+  const math=$('homeCalculation');math.replaceChildren();
+  const lines=[['Take-home pay',pay],['Side income received',periodSide],['Bill reserve',-plan.bills],['Goals: planned or recorded, whichever is higher',-plan.savings],['Extra personal retirement deposits',-extraTransfers],['Purchases this period',-purchases],['Available until payday',plan.remaining]];
+  if(ready)for(const [label,value] of lines){const row=document.createElement('div');row.className='balance-line';const name=document.createElement('span'),amount=document.createElement('strong');name.textContent=label;amount.textContent=money(value);row.append(name,amount);math.append(row)}
+  else math.textContent='Complete your paycheck details to see the calculation.';
 
   renderWeeklyCheckin(current,limit-spent,pay);
   $('available').textContent=money(current&&pay?limit-spent:0);$('payOut').textContent=money(current&&pay?limit:0);$('expenseOut').textContent=money(current?spent:0);
@@ -468,7 +503,7 @@ function render(){
   $('priorEstimates').hidden=!archived.length;
   $('priorEstimates').textContent=archived.length?'Older day-to-day estimates are preserved but excluded. Log actual purchases on Overview.':'';
   $('shortfall').classList.toggle('hidden',!(pay>0&&current&&limit-spent<0));
-  $('shortfall').textContent=limit<0?'Regular bills exceed take-home pay by '+money(-limit)+'.':'You are '+money(spent-limit)+' over this period’s limit.';
+  $('shortfall').textContent='Your plan is short by '+money(Math.max(0,spent-limit))+'. Review bills, savings and logged purchases.';
   $('recommendationReason').textContent=!pay?'Enter take-home pay to get started.':!filled?'Add your regular bills on Budget.':!learned.ready?'Keep logging daily purchases. A savings suggestion will appear after 30 days so food and gas use actual spending.':available<=0?'No room remains after the bills and purchases tracked. Review the plan before adding cash savings.':suggested<target?'Aim for this manageable amount now, then work toward 10% as room opens up.':'A 10% take-home starting point for cash goals, supported by your tracked spending.';
   const grid=$('categoryBreakdown');grid.replaceChildren();
   for(const category of categories){
