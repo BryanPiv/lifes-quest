@@ -291,7 +291,7 @@ function renderRecent(period){
     const remove=document.createElement('button');remove.type='button';remove.textContent='×';remove.setAttribute('aria-label',`Remove ${transaction.name||transaction.category} expense`);
     remove.addEventListener('click',()=>{data.transactions=data.transactions.filter(t=>t.id!==transaction.id);if(!data.transactions.length)delete data.trackingStart;save();render()});
     const edit=document.createElement('button');edit.type='button';edit.className='edit-purchase';edit.textContent='Edit';edit.setAttribute('aria-label',`Edit ${transaction.name||transaction.category} purchase`);edit.addEventListener('click',()=>editPurchase(transaction));
-    const actions=document.createElement('div');actions.className='purchase-row-actions';const deposit=element('button','Add personal deposit');deposit.onclick=()=>openAccountDeposit(a);actions.append(deposit,edit,remove);
+    const actions=document.createElement('div');actions.className='purchase-row-actions';actions.append(edit,remove);
     item.append(info,amount,actions);list.append(item);
   }
 }
@@ -334,12 +334,24 @@ function renderUpcomingBills(period){
   $('upcomingBillTotal').textContent=period?money(bills.reduce((sum,b)=>sum+b.amount,0)):'';
   $('upcomingBillRange').textContent=period?'Before '+new Date(period.end+'T12:00:00').toLocaleDateString(undefined,{month:'short',day:'numeric'})+'.':'Add a payday on Budget.';
   if(period&&!bills.length){const empty=document.createElement('li');empty.textContent='No dated bills due before your next payday.';list.append(empty)}
-  for(const bill of bills){
+  for(const bill of bills.slice(0,3)){
     const row=document.createElement('li'),info=document.createElement('div'),name=document.createElement('strong'),date=document.createElement('small'),amount=document.createElement('strong');
     name.textContent=bill.name;date.textContent=bill.date===localDate()?'Due today':new Date(bill.date+'T12:00:00').toLocaleDateString(undefined,{month:'short',day:'numeric'});amount.textContent=money(bill.amount);info.append(name,date);row.append(info,amount);list.append(row);
   }
   const undated=activeBills().filter(b=>!b.dueDay&&!b.eachPayday).length;
-  $('upcomingBillNote').textContent=period?'Scheduled bills; payment status is not tracked.'+(undated?` ${undated} ${undated===1?'bill needs':'bills need'} a due day on Budget.`:''):'';
+  $('upcomingBillNote').textContent=period?(bills.length>3?`${bills.length-3} more on Calendar. `:'')+'Scheduled bills; payment status is not tracked.'+(undated?` ${undated} ${undated===1?'bill needs':'bills need'} a due day on Budget.`:''):'';
+}
+function renderHomeNextStep(period,pay,remaining){
+  const undated=activeBills().filter(b=>!b.dueDay&&!b.eachPayday).length;
+  let title,text,action,target;
+  if(!pay||!period){title='Start with your paycheck';text='Add your take-home pay and most recent payday to build your plan.';action='Set up my budget';target='expenses'}
+  else if(remaining<0){title='Review this paycheck';text='Your planned reserves and logged spending are above this period’s income. Check your pay, bills and purchases.';action='Review my budget';target='expenses'}
+  else if(!activeBills().length){title='Add your regular bills';text='Your balance will be more useful once rent, utilities and other regular costs are included.';action='Add my bills';target='expenses'}
+  else if(undated){title='Give your bills a due date';text=`${undated} ${undated===1?'bill needs':'bills need'} a date so you can see what is coming before payday.`;action='Add bill dates';target='expenses'}
+  else if(!data.transactions.length){title='Log your first purchase';text='Start with something you bought today. Quick Add updates your balance right away.';action='Add a purchase';target='quick'}
+  else {title='Check your next goal';text='See your savings progress or plan for a vacation, car or another goal.';action='Plan ahead';target='futureplans'}
+  $('homeNextTitle').textContent=title;$('homeNextText').textContent=text;$('homeNextAction').textContent=action+' →';
+  $('homeNextAction').onclick=()=>{if(target==='quick'){$('quickAmount').scrollIntoView({block:'center'});$('quickAmount').focus()}else openPage(target)};
 }
 function scheduledDepositWindow(a,date){if(a.personalSchedule!=='paycheck'){const d=new Date(date+'T12:00:00'),end=new Date(d.getFullYear(),d.getMonth()+1,1);return {start:date.slice(0,7)+'-01',end:localISO(end),amount:personalMonthly(a)}}if(!data.payday||date<data.payday)return null;const anchor=new Date(data.payday+'T12:00:00'),d=new Date(date+'T12:00:00'),length=data.frequency==='biweekly'?14:7,days=Math.round((d-anchor)/86400000),start=new Date(anchor);start.setDate(start.getDate()+Math.floor(days/length)*length);const end=new Date(start);end.setDate(end.getDate()+length);return {start:localISO(start),end:localISO(end),amount:positive(a.personalPerPay)}}
 function localISO(d){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
@@ -409,7 +421,8 @@ function render(){
   const suggested=pay>0&&filled&&learned.ready?Math.min(target,Math.max(0,available)*.5):0;
   const limit=pay+periodSide-fixedPerPay-suggested;
   const transactions=periodTransactions(current),spent=transactions.reduce((sum,t)=>sum+positive(t.amount),0)+data.savingsDeposits.filter(d=>d.accountId&&!d.recurring&&current&&d.date>=current.start&&d.date<current.end).reduce((sum,d)=>sum+positive(d.amount),0);
-  $('period').textContent=current?`${current.label} · ${data.frequency==='biweekly'?'2-week':'weekly'} budget`:'Set your payday on Budget';
+  $('period').textContent=current?`Next payday · ${new Date(current.end+'T12:00:00').toLocaleDateString(undefined,{month:'short',day:'numeric'})}`:'Add your payday to get started';
+  renderHomeNextStep(current,pay,limit-spent);
   $('balanceBasis').textContent=!pay?'Enter take-home pay on Budget to build your payday plan.':!current?'Add your most recent payday on Budget to start your payday plan.':limit<0?`This paycheck: bills need ${money(fixedPerPay)}, leaving a ${money(-limit)} shortfall.`:`Bills ${money(fixedPerPay)} · Save ${money(suggested)} · Spend ${money(limit)}`;
   $('paydayPlanNote').textContent=!pay||!current?'Uses take-home pay; retirement and healthcare are tracked separately.':`Bills are averaged across paychecks. ${learned.ready?'Savings is a suggestion, not a recorded deposit.':'Savings stays at $0 while we learn your spending for 30 days.'}${periodSide?' Includes '+money(periodSide)+' side income received this period.':''}`;
 

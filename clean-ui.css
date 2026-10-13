@@ -111,3 +111,59 @@ body{background:linear-gradient(145deg,#e4f0fc,#eef4ff 55%,#e7f5f6);background-a
 .welcome-dialog{background:linear-gradient(155deg,#f6fbff,#eaf4ff);border-color:#b7d3e8}.welcome-top{color:#335c7a}.setup-checklist li:before{background:#cde8fa}
 .primary,.add{background:#176ba4}.reset{background:#ffffff0a}
 @media(max-width:740px){.topbar{flex-wrap:wrap;gap:8px}.header-actions{margin-left:auto}.header-actions .reset{font-size:.75rem;padding:7px}.brand{font-size:.9375rem}.brand-nimbus{width:30px;height:30px}}
+/* Home: balance and Quick Add first, with one clear next step. */
+body:has(#plan.active){height:auto;min-height:100dvh;overflow:auto}
+body:has(#plan.active) main{height:auto;overflow:visible;display:block}
+body:has(#plan.active) #plan{display:block;overflow:visible}
+#plan .overview-heading{display:flex;margin-bottom:12px}
+#plan .dashboard-grid{grid-template-columns:1fr 1fr;grid-template-areas:'balance quick' 'bills next';align-items:start;gap:14px}
+#plan .limit-card{grid-area:balance;padding:22px}
+#plan .quick-card{grid-area:quick;padding:20px}
+#plan .home-bills{grid-area:bills;margin:0;padding:20px;border-top:1px solid #b2d4eb}
+#plan .home-next{grid-area:next;background:#e1f1f4;padding:20px}
+.home-balance-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.home-balance-top>div{min-width:0}.home-nimbus{width:94px;height:104px;object-fit:contain;flex:none;filter:drop-shadow(0 6px 12px #08283c50)}
+#plan .home-balance-top .big-money{color:#fff;font-size:clamp(2rem,5vw,3rem);overflow-wrap:anywhere}
+#plan .home-balance-top .period{margin:8px 0 0;color:#d6edff}
+#plan .home-balance-note{font-size:.78rem;line-height:1.45;color:#cde2f4;margin:12px 0 0;max-width:340px}
+#plan .quick-card .card-title{justify-content:space-between;margin-bottom:10px}
+#plan #addSideIncome{min-height:40px;font-size:.8rem;padding:8px 12px;background:#def0e9;border-color:#add7c7;color:#245d4b}
+#plan .quick-amount-label{max-width:none}#plan .quick-amount-label input{height:48px}
+#plan .quick-tiles button{min-height:48px;flex-direction:column;gap:4px}
+#plan .quick-tiles button:nth-child(1){background:#ffedcc;color:#80501c}
+#plan .quick-tiles button:nth-child(2){background:#cce9fc;color:#155b86}
+#plan .quick-options{margin-top:8px}#plan .quick-options summary{cursor:pointer;padding:8px 0;font-size:.8rem;color:#436984}
+#plan .quick-options label{margin-top:8px}.quick-feedback:empty{display:none}
+#plan .home-bills .upcoming-bill-list{max-height:none;overflow:visible;margin:6px 0}
+#plan .home-bills .upcoming-bill-list li{padding:8px 0;gap:12px}
+#plan .home-bills .upcoming-bill-list li>div{min-width:0;overflow-wrap:anywhere}
+#plan .home-bills .upcoming-bill-list small{display:block;font-size:.75rem;font-weight:400;margin-top:2px}
+#plan .home-bills .upcoming-bill-list li>strong{flex:none}
+#plan .home-next .eyebrow{font-size:.7rem;color:#39747c;letter-spacing:.07em}
+#plan .home-next h2{color:#173e52;margin-top:8px;font-size:1.08rem}
+#plan .home-next .help{margin:8px 0 0;line-height:1.5;color:#426675}
+.home-next-action{border:0;background:transparent;color:#17658a;padding:10px 0 0;min-height:44px;font-weight:700;font-size:.875rem;text-align:left}
+#plan .home-details{margin-top:14px;padding:0 20px;background:#eaf3fb}
+#plan .home-details details{border-color:#bed8eb;color:#29516f;margin:0}
+#plan .home-details .budget-details{border-top:0}.home-details .weekly-checkin{border-top:1px solid #bed8eb}
+#plan .home-details summary{padding:14px 0;color:#29516f;font-size:.875rem;cursor:pointer}
+#plan .home-details .payday-plan-title,#plan .home-details .balance-basis,#plan .home-details .weekly-checkin summary small{color:#29516f}
+#plan .home-details .balance-line{border-color:#bed8eb}#plan .home-details .monthly-glance{background:#dcecf8;border-color:#bdd5e7;margin-bottom:14px}
+#plan .home-details .monthly-glance strong,#plan .home-details .monthly-glance span,#plan .home-details .monthly-glance small,#plan .home-details .weekly-checkin-stats strong,#plan .home-details .weekly-checkin-stats span,#plan .home-details .weekly-checkin p{color:#29516f}
+@media(max-width:740px){
+ body:has(#plan.active) .topbar{flex-wrap:nowrap;gap:6px;padding:8px 12px;min-height:50px}
+ body:has(#plan.active) .brand{font-size:.9375rem;gap:6px}
+ body:has(#plan.active) .header-actions{gap:4px}body:has(#plan.active) .header-actions .reset{font-size:.66rem;padding:7px 5px;min-height:34px}
+ body:has(#plan.active) main{padding:10px 12px max(16px,env(safe-area-inset-bottom))}
+ #plan .overview-heading{display:none}
+ #plan .dashboard-grid{grid-template-columns:1fr;grid-template-areas:'balance' 'quick' 'bills' 'next';gap:10px}
+ #plan .limit-card,#plan .quick-card,#plan .home-bills,#plan .home-next{padding:14px 16px}
+ #plan .home-balance-top .big-money{font-size:2.3rem;margin:5px 0 0}
+ #plan .limit-card .eyebrow{font-size:.7rem;letter-spacing:.06em}
+ .home-nimbus{width:72px;height:78px}#plan .home-balance-top .period{font-size:.8rem;margin-top:5px}
+ #plan .home-balance-note{font-size:.72rem;margin-top:8px}
+ #plan .quick-save-hint{margin:8px 0;font-size:.75rem}
+ #plan .quick-tiles button{font-size:.85rem;min-height:48px}
+ #plan .home-details{padding:0 16px;margin-top:10px}
+}
+@media(max-width:360px){body:has(#plan.active) .brand-nimbus{width:24px;height:24px}body:has(#plan.active) .brand{font-size:.83rem}.home-nimbus{width:58px;height:68px}#plan .home-balance-top .big-money{font-size:2rem}}
