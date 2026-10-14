@@ -1,0 +1,41 @@
+/* Shared soft palette: section purpose stays consistent across every page. */
+:root{
+ --soft-sky:#e5f3fc;--edge-sky:#b9d9ed;
+ --soft-sand:#fff3df;--edge-sand:#e8cfaa;
+ --soft-lavender:#f0eafb;--edge-lavender:#d4c6e9;
+ --soft-mint:#e5f5ee;--edge-mint:#bddfce;
+ --soft-rose:#faedf3;--edge-rose:#e7c9d8;
+ --soft-sage:#eef4e4;--edge-sage:#ccdcb5;
+}
+body main .page .card{background:var(--panel-bg,var(--soft-sky))!important;border-color:var(--panel-edge,var(--edge-sky))!important;color:#183b59}
+body main #plan .limit-card,body main .pay-setup{--panel-bg:var(--soft-sky);--panel-edge:var(--edge-sky)}
+body main .quick-card,body main .expense-card,body main .breakdown-summary{--panel-bg:var(--soft-sand);--panel-edge:var(--edge-sand)}
+body main .home-bills,body main .calendar-card{--panel-bg:var(--soft-sage);--panel-edge:var(--edge-sage)}
+body main .home-next,body main .goal-savings,body main .savings-tracker{--panel-bg:var(--soft-mint);--panel-edge:var(--edge-mint)}
+body main .home-details,body main .expense-aside,body main .breakdown-controls,body main .history-card{--panel-bg:var(--soft-lavender);--panel-edge:var(--edge-lavender)}
+body main .calendar-details,body main #futureplans .card,body main .goals-grid>.card{--panel-bg:var(--soft-rose);--panel-edge:var(--edge-rose)}
+body main .goal-result,body main .market-context{--panel-bg:var(--soft-mint);--panel-edge:var(--edge-mint)}
+body main .recommendation-profile,body main .retirement-plan-details{--panel-bg:var(--soft-lavender);--panel-edge:var(--edge-lavender)}
+body main .recommendation-detail,body main .expert-guidance{--panel-bg:var(--soft-sand);--panel-edge:var(--edge-sand)}
+/* Inner boxes retain their own identity rather than disappearing into the card. */
+body main .tracked-box,body main .personal-retirement-guide{background:var(--soft-mint)!important;border:1px solid var(--edge-mint)!important;border-radius:12px;padding:14px;color:#183b59}
+body main .retirement-box,body main .contribution-plan{background:var(--soft-lavender)!important;border:1px solid var(--edge-lavender)!important;border-radius:12px;padding:14px;color:#183b59}
+body main .savings-progress-card{background:var(--soft-mint)!important;border:1px solid var(--edge-mint)!important}
+body main .savings-progress-card:nth-child(2),body main .savings-horizons>div:nth-child(2){background:var(--soft-rose)!important;border-color:var(--edge-rose)!important}
+body main .savings-progress-card:nth-child(3),body main .savings-horizons>div:nth-child(3){background:var(--soft-lavender)!important;border-color:var(--edge-lavender)!important}
+body main .savings-horizons>div{background:var(--soft-sky)!important;border:1px solid var(--edge-sky)}
+body main #breakdown .category-gas{background:var(--soft-sky)!important;border-color:var(--edge-sky)}
+body main #breakdown .category-food{background:var(--soft-sand)!important;border-color:var(--edge-sand)}
+body main #breakdown .category-fun{background:var(--soft-lavender)!important;border-color:var(--edge-lavender)}
+body main #breakdown .category-misc{background:var(--soft-mint)!important;border-color:var(--edge-mint)}
+/* Dark readable copy on every pale surface, including the former dark summaries. */
+body main #plan .limit-card :is(.eyebrow,.big-money,.period,.home-balance-note),
+body main #breakdown .breakdown-summary :is(strong,p,span),
+body main #plan .home-details :is(summary,p,span,small,strong){color:#183b59!important}
+body main .page .card :is(.help,.muted){color:#435c70}
+body main #plan .home-details :is(.budget-details,.weekly-checkin){border-color:var(--edge-lavender)}
+body main #plan .home-details .monthly-glance{background:#fff;border:1px solid var(--edge-lavender);color:#183b59}
+body main .page :is(input,select,textarea){background:#fff;color:#183b59;border-color:#9eb8cc}
+body main .page :is(input,textarea)::placeholder{color:#607587;opacity:1}
+body main .page .card :is(input,select,textarea,button):focus-visible{outline:3px solid #155b86;outline-offset:2px}
+@media(max-width:740px){body main .tracked-box,body main .personal-retirement-guide,body main .retirement-box,body main .contribution-plan{padding:12px}}
