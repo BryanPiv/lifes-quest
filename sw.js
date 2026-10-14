@@ -1,4 +1,4 @@
-const VERSION="cloudstash-budget-v42";
+const VERSION="cloudstash-budget-v43";
 self.addEventListener("install",event=>{self.skipWaiting()});
 self.addEventListener("activate",event=>{
   event.waitUntil((async()=>{
