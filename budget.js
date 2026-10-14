@@ -406,10 +406,10 @@ function renderWeeklyCheckin(current,remaining,pay){
   $('weeklyRemaining').textContent=current&&pay?money(remaining):'—';
   $('weeklyCheckinNote').textContent=current&&pay?`Next payday: ${new Date(current.end+'T12:00:00').toLocaleDateString(undefined,{month:'short',day:'numeric'})}. Saved counts recorded deposits only.`:'Add take-home pay and payday on Budget. Saved counts recorded deposits only.';
 }
-// Home uses a conservative bill reserve for the entire paycheck window.
-// Keep past-due dates in the reserve: bill payment status is not tracked.
+// Spread monthly bills across all paychecks so due-date clusters do not
+// change the spending allowance. Calendar keeps the actual payment schedule.
 function calculatePaydayPlan({pay,side,averageBills,datedBills,undatedBills,purchases,extraTransfers,savingsTarget}){
-  const bills=Math.max(averageBills,datedBills+undatedBills);
+  const bills=positive(averageBills);
   // Goal balances and recorded goal progress are accumulated savings, not
   // spending from this paycheck. Reserve only an affordable planned amount.
   const room=pay+side-bills-purchases-extraTransfers;
@@ -419,7 +419,7 @@ function calculatePaydayPlan({pay,side,averageBills,datedBills,undatedBills,purc
 }
 function setupPaydayHome(){
   const details=document.createElement('details');details.className='home-calculation';
-  details.innerHTML=`<summary>How is this calculated?</summary><div id="homeCalculation"></div><p>Based on your entries, not your bank balance. Bills stay reserved for this whole pay period because payment status is not tracked. Record daily purchases separately from regular bills.</p>`;
+  details.innerHTML=`<summary>How is this calculated?</summary><div id="homeCalculation"></div><p>Based on your entries, not your bank balance. Monthly bills are spread evenly across your paychecks: monthly total × 12 ÷ 52 for weekly pay, or ÷ 26 for biweekly pay. Due dates do not change this allowance. Keep the bill money set aside between paychecks; check Upcoming Bills and Calendar for actual payments. Record daily purchases separately from regular bills.</p>`;
   document.querySelector('.home-balance-note').after(details);
   const settings=document.createElement('details');settings.className='home-plan-settings';
   settings.innerHTML=`<summary>Adjust my savings plan</summary><label>Amount to put away each paycheck<input id="homeSavingsTarget" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Use the suggestion"></label><p class="help">Build your nest egg a little at a time, with or without a named goal. We reserve only what fits after bills and purchases. Goal targets, existing balances and recorded goal progress are tracked separately. Extra personal retirement deposits count separately; recurring transfers are already in bills.</p><button id="homeSavingsAutomatic" type="button">Use suggested amount</button><p id="homeSavingsStatus" class="help" role="status"></p>`;
@@ -454,13 +454,13 @@ function render(){
   const ready=!!(current&&pay);
   $('period').textContent=current?`Next payday · ${new Date(current.end+'T12:00:00').toLocaleDateString(undefined,{month:'short',day:'numeric'})}`:'Add your payday to get started';
   $('available').setAttribute('aria-label',plan.remaining<0?'Plan shortfall':'Available until payday');
-  document.querySelector('.home-balance-note').textContent=ready?'After bill reserves, your savings plan and logged purchases. This is your spending allowance.':'Add take-home pay, bills and payday to build your spending allowance.';
+  document.querySelector('.home-balance-note').textContent=ready?'After your average bill share, your savings plan and logged purchases. This is your spending allowance.':'Add take-home pay, bills and payday to build your spending allowance.';
   renderHomeNextStep(current,pay,plan.remaining);
   $('balanceBasis').textContent=!ready?'Enter take-home pay and your most recent payday on Expenses.':`Income ${money(pay+periodSide)} · Reserve ${money(plan.bills)} for bills · Set aside ${money(plan.savings)} for goals · Keep ${money(limit)} for spending`;
-  $('paydayPlanNote').textContent=!ready?'Uses take-home pay; work retirement and healthcare are tracked separately.':`Bill reserve uses the larger of the average per paycheck or dated bills in this period plus an average for undated bills. ${data.paydaySavingsTarget==null?'Paycheck savings use the suggestion.':'You chose the amount to put away each paycheck.'} Only the amount that fits after bills and purchases is reserved. Your nest egg, goal targets and recorded goal progress do not reduce this paycheck. No money moves automatically.`;
+  $('paydayPlanNote').textContent=!ready?'Uses take-home pay; work retirement and healthcare are tracked separately.':`Your monthly bills are spread evenly across ${periods} paychecks a year. A week with more bills due does not reduce your weekly allowance again. The bill amount is a budgeting allocation, not your current bank balance. ${data.paydaySavingsTarget==null?'Paycheck savings use the suggestion.':'You chose the amount to put away each paycheck.'} Only the amount that fits after bills and purchases is reserved. Your nest egg, goal targets and recorded goal progress do not reduce this paycheck. No money moves automatically.`;
   $('homeSavingsStatus').textContent=ready&&plan.requestedSavings>plan.savings?`You planned ${money(plan.requestedSavings)} each paycheck. ${money(plan.savings)} fits this period. Your goal stays in place; build toward it over time.`:'';
   const math=$('homeCalculation');math.replaceChildren();
-  const lines=[['Take-home pay',pay],['Side income received',periodSide],['Bill reserve',-plan.bills],['Savings reserved from this paycheck',-plan.savings],['Extra personal retirement deposits',-extraTransfers],['Purchases this period',-purchases],['Available until payday',plan.remaining]];
+  const lines=[['Take-home pay',pay],['Side income received',periodSide],['Bills · average per paycheck',-plan.bills],['Savings reserved from this paycheck',-plan.savings],['Extra personal retirement deposits',-extraTransfers],['Purchases this period',-purchases],['Available until payday',plan.remaining]];
   if(ready)for(const [label,value] of lines){const row=document.createElement('div');row.className='balance-line';const name=document.createElement('span'),amount=document.createElement('strong');name.textContent=label;amount.textContent=money(value);row.append(name,amount);math.append(row)}
   else math.textContent='Complete your paycheck details to see the calculation.';
 
