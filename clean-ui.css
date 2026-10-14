@@ -167,3 +167,43 @@ body:has(#plan.active) #plan{display:block;overflow:visible}
  #plan .home-details{padding:0 16px;margin-top:10px}
 }
 @media(max-width:360px){body:has(#plan.active) .brand-nimbus{width:24px;height:24px}body:has(#plan.active) .brand{font-size:.83rem}.home-nimbus{width:58px;height:68px}#plan .home-balance-top .big-money{font-size:2rem}}
+
+/* Keep every destination visible; the mobile navigation uses two rows. */
+body main nav.tabs,
+body:has(#plan.active) main nav.tabs{
+ display:grid;grid-template-columns:repeat(7,minmax(0,1fr));
+ width:100%;max-width:none;gap:4px;overflow:visible;
+}
+body main nav.tabs button,
+body:has(#plan.active) main nav.tabs button{
+ min-width:0;min-height:44px;padding:8px 4px;
+ font-size:.875rem;line-height:1.2;white-space:normal;
+}
+@media(max-width:740px){
+ body main nav.tabs,body:has(#plan.active) main nav.tabs{
+  grid-template-columns:repeat(4,minmax(0,1fr));padding:5px;
+ }
+ body main nav.tabs button,body:has(#plan.active) main nav.tabs button{
+  font-size:.8125rem;min-height:44px;padding:8px 2px;
+ }
+}
+/* Explicit Spending colors prevent legacy pastel text on pale cards. */
+#breakdown .breakdown-summary{
+ background:#123b5b;border:1px solid #245b7e;color:#ffffff;
+}
+#breakdown #breakdownTotal{color:#ffffff}
+#breakdown #breakdownTotalLabel{color:#bde7ff}
+#breakdown #trackingStatus{color:#d8eafa}
+#breakdown .category-card{background:#ffffff;border-color:#aac9df}
+#breakdown .category-card span,#breakdown .category-card small{
+ color:#344e64;
+}
+#breakdown .category-card strong{color:#132b40}
+#breakdown .category-gas{border-top-color:#2375a5}
+#breakdown .category-food{border-top-color:#a96817}
+#breakdown .category-fun{border-top-color:#7353a3}
+#breakdown .category-misc{border-top-color:#267364}
+#breakdown .history-card,#breakdown .breakdown-controls{background:#f8fcff}
+#breakdown .recent-expenses li,#breakdown .recent-expenses li strong,
+#breakdown #loggedMonth,#breakdown #searchSummary{color:#243f55}
+#breakdown input::placeholder{color:#61758a;opacity:1}
