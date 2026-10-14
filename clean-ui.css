@@ -207,3 +207,25 @@ body:has(#plan.active) main nav.tabs button{
 #breakdown .recent-expenses li,#breakdown .recent-expenses li strong,
 #breakdown #loggedMonth,#breakdown #searchSummary{color:#243f55}
 #breakdown input::placeholder{color:#61758a;opacity:1}
+
+/* Soft navigation colors match the Quick Add palette. */
+body main nav.tabs button[data-page="plan"]{--tab-bg:#cce9fc;--tab-ink:#155b86}
+body main nav.tabs button[data-page="breakdown"]{--tab-bg:#ffedcc;--tab-ink:#80501c}
+body main nav.tabs button[data-page="expenses"]{--tab-bg:#e5ddfc;--tab-ink:#584386}
+body main nav.tabs button[data-page="goals"]{--tab-bg:#d5f0e8;--tab-ink:#285f51}
+body main nav.tabs button[data-page="recommendations"]{--tab-bg:#dcebf7;--tab-ink:#315b78}
+body main nav.tabs button[data-page="futureplans"]{--tab-bg:#f4e2ec;--tab-ink:#7b4663}
+body main nav.tabs button[data-page="calendar"]{--tab-bg:#e6edd8;--tab-ink:#4b6331}
+body main nav.tabs button[data-page],
+body:has(#plan.active) main nav.tabs button[data-page]{
+ background:var(--tab-bg);color:var(--tab-ink);
+ border-radius:12px;box-shadow:none;
+}
+body main nav.tabs button[data-page].active,
+body:has(#plan.active) main nav.tabs button[data-page].active{
+ background:var(--tab-bg);color:var(--tab-ink);
+ box-shadow:inset 0 0 0 2px var(--tab-ink);font-weight:800;
+}
+body main nav.tabs button[data-page]:focus-visible{
+ outline:3px solid #123b5b;outline-offset:2px;
+}
