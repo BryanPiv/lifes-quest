@@ -1,0 +1,6 @@
+{
+  "name": "cloud-stash",
+  "private": true,
+  "scripts": { "test": "node tests/functional.cjs" },
+  "devDependencies": { "jsdom": "30.1.2" }
+}
